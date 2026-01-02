@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ IVYAR Protection from Delays
 
-## Getting Started
+**Institutional Transparency & Legal Integrity Module**
 
-First, run the development server:
+## Overview
 
+IVYAR Protection from Delays eliminates harmful delays in claims processing through:
+- ⏱️ Automated SLA Monitoring
+- 🚨 Instant Delay Detection
+- 📜 Immutable Legal Timeline
+- 🔐 Cryptographic Hash Chain
+- 📊 Automated Reports
+
+## Quick Start
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## URLs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Page | URL |
+|------|-----|
+| 🏠 Home | http://localhost:3000 |
+| 👤 Client Portal | http://localhost:3000/client |
+| ⚙️ Admin Dashboard | http://localhost:3000/admin |
+| 🔗 API Claims | http://localhost:3000/api/protection/claims |
+| 🔗 API Rules | http://localhost:3000/api/protection/sla/rules |
+| 🔗 API Delays | http://localhost:3000/api/protection/delays |
 
-## Learn More
+## Test Claim
 
-To learn more about Next.js, take a look at the following resources:
+Enter `SDG-2026-00142` in Client Portal to see demo data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See `docs/IVYAR_Protection_from_Delays.pdf` for full institutional brief.
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend:** Next.js 16, React, TypeScript
+- **Backend:** Next.js API Routes
+- **Database:** PostgreSQL (planned)
+- **Deployment:** Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contact
+
+IVYAR Platform  
+Lake Stevens, Washington, USA  
+www.ivyar.org
+
+---
+
+© 2026 IVYAR Platform. All rights reserved.
+```
+
+---
+
+## ✅ Структура проєкту:
+```
+ivyar-portal/
+├── app/
+│   ├── page.tsx              # Головна
+│   ├── client/page.tsx       # Client Portal
+│   ├── admin/page.tsx        # Admin Dashboard
+│   └── api/protection/       # API Routes
+├── docs/
+│   └── IVYAR_Protection_from_Delays.pdf
+└── README.md
