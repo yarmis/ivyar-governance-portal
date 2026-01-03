@@ -32,7 +32,7 @@ export default function PilotLandingPage() {
           IVYAR Pilot Program
         </h1>
         <p style={{ fontSize: "20px", color: "#A8B5C4", margin: "0 0 40px", maxWidth: "600px", marginLeft: "auto", marginRight: "auto" }}>
-          Institutional Transparency & Legal Integrity in Claims Processing
+          Institutional Transparency and Legal Integrity in Claims Processing
         </p>
         <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
           <a href="#demo" style={{ background: "#10B9B9", padding: "14px 28px", borderRadius: "8px", color: "white", textDecoration: "none", fontWeight: "600" }}>
@@ -66,8 +66,8 @@ export default function PilotLandingPage() {
         
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "24px" }}>
           {[
-            { icon: "⏳", title: "Claims Stall for Months", desc: "Average workers' comp claim takes 6-18 months to resolve" },
-            { icon: "👁️", title: "No Visibility", desc: "Workers don't know where their case is stuck" },
+            { icon: "⏳", title: "Claims Stall for Months", desc: "Average workers comp claim takes 6-18 months to resolve" },
+            { icon: "👁️", title: "No Visibility", desc: "Workers do not know where their case is stuck" },
             { icon: "⚖️", title: "No Accountability", desc: "Delays go unrecorded and unpunished" },
             { icon: "📄", title: "No Evidence", desc: "Attorneys lack structured evidence for legal proceedings" },
           ].map((item, i) => (
@@ -89,7 +89,7 @@ export default function PilotLandingPage() {
       {/* Features Section */}
       <section id="features" style={{ padding: "80px 40px", background: "#1B3A5C" }}>
         <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "32px", textAlign: "center", marginBottom: "48px" }}>What's Included in the Pilot</h2>
+          <h2 style={{ fontSize: "32px", textAlign: "center", marginBottom: "48px" }}>What is Included in the Pilot</h2>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
             {[
@@ -119,8 +119,8 @@ export default function PilotLandingPage() {
         
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           {[
-            { week: "Week 1", title: "Setup & Onboarding", items: ["Data connection", "SLA configuration", "User training"] },
-            { week: "Weeks 2-6", title: "Monitoring & Reporting", items: ["SLA tracking active", "Breach detection", "Reports generated"] },
+            { week: "Week 1", title: "Setup and Onboarding", items: ["Data connection", "SLA configuration", "User training"] },
+            { week: "Weeks 2-6", title: "Monitoring and Reporting", items: ["SLA tracking active", "Breach detection", "Reports generated"] },
             { week: "Week 7", title: "Evaluation", items: ["Metrics review", "Partner feedback", "Recommendations"] },
           ].map((phase, i) => (
             <div key={i} style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
@@ -185,4 +185,47 @@ export default function PilotLandingPage() {
         <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
           <h2 style={{ fontSize: "32px", marginBottom: "16px" }}>Download the Pilot Kit</h2>
           <p style={{ color: "#A8B5C4", marginBottom: "32px" }}>
-            Complete package including: Pilot Overview, Compliance Pack, Partner Packs, Agreement, Email T
+            Complete package including: Pilot Overview, Compliance Pack, Partner Packs, Agreement, Email Templates
+          </p>
+          <a href="#" style={{ background: "#10B9B9", padding: "14px 28px", borderRadius: "8px", color: "white", textDecoration: "none", fontWeight: "600", display: "inline-block" }}>
+            Download Kit
+          </a>
+        </div>
+      </section>
+
+      {/* Demo Request Section */}
+      <section id="demo" style={{ padding: "80px 40px", background: "#0D1B2A" }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontSize: "32px", marginBottom: "16px" }}>Request a Demo</h2>
+          <p style={{ color: "#A8B5C4", marginBottom: "32px" }}>
+            See IVYAR in action. Schedule a personalized demo with our team.
+          </p>
+          {!submitted ? (
+            <form onSubmit={handleSubmit} style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                style={{ padding: "14px 20px", borderRadius: "8px", border: "1px solid #2D4A6A", background: "#1B3A5C", color: "white", width: "300px" }}
+              />
+              <button type="submit" style={{ background: "#10B9B9", padding: "14px 28px", borderRadius: "8px", color: "white", border: "none", fontWeight: "600", cursor: "pointer" }}>
+                Request Demo
+              </button>
+            </form>
+          ) : (
+            <div style={{ background: "#10B98120", border: "1px solid #10B981", padding: "20px", borderRadius: "8px" }}>
+              <p style={{ margin: 0, color: "#10B981" }}>Thank you! We will contact you soon.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ padding: "40px", textAlign: "center", borderTop: "1px solid #2D4A6A" }}>
+        <p style={{ color: "#A8B5C4", margin: 0 }}>© 2024-2026 IVYAR Platform. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
