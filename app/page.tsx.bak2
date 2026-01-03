@@ -462,13 +462,8 @@ export default function LandingPage() {
             <div className="flex flex-col gap-4">
               <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
               <div className="flex flex-col gap-3">
-                {[
-                  { name: 'Procurement', href: '/dashboard' },
-                  { name: 'Logistics', href: '/dashboard' },
-                  { name: 'Donor Dashboard', href: '/dashboard' },
-                  { name: 'HBS Module', href: '/hbs' }
-                ].map((link, i) => (
-                  <Link key={i} href={link.href} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link.name}</Link>
+                {['Procurement', 'Logistics', 'Donor Dashboard', 'HBS Module'].map((link, i) => (
+                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
