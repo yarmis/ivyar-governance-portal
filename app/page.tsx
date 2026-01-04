@@ -246,7 +246,7 @@ export default function LandingPage() {
               <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
               <span className="text-xs font-medium text-[#3CCB7F]">Operational</span>
             </div>
-            <Link href="/dashboard" className="h-11 px-6 bg-[#00A3FF] text-[#0D1117] font-medium text-sm flex items-center hover:bg-[#33B5FF] transition-colors">
+            <Link href="/hbs" className="h-11 px-6 bg-[#00A3FF] text-[#0D1117] font-medium text-sm flex items-center hover:bg-[#33B5FF] transition-colors">
               {t.nav.portal}
             </Link>
           </div>
@@ -268,7 +268,7 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <Link href="/dashboard" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors">
+                <Link href="/hbs" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors">
                   {t.nav.portal}
                 </Link>
                 <Link href="#modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors">
@@ -454,7 +454,7 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold">{t.footer.platform}</h4>
               <div className="flex flex-col gap-3">
                 {['Dashboard', 'AI Operations', 'Documentation', 'API Reference'].map((link, i) => (
-                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+                  <Link key={i} href="/hbs" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
@@ -463,9 +463,9 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
               <div className="flex flex-col gap-3">
                 {[
-                  { name: 'Procurement', href: '/dashboard' },
-                  { name: 'Logistics', href: '/dashboard' },
-                  { name: 'Donor Dashboard', href: '/dashboard' },
+                  { name: 'Procurement', href: '/hbs' },
+                  { name: 'Logistics', href: '/hbs' },
+                  { name: 'Donor Dashboard', href: '/hbs' },
                   { name: 'HBS Module', href: '/hbs' }
                 ].map((link, i) => (
                   <Link key={i} href={link.href} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link.name}</Link>
