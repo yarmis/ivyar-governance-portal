@@ -1,96 +1,90 @@
 'use client';
 
 import { useState } from 'react';
-import GovernanceWidget from '@/components/hbs/integration/GovernanceWidget';
 
-export default function IntegrationDemoPage() {
-  const [logs, setLogs] = useState<string[]>([]);
+export default function IntegrationPage() {
+  const [activeModule, setActiveModule] = useState('procurement');
+  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const addLog = (message: string) => {
-    setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
-  };
-
-  const demoActions = [
-    { module: 'admin', action: 'user_delete', label: 'Delete User', context: { type: 'permanent' } },
-    { module: 'employer', action: 'payment_approve', label: 'Approve Payment $150K', context: { amount: 150000 } },
-    { module: 'pilot', action: 'emergency_action', label: 'Emergency Action', context: { urgency: 'emergency' } },
-    { module: 'pilot', action: 'partner_add', label: 'Add Partner', context: { type: 'ngo' } },
-    { module: 'donor', action: 'fund_reallocation', label: 'Reallocate Funds', context: { amount: 50000 } },
-    { module: 'client', action: 'data_export', label: 'Export Data', context: { type: 'full' } },
+  const modules = [
+    { id: 'procurement', name: 'Procurement', icon: '🛒' },
+    { id: 'logistics', name: 'Logistics', icon: '🚚' },
+    { id: 'donor', name: 'Donor', icon: '💰' },
   ];
 
+  const scenarios: Record<string, any> = {
+    procurement: { action: 'purchase', context: { amount: 75000, vendor: 'MedSupply Inc', urgency: 'normal', category: 'medical' } },
+    logistics: { action: 'dispatch', context: { destination: 'Kharkiv Region', items: ['medical supplies'], beneficiaries: 5000, urgency: 'emergency' } },
+    donor: { action: 'accept', context: { amount: 500000, donor: 'Global Health Foundation', purpose: 'Emergency response', restrictions: ['medical only'] } },
+  };
+
+  const handleCheck = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/hbs/check/' + activeModule, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(scenarios[activeModule])
+      });
+      setResult(await res.json());
+    } catch (e) { console.error(e); }
+    setLoading(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="bg-gradient-to-r from-violet-800 to-fuchsia-800 p-6 border-b border-gray-700">
-        <h1 className="text-2xl font-bold">HBS Integration Demo</h1>
-        <p className="text-violet-200 mt-1">Test governance checks across IVYAR modules</p>
-      </div>
+    <div className="bg-gray-50 min-h-screen p-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-lg p-8 text-white mb-8">
+          <h1 className="text-3xl font-bold mb-2">🔗 Cross-Module Integration</h1>
+          <p className="text-indigo-200">HBS governance checks for Procurement, Logistics, Donor</p>
+        </div>
 
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-lg font-bold mb-4">Test Actions</h2>
-            <p className="text-gray-400 text-sm mb-6">Click any action to trigger a governance check</p>
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {modules.map((m) => (
+            <button key={m.id} onClick={() => { setActiveModule(m.id); setResult(null); }} className={'p-4 rounded-lg border-2 ' + (activeModule === m.id ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 bg-white')}>
+              <span className="text-3xl">{m.icon}</span>
+              <p className="font-bold text-gray-900 mt-2">{m.name}</p>
+            </button>
+          ))}
+        </div>
 
-            <div className="space-y-3">
-              {demoActions.map((demo, i) => (
-                <GovernanceWidget
-                  key={i}
-                  module={demo.module}
-                  action={demo.action}
-                  context={demo.context}
-                  onApproved={() => addLog(`✓ APPROVED: ${demo.label}`)}
-                  onBlocked={(reason) => addLog(`✕ BLOCKED: ${demo.label} - ${reason}`)}
-                >
-                  <button className="w-full py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg text-left transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">{demo.label}</p>
-                        <p className="text-sm text-gray-400">{demo.module}/{demo.action}</p>
-                      </div>
-                      <span className="text-gray-500">→</span>
-                    </div>
-                  </button>
-                </GovernanceWidget>
-              ))}
-            </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg border p-6">
+            <h3 className="font-bold text-gray-900 mb-4">📋 Scenario</h3>
+            <pre className="bg-gray-50 p-4 rounded text-sm text-gray-700">{JSON.stringify(scenarios[activeModule], null, 2)}</pre>
+            <button onClick={handleCheck} disabled={loading} className="w-full mt-4 py-3 bg-indigo-600 text-white rounded-lg">{loading ? '...' : '🔍 Run Check'}</button>
           </div>
 
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">Activity Log</h2>
-              <button onClick={() => setLogs([])} className="text-sm text-gray-400 hover:text-white">Clear</button>
-            </div>
-
-            <div className="bg-gray-900 rounded-lg p-4 h-96 overflow-y-auto font-mono text-sm">
-              {logs.length === 0 ? (
-                <p className="text-gray-500">No activity yet. Click an action to begin.</p>
-              ) : (
-                logs.map((log, i) => (
-                  <div key={i} className={`mb-2 ${log.includes('APPROVED') ? 'text-green-400' : log.includes('BLOCKED') ? 'text-red-400' : 'text-gray-400'}`}>
-                    {log}
-                  </div>
-                ))
-              )}
-            </div>
+          <div className="bg-white rounded-lg border p-6">
+            <h3 className="font-bold text-gray-900 mb-4">📊 Results</h3>
+            {!result ? <p className="text-gray-500">Click Run Check</p> : (
+              <div className="space-y-3">
+                <p className={'inline-block px-3 py-1 rounded text-sm font-medium ' + (result.riskLevel === 'critical' ? 'bg-red-100 text-red-700' : result.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700')}>{result.riskLevel?.toUpperCase()} - Score: {result.riskScore}</p>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Warnings</h4>
+                  {result.warnings?.map((w: string, i: number) => <p key={i} className="text-sm text-orange-600">• {w}</p>)}
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Requirements</h4>
+                  {result.requirements?.map((r: string, i: number) => <p key={i} className="text-sm text-gray-700">• {r}</p>)}
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Boundaries</h4>
+                  {result.boundaries?.map((b: any) => <span key={b.id} className="text-xs px-2 py-1 bg-red-50 text-red-700 rounded mr-1">{b.rule}</span>)}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="mt-8 bg-gray-800 rounded-lg p-6">
-          <h2 className="text-lg font-bold mb-4">Integration Code Example</h2>
-          <pre className="bg-gray-900 rounded-lg p-4 overflow-x-auto text-sm text-green-400">
-{`import GovernanceWidget from '@/components/hbs/integration/GovernanceWidget';
-
-<GovernanceWidget
-  module="employer"
-  action="payment_approve"
-  context={{ amount: 150000 }}
-  onApproved={() => processPayment()}
-  onBlocked={(reason) => showError(reason)}
->
-  <button>Approve Payment</button>
-</GovernanceWidget>`}
-          </pre>
+        <div className="mt-8 bg-white rounded-lg border p-6">
+          <h3 className="font-bold text-gray-900 mb-4">🔌 API Endpoints</h3>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gray-50 p-3 rounded"><code className="text-blue-600 text-sm">POST /api/hbs/check/procurement</code></div>
+            <div className="bg-gray-50 p-3 rounded"><code className="text-green-600 text-sm">POST /api/hbs/check/logistics</code></div>
+            <div className="bg-gray-50 p-3 rounded"><code className="text-purple-600 text-sm">POST /api/hbs/check/donor</code></div>
+          </div>
         </div>
       </div>
     </div>
