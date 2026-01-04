@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import LanguageSwitcher from '@/components/hbs/LanguageSwitcher';
 
 export default function HBSLayout({
   children,
@@ -15,20 +16,22 @@ export default function HBSLayout({
     { name: 'AI Advisor', href: '/hbs/ai' },
     { name: 'Education', href: '/hbs/education' },
     { name: 'Integration', href: '/hbs/integration' },
-    { name: 'Portal', href: '/hbs/portal' },
   ];
 
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Link href="/" className="text-sm text-blue-200 hover:text-white transition-colors">
-            ← Back to IVYAR
-          </Link>
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="text-sm text-blue-200 hover:text-white transition-colors">
+              ← Back to IVYAR
+            </Link>
+            <LanguageSwitcher />
+          </div>
+          <div className="flex items-center justify-between mt-2">
             <div>
               <h1 className="text-3xl font-bold text-white">HBS Module</h1>
-              <p className="text-blue-200">Humanitarian Budget Support v1.3</p>
+              <p className="text-blue-200">Humanitarian Budget Support v1.4</p>
             </div>
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-cyan-500 text-white text-xs font-bold rounded-full">
@@ -37,8 +40,11 @@ export default function HBSLayout({
               <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">
                 LIVE
               </span>
+              <span className="px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full">
+                6 LANGS
+              </span>
               <span className="px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full">
-                v1.3
+                v1.4
               </span>
             </div>
           </div>
@@ -62,7 +68,7 @@ export default function HBSLayout({
       </main>
 
       <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm">
-        <p>HBS Module v1.3 — AI-Powered Live Governance Engine — © 2026 IVYAR Platform</p>
+        <p>HBS Module v1.4 — Multilingual AI-Powered Governance Engine — © 2026 IVYAR Platform</p>
       </footer>
     </div>
   );
