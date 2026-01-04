@@ -40,30 +40,36 @@ export default function AIDocPanel({ lang = 'en' }: { lang?: string }) {
       <div className="p-4">
         {tab === 'explain' ? (
           <div>
-            <textarea value={section} onChange={(e) => setSection(e.target.value)} placeholder="Enter section to explain..." className="w-full h-24 p-3 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <textarea value={section} onChange={(e) => setSection(e.target.value)} placeholder="Enter section to explain..." className="w-full h-24 p-3 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white" />
             <button onClick={handleExplain} disabled={loading} className="w-full mt-2 py-2 bg-blue-600 text-white rounded">{loading ? '...' : 'Explain'}</button>
           </div>
         ) : (
           <div>
-            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search..." className="w-full p-3 border rounded text-sm" />
+            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSearch()} placeholder="Search documentation..." className="w-full p-3 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white" />
             <button onClick={handleSearch} disabled={loading} className="w-full mt-2 py-2 bg-blue-600 text-white rounded">{loading ? '...' : 'Search'}</button>
           </div>
         )}
         {result && result.type === 'explain' && result.data && (
-          <div className="mt-4 pt-4 border-t">
-            <p className="text-gray-800 mb-3">{result.data.summary}</p>
-            <h4 className="font-semibold mb-2">Key Points</h4>
-            <ul className="mb-3">{result.data.keyPoints.map((p: string, i: number) => <li key={i} className="text-sm">- {p}</li>)}</ul>
-            <h4 className="font-semibold mb-2">Example</h4>
-            <p className="text-sm bg-blue-50 p-2 rounded mb-3">{result.data.example}</p>
-            <h4 className="font-semibold mb-2">Risks</h4>
-            <ul>{result.data.risks.map((r: string, i: number) => <li key={i} className="text-sm text-orange-600">- {r}</li>)}</ul>
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <p className="text-gray-800 mb-4">{result.data.summary}</p>
+            <h4 className="font-semibold text-gray-900 mb-2">📌 Key Points</h4>
+            <ul className="mb-4">{result.data.keyPoints.map((p: string, i: number) => <li key={i} className="text-sm text-gray-700 mb-1">• {p}</li>)}</ul>
+            <h4 className="font-semibold text-gray-900 mb-2">💡 Example</h4>
+            <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded mb-4">{result.data.example}</p>
+            <h4 className="font-semibold text-gray-900 mb-2">⚠️ Risks</h4>
+            <ul>{result.data.risks.map((r: string, i: number) => <li key={i} className="text-sm text-orange-700 mb-1">• {r}</li>)}</ul>
           </div>
         )}
         {result && result.type === 'search' && (
-          <div className="mt-4 pt-4 border-t">
-            <p className="text-sm text-gray-500 mb-2">{result.count} results</p>
-            {result.data.map((item: any) => <div key={item.id} className="p-2 bg-gray-50 rounded mb-2"><span className="text-xs bg-blue-100 px-2 py-1 rounded">{item.type}</span><p className="font-medium">{item.title}</p><p className="text-sm text-gray-600">{item.description}</p></div>)}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <p className="text-sm text-gray-500 mb-3">{result.count} results</p>
+            {result.data.map((item: any) => (
+              <div key={item.id} className="p-3 bg-gray-50 rounded mb-2">
+                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{item.type}</span>
+                <p className="font-medium text-gray-900 mt-1">{item.title}</p>
+                <p className="text-sm text-gray-600">{item.description}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>
