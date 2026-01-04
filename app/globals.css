@@ -24,3 +24,152 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Force prose styles */
+.prose h1 {
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 1rem !important;
+  color: #111827 !important;
+}
+
+.prose h2 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.75rem !important;
+  color: #111827 !important;
+}
+
+.prose h3 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #111827 !important;
+}
+
+.prose p {
+  margin-bottom: 1rem !important;
+  line-height: 1.7 !important;
+  color: #374151 !important;
+}
+
+.prose strong {
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+.prose hr {
+  border: none !important;
+  border-top: 1px solid #e5e7eb !important;
+  margin: 2rem 0 !important;
+}
+
+.prose ul, .prose ol {
+  margin: 1rem 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+.prose ul {
+  list-style-type: disc !important;
+}
+
+.prose ol {
+  list-style-type: decimal !important;
+}
+
+.prose li {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.6 !important;
+  color: #374151 !important;
+}
+
+.prose a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+.prose a:hover {
+  color: #1d4ed8 !important;
+}
+
+.prose code {
+  background: #f3f4f6 !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 0.25rem !important;
+  font-size: 0.875rem !important;
+  color: #111827 !important;
+}
+
+.prose pre {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  padding: 1rem !important;
+  border-radius: 0.5rem !important;
+  overflow-x: auto !important;
+  margin: 1rem 0 !important;
+}
+
+.prose pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+
+.prose blockquote {
+  border-left: 4px solid #e5e7eb !important;
+  padding-left: 1rem !important;
+  margin: 1rem 0 !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+}
+
+.prose table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1rem 0 !important;
+}
+
+.prose th, .prose td {
+  border: 1px solid #e5e7eb !important;
+  padding: 0.75rem !important;
+  text-align: left !important;
+}
+
+.prose th {
+  background: #f9fafb !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+}
+
+.prose td {
+  color: #374151 !important;
+}
+
+.prose img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.5rem !important;
+  margin: 1rem 0 !important;
+}.prose table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5rem 0 !important;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #d1d5db !important;
+  padding: 0.75rem !important;
+  text-align: left !important;
+}
+
+.prose th {
+  background-color: #f3f4f6 !important;
+  font-weight: 600 !important;
+}
+
+.prose strong {
+  font-weight: 700 !important;
+  color: #111827 !important;
+}

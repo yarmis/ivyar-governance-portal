@@ -1,577 +1,220 @@
-# HBS Module Documentation
+# HBS Governance Integration Module
 
-Welcome to the Humanitarian Budget Support (HBS) Module documentation repository.
+**Version:** 1.0  
+**Date:** January 2026  
+**Component:** Governance Framework  
+**Organization:** IVYAR Platform
+
+---
 
 ## Overview
 
-The HBS Module provides a comprehensive framework for ethical, transparent, and accountable budget support in humanitarian contexts. This documentation covers all aspects of the framework, from foundational principles to implementation guidance.
-
-## Core Documents
-
-### 📄 [Whitepaper v1.0](./WHITEPAPER_v1.0.md)
-The foundational document outlining HBS principles, framework, and implementation guidelines.
-
-**Key sections:**
-- Executive Summary
-- Core Principles (8 foundational principles)
-- Framework Components
-- Implementation Guidelines
-- Monitoring, Evaluation, and Learning
-- Risk Management
-- Stakeholder Engagement
-
-**Audience:** All stakeholders - humanitarian practitioners, donors, government partners, community members, researchers
+The HBS Governance Integration Module establishes the ethical, transparent, and accountable governance framework for Humanitarian Budget Support operations. This module ensures that all HBS activities align with international standards, donor requirements, and community needs.
 
 ---
 
-### ⚖️ [Governance Integration](./GOVERNANCE.md)
-Comprehensive governance framework ensuring accountability, transparency, and ethical decision-making.
+## 1. Governance Structure
 
-**Key sections:**
-- Governance Architecture
-- Accountability Mechanisms
-- Transparency Standards
-- Ethical Decision-Making Framework
-- Risk Governance
-- Stakeholder Participation
+### 1.1 Governing Board
 
-**Audience:** Governing bodies, oversight committees, implementing organizations, auditors
+The Governing Board provides strategic oversight and policy direction for all HBS operations.
 
----
+**Responsibilities:**
+- Approve annual budgets and strategic plans
+- Ensure compliance with international standards
+- Review and approve major funding decisions
+- Oversee risk management framework
 
-### 🎓 [Educational Model](./EDUCATION.md)
-Complete training curriculum and capacity development framework for HBS implementation.
+**Composition:**
+- 3 representatives from donor organizations
+- 2 representatives from implementing partners
+- 2 community representatives
+- 1 independent ethics advisor
 
-**Key sections:**
-- Learning Framework (12 modules)
-- Delivery Modalities
-- Learning Resources
-- Certification and Recognition
-- Training of Trainers
+### 1.2 Technical Committee
 
-**Audience:** Training coordinators, facilitators, learners at all levels
+The Technical Committee provides expert guidance on program implementation.
 
----
+**Responsibilities:**
+- Review project proposals and budgets
+- Monitor program performance
+- Provide technical recommendations
+- Ensure quality standards
 
-## Quick Start Guide
+### 1.3 Community Oversight Panel
 
-### For First-Time Readers
+The Community Oversight Panel ensures local accountability and participation.
 
-1. **Start with the Whitepaper** - Read the Executive Summary and Core Principles
-2. **Explore relevant sections** based on your role:
-   - **Implementing organizations**: Implementation Guidelines, Risk Management
-   - **Donors**: Monitoring & Evaluation, Accountability Mechanisms
-   - **Government**: Governance Architecture, Stakeholder Engagement
-   - **Communities**: Core Principles, Accountability Mechanisms
-
-### For Implementers
-
-1. Review **Whitepaper** framework and principles
-2. Study **Governance** structures and processes
-3. Complete **Educational** modules relevant to your role
-4. Access implementation tools and templates (coming soon)
-
-### For Trainers
-
-1. Familiarize yourself with all three core documents
-2. Review **Educational Model** curriculum in detail
-3. Access training materials and resources
-4. Join the HBS trainer network (contact info below)
+**Responsibilities:**
+- Represent community interests
+- Monitor local implementation
+- Report concerns and feedback
+- Participate in program evaluations
 
 ---
 
-## Document Status
+## 2. Decision-Making Framework
 
-| Document | Version | Date | Status |
-|----------|---------|------|--------|
-| Whitepaper v1.0 | 1.0 | January 2026 | ✅ Active |
-| Governance Integration | 1.0 | January 2026 | ✅ Active |
-| Educational Model | 1.0 | January 2026 | ✅ Active |
+### 2.1 Approval Levels
 
----
+| Decision Type | Approval Authority | Timeline |
+|--------------|-------------------|----------|
+| Strategic Policy | Governing Board | 30 days |
+| Budget > $1M | Governing Board | 14 days |
+| Budget $100K-$1M | Technical Committee | 7 days |
+| Budget < $100K | Program Manager | 3 days |
+| Emergency Response | Executive Director | 24 hours |
 
-## Related Resources
+### 2.2 Voting Procedures
 
-### Implementation Tools
-- Assessment templates and checklists
-- M&E frameworks and indicators
-- Budget and financial templates
-- Risk registers and mitigation plans
-- Stakeholder engagement guides
-
-*Coming soon to `/tools` directory*
-
-### Case Studies
-- Real-world HBS implementation examples
-- Lessons learned compilations
-- Success stories and challenges
-
-*Coming soon to `/case-studies` directory*
-
-### Research and Evidence
-- Academic publications
-- Evaluation reports
-- Policy briefs
-- Technical papers
-
-*Coming soon to `/research` directory*
+- **Quorum:** 2/3 of members present
+- **Simple Majority:** Routine decisions
+- **Supermajority (75%):** Policy changes, budget amendments
+- **Unanimous:** Constitutional amendments
 
 ---
 
-## How to Use This Documentation
+## 3. Accountability Mechanisms
 
-### Navigation
-- Each document is self-contained but cross-referenced
-- Use document table of contents for specific sections
-- Search across documents for specific topics
+### 3.1 Financial Controls
 
-### Feedback and Contributions
-We welcome feedback and contributions to improve HBS documentation:
+- **Segregation of Duties:** No single person controls entire transaction
+- **Dual Authorization:** All payments require two signatories
+- **Regular Audits:** Quarterly internal, annual external
+- **Real-time Tracking:** All transactions logged in blockchain
 
-- **Feedback**: Share comments, questions, or suggestions
-- **Use cases**: Document your implementation experiences
-- **Translations**: Help make HBS accessible in multiple languages
-- **Adaptations**: Share context-specific adaptations
+### 3.2 Reporting Requirements
 
-### Versioning
-- Documents follow semantic versioning (Major.Minor.Patch)
-- Major updates: Significant framework changes
-- Minor updates: New sections or substantial revisions
-- Patch updates: Clarifications, corrections, formatting
+| Report Type | Frequency | Audience |
+|------------|-----------|----------|
+| Financial Statement | Monthly | Board, Donors |
+| Program Progress | Quarterly | All Stakeholders |
+| Impact Assessment | Annual | Public |
+| Audit Report | Annual | Donors, Regulators |
 
----
+### 3.3 Whistleblower Protection
 
-## The HBS Framework at a Glance
-
-### Eight Core Principles
-1. Human Dignity and Agency
-2. Transparency and Accountability
-3. Local Ownership and Capacity Building
-4. Sustainability and Long-term Impact
-5. Inclusive Participation
-6. Evidence-Based Decision Making
-7. Adaptive Learning
-8. Do No Harm
-
-### Four Key Components
-1. **Governance Architecture** - Multi-stakeholder structures and decision-making
-2. **Operational Systems** - Budget allocation, disbursement, tracking
-3. **Capacity Development** - Training and institutional strengthening
-4. **Learning and Adaptation** - M&E, evaluation, knowledge sharing
-
-### Implementation Phases
-1. **Context Analysis** - Comprehensive assessment
-2. **Design** - Participatory program development
-3. **Setup** - Governance structures and systems
-4. **Implementation** - Budget support delivery
-5. **Monitoring** - Ongoing tracking and adjustment
-6. **Evaluation** - Learning and impact assessment
-7. **Transition** - Sustainability and exit planning
+- Anonymous reporting channels available
+- Protection against retaliation guaranteed
+- Independent investigation process
+- Regular awareness training
 
 ---
 
-## Frequently Asked Questions
+## 4. Compliance Framework
 
-**Q: What makes HBS different from traditional humanitarian assistance?**  
-A: HBS provides direct financial resources rather than in-kind aid, emphasizing local ownership, system strengthening, and sustainable impact.
+### 4.1 International Standards
 
-**Q: How does HBS ensure accountability?**  
-A: Through multi-stakeholder governance, transparent processes, independent oversight, community participation, and rigorous M&E.
+The HBS module adheres to:
 
-**Q: Who can implement HBS?**  
-A: Humanitarian organizations, development agencies, governments, and donors working in partnership with affected communities.
+- **OECD DAC Principles** for effective development cooperation
+- **Sphere Standards** for humanitarian response
+- **Core Humanitarian Standard** (CHS)
+- **Grand Bargain Commitments** for humanitarian financing
+- **IATI Standards** for transparency
 
-**Q: What training is required?**  
-A: See the Educational Model for comprehensive curriculum. Minimum foundation-level training recommended for all participants.
+### 4.2 Anti-Corruption Measures
 
-**Q: How is HBS adapted to different contexts?**  
-A: The framework provides principles and structure, but implementation is tailored to specific contexts through participatory design.
+- Zero tolerance policy for fraud and corruption
+- Mandatory due diligence for all partners
+- Regular integrity assessments
+- Sanctions for violations
 
-**Q: What are the main risks and how are they managed?**  
-A: See Risk Management section in Whitepaper and Risk Governance in Governance document for comprehensive coverage.
+### 4.3 Data Protection
 
----
-
-## Getting Started Checklist
-
-### For Organizations Considering HBS
-
-- [ ] Review HBS Whitepaper and assess fit with mandate and capacity
-- [ ] Conduct preliminary context analysis
-- [ ] Engage stakeholders in exploration
-- [ ] Complete foundation-level training
-- [ ] Develop concept note or proposal
-- [ ] Seek technical assistance if needed
-- [ ] Plan for capacity development
-- [ ] Establish governance structures
-- [ ] Design pilot or full program
-- [ ] Implement with learning orientation
-
-### For Donors and Funders
-
-- [ ] Understand HBS framework and principles
-- [ ] Review governance and accountability mechanisms
-- [ ] Assess implementing partner capacity
-- [ ] Establish reporting and oversight requirements
-- [ ] Plan for M&E and learning
-- [ ] Coordinate with other funders
-- [ ] Support capacity development
-- [ ] Commit to multi-year engagement
-
-### For Government Partners
-
-- [ ] Review HBS and align with national priorities
-- [ ] Assess institutional readiness
-- [ ] Identify capacity development needs
-- [ ] Establish coordination mechanisms
-- [ ] Define roles and responsibilities
-- [ ] Ensure policy and legal framework
-- [ ] Plan for system strengthening
-- [ ] Commit to transparency and accountability
+- GDPR compliance for EU-related data
+- Informed consent for beneficiary data
+- Secure data storage and transmission
+- Right to access and deletion
 
 ---
 
-## Contact and Support
+## 5. Risk Management
 
-### Technical Assistance
-For support with HBS implementation, contact:
-- **Email**: hbs@ivyar.org
-- **Website**: www.ivyar.org/hbs
+### 5.1 Risk Categories
 
-### Training and Capacity Development
-For information about HBS training programs:
-- **Email**: training@ivyar.org
-- **Learning Platform**: learn.ivyar.org/hbs
+| Category | Examples | Mitigation |
+|----------|----------|------------|
+| Financial | Currency fluctuation, fraud | Hedging, controls |
+| Operational | Delays, capacity gaps | Contingency plans |
+| Reputational | Scandals, criticism | Communication strategy |
+| Security | Conflict, theft | Security protocols |
+| Compliance | Regulatory changes | Legal monitoring |
 
-### Feedback and Contributions
-To share feedback or contribute to HBS:
-- **Email**: feedback@ivyar.org
-- **GitHub**: github.com/ivyar/hbs (coming soon)
+### 5.2 Risk Assessment Process
 
-### General Inquiries
-**IVYAR Platform**  
-Lake Stevens, Washington, USA  
-**Email**: info@ivyar.org  
-**Website**: www.ivyar.org
+1. **Identify** potential risks
+2. **Analyze** likelihood and impact
+3. **Evaluate** against risk appetite
+4. **Treat** with appropriate measures
+5. **Monitor** and review regularly
 
 ---
 
-## Updates and Announcements
+## 6. Stakeholder Engagement
 
-Subscribe to HBS updates:
-- **Newsletter**: ivyar.org/newsletter
-- **Announcements**: Follow @IVYARPlatform
+### 6.1 Communication Channels
 
----
+- **Public Portal:** Real-time budget tracking
+- **Quarterly Reports:** Detailed progress updates
+- **Annual Conference:** Stakeholder dialogue
+- **Feedback Mechanism:** Continuous input collection
 
-## License
+### 6.2 Grievance Redress
 
-All HBS documentation is licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
-
-You are free to:
-- **Share** - copy and redistribute in any medium or format
-- **Adapt** - remix, transform, and build upon the material
-
-Under the following terms:
-- **Attribution** - Give appropriate credit to IVYAR Platform
+- Dedicated grievance officer
+- 14-day response commitment
+- Escalation procedures
+- Appeal process available
 
 ---
 
-## Acknowledgments
+## 7. Performance Monitoring
 
-The HBS framework was developed through consultation with humanitarian practitioners, affected communities, government partners, donors, and academic researchers. We are grateful to all who contributed their expertise, experience, and insights.
+### 7.1 Key Performance Indicators
 
----
+| KPI | Target | Measurement |
+|-----|--------|-------------|
+| Budget Utilization | >90% | Quarterly |
+| Beneficiary Reach | 100% of target | Monthly |
+| Audit Compliance | 100% | Annual |
+| Stakeholder Satisfaction | >80% | Annual |
+| Response Time | <48 hours | Continuous |
 
-**Last Updated:** January 2026  
-**Version:** 1.0
+### 7.2 Evaluation Framework
 
-© 2026 IVYAR Platform. All rights reserved.# HBS Module Documentation
-
-Welcome to the Humanitarian Budget Support (HBS) Module documentation repository.
-
-## Overview
-
-The HBS Module provides a comprehensive framework for ethical, transparent, and accountable budget support in humanitarian contexts. This documentation covers all aspects of the framework, from foundational principles to implementation guidance.
-
-## Core Documents
-
-### 📄 [Whitepaper v1.0](./WHITEPAPER_v1.0.md)
-The foundational document outlining HBS principles, framework, and implementation guidelines.
-
-**Key sections:**
-- Executive Summary
-- Core Principles (8 foundational principles)
-- Framework Components
-- Implementation Guidelines
-- Monitoring, Evaluation, and Learning
-- Risk Management
-- Stakeholder Engagement
-
-**Audience:** All stakeholders - humanitarian practitioners, donors, government partners, community members, researchers
+- **Process Evaluation:** Quarterly
+- **Outcome Evaluation:** Annual
+- **Impact Evaluation:** Every 3 years
+- **Independent Review:** Every 5 years
 
 ---
 
-### ⚖️ [Governance Integration](./GOVERNANCE.md)
-Comprehensive governance framework ensuring accountability, transparency, and ethical decision-making.
+## 8. Continuous Improvement
 
-**Key sections:**
-- Governance Architecture
-- Accountability Mechanisms
-- Transparency Standards
-- Ethical Decision-Making Framework
-- Risk Governance
-- Stakeholder Participation
+### 8.1 Learning Agenda
 
-**Audience:** Governing bodies, oversight committees, implementing organizations, auditors
+- Document lessons learned
+- Share best practices
+- Conduct after-action reviews
+- Integrate feedback into policies
 
----
+### 8.2 Policy Review Cycle
 
-### 🎓 [Educational Model](./EDUCATION.md)
-Complete training curriculum and capacity development framework for HBS implementation.
-
-**Key sections:**
-- Learning Framework (12 modules)
-- Delivery Modalities
-- Learning Resources
-- Certification and Recognition
-- Training of Trainers
-
-**Audience:** Training coordinators, facilitators, learners at all levels
+- Annual policy review
+- Stakeholder consultation
+- Board approval for changes
+- Communication of updates
 
 ---
 
-## Quick Start Guide
+## Contact
 
-### For First-Time Readers
-
-1. **Start with the Whitepaper** - Read the Executive Summary and Core Principles
-2. **Explore relevant sections** based on your role:
-   - **Implementing organizations**: Implementation Guidelines, Risk Management
-   - **Donors**: Monitoring & Evaluation, Accountability Mechanisms
-   - **Government**: Governance Architecture, Stakeholder Engagement
-   - **Communities**: Core Principles, Accountability Mechanisms
-
-### For Implementers
-
-1. Review **Whitepaper** framework and principles
-2. Study **Governance** structures and processes
-3. Complete **Educational** modules relevant to your role
-4. Access implementation tools and templates (coming soon)
-
-### For Trainers
-
-1. Familiarize yourself with all three core documents
-2. Review **Educational Model** curriculum in detail
-3. Access training materials and resources
-4. Join the HBS trainer network (contact info below)
+**HBS Governance Office**  
+Email: governance@ivyar.org  
+Phone: +1 (425) 555-0123  
+Address: Lake Stevens, Washington, USA
 
 ---
 
-## Document Status
-
-| Document | Version | Date | Status |
-|----------|---------|------|--------|
-| Whitepaper v1.0 | 1.0 | January 2026 | ✅ Active |
-| Governance Integration | 1.0 | January 2026 | ✅ Active |
-| Educational Model | 1.0 | January 2026 | ✅ Active |
-
----
-
-## Related Resources
-
-### Implementation Tools
-- Assessment templates and checklists
-- M&E frameworks and indicators
-- Budget and financial templates
-- Risk registers and mitigation plans
-- Stakeholder engagement guides
-
-*Coming soon to `/tools` directory*
-
-### Case Studies
-- Real-world HBS implementation examples
-- Lessons learned compilations
-- Success stories and challenges
-
-*Coming soon to `/case-studies` directory*
-
-### Research and Evidence
-- Academic publications
-- Evaluation reports
-- Policy briefs
-- Technical papers
-
-*Coming soon to `/research` directory*
-
----
-
-## How to Use This Documentation
-
-### Navigation
-- Each document is self-contained but cross-referenced
-- Use document table of contents for specific sections
-- Search across documents for specific topics
-
-### Feedback and Contributions
-We welcome feedback and contributions to improve HBS documentation:
-
-- **Feedback**: Share comments, questions, or suggestions
-- **Use cases**: Document your implementation experiences
-- **Translations**: Help make HBS accessible in multiple languages
-- **Adaptations**: Share context-specific adaptations
-
-### Versioning
-- Documents follow semantic versioning (Major.Minor.Patch)
-- Major updates: Significant framework changes
-- Minor updates: New sections or substantial revisions
-- Patch updates: Clarifications, corrections, formatting
-
----
-
-## The HBS Framework at a Glance
-
-### Eight Core Principles
-1. Human Dignity and Agency
-2. Transparency and Accountability
-3. Local Ownership and Capacity Building
-4. Sustainability and Long-term Impact
-5. Inclusive Participation
-6. Evidence-Based Decision Making
-7. Adaptive Learning
-8. Do No Harm
-
-### Four Key Components
-1. **Governance Architecture** - Multi-stakeholder structures and decision-making
-2. **Operational Systems** - Budget allocation, disbursement, tracking
-3. **Capacity Development** - Training and institutional strengthening
-4. **Learning and Adaptation** - M&E, evaluation, knowledge sharing
-
-### Implementation Phases
-1. **Context Analysis** - Comprehensive assessment
-2. **Design** - Participatory program development
-3. **Setup** - Governance structures and systems
-4. **Implementation** - Budget support delivery
-5. **Monitoring** - Ongoing tracking and adjustment
-6. **Evaluation** - Learning and impact assessment
-7. **Transition** - Sustainability and exit planning
-
----
-
-## Frequently Asked Questions
-
-**Q: What makes HBS different from traditional humanitarian assistance?**  
-A: HBS provides direct financial resources rather than in-kind aid, emphasizing local ownership, system strengthening, and sustainable impact.
-
-**Q: How does HBS ensure accountability?**  
-A: Through multi-stakeholder governance, transparent processes, independent oversight, community participation, and rigorous M&E.
-
-**Q: Who can implement HBS?**  
-A: Humanitarian organizations, development agencies, governments, and donors working in partnership with affected communities.
-
-**Q: What training is required?**  
-A: See the Educational Model for comprehensive curriculum. Minimum foundation-level training recommended for all participants.
-
-**Q: How is HBS adapted to different contexts?**  
-A: The framework provides principles and structure, but implementation is tailored to specific contexts through participatory design.
-
-**Q: What are the main risks and how are they managed?**  
-A: See Risk Management section in Whitepaper and Risk Governance in Governance document for comprehensive coverage.
-
----
-
-## Getting Started Checklist
-
-### For Organizations Considering HBS
-
-- [ ] Review HBS Whitepaper and assess fit with mandate and capacity
-- [ ] Conduct preliminary context analysis
-- [ ] Engage stakeholders in exploration
-- [ ] Complete foundation-level training
-- [ ] Develop concept note or proposal
-- [ ] Seek technical assistance if needed
-- [ ] Plan for capacity development
-- [ ] Establish governance structures
-- [ ] Design pilot or full program
-- [ ] Implement with learning orientation
-
-### For Donors and Funders
-
-- [ ] Understand HBS framework and principles
-- [ ] Review governance and accountability mechanisms
-- [ ] Assess implementing partner capacity
-- [ ] Establish reporting and oversight requirements
-- [ ] Plan for M&E and learning
-- [ ] Coordinate with other funders
-- [ ] Support capacity development
-- [ ] Commit to multi-year engagement
-
-### For Government Partners
-
-- [ ] Review HBS and align with national priorities
-- [ ] Assess institutional readiness
-- [ ] Identify capacity development needs
-- [ ] Establish coordination mechanisms
-- [ ] Define roles and responsibilities
-- [ ] Ensure policy and legal framework
-- [ ] Plan for system strengthening
-- [ ] Commit to transparency and accountability
-
----
-
-## Contact and Support
-
-### Technical Assistance
-For support with HBS implementation, contact:
-- **Email**: hbs@ivyar.org
-- **Website**: www.ivyar.org/hbs
-
-### Training and Capacity Development
-For information about HBS training programs:
-- **Email**: training@ivyar.org
-- **Learning Platform**: learn.ivyar.org/hbs
-
-### Feedback and Contributions
-To share feedback or contribute to HBS:
-- **Email**: feedback@ivyar.org
-- **GitHub**: github.com/ivyar/hbs (coming soon)
-
-### General Inquiries
-**IVYAR Platform**  
-Lake Stevens, Washington, USA  
-**Email**: info@ivyar.org  
-**Website**: www.ivyar.org
-
----
-
-## Updates and Announcements
-
-Subscribe to HBS updates:
-- **Newsletter**: ivyar.org/newsletter
-- **Announcements**: Follow @IVYARPlatform
-
----
-
-## License
-
-All HBS documentation is licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
-
-You are free to:
-- **Share** - copy and redistribute in any medium or format
-- **Adapt** - remix, transform, and build upon the material
-
-Under the following terms:
-- **Attribution** - Give appropriate credit to IVYAR Platform
-
----
-
-## Acknowledgments
-
-The HBS framework was developed through consultation with humanitarian practitioners, affected communities, government partners, donors, and academic researchers. We are grateful to all who contributed their expertise, experience, and insights.
-
----
-
-**Last Updated:** January 2026  
-**Version:** 1.0
-
-© 2026 IVYAR Platform. All rights reserved.
+*This document is maintained by the IVYAR Platform Governance Team and is subject to regular review and updates.*

@@ -1,9 +1,27 @@
+import { loadMarkdownFileSync } from '@/lib/markdown/loader';
+import MarkdownRenderer from '@/components/hbs/viewers/MarkdownRenderer';
+import WhitepaperNav from '@/components/hbs/navigation/WhitepaperNav';
+
 export default function WhitepaperPage() {
+  const doc = loadMarkdownFileSync('WHITEPAPER_v1.0.md');
+
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">HBS Whitepaper v1.0</h2>
-      <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
-        <p className="text-sm text-blue-700">Whitepaper content</p>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="lg:col-span-3">
+        <div className="bg-blue-50 rounded-lg p-6 mb-6 border border-blue-100">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            HBS Whitepaper v1.0
+          </h1>
+          <p className="text-gray-600">Humanitarian Budget Support Framework</p>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <MarkdownRenderer html={doc.html} />
+        </div>
+      </div>
+
+      <div className="lg:col-span-1">
+        <WhitepaperNav headings={doc.headings} />
       </div>
     </div>
   );
