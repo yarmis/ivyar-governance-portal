@@ -14,10 +14,10 @@ export default function HBSLayout({
     { name: 'Boundaries', href: '/hbs/governance/boundaries' },
     { name: 'Reasoning', href: '/hbs/reasoning' },
     { name: 'AI Advisor', href: '/hbs/ai' },
+    { name: 'AI Docs', href: '/hbs/docs' },
     { name: 'Education', href: '/hbs/education' },
     { name: 'Integration', href: '/hbs/integration' },
   ];
-
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 shadow-lg">
