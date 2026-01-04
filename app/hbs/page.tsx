@@ -33,7 +33,7 @@ export default function HBSPage() {
   ];
 
   return (
-    <div>
+    <div className="bg-gray-900 min-h-screen p-6">
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-lg p-8 text-white mb-8">
         <h2 className="text-3xl font-bold mb-4">
           Humanitarian Budget Support (HBS)
@@ -49,20 +49,20 @@ export default function HBSPage() {
           <Link
             key={module.href}
             href={module.href}
-            className="bg-white p-6 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all"
+            className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-blue-500 hover:shadow-lg transition-all"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="text-4xl">{module.icon}</div>
-              <span className={`text-xs px-3 py-1 rounded-full ${
+              <span className={`text-xs px-3 py-1 rounded-full font-medium ${
                 module.status === 'Active' 
-                  ? 'bg-green-100 text-green-700' 
-                  : 'bg-yellow-100 text-yellow-700'
+                  ? 'bg-green-900/50 text-green-400 border border-green-600' 
+                  : 'bg-yellow-900/50 text-yellow-400 border border-yellow-600'
               }`}>
                 {module.status}
               </span>
             </div>
-            <h4 className="font-semibold text-lg mb-2">{module.title}</h4>
-            <p className="text-gray-600 text-sm">{module.description}</p>
+            <h4 className="font-bold text-xl text-white mb-2">{module.title}</h4>
+            <p className="text-gray-400 text-sm">{module.description}</p>
           </Link>
         ))}
       </div>
