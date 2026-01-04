@@ -5,14 +5,16 @@ import AIDocPanel from '@/components/hbs/ai/AIDocPanel';
 
 export default function AIDocsPage() {
   const [lang, setLang] = useState('en');
+  const [explainText, setExplainText] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const exampleSections = [
-    { title: 'Human Dignity', text: 'Human Dignity and Agency' },
-    { title: 'Transparency', text: 'Transparency and Accountability' },
-    { title: 'Governance', text: 'Governance Architecture' },
-    { title: 'Do No Harm', text: 'Do No Harm principle' },
-    { title: 'Risk Management', text: 'Risk Management and Mitigation' },
-    { title: 'Community', text: 'Community Participation' },
+    'Human Dignity',
+    'Transparency',
+    'Governance',
+    'Do No Harm',
+    'Risk Management',
+    'Community',
   ];
 
   const exampleSearches = [
@@ -46,7 +48,7 @@ export default function AIDocsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <AIDocPanel lang={lang} />
+            <AIDocPanel lang={lang} initialSection={explainText} initialQuery={searchText} />
           </div>
 
           <div className="space-y-6">
@@ -54,7 +56,7 @@ export default function AIDocsPage() {
               <h3 className="font-bold text-gray-900 mb-3">📚 Try Explaining</h3>
               <div className="flex flex-wrap gap-2">
                 {exampleSections.map((sec) => (
-                  <span key={sec.title} className="text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded-full">{sec.title}</span>
+                  <button key={sec} onClick={() => setExplainText(sec)} className="text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors">{sec}</button>
                 ))}
               </div>
             </div>
@@ -63,7 +65,7 @@ export default function AIDocsPage() {
               <h3 className="font-bold text-gray-900 mb-3">🔍 Try Searching</h3>
               <div className="flex flex-wrap gap-2">
                 {exampleSearches.map((s) => (
-                  <span key={s} className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-full">{s}</span>
+                  <button key={s} onClick={() => setSearchText(s)} className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors">{s}</button>
                 ))}
               </div>
             </div>
