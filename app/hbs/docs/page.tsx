@@ -5,26 +5,9 @@ import AIDocPanel from '@/components/hbs/ai/AIDocPanel';
 
 export default function AIDocsPage() {
   const [lang, setLang] = useState('en');
-  const [explainText, setExplainText] = useState('');
-  const [searchText, setSearchText] = useState('');
 
-  const exampleSections = [
-    'Human Dignity',
-    'Transparency',
-    'Governance',
-    'Do No Harm',
-    'Risk Management',
-    'Community',
-  ];
-
-  const exampleSearches = [
-    'transparency',
-    'conflict of interest',
-    'ethical boundaries',
-    'financial controls',
-    'community participation',
-    'risk assessment',
-  ];
+  const exampleSections = ['Human Dignity', 'Transparency', 'Governance', 'Do No Harm', 'Risk Management', 'Community'];
+  const exampleSearches = ['transparency', 'conflict of interest', 'ethical boundaries', 'financial controls', 'community participation', 'risk assessment'];
 
   return (
     <div className="bg-gray-50 min-h-screen p-6">
@@ -48,24 +31,26 @@ export default function AIDocsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <AIDocPanel lang={lang} initialSection={explainText} initialQuery={searchText} />
+            <AIDocPanel lang={lang} />
           </div>
 
           <div className="space-y-6">
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <h3 className="font-bold text-gray-900 mb-3">📚 Try Explaining</h3>
+              <p className="text-sm text-gray-500 mb-2">Copy and paste into the panel:</p>
               <div className="flex flex-wrap gap-2">
                 {exampleSections.map((sec) => (
-                  <button key={sec} onClick={() => setExplainText(sec)} className="text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors">{sec}</button>
+                  <span key={sec} className="text-sm px-3 py-1 bg-purple-100 text-purple-700 rounded-full cursor-pointer hover:bg-purple-200" onClick={() => navigator.clipboard.writeText(sec)}>{sec}</span>
                 ))}
               </div>
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <h3 className="font-bold text-gray-900 mb-3">🔍 Try Searching</h3>
+              <p className="text-sm text-gray-500 mb-2">Copy and paste into the panel:</p>
               <div className="flex flex-wrap gap-2">
                 {exampleSearches.map((s) => (
-                  <button key={s} onClick={() => setSearchText(s)} className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors">{s}</button>
+                  <span key={s} className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-full cursor-pointer hover:bg-blue-200" onClick={() => navigator.clipboard.writeText(s)}>{s}</span>
                 ))}
               </div>
             </div>
@@ -75,7 +60,7 @@ export default function AIDocsPage() {
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>✓ AI-powered explanations</li>
                 <li>✓ Intelligent search</li>
-                <li>✓ Key points & examples</li>
+                <li>✓ Key points and examples</li>
                 <li>✓ Risk identification</li>
                 <li>✓ 6 languages supported</li>
               </ul>
