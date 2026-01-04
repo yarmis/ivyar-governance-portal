@@ -1,11 +1,6 @@
 import { marked } from 'marked';
 import matter from 'gray-matter';
 
-marked.use({
-  gfm: true,
-  breaks: true,
-});
-
 export interface MarkdownMetadata {
   title?: string;
   version?: string;
@@ -27,10 +22,33 @@ export interface Heading {
   children?: Heading[];
 }
 
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .trim();
+}
+
 export function parseMarkdown(source: string): ParsedMarkdown {
   const { data, content } = matter(source);
-  const html = marked.parse(content) as string;
   const headings = extractHeadings(content);
+  
+  // Custom renderer to add IDs to headings
+  const renderer = new marked.Renderer();
+  renderer.heading = function(text: string, level: number) {
+    const id = slugify(text);
+    return `<h${level} id="${id}">${text}</h${level}>`;
+  };
+
+  marked.use({
+    gfm: true,
+    breaks: true,
+    renderer: renderer
+  });
+
+  const html = marked.parse(content) as string;
+  
   return { content, metadata: data as MarkdownMetadata, headings, html };
 }
 
@@ -45,8 +63,4 @@ function extractHeadings(markdown: string): Heading[] {
     headings.push({ level, text, id });
   }
   return headings;
-}
-
-export function slugify(text: string): string {
-  return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').trim();
 }
