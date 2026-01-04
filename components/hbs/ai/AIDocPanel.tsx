@@ -40,7 +40,7 @@ export default function AIDocPanel({ lang = 'en' }: { lang?: string }) {
       <div className="p-4">
         {tab === 'explain' ? (
           <div>
-            <textarea value={section} onChange={(e) => setSection(e.target.value)} placeholder="Enter section..." className="w-full h-20 p-3 border rounded text-sm" />
+            <textarea value={section} onChange={(e) => setSection(e.target.value)} placeholder="Enter section to explain..." className="w-full h-24 p-3 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <button onClick={handleExplain} disabled={loading} className="w-full mt-2 py-2 bg-blue-600 text-white rounded">{loading ? '...' : 'Explain'}</button>
           </div>
         ) : (
