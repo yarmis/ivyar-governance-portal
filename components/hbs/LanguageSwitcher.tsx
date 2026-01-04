@@ -3,7 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation';
 
 const languages = [
-  { code: 'en', name: 'EN', flag: '🇬🇧' },
+  { code: 'en', name: 'US', flag: '🇺🇸' },
+  { code: 'en', name: 'UK', flag: '🇬🇧' },
   { code: 'uk', name: 'UA', flag: '🇺🇦' },
   { code: 'de', name: 'DE', flag: '🇩🇪' },
   { code: 'fr', name: 'FR', flag: '🇫🇷' },
@@ -23,16 +24,11 @@ export default function LanguageSwitcher() {
   const currentLang = getCurrentLang();
 
   const switchLanguage = (lang: string) => {
-    const currentPath = pathname;
-    
-    // Check if path already has language
-    const hasLang = /\/hbs\/[a-z]{2}/.test(currentPath);
-    
+    const hasLang = /\/hbs\/[a-z]{2}/.test(pathname);
     if (hasLang) {
-      const newPath = currentPath.replace(/\/hbs\/[a-z]{2}/, `/hbs/${lang}`);
-      router.push(newPath);
+      router.push(pathname.replace(/\/hbs\/[a-z]{2}/, '/hbs/' + lang));
     } else {
-      router.push(`/hbs/${lang}`);
+      router.push('/hbs/' + lang);
     }
   };
 
@@ -40,13 +36,9 @@ export default function LanguageSwitcher() {
     <div className="flex items-center gap-1">
       {languages.map((lang) => (
         <button
-          key={lang.code}
+          key={lang.flag}
           onClick={() => switchLanguage(lang.code)}
-          className={`px-2 py-1 rounded text-sm font-medium transition-colors ${
-            currentLang === lang.code
-              ? 'bg-white text-blue-700'
-              : 'bg-white/20 text-white hover:bg-white/30'
-          }`}
+          className={'px-2 py-1 rounded text-sm transition-colors ' + (currentLang === lang.code ? 'bg-white text-blue-700' : 'bg-white/20 text-white hover:bg-white/30')}
           title={lang.name}
         >
           {lang.flag}
