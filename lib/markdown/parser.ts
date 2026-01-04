@@ -1,4 +1,4 @@
-import { marked } from 'marked';
+import { marked, Tokens } from 'marked';
 import matter from 'gray-matter';
 
 export interface MarkdownMetadata {
@@ -34,19 +34,15 @@ export function parseMarkdown(source: string): ParsedMarkdown {
   const { data, content } = matter(source);
   const headings = extractHeadings(content);
   
-  // Custom renderer to add IDs to headings
-  const renderer = new marked.Renderer();
-  renderer.heading = function(text: string, level: number) {
-    const id = slugify(text);
-    return `<h${level} id="${id}">${text}</h${level}>`;
+  const renderer = {
+    heading({ tokens, depth }: Tokens.Heading): string {
+      const text = tokens.map((t: any) => t.raw || t.text || '').join('');
+      const id = slugify(text);
+      return `<h${depth} id="${id}">${text}</h${depth}>\n`;
+    }
   };
 
-  marked.use({
-    gfm: true,
-    breaks: true,
-    renderer: renderer
-  });
-
+  marked.use({ renderer, gfm: true, breaks: true });
   const html = marked.parse(content) as string;
   
   return { content, metadata: data as MarkdownMetadata, headings, html };
