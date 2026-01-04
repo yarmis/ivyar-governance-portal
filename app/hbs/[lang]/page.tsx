@@ -12,9 +12,10 @@ const content: Record<string, any> = {
   es: { title: 'Apoyo Presupuestario Humanitario (HBS)', subtitle: 'Ético y transparente', description: 'El módulo HBS proporciona un marco.', modules: [{ title: 'Libro Blanco', desc: 'Documentación', href: 'whitepaper', icon: '📄', status: 'Activo' }, { title: 'Gobernanza', desc: 'Decisión', href: 'governance', icon: '⚖️', status: 'Activo' }, { title: 'Educación', desc: 'Formación', href: 'education', icon: '🎓', status: 'Activo' }] }
 };
 
-export default function LangPage({ params }: { params: { lang: string } }) {
-  if (!languages.includes(params.lang)) notFound();
-  const t = content[params.lang];
+export default async function LangPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!languages.includes(lang)) notFound();
+  const t = content[lang];
   return (
     <div className="bg-gray-50 min-h-screen p-6">
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-lg p-8 text-white mb-8">
@@ -24,7 +25,7 @@ export default function LangPage({ params }: { params: { lang: string } }) {
       <p className="text-gray-600 mb-8">{t.description}</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {t.modules.map((m: any) => (
-          <Link key={m.href} href={"/hbs/" + params.lang + "/" + m.href} className="bg-white p-6 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all">
+          <Link key={m.href} href={"/hbs/" + lang + "/" + m.href} className="bg-white p-6 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all">
             <div className="flex items-start justify-between mb-4">
               <span className="text-4xl">{m.icon}</span>
               <span className="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium">{m.status}</span>
