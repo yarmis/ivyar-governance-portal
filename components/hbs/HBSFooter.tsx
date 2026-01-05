@@ -7,7 +7,7 @@ export default function HBSFooter() {
 
   return (
     <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm">
-      <p>HBS v3.1 — {t('footer.text')} — OpenAPI | EU | USAID | UN OCHA — © 2026 IVYAR</p>
+      <p>HBS v4.0 — National Governance Cloud — Multi-Country | Sovereign Data | National Audit — © 2026 IVYAR</p>
     </footer>
   );
 }
