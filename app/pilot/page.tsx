@@ -224,7 +224,7 @@ export default function PilotLandingPage() {
 
       {/* Footer */}
       <footer style={{ padding: "40px", textAlign: "center", borderTop: "1px solid #2D4A6A" }}>
-        <p style={{ color: "#A8B5C4", margin: 0 }}>© 2024-2026 IVYAR Platform. All rights reserved.</p>
+        <p style={{ color: "#A8B5C4", margin: 0 }}>© 2024-2026 IVYAR. All rights reserved.</p>
       </footer>
     </div>
   );

@@ -213,7 +213,7 @@ export default function ContactPage() {
             Ethical, transparent, AI‑aligned governance infrastructure
           </p>
           <div className="flex justify-center gap-6 text-sm text-[#6E7681]">
-            <span>© 2024-2026 IVYAR</span>
+            <span>© 2024-2026 IVYAR. All rights reserved.</span>
             <span>•</span>
             <Link href="/docs" className="hover:text-white">Documentation</Link>
             <span>•</span>

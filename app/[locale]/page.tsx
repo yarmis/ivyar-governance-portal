@@ -386,7 +386,7 @@ export default function LocalizedLandingPage() {
           </div>
 
           <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
-            <span className="text-xs sm:text-sm text-[#6E7681]">© 2025 IVYAR. All rights reserved.</span>
+            <span className="text-xs sm:text-sm text-[#6E7681]">© 2024-2026 IVYAR. All rights reserved.</span>
             <span className="text-xs sm:text-sm text-[#6E7681]">NATO DIANA Approved</span>
           </div>
         </div>

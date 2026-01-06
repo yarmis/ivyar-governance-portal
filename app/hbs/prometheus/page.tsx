@@ -326,7 +326,7 @@ export default function PrometheusPage() {
       <footer className="border-t border-slate-800/50 mt-8">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
           <span>HBS Sovereign Cloud v{Config.version} &quot;{Config.codename}&quot; — Blockchain + AI + EWS</span>
-          <span>© 2026 IVYAR — Global Governance Autopilot</span>
+          <span>© 2024-2026 IVYAR. All rights reserved.</span>
         </div>
       </footer>
     </div>

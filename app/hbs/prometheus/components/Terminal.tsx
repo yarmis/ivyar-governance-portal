@@ -128,7 +128,7 @@ ${AIModelsData.map(m =>
     }
     else if (cmd === 'version') {
       response = `HBS Sovereign Cloud v${Config.version} "${Config.codename}"
-© 2026 IVYAR — Global Governance Autopilot`;
+© 2024-2026 IVYAR. All rights reserved.`;
     }
     else {
       response = `❌ Unknown command: "${command}"

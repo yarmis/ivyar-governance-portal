@@ -541,7 +541,7 @@ export default function PaymentsModulePage() {
       <footer className="bg-[#0D1117] border-t border-[#1F242C] py-6 mt-12">
         <div className="max-w-[1440px] mx-auto px-6">
           <div className="flex items-center justify-between text-sm text-[#6E7681]">
-            <div>© 2024–2026 IVYAR Payments — Direct B2B, Zero Banks, Instant Settlement</div>
+            <div>© 2024-2026 IVYAR. All rights reserved.</div>
             <div className="flex gap-3">
               <span className="bg-[#3CCB7F]/20 text-[#3CCB7F] px-2 py-1 rounded text-xs">Instant</span>
               <span className="bg-[#00A3FF]/20 text-[#00A3FF] px-2 py-1 rounded text-xs">Multi-Currency</span>

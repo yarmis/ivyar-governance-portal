@@ -45,7 +45,7 @@ const TRANSLATIONS: Record<string, {
       platform: 'Platform',
       modules: 'Modules',
       company: 'Company',
-      copyright: '© 2024-2026 IVYAR Platform',
+      copyright: '© 2024-2026 IVYAR. All rights reserved.',
       nato: 'NATO-Aligned • Multi-Region Infrastructure',
     },
     modulesList: [
@@ -87,7 +87,7 @@ const TRANSLATIONS: Record<string, {
       platform: 'Платформа',
       modules: 'Модулі',
       company: 'Компанія',
-      copyright: '© 2024-2026 IVYAR Platform',
+      copyright: '© 2024-2026 IVYAR. All rights reserved.',
       nato: 'NATO-сумісний • Мульти-регіональна інфраструктура',
     },
     modulesList: [
@@ -129,7 +129,7 @@ const TRANSLATIONS: Record<string, {
       platform: 'Plateforme',
       modules: 'Modules',
       company: 'Entreprise',
-      copyright: '© 2024-2026 IVYAR Platform',
+      copyright: '© 2024-2026 IVYAR. All rights reserved.',
       nato: 'Aligné OTAN • Infrastructure multi-région',
     },
     modulesList: [
@@ -171,7 +171,7 @@ const TRANSLATIONS: Record<string, {
       platform: 'Plattform',
       modules: 'Module',
       company: 'Unternehmen',
-      copyright: '© 2024-2026 IVYAR Platform',
+      copyright: '© 2024-2026 IVYAR. All rights reserved.',
       nato: 'NATO-konform • Multi-Region-Infrastruktur',
     },
     modulesList: [

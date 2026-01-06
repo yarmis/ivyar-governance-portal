@@ -455,7 +455,7 @@ export default function SupportPage() {
       {/* Footer */}
       <footer className="bg-[#0D1117] border-t border-[#1F242C] py-8">
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-sm text-[#6E7681]">© 2024-2026 IVYAR Platform</span>
+          <span className="text-sm text-[#6E7681]">© 2024-2026 IVYAR. All rights reserved.</span>
           <span className="text-sm text-[#6E7681]">NATO-Aligned • Multi-Region Infrastructure</span>
         </div>
       </footer>

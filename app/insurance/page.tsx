@@ -491,7 +491,7 @@ export default function InsuranceModulePage() {
         <div className="max-w-[1440px] mx-auto px-8">
           <div className="flex items-center justify-between">
             <div className="text-sm text-[#6E7681]">
-              © 2024–2026 IVYAR Insurance — Independent, Transparent, AI-Aligned
+              © 2024-2026 IVYAR. All rights reserved.
             </div>
             <div className="flex gap-4 text-xs text-[#6E7681]">
               <span className="bg-[#3CCB7F]/20 text-[#3CCB7F] px-2 py-1 rounded">GDPR Ready</span>
