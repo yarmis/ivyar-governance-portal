@@ -296,12 +296,12 @@ function ExecutiveView() {
             <div className="flex items-center justify-between mb-3">
               <span className="text-2xl">{kpi.icon}</span>
               <span className={`text-xs px-2 py-1 rounded ${kpi.change >= 0 ? 'bg-[#3CCB7F]/20 text-[#3CCB7F]' : 'bg-[#F85149]/20 text-[#F85149]'}`}>
-                {kpi.change >= 0 ? '+' : ''}{kpi.change}{kpi.percentage ? 'pp' : '%'}
+                {kpi.change >= 0 ? '+' : ''}{kpi.change}{("percentage" in kpi) ? 'pp' : '%'}
               </span>
             </div>
             <div className="text-2xl font-bold mb-1">
-              {kpi.currency ? `$${(kpi.value / 1000000000).toFixed(2)}B` : 
-               kpi.percentage ? `${kpi.value}%` : 
+              {("currency" in kpi) ? `$${(kpi.value / 1000000000).toFixed(2)}B` : 
+               ("percentage" in kpi) ? `${kpi.value}%` : 
                kpi.value.toLocaleString()}
             </div>
             <div className="text-sm text-[#8B949E]">{kpi.label}</div>
