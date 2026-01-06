@@ -1,0 +1,726 @@
+// i18n/translations.ts
+// IVYAR Translations Database
+
+export type TranslationKey = keyof typeof translations.en;
+
+export const translations = {
+  // ============================================
+  // ENGLISH (Default)
+  // ============================================
+  en: {
+    // Navigation
+    'nav.modules': 'Modules',
+    'nav.ai': 'AI Administrator',
+    'nav.about': 'About',
+    'nav.portal': 'Access Portal',
+    'nav.pricing': 'Pricing',
+    'nav.docs': 'Documentation',
+    'nav.support': 'Support',
+    'nav.demo': 'Request Demo',
+    'nav.search': 'Search...',
+    
+    // Hero
+    'hero.title': 'IVYAR Governance Platform',
+    'hero.subtitle': 'Institutional infrastructure for ethical, transparent, AI-aligned decision-making across governments and international partners.',
+    'hero.cta.portal': 'Access Portal',
+    'hero.cta.modules': 'View Modules',
+    
+    // Countries
+    'countries.label': 'Operating with respect across:',
+    'countries.usa': 'USA',
+    'countries.canada': 'Canada',
+    'countries.uk': 'United Kingdom',
+    'countries.eu': 'European Union',
+    'countries.ukraine': 'Ukraine',
+    
+    // Trusted
+    'trusted.label': 'Trusted by leading institutions',
+    
+    // Modules
+    'modules.title': 'Platform Modules',
+    'modules.subtitle': 'Modular Architecture for Government Operations',
+    'modules.learnMore': 'Learn more',
+    'modules.endpoints': 'API endpoints',
+    'modules.procurement': 'Procurement Engine',
+    'modules.procurement.desc': 'Transparent tender management and contract oversight',
+    'modules.logistics': 'Logistics Engine',
+    'modules.logistics.desc': 'Route optimization and supply chain tracking',
+    'modules.donor': 'Donor Dashboard',
+    'modules.donor.desc': 'Funding transparency and impact reporting',
+    'modules.data': 'Data Platform',
+    'modules.data.desc': 'Unified data lake and document management',
+    'modules.hbs': 'HBS Module',
+    'modules.hbs.desc': 'Humanitarian budget support and ethical governance',
+    'modules.ai': 'AI Services',
+    'modules.ai.desc': 'Intelligent automation and decision support',
+    
+    // AI Administrator
+    'ai.badge': 'Ethical AI Steward',
+    'ai.title': 'AI Administrator — Ethical, Transparent, Human-Aligned',
+    'ai.desc': 'The IVYAR AI Administrator assists operators with insights, summaries, and risk signals. It never replaces human authority, always explains its reasoning, and follows the IVYAR ethical charter and HBS safeguards.',
+    'ai.feature1': 'Calm, respectful, and non-intrusive behavior',
+    'ai.feature2': 'Transparent reasoning and audit-ready logs',
+    'ai.feature3': 'Human-first decision support, never autonomous control',
+    
+    // CTA
+    'cta.title': 'Ready to modernize your governance operations?',
+    'cta.subtitle': 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance.',
+    'cta.demo': 'Request Demo',
+    'cta.contact': 'Contact Us',
+    
+    // Footer
+    'footer.tagline': 'Ethical, transparent, AI-aligned governance infrastructure.',
+    'footer.platform': 'Platform',
+    'footer.modules': 'Modules',
+    'footer.company': 'Company',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'NATO-Aligned • Multi-Region Infrastructure',
+    
+    // Common
+    'common.status.operational': 'Operational',
+    'common.status.live': 'Live',
+    'common.status.pilot': 'Pilot',
+    'common.status.beta': 'Beta',
+    'common.status.dev': 'Dev',
+    'common.loading': 'Loading...',
+    'common.error': 'Error',
+    'common.success': 'Success',
+    'common.submit': 'Submit',
+    'common.cancel': 'Cancel',
+    'common.back': 'Back',
+    'common.next': 'Next',
+    'common.search': 'Search',
+  },
+
+  // ============================================
+  // UKRAINIAN
+  // ============================================
+  uk: {
+    'nav.modules': 'Модулі',
+    'nav.ai': 'AI Адміністратор',
+    'nav.about': 'Про нас',
+    'nav.portal': 'Увійти в портал',
+    'nav.pricing': 'Ціни',
+    'nav.docs': 'Документація',
+    'nav.support': 'Підтримка',
+    'nav.demo': 'Запросити демо',
+    'nav.search': 'Пошук...',
+    
+    'hero.title': 'Платформа управління IVYAR',
+    'hero.subtitle': 'Інституційна інфраструктура для етичного, прозорого, AI-орієнтованого прийняття рішень урядами та міжнародними партнерами.',
+    'hero.cta.portal': 'Увійти в портал',
+    'hero.cta.modules': 'Переглянути модулі',
+    
+    'countries.label': 'Працюємо з повагою в:',
+    'countries.usa': 'США',
+    'countries.canada': 'Канада',
+    'countries.uk': 'Великобританія',
+    'countries.eu': 'Європейський Союз',
+    'countries.ukraine': 'Україна',
+    
+    'trusted.label': 'Нам довіряють провідні інституції',
+    
+    'modules.title': 'Модулі платформи',
+    'modules.subtitle': 'Модульна архітектура для державних операцій',
+    'modules.learnMore': 'Детальніше',
+    'modules.endpoints': 'API точок',
+    'modules.procurement': 'Модуль закупівель',
+    'modules.procurement.desc': 'Прозоре управління тендерами та контроль контрактів',
+    'modules.logistics': 'Модуль логістики',
+    'modules.logistics.desc': 'Оптимізація маршрутів та відстеження ланцюга постачання',
+    'modules.donor': 'Панель донорів',
+    'modules.donor.desc': 'Прозорість фінансування та звітність про вплив',
+    'modules.data': 'Платформа даних',
+    'modules.data.desc': 'Уніфіковане сховище даних та управління документами',
+    'modules.hbs': 'HBS Модуль',
+    'modules.hbs.desc': 'Гуманітарна бюджетна підтримка та етичне управління',
+    'modules.ai': 'AI Сервіси',
+    'modules.ai.desc': 'Інтелектуальна автоматизація та підтримка рішень',
+    
+    'ai.badge': 'Етичний AI Стюард',
+    'ai.title': 'AI Адміністратор — Етичний, Прозорий, Людиноцентричний',
+    'ai.desc': 'AI Адміністратор IVYAR допомагає операторам з аналітикою, резюме та сигналами ризику. Він ніколи не замінює людський авторитет, завжди пояснює своє міркування та дотримується етичної хартії IVYAR.',
+    'ai.feature1': 'Спокійна, шанобліва та ненав\'язлива поведінка',
+    'ai.feature2': 'Прозоре міркування та готові до аудиту логи',
+    'ai.feature3': 'Підтримка рішень людиною, ніколи автономний контроль',
+    
+    'cta.title': 'Готові модернізувати ваші операції управління?',
+    'cta.subtitle': 'Приєднуйтесь до провідних інституцій, які використовують IVYAR для безпечного, відповідного та етичного цифрового управління.',
+    'cta.demo': 'Запросити демо',
+    'cta.contact': 'Зв\'язатися',
+    
+    'footer.tagline': 'Етична, прозора, AI-орієнтована інфраструктура управління.',
+    'footer.platform': 'Платформа',
+    'footer.modules': 'Модулі',
+    'footer.company': 'Компанія',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'NATO-сумісний • Мульти-регіональна інфраструктура',
+    
+    'common.status.operational': 'Працює',
+    'common.status.live': 'Активний',
+    'common.status.pilot': 'Пілот',
+    'common.status.beta': 'Бета',
+    'common.status.dev': 'Розробка',
+    'common.loading': 'Завантаження...',
+    'common.error': 'Помилка',
+    'common.success': 'Успішно',
+    'common.submit': 'Надіслати',
+    'common.cancel': 'Скасувати',
+    'common.back': 'Назад',
+    'common.next': 'Далі',
+    'common.search': 'Пошук',
+  },
+
+  // ============================================
+  // GERMAN
+  // ============================================
+  de: {
+    'nav.modules': 'Module',
+    'nav.ai': 'KI-Administrator',
+    'nav.about': 'Über uns',
+    'nav.portal': 'Portal-Zugang',
+    'nav.pricing': 'Preise',
+    'nav.docs': 'Dokumentation',
+    'nav.support': 'Support',
+    'nav.demo': 'Demo anfordern',
+    'nav.search': 'Suchen...',
+    
+    'hero.title': 'IVYAR Governance-Plattform',
+    'hero.subtitle': 'Institutionelle Infrastruktur für ethische, transparente, KI-ausgerichtete Entscheidungsfindung für Regierungen und internationale Partner.',
+    'hero.cta.portal': 'Portal-Zugang',
+    'hero.cta.modules': 'Module anzeigen',
+    
+    'countries.label': 'Mit Respekt tätig in:',
+    'countries.usa': 'USA',
+    'countries.canada': 'Kanada',
+    'countries.uk': 'Großbritannien',
+    'countries.eu': 'Europäische Union',
+    'countries.ukraine': 'Ukraine',
+    
+    'trusted.label': 'Vertraut von führenden Institutionen',
+    
+    'modules.title': 'Plattform-Module',
+    'modules.subtitle': 'Modulare Architektur für Regierungsoperationen',
+    'modules.learnMore': 'Mehr erfahren',
+    'modules.endpoints': 'API-Endpunkte',
+    'modules.procurement': 'Beschaffungs-Engine',
+    'modules.procurement.desc': 'Transparentes Ausschreibungsmanagement und Vertragsüberwachung',
+    'modules.logistics': 'Logistik-Engine',
+    'modules.logistics.desc': 'Routenoptimierung und Lieferkettenverfolgung',
+    'modules.donor': 'Spender-Dashboard',
+    'modules.donor.desc': 'Finanzierungstransparenz und Wirkungsberichte',
+    'modules.data': 'Datenplattform',
+    'modules.data.desc': 'Einheitlicher Data Lake und Dokumentenverwaltung',
+    'modules.hbs': 'HBS-Modul',
+    'modules.hbs.desc': 'Humanitäre Budgetunterstützung und ethische Governance',
+    'modules.ai': 'KI-Dienste',
+    'modules.ai.desc': 'Intelligente Automatisierung und Entscheidungsunterstützung',
+    
+    'ai.badge': 'Ethischer KI-Steward',
+    'ai.title': 'KI-Administrator — Ethisch, Transparent, Menschenorientiert',
+    'ai.desc': 'Der IVYAR KI-Administrator unterstützt Operatoren mit Einblicken, Zusammenfassungen und Risikosignalen. Er ersetzt nie menschliche Autorität und folgt der ethischen IVYAR-Charta.',
+    'ai.feature1': 'Ruhiges, respektvolles und nicht-aufdringliches Verhalten',
+    'ai.feature2': 'Transparente Argumentation und audit-bereite Protokolle',
+    'ai.feature3': 'Menschliche Entscheidungsunterstützung, nie autonome Kontrolle',
+    
+    'cta.title': 'Bereit, Ihre Governance-Operationen zu modernisieren?',
+    'cta.subtitle': 'Schließen Sie sich führenden Institutionen an, die IVYAR für sichere, konforme und ethische digitale Governance nutzen.',
+    'cta.demo': 'Demo anfordern',
+    'cta.contact': 'Kontaktieren Sie uns',
+    
+    'footer.tagline': 'Ethische, transparente, KI-ausgerichtete Governance-Infrastruktur.',
+    'footer.platform': 'Plattform',
+    'footer.modules': 'Module',
+    'footer.company': 'Unternehmen',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'NATO-konform • Multi-Region-Infrastruktur',
+    
+    'common.status.operational': 'Betriebsbereit',
+    'common.status.live': 'Live',
+    'common.status.pilot': 'Pilot',
+    'common.status.beta': 'Beta',
+    'common.status.dev': 'Entwicklung',
+    'common.loading': 'Laden...',
+    'common.error': 'Fehler',
+    'common.success': 'Erfolg',
+    'common.submit': 'Absenden',
+    'common.cancel': 'Abbrechen',
+    'common.back': 'Zurück',
+    'common.next': 'Weiter',
+    'common.search': 'Suchen',
+  },
+
+  // ============================================
+  // FRENCH
+  // ============================================
+  fr: {
+    'nav.modules': 'Modules',
+    'nav.ai': 'Administrateur IA',
+    'nav.about': 'À propos',
+    'nav.portal': 'Accès au portail',
+    'nav.pricing': 'Tarifs',
+    'nav.docs': 'Documentation',
+    'nav.support': 'Support',
+    'nav.demo': 'Demander une démo',
+    'nav.search': 'Rechercher...',
+    
+    'hero.title': 'Plateforme de gouvernance IVYAR',
+    'hero.subtitle': 'Infrastructure institutionnelle pour une prise de décision éthique, transparente et alignée sur l\'IA entre les gouvernements et les partenaires internationaux.',
+    'hero.cta.portal': 'Accès au portail',
+    'hero.cta.modules': 'Voir les modules',
+    
+    'countries.label': 'Opérant avec respect à travers:',
+    'countries.usa': 'États-Unis',
+    'countries.canada': 'Canada',
+    'countries.uk': 'Royaume-Uni',
+    'countries.eu': 'Union européenne',
+    'countries.ukraine': 'Ukraine',
+    
+    'trusted.label': 'Approuvé par les institutions leaders',
+    
+    'modules.title': 'Modules de la plateforme',
+    'modules.subtitle': 'Architecture modulaire pour les opérations gouvernementales',
+    'modules.learnMore': 'En savoir plus',
+    'modules.endpoints': 'points API',
+    'modules.procurement': 'Moteur d\'approvisionnement',
+    'modules.procurement.desc': 'Gestion transparente des appels d\'offres et surveillance des contrats',
+    'modules.logistics': 'Moteur logistique',
+    'modules.logistics.desc': 'Optimisation des itinéraires et suivi de la chaîne d\'approvisionnement',
+    'modules.donor': 'Tableau de bord donateurs',
+    'modules.donor.desc': 'Transparence du financement et rapports d\'impact',
+    'modules.data': 'Plateforme de données',
+    'modules.data.desc': 'Lac de données unifié et gestion documentaire',
+    'modules.hbs': 'Module HBS',
+    'modules.hbs.desc': 'Soutien budgétaire humanitaire et gouvernance éthique',
+    'modules.ai': 'Services IA',
+    'modules.ai.desc': 'Automatisation intelligente et support décisionnel',
+    
+    'ai.badge': 'Intendant IA éthique',
+    'ai.title': 'Administrateur IA — Éthique, Transparent, Aligné sur l\'humain',
+    'ai.desc': 'L\'administrateur IA IVYAR aide les opérateurs avec des insights, des résumés et des signaux de risque. Il ne remplace jamais l\'autorité humaine et suit la charte éthique IVYAR.',
+    'ai.feature1': 'Comportement calme, respectueux et non intrusif',
+    'ai.feature2': 'Raisonnement transparent et journaux prêts pour l\'audit',
+    'ai.feature3': 'Support décisionnel humain, jamais de contrôle autonome',
+    
+    'cta.title': 'Prêt à moderniser vos opérations de gouvernance?',
+    'cta.subtitle': 'Rejoignez les institutions leaders utilisant IVYAR pour une gouvernance numérique sécurisée, conforme et éthique.',
+    'cta.demo': 'Demander une démo',
+    'cta.contact': 'Nous contacter',
+    
+    'footer.tagline': 'Infrastructure de gouvernance éthique, transparente et alignée sur l\'IA.',
+    'footer.platform': 'Plateforme',
+    'footer.modules': 'Modules',
+    'footer.company': 'Entreprise',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'Aligné OTAN • Infrastructure multi-région',
+    
+    'common.status.operational': 'Opérationnel',
+    'common.status.live': 'En ligne',
+    'common.status.pilot': 'Pilote',
+    'common.status.beta': 'Bêta',
+    'common.status.dev': 'Développement',
+    'common.loading': 'Chargement...',
+    'common.error': 'Erreur',
+    'common.success': 'Succès',
+    'common.submit': 'Soumettre',
+    'common.cancel': 'Annuler',
+    'common.back': 'Retour',
+    'common.next': 'Suivant',
+    'common.search': 'Rechercher',
+  },
+
+  // ============================================
+  // SPANISH
+  // ============================================
+  es: {
+    'nav.modules': 'Módulos',
+    'nav.ai': 'Administrador IA',
+    'nav.about': 'Acerca de',
+    'nav.portal': 'Acceso al portal',
+    'nav.pricing': 'Precios',
+    'nav.docs': 'Documentación',
+    'nav.support': 'Soporte',
+    'nav.demo': 'Solicitar demo',
+    'nav.search': 'Buscar...',
+    
+    'hero.title': 'Plataforma de gobernanza IVYAR',
+    'hero.subtitle': 'Infraestructura institucional para la toma de decisiones ética, transparente y alineada con IA para gobiernos y socios internacionales.',
+    'hero.cta.portal': 'Acceso al portal',
+    'hero.cta.modules': 'Ver módulos',
+    
+    'countries.label': 'Operando con respeto en:',
+    'countries.usa': 'EE.UU.',
+    'countries.canada': 'Canadá',
+    'countries.uk': 'Reino Unido',
+    'countries.eu': 'Unión Europea',
+    'countries.ukraine': 'Ucrania',
+    
+    'trusted.label': 'Confianza de instituciones líderes',
+    
+    'modules.title': 'Módulos de la plataforma',
+    'modules.subtitle': 'Arquitectura modular para operaciones gubernamentales',
+    'modules.learnMore': 'Más información',
+    'modules.endpoints': 'endpoints API',
+    'modules.procurement': 'Motor de adquisiciones',
+    'modules.procurement.desc': 'Gestión transparente de licitaciones y supervisión de contratos',
+    'modules.logistics': 'Motor logístico',
+    'modules.logistics.desc': 'Optimización de rutas y seguimiento de cadena de suministro',
+    'modules.donor': 'Panel de donantes',
+    'modules.donor.desc': 'Transparencia de financiamiento e informes de impacto',
+    'modules.data': 'Plataforma de datos',
+    'modules.data.desc': 'Data lake unificado y gestión documental',
+    'modules.hbs': 'Módulo HBS',
+    'modules.hbs.desc': 'Apoyo presupuestario humanitario y gobernanza ética',
+    'modules.ai': 'Servicios IA',
+    'modules.ai.desc': 'Automatización inteligente y soporte de decisiones',
+    
+    'ai.badge': 'Administrador IA ético',
+    'ai.title': 'Administrador IA — Ético, Transparente, Alineado con el humano',
+    'ai.desc': 'El Administrador IA de IVYAR ayuda a los operadores con insights, resúmenes y señales de riesgo. Nunca reemplaza la autoridad humana y sigue la carta ética de IVYAR.',
+    'ai.feature1': 'Comportamiento calmado, respetuoso y no intrusivo',
+    'ai.feature2': 'Razonamiento transparente y registros listos para auditoría',
+    'ai.feature3': 'Soporte de decisiones humano, nunca control autónomo',
+    
+    'cta.title': '¿Listo para modernizar sus operaciones de gobernanza?',
+    'cta.subtitle': 'Únase a las instituciones líderes que utilizan IVYAR para una gobernanza digital segura, conforme y ética.',
+    'cta.demo': 'Solicitar demo',
+    'cta.contact': 'Contáctenos',
+    
+    'footer.tagline': 'Infraestructura de gobernanza ética, transparente y alineada con IA.',
+    'footer.platform': 'Plataforma',
+    'footer.modules': 'Módulos',
+    'footer.company': 'Empresa',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'Alineado con OTAN • Infraestructura multi-región',
+    
+    'common.status.operational': 'Operativo',
+    'common.status.live': 'En vivo',
+    'common.status.pilot': 'Piloto',
+    'common.status.beta': 'Beta',
+    'common.status.dev': 'Desarrollo',
+    'common.loading': 'Cargando...',
+    'common.error': 'Error',
+    'common.success': 'Éxito',
+    'common.submit': 'Enviar',
+    'common.cancel': 'Cancelar',
+    'common.back': 'Atrás',
+    'common.next': 'Siguiente',
+    'common.search': 'Buscar',
+  },
+
+  // ============================================
+  // POLISH
+  // ============================================
+  pl: {
+    'nav.modules': 'Moduły',
+    'nav.ai': 'Administrator AI',
+    'nav.about': 'O nas',
+    'nav.portal': 'Dostęp do portalu',
+    'nav.pricing': 'Cennik',
+    'nav.docs': 'Dokumentacja',
+    'nav.support': 'Wsparcie',
+    'nav.demo': 'Zamów demo',
+    'nav.search': 'Szukaj...',
+    
+    'hero.title': 'Platforma zarządzania IVYAR',
+    'hero.subtitle': 'Infrastruktura instytucjonalna dla etycznego, przejrzystego, zorientowanego na AI podejmowania decyzji przez rządy i partnerów międzynarodowych.',
+    'hero.cta.portal': 'Dostęp do portalu',
+    'hero.cta.modules': 'Zobacz moduły',
+    
+    'countries.label': 'Działamy z szacunkiem w:',
+    'countries.usa': 'USA',
+    'countries.canada': 'Kanada',
+    'countries.uk': 'Wielka Brytania',
+    'countries.eu': 'Unia Europejska',
+    'countries.ukraine': 'Ukraina',
+    
+    'trusted.label': 'Zaufanie wiodących instytucji',
+    
+    'modules.title': 'Moduły platformy',
+    'modules.subtitle': 'Modularna architektura dla operacji rządowych',
+    'modules.learnMore': 'Dowiedz się więcej',
+    'modules.endpoints': 'punktów API',
+    'modules.procurement': 'Moduł zamówień',
+    'modules.procurement.desc': 'Przejrzyste zarządzanie przetargami i nadzór nad umowami',
+    'modules.logistics': 'Moduł logistyki',
+    'modules.logistics.desc': 'Optymalizacja tras i śledzenie łańcucha dostaw',
+    'modules.donor': 'Panel darczyńców',
+    'modules.donor.desc': 'Przejrzystość finansowania i raporty wpływu',
+    'modules.data': 'Platforma danych',
+    'modules.data.desc': 'Zunifikowane jezioro danych i zarządzanie dokumentami',
+    'modules.hbs': 'Moduł HBS',
+    'modules.hbs.desc': 'Humanitarne wsparcie budżetowe i etyczne zarządzanie',
+    'modules.ai': 'Usługi AI',
+    'modules.ai.desc': 'Inteligentna automatyzacja i wsparcie decyzji',
+    
+    'ai.badge': 'Etyczny opiekun AI',
+    'ai.title': 'Administrator AI — Etyczny, Przejrzysty, Zorientowany na człowieka',
+    'ai.desc': 'Administrator AI IVYAR pomaga operatorom w analizach, podsumowaniach i sygnałach ryzyka. Nigdy nie zastępuje ludzkiego autorytetu i przestrzega karty etycznej IVYAR.',
+    'ai.feature1': 'Spokojne, pełne szacunku i nieinwazyjne zachowanie',
+    'ai.feature2': 'Przejrzyste rozumowanie i gotowe do audytu logi',
+    'ai.feature3': 'Wsparcie decyzji przez człowieka, nigdy autonomiczna kontrola',
+    
+    'cta.title': 'Gotowy na modernizację operacji zarządzania?',
+    'cta.subtitle': 'Dołącz do wiodących instytucji korzystających z IVYAR dla bezpiecznego, zgodnego i etycznego cyfrowego zarządzania.',
+    'cta.demo': 'Zamów demo',
+    'cta.contact': 'Skontaktuj się',
+    
+    'footer.tagline': 'Etyczna, przejrzysta, zorientowana na AI infrastruktura zarządzania.',
+    'footer.platform': 'Platforma',
+    'footer.modules': 'Moduły',
+    'footer.company': 'Firma',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'Zgodny z NATO • Infrastruktura wieloregionowa',
+    
+    'common.status.operational': 'Operacyjny',
+    'common.status.live': 'Na żywo',
+    'common.status.pilot': 'Pilot',
+    'common.status.beta': 'Beta',
+    'common.status.dev': 'Rozwój',
+    'common.loading': 'Ładowanie...',
+    'common.error': 'Błąd',
+    'common.success': 'Sukces',
+    'common.submit': 'Wyślij',
+    'common.cancel': 'Anuluj',
+    'common.back': 'Wstecz',
+    'common.next': 'Dalej',
+    'common.search': 'Szukaj',
+  },
+
+  // ============================================
+  // JAPANESE
+  // ============================================
+  ja: {
+    'nav.modules': 'モジュール',
+    'nav.ai': 'AI管理者',
+    'nav.about': '会社概要',
+    'nav.portal': 'ポータルアクセス',
+    'nav.pricing': '料金',
+    'nav.docs': 'ドキュメント',
+    'nav.support': 'サポート',
+    'nav.demo': 'デモを依頼',
+    'nav.search': '検索...',
+    
+    'hero.title': 'IVYARガバナンスプラットフォーム',
+    'hero.subtitle': '政府と国際パートナー向けの倫理的、透明性のある、AI整合型意思決定のための制度的インフラ。',
+    'hero.cta.portal': 'ポータルアクセス',
+    'hero.cta.modules': 'モジュールを見る',
+    
+    'countries.label': '敬意を持って活動中:',
+    'countries.usa': 'アメリカ',
+    'countries.canada': 'カナダ',
+    'countries.uk': 'イギリス',
+    'countries.eu': '欧州連合',
+    'countries.ukraine': 'ウクライナ',
+    
+    'trusted.label': '一流機関からの信頼',
+    
+    'modules.title': 'プラットフォームモジュール',
+    'modules.subtitle': '政府運営のためのモジュラーアーキテクチャ',
+    'modules.learnMore': '詳細を見る',
+    'modules.endpoints': 'APIエンドポイント',
+    'modules.procurement': '調達エンジン',
+    'modules.procurement.desc': '透明な入札管理と契約監視',
+    'modules.logistics': '物流エンジン',
+    'modules.logistics.desc': 'ルート最適化とサプライチェーン追跡',
+    'modules.donor': 'ドナーダッシュボード',
+    'modules.donor.desc': '資金透明性とインパクトレポート',
+    'modules.data': 'データプラットフォーム',
+    'modules.data.desc': '統合データレイクとドキュメント管理',
+    'modules.hbs': 'HBSモジュール',
+    'modules.hbs.desc': '人道的予算支援と倫理的ガバナンス',
+    'modules.ai': 'AIサービス',
+    'modules.ai.desc': 'インテリジェント自動化と意思決定支援',
+    
+    'ai.badge': '倫理的AIスチュワード',
+    'ai.title': 'AI管理者 — 倫理的、透明、人間中心',
+    'ai.desc': 'IVYAR AI管理者は、インサイト、要約、リスクシグナルでオペレーターを支援します。人間の権威を決して置き換えず、IVYARの倫理憲章に従います。',
+    'ai.feature1': '穏やかで、敬意を持った、押し付けのない行動',
+    'ai.feature2': '透明な推論と監査対応ログ',
+    'ai.feature3': '人間優先の意思決定支援、自律制御なし',
+    
+    'cta.title': 'ガバナンス運営の近代化準備はできていますか？',
+    'cta.subtitle': '安全で、コンプライアンスに準拠した、倫理的なデジタルガバナンスのためにIVYARを使用する一流機関に参加してください。',
+    'cta.demo': 'デモを依頼',
+    'cta.contact': 'お問い合わせ',
+    
+    'footer.tagline': '倫理的、透明、AI整合型ガバナンスインフラ。',
+    'footer.platform': 'プラットフォーム',
+    'footer.modules': 'モジュール',
+    'footer.company': '会社',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'NATO準拠 • マルチリージョンインフラ',
+    
+    'common.status.operational': '稼働中',
+    'common.status.live': 'ライブ',
+    'common.status.pilot': 'パイロット',
+    'common.status.beta': 'ベータ',
+    'common.status.dev': '開発中',
+    'common.loading': '読み込み中...',
+    'common.error': 'エラー',
+    'common.success': '成功',
+    'common.submit': '送信',
+    'common.cancel': 'キャンセル',
+    'common.back': '戻る',
+    'common.next': '次へ',
+    'common.search': '検索',
+  },
+
+  // ============================================
+  // ARABIC (RTL)
+  // ============================================
+  ar: {
+    'nav.modules': 'الوحدات',
+    'nav.ai': 'مسؤول الذكاء الاصطناعي',
+    'nav.about': 'حول',
+    'nav.portal': 'الدخول للبوابة',
+    'nav.pricing': 'الأسعار',
+    'nav.docs': 'التوثيق',
+    'nav.support': 'الدعم',
+    'nav.demo': 'طلب عرض',
+    'nav.search': 'بحث...',
+    
+    'hero.title': 'منصة حوكمة IVYAR',
+    'hero.subtitle': 'بنية تحتية مؤسسية لصنع القرار الأخلاقي والشفاف والمتوافق مع الذكاء الاصطناعي للحكومات والشركاء الدوليين.',
+    'hero.cta.portal': 'الدخول للبوابة',
+    'hero.cta.modules': 'عرض الوحدات',
+    
+    'countries.label': 'نعمل باحترام في:',
+    'countries.usa': 'الولايات المتحدة',
+    'countries.canada': 'كندا',
+    'countries.uk': 'المملكة المتحدة',
+    'countries.eu': 'الاتحاد الأوروبي',
+    'countries.ukraine': 'أوكرانيا',
+    
+    'trusted.label': 'موثوق من المؤسسات الرائدة',
+    
+    'modules.title': 'وحدات المنصة',
+    'modules.subtitle': 'بنية معمارية نموذجية للعمليات الحكومية',
+    'modules.learnMore': 'اعرف المزيد',
+    'modules.endpoints': 'نقاط API',
+    'modules.procurement': 'محرك المشتريات',
+    'modules.procurement.desc': 'إدارة المناقصات الشفافة ومراقبة العقود',
+    'modules.logistics': 'محرك اللوجستيات',
+    'modules.logistics.desc': 'تحسين المسارات وتتبع سلسلة التوريد',
+    'modules.donor': 'لوحة المانحين',
+    'modules.donor.desc': 'شفافية التمويل وتقارير الأثر',
+    'modules.data': 'منصة البيانات',
+    'modules.data.desc': 'بحيرة بيانات موحدة وإدارة المستندات',
+    'modules.hbs': 'وحدة HBS',
+    'modules.hbs.desc': 'دعم الميزانية الإنسانية والحوكمة الأخلاقية',
+    'modules.ai': 'خدمات الذكاء الاصطناعي',
+    'modules.ai.desc': 'الأتمتة الذكية ودعم القرار',
+    
+    'ai.badge': 'مشرف ذكاء اصطناعي أخلاقي',
+    'ai.title': 'مسؤول الذكاء الاصطناعي — أخلاقي، شفاف، متمحور حول الإنسان',
+    'ai.desc': 'يساعد مسؤول الذكاء الاصطناعي IVYAR المشغلين بالرؤى والملخصات وإشارات المخاطر. لا يحل أبداً محل السلطة البشرية ويتبع ميثاق IVYAR الأخلاقي.',
+    'ai.feature1': 'سلوك هادئ ومحترم وغير تطفلي',
+    'ai.feature2': 'منطق شفاف وسجلات جاهزة للتدقيق',
+    'ai.feature3': 'دعم القرار البشري، لا تحكم ذاتي أبداً',
+    
+    'cta.title': 'هل أنت مستعد لتحديث عمليات الحوكمة الخاصة بك؟',
+    'cta.subtitle': 'انضم إلى المؤسسات الرائدة التي تستخدم IVYAR للحوكمة الرقمية الآمنة والمتوافقة والأخلاقية.',
+    'cta.demo': 'طلب عرض',
+    'cta.contact': 'اتصل بنا',
+    
+    'footer.tagline': 'بنية تحتية للحوكمة أخلاقية وشفافة ومتوافقة مع الذكاء الاصطناعي.',
+    'footer.platform': 'المنصة',
+    'footer.modules': 'الوحدات',
+    'footer.company': 'الشركة',
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'متوافق مع الناتو • بنية تحتية متعددة المناطق',
+    
+    'common.status.operational': 'تشغيلي',
+    'common.status.live': 'مباشر',
+    'common.status.pilot': 'تجريبي',
+    'common.status.beta': 'بيتا',
+    'common.status.dev': 'تطوير',
+    'common.loading': 'جاري التحميل...',
+    'common.error': 'خطأ',
+    'common.success': 'نجاح',
+    'common.submit': 'إرسال',
+    'common.cancel': 'إلغاء',
+    'common.back': 'رجوع',
+    'common.next': 'التالي',
+    'common.search': 'بحث',
+  },
+
+  // ============================================
+  // HEBREW (RTL)
+  // ============================================
+  he: {
+    'nav.modules': 'מודולים',
+    'nav.ai': 'מנהל AI',
+    'nav.about': 'אודות',
+    'nav.portal': 'גישה לפורטל',
+    'nav.pricing': 'תמחור',
+    'nav.docs': 'תיעוד',
+    'nav.support': 'תמיכה',
+    'nav.demo': 'בקש הדגמה',
+    'nav.search': 'חיפוש...',
+    
+    'hero.title': 'פלטפורמת הממשל IVYAR',
+    'hero.subtitle': 'תשתית מוסדית לקבלת החלטות אתית, שקופה ומותאמת AI עבור ממשלות ושותפים בינלאומיים.',
+    'hero.cta.portal': 'גישה לפורטל',
+    'hero.cta.modules': 'צפה במודולים',
+    
+    'countries.label': 'פועלים בכבוד ב:',
+    'countries.usa': 'ארה"ב',
+    'countries.canada': 'קנדה',
+    'countries.uk': 'בריטניה',
+    'countries.eu': 'האיחוד האירופי',
+    'countries.ukraine': 'אוקראינה',
+    
+    'trusted.label': 'מהימן על ידי מוסדות מובילים',
+    
+    'modules.title': 'מודולי הפלטפורמה',
+    'modules.subtitle': 'ארכיטקטורה מודולרית לפעולות ממשלתיות',
+    'modules.learnMore': 'למידע נוסף',
+    'modules.endpoints': 'נקודות API',
+    
+    'cta.title': 'מוכנים לחדש את פעולות הממשל שלכם?',
+    'cta.subtitle': 'הצטרפו למוסדות המובילים המשתמשים ב-IVYAR לממשל דיגיטלי בטוח, תואם ואתי.',
+    'cta.demo': 'בקש הדגמה',
+    'cta.contact': 'צור קשר',
+    
+    'footer.copyright': '© 2024-2026 IVYAR Platform',
+    'footer.nato': 'תואם NATO • תשתית רב-אזורית',
+    
+    'common.status.operational': 'פעיל',
+    'common.loading': 'טוען...',
+    'common.error': 'שגיאה',
+    'common.success': 'הצלחה',
+    'common.submit': 'שלח',
+    'common.cancel': 'ביטול',
+    'common.back': 'חזרה',
+    'common.next': 'הבא',
+    'common.search': 'חיפוש',
+  },
+
+  // Placeholder translations for other languages
+  // These would be filled with proper translations
+  it: { ...({} as any) },
+  cs: { ...({} as any) },
+  bg: { ...({} as any) },
+  sr: { ...({} as any) },
+  sq: { ...({} as any) },
+  lv: { ...({} as any) },
+  lt: { ...({} as any) },
+  et: { ...({} as any) },
+  ka: { ...({} as any) },
+  hy: { ...({} as any) },
+  kk: { ...({} as any) },
+  tr: { ...({} as any) },
+  ko: { ...({} as any) },
+  zh: { ...({} as any) },
+} as const;
+
+// Helper function to get translation
+export function t(lang: string, key: TranslationKey): string {
+  const langTranslations = translations[lang as keyof typeof translations];
+  if (langTranslations && key in langTranslations) {
+    return langTranslations[key as keyof typeof langTranslations] as string;
+  }
+  // Fallback to English
+  return translations.en[key] || key;
+}
