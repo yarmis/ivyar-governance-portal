@@ -1,3 +1,4 @@
+import Link from "next/link";
 "use client";
 import { useState } from "react";
 
@@ -88,9 +89,9 @@ export default function BreachCenterPage() {
               Monitor and escalate SLA breaches across all claims
             </p>
           </div>
-          <a href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>
+          <Link href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>
             ← Back to Admin
-          </a>
+          </Link>
         </div>
       </div>
 

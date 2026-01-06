@@ -1,3 +1,4 @@
+import Link from "next/link";
 "use client";
 import { useState } from "react";
 
@@ -44,7 +45,7 @@ export default function UserManagementPage() {
             >
               + Create User
             </button>
-            <a href="/admin" style={{ color: "#10B9B9", textDecoration: "none", alignSelf: "center" }}>← Back</a>
+            <Link href="/admin" style={{ color: "#10B9B9", textDecoration: "none", alignSelf: "center" }}>← Back</Link>
           </div>
         </div>
       </div>

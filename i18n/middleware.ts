@@ -2,7 +2,7 @@
 // IVYAR i18n URL Routing Middleware
 
 import { NextRequest, NextResponse } from 'next/server';
-import { localeCodes, defaultLocale } from './i18n/config';
+import { localeCodes, defaultLocale } from './config';
 
 // Pages that don't need locale prefix
 const PUBLIC_FILE = /\.(.*)$/;
@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
 
   // Check if pathname already has a locale
   const pathnameHasLocale = localeCodes.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale: string) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
   if (pathnameHasLocale) {
@@ -55,7 +55,7 @@ function detectLocale(request: NextRequest): string {
   }
 
   // 3. Check geo location (Vercel provides this)
-  const country = request.geo?.country?.toLowerCase();
+  const country = (request as any).geo?.country?.toLowerCase();
   if (country && localeCodes.includes(country as any)) {
     return country;
   }

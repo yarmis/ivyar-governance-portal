@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function AccessDeniedPage() {
   return (
     <div style={{
@@ -18,12 +20,12 @@ export default function AccessDeniedPage() {
           You do not have permission to view this page.
         </p>
         <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-          <a href="/" style={{ background: "#1B3A5C", padding: "12px 24px", borderRadius: "8px", color: "white", textDecoration: "none" }}>
+          <Link href="/" style={{ background: "#1B3A5C", padding: "12px 24px", borderRadius: "8px", color: "white", textDecoration: "none" }}>
             Go Home
-          </a>
-          <a href="/login" style={{ background: "#10B9B9", padding: "12px 24px", borderRadius: "8px", color: "white", textDecoration: "none" }}>
+          </Link>
+          <Link href="/login" style={{ background: "#10B9B9", padding: "12px 24px", borderRadius: "8px", color: "white", textDecoration: "none" }}>
             Sign In
-          </a>
+          </Link>
         </div>
       </div>
     </div>

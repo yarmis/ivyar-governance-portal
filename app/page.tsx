@@ -4,9 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { GlobalSearch } from '@/components/GlobalSearch';
 
-// ============================================
-// TRANSLATIONS
-// ============================================
 const TRANSLATIONS: Record<string, {
   hero: { title: string; subtitle: string };
   nav: { modules: string; ai: string; about: string; portal: string };
@@ -188,9 +185,6 @@ const TRANSLATIONS: Record<string, {
   },
 };
 
-// ============================================
-// COUNTRIES / LANGUAGES CONFIG
-// ============================================
 const COUNTRIES = [
   { code: 'us', name: 'USA', lang: 'en' },
   { code: 'ca', name: 'Canada', lang: 'en' },
@@ -200,12 +194,12 @@ const COUNTRIES = [
 ];
 
 const MODULE_META = [
-  { icon: '📋', status: 'live', apis: 18 },
-  { icon: '🚚', status: 'pilot', apis: 14 },
-  { icon: '🤝', status: 'design', apis: 12 },
-  { icon: '🗄️', status: 'dev', apis: 10 },
-  { icon: '🏛️', status: 'core', apis: 8 },
-  { icon: '🤖', status: 'beta', apis: 5 },
+  { icon: '📋', status: 'live', apis: 18, href: '/modules/procurement' },
+  { icon: '🚚', status: 'pilot', apis: 14, href: '/modules/logistics' },
+  { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
+  { icon: '🗄️', status: 'dev', apis: 10, href: '/modules/data-platform' },
+  { icon: '🏛️', status: 'core', apis: 8, href: '/hbs' },
+  { icon: '🤖', status: 'beta', apis: 5, href: '/modules/ai-services' },
 ];
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
@@ -213,16 +207,18 @@ const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Governm
 export default function LandingPage() {
   const [activeCountry, setActiveCountry] = useState('us');
   
-  // Get language based on selected country
   const currentLang = COUNTRIES.find(c => c.code === activeCountry)?.lang || 'en';
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
 
-  // Combine module meta with translations
   const modules = MODULE_META.map((m, i) => ({
     ...m,
     name: t.modulesList[i]?.name || '',
     desc: t.modulesList[i]?.desc || '',
   }));
+
+  const handleModuleClick = (href: string) => {
+    console.log("CLICK:", href); window.location.href = href;
+  };
 
   return (
     <div className="min-h-screen">
@@ -243,16 +239,13 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Global Search */}
             <GlobalSearch />
             
-            {/* Status Badge */}
             <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
               <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
               <span className="text-xs font-medium text-[#3CCB7F]">Operational</span>
             </div>
             
-            {/* Request Demo CTA */}
             <Link 
               href="/demo" 
               className="hidden sm:flex h-11 px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
@@ -263,7 +256,6 @@ export default function LandingPage() {
               </svg>
             </Link>
             
-            {/* Access Portal */}
             <Link 
               href="/hbs" 
               className="h-11 px-5 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center hover:bg-[#2D333B] transition-colors"
@@ -369,22 +361,31 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {modules.map((mod, i) => (
-                <div key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
-                    <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
-                      mod.status === 'live' || mod.status === 'core' ? 'bg-[#3CCB7F]/15 text-[#3CCB7F]' :
-                      mod.status === 'pilot' || mod.status === 'beta' ? 'bg-[#FFB84D]/15 text-[#FFB84D]' :
-                      mod.status === 'dev' ? 'bg-[#00A3FF]/15 text-[#00A3FF]' : 'bg-[#8B949E]/15 text-[#8B949E]'
-                    }`}>{mod.status}</span>
+                <a href={mod.href} 
+                  key={i}
+                  onClick={() => handleModuleClick(mod.href)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && handleModuleClick(mod.href)}
+                  className="bg-[#161B22] border border-[#1F242C] p-6 hover:border-[#00A3FF] transition-colors group cursor-pointer select-none"
+                >
+                  <div className="flex flex-col gap-4 pointer-events-none">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
+                      <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
+                        mod.status === 'live' || mod.status === 'core' ? 'bg-[#3CCB7F]/15 text-[#3CCB7F]' :
+                        mod.status === 'pilot' || mod.status === 'beta' ? 'bg-[#FFB84D]/15 text-[#FFB84D]' :
+                        mod.status === 'dev' ? 'bg-[#00A3FF]/15 text-[#00A3FF]' : 'bg-[#8B949E]/15 text-[#8B949E]'
+                      }`}>{mod.status}</span>
+                    </div>
+                    <h3 className="text-lg font-semibold">{mod.name}</h3>
+                    <p className="text-sm text-[#8B949E] flex-1">{mod.desc}</p>
+                    <div className="flex items-center justify-between pt-2 border-t border-[#1F242C]">
+                      <span className="text-xs text-[#6E7681]">{mod.apis} {t.modules.endpoints}</span>
+                      <span className="text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">{t.modules.learnMore} →</span>
+                    </div>
                   </div>
-                  <h3 className="text-lg font-semibold">{mod.name}</h3>
-                  <p className="text-sm text-[#8B949E] flex-1">{mod.desc}</p>
-                  <div className="flex items-center justify-between pt-2 border-t border-[#1F242C]">
-                    <span className="text-xs text-[#6E7681]">{mod.apis} {t.modules.endpoints}</span>
-                    <span className="text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">{t.modules.learnMore} →</span>
-                  </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -484,9 +485,9 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
               <div className="flex flex-col gap-3">
                 {[
-                  { name: 'Procurement', href: '/hbs' },
-                  { name: 'Logistics', href: '/hbs' },
-                  { name: 'Donor Dashboard', href: '/hbs' },
+                  { name: 'Procurement', href: '/modules/procurement' },
+                  { name: 'Logistics', href: '/modules/logistics' },
+                  { name: 'Donor Dashboard', href: '/modules/donor-dashboard' },
                   { name: 'HBS Module', href: '/hbs' }
                 ].map((link, i) => (
                   <Link key={i} href={link.href} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link.name}</Link>

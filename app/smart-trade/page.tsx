@@ -1086,7 +1086,7 @@ function OrdersView({ orders }: { orders: SmartOrder[] }) {
                         style={{ 
                           backgroundColor: isActive ? `${stepConfig.color}20` : '#1F242C',
                           color: isActive ? stepConfig.color : '#6E7681',
-                          ringColor: isCurrent ? stepConfig.color : 'transparent'
+                          outline: isCurrent ? `2px solid ${stepConfig.color}` : 'none'
                         }}
                       >
                         {stepConfig.icon}

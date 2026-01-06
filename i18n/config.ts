@@ -33,6 +33,14 @@ export const locales = [
   { code: 'tr', name: 'Turkey', lang: 'tr', flag: '🇹🇷', dir: 'ltr' },
   
   // Middle East
+  { code: 'pt', name: 'Portugal', lang: 'pt', flag: '🇵🇹', dir: 'ltr' },
+  { code: 'nl', name: 'Netherlands', lang: 'nl', flag: '🇳🇱', dir: 'ltr' },
+  { code: 'be', name: 'Belgium', lang: 'nl', flag: '🇧🇪', dir: 'ltr' },
+  { code: 'se', name: 'Sweden', lang: 'sv', flag: '🇸🇪', dir: 'ltr' },
+  { code: 'no', name: 'Norway', lang: 'no', flag: '🇳🇴', dir: 'ltr' },
+  { code: 'fi', name: 'Finland', lang: 'fi', flag: '🇫🇮', dir: 'ltr' },
+  { code: 'dk', name: 'Denmark', lang: 'da', flag: '🇩🇰', dir: 'ltr' },
+  { code: 'gr', name: 'Greece', lang: 'el', flag: '🇬🇷', dir: 'ltr' },
   { code: 'il', name: 'Israel', lang: 'he', flag: '🇮🇱', dir: 'rtl' },
   { code: 'sa', name: 'Saudi Arabia', lang: 'ar', flag: '🇸🇦', dir: 'rtl' },
   

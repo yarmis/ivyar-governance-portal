@@ -757,12 +757,12 @@ function PolicyTreeDemo() {
                   className="bg-[#0D1117] border border-[#1F242C] rounded-lg p-4 text-left hover:border-[#3D444D] transition-all"
                 >
                   <div className="font-medium mb-2">{child?.question}</div>
-                  {child?.outcome && (
+                  {('outcome' in (child || {})) && (child as any)?.outcome && (
                     <div 
                       className="text-xs p-2 rounded mt-2"
                       style={{ backgroundColor: `${branchColor}10`, color: branchColor }}
                     >
-                      {child.outcome}
+                      {(child as any).outcome}
                     </div>
                   )}
                 </button>

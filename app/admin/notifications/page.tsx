@@ -1,3 +1,4 @@
+import Link from "next/link";
 "use client";
 import { useState } from "react";
 
@@ -53,7 +54,7 @@ export default function NotificationsPage() {
             <h1 style={{ margin: 0, fontSize: "24px" }}>📧 Email Notifications</h1>
             <p style={{ margin: "8px 0 0", color: "#A8B5C4" }}>Send test emails</p>
           </div>
-          <a href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>← Back to Admin</a>
+          <Link href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>← Back to Admin</Link>
         </div>
       </div>
 

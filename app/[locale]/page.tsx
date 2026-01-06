@@ -7,12 +7,17 @@ import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { GlobalSearch } from '@/components/GlobalSearch';
 
 const MODULE_META = [
-  { icon: '📋', status: 'live', apis: 18, key: 'procurement' },
-  { icon: '🚚', status: 'pilot', apis: 14, key: 'logistics' },
-  { icon: '🤝', status: 'design', apis: 12, key: 'donor' },
-  { icon: '🗄️', status: 'dev', apis: 10, key: 'data' },
-  { icon: '🏛️', status: 'core', apis: 8, key: 'hbs' },
-  { icon: '🤖', status: 'beta', apis: 5, key: 'ai' },
+  { icon: '📋', status: 'live', apis: 18, key: 'procurement', href: '/modules/procurement' },
+  { icon: '🚚', status: 'pilot', apis: 14, key: 'logistics', href: '/modules/logistics' },
+  { icon: '🤝', status: 'design', apis: 12, key: 'donor', href: '/modules/donor-dashboard' },
+  { icon: '🗄️', status: 'dev', apis: 10, key: 'data', href: '/modules/data-platform' },
+  { icon: '🏛️', status: 'core', apis: 8, key: 'hbs', href: '/hbs' },
+  { icon: '🤖', status: 'beta', apis: 5, key: 'ai', href: '/modules/ai-services' },
+  { icon: '🏪', status: 'live', apis: 12, key: 'trade', href: '/modules/trade' },
+  { icon: '🛡️', status: 'live', apis: 10, key: 'insurance', href: '/modules/insurance' },
+  { icon: '💳', status: 'live', apis: 8, key: 'payments', href: '/modules/payments' },
+  { icon: '🏗️', status: 'pilot', apis: 14, key: 'reconstruction', href: '/modules/reconstruction' },
+  { icon: '🚛', status: 'live', apis: 10, key: 'freight', href: '/modules/freight' },
 ];
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
@@ -159,7 +164,7 @@ export default function LocalizedLandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {MODULE_META.map((mod, i) => (
-                <div key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
+                <a href={mod.href} key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
                   <div className="flex items-start justify-between">
                     <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
                     <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
@@ -182,7 +187,7 @@ export default function LocalizedLandingPage() {
                       {t('modules.learnMore')} →
                     </span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>

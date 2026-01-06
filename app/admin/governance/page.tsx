@@ -1,3 +1,4 @@
+import Link from "next/link";
 "use client";
 import { useState } from "react";
 
@@ -69,7 +70,7 @@ export default function GovernancePortal() {
           ))}
         </nav>
         <div style={{ padding: "20px", borderTop: "1px solid #1B3A5C", marginTop: "auto" }}>
-          <a href="/admin" style={{ color: "#A8B5C4", textDecoration: "none", fontSize: "14px" }}>← Back to Admin</a>
+          <Link href="/admin" style={{ color: "#A8B5C4", textDecoration: "none", fontSize: "14px" }}>← Back to Admin</Link>
         </div>
       </div>
 

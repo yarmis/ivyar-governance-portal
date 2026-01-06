@@ -1,3 +1,4 @@
+import Link from "next/link";
 "use client";
 export default function SecurityCenter() {
   return (
@@ -8,7 +9,7 @@ export default function SecurityCenter() {
             <h1 style={{ margin: 0, fontSize: "24px" }}>🔒 Security Center</h1>
             <p style={{ margin: "8px 0 0", color: "#A8B5C4" }}>Login audit and security alerts</p>
           </div>
-          <a href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>← Back to Admin</a>
+          <Link href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>← Back to Admin</Link>
         </div>
       </div>
       <div style={{ padding: "32px 40px" }}>

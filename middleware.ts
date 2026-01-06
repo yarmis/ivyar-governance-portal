@@ -51,7 +51,7 @@ export function middleware(request: NextRequest) {
     let detectedLocale = defaultLocale;
     
     if (cookieLocale && localeCodes.includes(cookieLocale as any)) {
-      detectedLocale = cookieLocale;
+      detectedLocale = cookieLocale as typeof defaultLocale;
     } else if (acceptLanguage) {
       const browserLang = acceptLanguage.split(',')[0].split('-')[0];
       const langToLocale: Record<string, string> = {
@@ -69,7 +69,7 @@ export function middleware(request: NextRequest) {
         tr: 'tr',
       };
       if (langToLocale[browserLang]) {
-        detectedLocale = langToLocale[browserLang];
+        detectedLocale = langToLocale[browserLang] as typeof defaultLocale;
       }
     }
 
