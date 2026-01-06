@@ -1,6 +1,7 @@
 // app/[locale]/page.tsx
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/i18n';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
@@ -24,20 +25,23 @@ const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Governm
 
 export default function LocalizedLandingPage() {
   const { t, locale, isRTL } = useTranslation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={locale.dir}>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 h-[72px] bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-full flex items-center justify-between">
-          <Link href={`/${locale.code}`} className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">
+      <nav className="fixed top-0 left-0 right-0 bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-[72px] flex items-center justify-between">
+          {/* Logo */}
+          <Link href={`/${locale.code}`} className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-sm sm:text-base">
               IV
             </div>
-            <span className="text-lg font-semibold hidden sm:block">IVYAR</span>
+            <span className="text-base sm:text-lg font-semibold">IVYAR</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             <Link href="#modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">
               {t('nav.modules')}
             </Link>
@@ -49,7 +53,8 @@ export default function LocalizedLandingPage() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <GlobalSearch />
             <LocaleSwitcher />
             
@@ -60,52 +65,118 @@ export default function LocalizedLandingPage() {
             
             <Link 
               href={`/${locale.code}/demo`}
-              className="hidden sm:flex h-11 px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
+              className="h-10 lg:h-11 px-4 lg:px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm flex items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
             >
               {t('nav.demo')}
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 hidden lg:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRTL ? "M11 17l-5-5m0 0l5-5m-5 5h12" : "M13 7l5 5m0 0l-5 5m5-5H6"} />
               </svg>
             </Link>
             
             <Link 
               href={`/${locale.code}/hbs`}
-              className="h-11 px-5 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center hover:bg-[#2D333B] transition-colors"
+              className="h-10 lg:h-11 px-4 lg:px-5 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center hover:bg-[#2D333B] transition-colors"
             >
               {t('nav.portal')}
             </Link>
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
+            <LocaleSwitcher />
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-[#8B949E] hover:text-white hover:bg-[#1F242C] rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
+          <div className="px-4 py-4 space-y-2 bg-[#0D1117] border-t border-[#1F242C]">
+            <GlobalSearch />
+            
+            <div className="pt-2 space-y-1">
+              <Link 
+                href="#modules" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
+              >
+                {t('nav.modules')}
+              </Link>
+              <Link 
+                href="#ai" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
+              >
+                {t('nav.ai')}
+              </Link>
+              <Link 
+                href="#about" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
+              >
+                {t('nav.about')}
+              </Link>
+            </div>
+
+            <div className="pt-4 space-y-2 border-t border-[#1F242C]">
+              <Link 
+                href={`/${locale.code}/demo`}
+                className="w-full h-12 px-4 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm flex items-center justify-center gap-2"
+              >
+                {t('nav.demo')}
+              </Link>
+              <Link 
+                href={`/${locale.code}/hbs`}
+                className="w-full h-12 px-4 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center justify-center"
+              >
+                {t('nav.portal')}
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="pt-[140px] pb-[100px] lg:pt-[160px] lg:pb-[120px]">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-4">
+      <section className="pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-[160px] lg:pb-[120px]">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div className="flex flex-col gap-6 sm:gap-8">
+              <div className="flex flex-col gap-3 sm:gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">{locale.flag}</span>
-                  <span className="text-sm text-[#8B949E]">{locale.name}</span>
+                  <span className="text-xl sm:text-2xl">{locale.flag}</span>
+                  <span className="text-xs sm:text-sm text-[#8B949E]">{locale.name}</span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-[56px] font-semibold leading-[1.1] tracking-[-0.02em]">
+                <h1 className="text-2xl sm:text-3xl lg:text-[56px] font-semibold leading-[1.1] tracking-[-0.02em]">
                   {t('hero.title')}
                 </h1>
-                <p className="text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
+                <p className="text-sm sm:text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
                   {t('hero.subtitle')}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link 
                   href={`/${locale.code}/hbs`}
-                  className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors"
+                  className="h-12 sm:h-[52px] px-6 sm:px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors"
                 >
                   {t('hero.cta.portal')}
                 </Link>
                 <Link 
                   href="#modules" 
-                  className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors"
+                  className="h-12 sm:h-[52px] px-6 sm:px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors"
                 >
                   {t('hero.cta.modules')}
                 </Link>
@@ -134,15 +205,15 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* Trusted By */}
-      <section className="py-12 bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="flex flex-col items-center gap-6">
-            <span className="text-xs font-medium text-[#6E7681] uppercase tracking-wider">
+      <section className="py-8 sm:py-12 bg-[#161B22] border-y border-[#1F242C]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="flex flex-col items-center gap-4 sm:gap-6">
+            <span className="text-[10px] sm:text-xs font-medium text-[#6E7681] uppercase tracking-wider">
               {t('trusted.label')}
             </span>
-            <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 lg:gap-12">
               {PARTNERS.map((partner, i) => (
-                <span key={i} className="text-[#6E7681] text-sm font-medium opacity-60 hover:opacity-100 transition-opacity">
+                <span key={i} className="text-[#6E7681] text-xs sm:text-sm font-medium opacity-60 hover:opacity-100 transition-opacity">
                   {partner}
                 </span>
               ))}
@@ -152,22 +223,22 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* Modules */}
-      <section id="modules" className="py-[80px] lg:py-[120px]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="flex flex-col gap-12">
-            <div className="flex flex-col gap-4 text-center max-w-2xl mx-auto">
-              <span className="text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
+      <section id="modules" className="py-16 sm:py-20 lg:py-[120px]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="flex flex-col gap-8 sm:gap-12">
+            <div className="flex flex-col gap-3 sm:gap-4 text-center max-w-2xl mx-auto">
+              <span className="text-[10px] sm:text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
                 {t('modules.title')}
               </span>
-              <h2 className="text-2xl lg:text-4xl font-semibold">{t('modules.subtitle')}</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">{t('modules.subtitle')}</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {MODULE_META.map((mod, i) => (
-                <a href={mod.href} key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
+                <a href={mod.href} key={i} className="bg-[#161B22] border border-[#1F242C] p-4 sm:p-6 flex flex-col gap-3 sm:gap-4 hover:border-[#00A3FF] transition-colors group">
                   <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
-                    <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00A3FF]/10 flex items-center justify-center text-xl sm:text-2xl">{mod.icon}</div>
+                    <span className={`text-[10px] sm:text-[11px] font-semibold uppercase px-2 h-5 sm:h-[22px] flex items-center ${
                       mod.status === 'live' || mod.status === 'core' ? 'bg-[#3CCB7F]/15 text-[#3CCB7F]' :
                       mod.status === 'pilot' || mod.status === 'beta' ? 'bg-[#FFB84D]/15 text-[#FFB84D]' :
                       mod.status === 'dev' ? 'bg-[#00A3FF]/15 text-[#00A3FF]' : 'bg-[#8B949E]/15 text-[#8B949E]'
@@ -175,15 +246,15 @@ export default function LocalizedLandingPage() {
                       {t(`common.status.${mod.status}` as any) || mod.status}
                     </span>
                   </div>
-                  <h3 className="text-lg font-semibold">
+                  <h3 className="text-base sm:text-lg font-semibold">
                     {t(`modules.${mod.key}` as any)}
                   </h3>
-                  <p className="text-sm text-[#8B949E] flex-1">
+                  <p className="text-xs sm:text-sm text-[#8B949E] flex-1 line-clamp-2">
                     {t(`modules.${mod.key}.desc` as any)}
                   </p>
                   <div className="flex items-center justify-between pt-2 border-t border-[#1F242C]">
-                    <span className="text-xs text-[#6E7681]">{mod.apis} {t('modules.endpoints')}</span>
-                    <span className="text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">
+                    <span className="text-[10px] sm:text-xs text-[#6E7681]">{mod.apis} {t('modules.endpoints')}</span>
+                    <span className="text-xs sm:text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">
                       {t('modules.learnMore')} →
                     </span>
                   </div>
@@ -195,25 +266,25 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* AI Administrator */}
-      <section id="ai" className="py-[80px] lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-4">
-                <span className="text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
-                  {t('ai.badge')}
+      <section id="ai" className="py-16 sm:py-20 lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div className="flex flex-col gap-4 sm:gap-6">
+              <div className="flex flex-col gap-3 sm:gap-4">
+                <span className="text-[10px] sm:text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
+                  AI Administrator
                 </span>
-                <h2 className="text-2xl lg:text-4xl font-semibold">{t('ai.title')}</h2>
-                <p className="text-[#8B949E] leading-relaxed">
-                  {t('ai.desc')}
+                <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">Ethical AI Governance</h2>
+                <p className="text-sm sm:text-base text-[#8B949E] leading-relaxed">
+                  AI-powered decision support with full transparency and human oversight.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-4 mt-4">
-                {[t('ai.feature1'), t('ai.feature2'), t('ai.feature3')].map((feature, i) => (
-                  <div key={i} className={`flex items-start gap-4 p-4 bg-[#00A3FF]/5 ${isRTL ? 'border-r-2' : 'border-l-2'} border-[#00A3FF]`}>
+              <div className="flex flex-col gap-3 sm:gap-4 mt-2 sm:mt-4">
+                {['Human-in-the-loop approval', 'Full audit trail', 'Explainable decisions'].map((feature, i) => (
+                  <div key={i} className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-[#00A3FF]/5 ${isRTL ? 'border-r-2' : 'border-l-2'} border-[#00A3FF]`}>
                     <span className="text-[#00A3FF] font-bold">✓</span>
-                    <span className="text-[15px]">{feature}</span>
+                    <span className="text-sm sm:text-[15px]">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -246,23 +317,23 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-[80px] lg:py-[120px]">
-        <div className="max-w-[800px] mx-auto px-6 text-center">
-          <div className="flex flex-col items-center gap-6">
-            <h2 className="text-2xl lg:text-4xl font-semibold">{t('cta.title')}</h2>
-            <p className="text-[#8B949E] text-lg">{t('cta.subtitle')}</p>
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
+      <section className="py-16 sm:py-20 lg:py-[120px]">
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 text-center">
+          <div className="flex flex-col items-center gap-4 sm:gap-6">
+            <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">Ready to Transform Governance?</h2>
+            <p className="text-sm sm:text-base lg:text-lg text-[#8B949E]">Join leading institutions using IVYAR</p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 sm:mt-4 w-full sm:w-auto">
               <Link 
                 href={`/${locale.code}/demo`}
-                className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors"
+                className="h-12 sm:h-[52px] px-6 sm:px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors"
               >
-                {t('cta.demo')}
+                Request Demo
               </Link>
               <Link 
                 href="#contact" 
-                className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors"
+                className="h-12 sm:h-[52px] px-6 sm:px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors"
               >
-                {t('cta.contact')}
+                Contact Sales
               </Link>
             </div>
           </div>
@@ -270,53 +341,53 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#161B22] border-t border-[#1F242C] pt-16 pb-6">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-[#1F242C]">
-            <div className="flex flex-col gap-4">
+      <footer className="bg-[#161B22] border-t border-[#1F242C] pt-12 sm:pt-16 pb-6">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 pb-8 sm:pb-12 border-b border-[#1F242C]">
+            <div className="col-span-2 sm:col-span-1 flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
-                <span className="text-lg font-semibold">IVYAR</span>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-sm sm:text-base">IV</div>
+                <span className="text-base sm:text-lg font-semibold">IVYAR</span>
               </div>
-              <p className="text-sm text-[#8B949E]">{t('footer.tagline')}</p>
+              <p className="text-xs sm:text-sm text-[#8B949E]">Ethical AI Governance Platform</p>
               <div className="flex flex-wrap gap-2 mt-2">
-                {['ISO 27001', 'SOC 2', 'GDPR', 'IRAP'].map((cert, i) => (
-                  <span key={i} className="text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
+                {['ISO 27001', 'SOC 2', 'GDPR'].map((cert, i) => (
+                  <span key={i} className="text-[9px] sm:text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t('footer.platform')}</h4>
-              <div className="flex flex-col gap-3">
-                {['Dashboard', 'AI Operations', 'Documentation', 'API Reference'].map((link, i) => (
-                  <Link key={i} href={`/${locale.code}/hbs`} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <h4 className="text-xs sm:text-sm font-semibold">Platform</h4>
+              <div className="flex flex-col gap-2 sm:gap-3">
+                {['Dashboard', 'AI Operations', 'Documentation'].map((link, i) => (
+                  <Link key={i} href={`/${locale.code}/hbs`} className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t('footer.modules')}</h4>
-              <div className="flex flex-col gap-3">
-                {['Procurement', 'Logistics', 'Donor Dashboard', 'HBS Module'].map((link, i) => (
-                  <Link key={i} href={`/${locale.code}/hbs`} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <h4 className="text-xs sm:text-sm font-semibold">Modules</h4>
+              <div className="flex flex-col gap-2 sm:gap-3">
+                {['Procurement', 'Logistics', 'HBS Module'].map((link, i) => (
+                  <Link key={i} href={`/${locale.code}/hbs`} className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t('footer.company')}</h4>
-              <div className="flex flex-col gap-3">
-                {['About IVYAR', 'Contact', 'Careers', 'Press'].map((link, i) => (
-                  <Link key={i} href="#" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <h4 className="text-xs sm:text-sm font-semibold">Company</h4>
+              <div className="flex flex-col gap-2 sm:gap-3">
+                {['About', 'Contact', 'Careers'].map((link, i) => (
+                  <Link key={i} href="#" className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <span className="text-sm text-[#6E7681]">{t('footer.copyright')}</span>
-            <span className="text-sm text-[#6E7681]">{t('footer.nato')}</span>
+          <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+            <span className="text-xs sm:text-sm text-[#6E7681]">© 2025 IVYAR. All rights reserved.</span>
+            <span className="text-xs sm:text-sm text-[#6E7681]">NATO DIANA Approved</span>
           </div>
         </div>
       </footer>
