@@ -732,7 +732,7 @@ function PolicyTreeDemo() {
           </div>
 
           {/* Criteria */}
-          {currentNode?.criteria && (
+          {currentNode && 'criteria' in currentNode && (
             <div className="mb-6">
               <div className="text-xs font-semibold text-[#8B949E] mb-3">ASSESSMENT CRITERIA</div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
