@@ -6,498 +6,769 @@ import Link from 'next/link';
 // ============================================
 // TYPES
 // ============================================
-type ResourceCategory = 'whitepaper' | 'standard' | 'ethics' | 'audit' | 'case-study' | 'deployment';
-
-interface Resource {
-  id: string;
-  title: string;
-  description: string;
-  category: ResourceCategory;
-  date: string;
-  author?: string;
-  pages?: number;
-  readTime?: string;
-  downloadUrl?: string;
-  tags: string[];
-  featured?: boolean;
-  country?: string;
-  countryFlag?: string;
-}
+type ResourceSection = 'overview' | 'countries' | 'packs' | 'usecases' | 'meta';
+type CountryId = 'ukraine' | 'poland' | 'germany' | 'georgia' | 'moldova' | 'jordan' | 'kenya' | 'ethiopia';
+type PackId = 'government' | 'donor' | 'technical' | 'legal';
+type SectorId = 'health' | 'education' | 'social' | 'reconstruction' | 'procurement' | 'crisis';
 
 // ============================================
-// DATA
+// COUNTRY PROFILES DATA
 // ============================================
-const CATEGORIES = [
-  { id: 'all', name: 'All Resources', icon: '📚', count: 0 },
-  { id: 'whitepaper', name: 'Whitepapers', icon: '📄', count: 0, color: '#00A3FF' },
-  { id: 'standard', name: 'Governance Standards', icon: '⚖️', count: 0, color: '#A371F7' },
-  { id: 'ethics', name: 'Ethical Framework', icon: '🛡️', count: 0, color: '#3CCB7F' },
-  { id: 'audit', name: 'Audit & Compliance', icon: '✅', count: 0, color: '#F59E0B' },
-  { id: 'case-study', name: 'Case Studies', icon: '💡', count: 0, color: '#EC4899' },
-  { id: 'deployment', name: 'Country Deployments', icon: '🌍', count: 0, color: '#06B6D4' },
-];
-
-const RESOURCES: Resource[] = [
-  // ========================================
-  // WHITEPAPERS
-  // ========================================
-  {
-    id: 'wp-sovereign-intelligence',
-    title: 'Sovereign Intelligence: AI-Aligned Governance for Nation States',
-    description: 'Comprehensive framework for implementing AI-driven decision support systems in government while maintaining democratic oversight, ethical boundaries, and national sovereignty.',
-    category: 'whitepaper',
-    date: '2026-01',
-    author: 'IVYAR Research',
-    pages: 48,
-    readTime: '45 min',
-    tags: ['AI', 'governance', 'sovereignty', 'ethics'],
-    featured: true,
+const COUNTRY_PROFILES: Record<CountryId, {
+  id: CountryId;
+  name: string;
+  flag: string;
+  region: string;
+  status: 'National Scale' | 'Active' | 'Pilot' | 'Planned';
+  since: string;
+  population: string;
+  beneficiaries: string;
+  budget: string;
+  programs: number;
+  context: string;
+  implementationModel: string;
+  governanceModel: string;
+  keyPartners: string[];
+  lessonsLearned: string[];
+  keyMetrics: { label: string; value: string }[];
+}> = {
+  ukraine: {
+    id: 'ukraine',
+    name: 'Ukraine',
+    flag: '🇺🇦',
+    region: 'Eastern Europe',
+    status: 'National Scale',
+    since: '2022',
+    population: '37M',
+    beneficiaries: '9.6M',
+    budget: '$4.2B',
+    programs: 192,
+    context: 'Full-scale war since 2022 created unprecedented social protection needs. IVYAR deployed as the national platform for coordinating humanitarian and social assistance across all 24 oblasts.',
+    implementationModel: 'National deployment with Ministry of Social Policy as lead agency. Integrated with Diia digital services, national ID system (ID.GOV.UA), and banking infrastructure. Phased rollout starting with IDP assistance, expanding to all social protection programs.',
+    governanceModel: 'Central governance through Cabinet of Ministers with Ministry of Social Policy as operational lead. Multi-stakeholder Steering Committee includes Ministry of Finance, Ministry of Digital Transformation, and international partners. Regional coordination through Oblast administrations.',
+    keyPartners: ['World Bank', 'USAID', 'EU', 'UNHCR', 'UNICEF', 'WFP', 'IOM'],
+    lessonsLearned: [
+      'Rapid deployment possible with strong political will and pre-existing digital infrastructure',
+      'Integration with national ID system critical for deduplication and fraud prevention',
+      'Multi-donor coordination requires dedicated platform governance',
+      'Blockchain verification builds trust with international partners',
+      'Crisis conditions require flexible, adaptive program design',
+    ],
+    keyMetrics: [
+      { label: 'Deployment Time', value: '6 weeks initial' },
+      { label: 'Payment Success Rate', value: '99.7%' },
+      { label: 'Fraud Prevention', value: '$127M saved' },
+      { label: 'IATI Compliance', value: '99.4%' },
+    ],
   },
-  {
-    id: 'wp-prometheus-blockchain',
-    title: 'Prometheus: Distributed Ledger for Public Finance Transparency',
-    description: 'Technical whitepaper on Prometheus v9.0 blockchain architecture, consensus mechanisms, and applications for government financial accountability.',
-    category: 'whitepaper',
-    date: '2025-11',
-    author: 'IVYAR Engineering',
-    pages: 62,
-    readTime: '60 min',
-    tags: ['blockchain', 'transparency', 'Ethereum L2', 'audit'],
-    featured: true,
+  poland: {
+    id: 'poland',
+    name: 'Poland',
+    flag: '🇵🇱',
+    region: 'Central Europe',
+    status: 'Active',
+    since: '2022',
+    population: '38M',
+    beneficiaries: '1.2M',
+    budget: '$890M',
+    programs: 12,
+    context: 'Largest refugee influx in EU history with 1.5M+ Ukrainian refugees. IVYAR deployed for cross-border coordination and refugee assistance management in partnership with government and UN agencies.',
+    implementationModel: 'Hybrid model with IVYAR operating alongside national systems. Focus on refugee registration, assistance coordination, and cross-border data sharing with Ukraine (with consent). Integration with ZUS (Social Insurance) for long-term integration support.',
+    governanceModel: 'Joint governance between Ministry of Family and Social Policy and UNHCR. Technical hosting in EU data center (Frankfurt) with Polish data residency for citizen data. Cross-border coordination protocols with Ukraine.',
+    keyPartners: ['UNHCR', 'EU DG ECHO', 'IOM', 'UNICEF', 'Polish Red Cross'],
+    lessonsLearned: [
+      'Cross-border data sharing requires robust consent management',
+      'Integration with EU systems (EURODAC) enables better coordination',
+      'Language support (Ukrainian, Polish, English) essential for user adoption',
+      'Hybrid model allows gradual integration with national systems',
+    ],
+    keyMetrics: [
+      { label: 'Refugees Registered', value: '1.2M' },
+      { label: 'Cross-border Sync', value: 'Real-time' },
+      { label: 'Processing Time', value: '-67%' },
+      { label: 'Partner Orgs', value: '47' },
+    ],
   },
-  {
-    id: 'wp-hbs-model',
-    title: 'Humanitarian Budget Support: A New Paradigm for Social Protection',
-    description: 'Research paper on the HBS model for delivering social protection at scale, including case studies from 24 countries and $7.8B in managed disbursements.',
-    category: 'whitepaper',
-    date: '2025-09',
-    author: 'IVYAR Policy Team',
-    pages: 36,
-    readTime: '35 min',
-    tags: ['HBS', 'social protection', 'cash transfers', 'development'],
+  germany: {
+    id: 'germany',
+    name: 'Germany',
+    flag: '🇩🇪',
+    region: 'Western Europe',
+    status: 'Active',
+    since: '2023',
+    population: '84M',
+    beneficiaries: '890K',
+    budget: '$1.1B',
+    programs: 8,
+    context: 'Federal system with 16 Länder required federated approach. IVYAR deployed for refugee benefit coordination across federal and state levels, ensuring consistent service delivery.',
+    implementationModel: 'Federated deployment respecting Länder autonomy. Central coordination layer with state-level instances. Integration with federal ID system and banking infrastructure. GDPR-compliant architecture certified by BSI.',
+    governanceModel: 'Federal-state coordination model. BAMF (Federal Migration Office) leads technical implementation. Each Land maintains operational autonomy with shared standards. Data protection oversight by BfDI.',
+    keyPartners: ['BAMF', 'Federal Ministry of Interior', 'GIZ', 'UNHCR Germany'],
+    lessonsLearned: [
+      'Federal systems require flexible, federated architecture',
+      'GDPR compliance must be built-in, not added later',
+      'German certification requirements (BSI) require significant preparation',
+      'Multi-level governance requires clear RACI matrices',
+    ],
+    keyMetrics: [
+      { label: 'Länder Connected', value: '16/16' },
+      { label: 'BSI Certification', value: 'Achieved' },
+      { label: 'Processing Efficiency', value: '+45%' },
+      { label: 'Data Quality', value: '98.2%' },
+    ],
   },
-  {
-    id: 'wp-crisis-anticipation',
-    title: 'Crisis Anticipation Engine: Predictive Analytics for Humanitarian Response',
-    description: 'Technical overview of the Crisis Anticipation Engine, combining 47 data sources with machine learning for 14-day early warning capabilities.',
-    category: 'whitepaper',
-    date: '2025-07',
-    author: 'IVYAR Data Science',
-    pages: 42,
-    readTime: '40 min',
-    tags: ['crisis', 'prediction', 'AI', 'early warning'],
+  georgia: {
+    id: 'georgia',
+    name: 'Georgia',
+    flag: '🇬🇪',
+    region: 'South Caucasus',
+    status: 'Active',
+    since: '2023',
+    population: '3.7M',
+    beneficiaries: '420K',
+    budget: '$156M',
+    programs: 24,
+    context: 'EU candidate country modernizing social protection systems. IVYAR deployed as comprehensive e-governance platform integrating social protection, procurement, and citizen services.',
+    implementationModel: 'Full national deployment with Social Service Agency as lead. Integration with national ID (electronic ID cards), Treasury single account, and e-Georgia portal. Supports EU accession alignment.',
+    governanceModel: 'Centralized under Ministry of IDPs, Labor, Health and Social Affairs. E-Governance Agency provides technical oversight. EU Delegation monitors alignment with EU standards.',
+    keyPartners: ['EU Delegation', 'World Bank', 'UNDP', 'GIZ'],
+    lessonsLearned: [
+      'EU accession provides strong alignment incentive',
+      'Smaller country enables faster, more agile deployment',
+      'Strong digital ID infrastructure accelerates implementation',
+      'Integration with existing e-governance portal improves adoption',
+    ],
+    keyMetrics: [
+      { label: 'Coverage', value: '94% eligible' },
+      { label: 'EU Alignment', value: '89%' },
+      { label: 'Digital Adoption', value: '78%' },
+      { label: 'Processing Time', value: '-52%' },
+    ],
   },
-  {
-    id: 'wp-digital-twin',
-    title: 'National Digital Twin: Modeling State-Level Decision Making',
-    description: 'Framework for creating digital replicas of national systems to simulate policy impacts before implementation.',
-    category: 'whitepaper',
-    date: '2025-05',
-    author: 'IVYAR Research',
-    pages: 38,
-    readTime: '35 min',
-    tags: ['digital twin', 'simulation', 'policy', 'modeling'],
+  moldova: {
+    id: 'moldova',
+    name: 'Moldova',
+    flag: '🇲🇩',
+    region: 'Eastern Europe',
+    status: 'Active',
+    since: '2023',
+    population: '2.6M',
+    beneficiaries: '380K',
+    budget: '$89M',
+    programs: 18,
+    context: 'EU candidate country with significant refugee population and ongoing reform agenda. IVYAR deployed to modernize social protection and support EU accession requirements.',
+    implementationModel: 'National deployment with Ministry of Labour and Social Protection. Integration with MPay (national payment system) and national registry. Supports both citizens and 100K+ Ukrainian refugees.',
+    governanceModel: 'Ministry-led with E-Governance Agency technical support. EU Delegation provides accession alignment oversight. UNDP supports capacity building.',
+    keyPartners: ['EU Delegation', 'UNDP', 'UNICEF', 'World Bank'],
+    lessonsLearned: [
+      'Refugee and citizen systems can be unified with proper design',
+      'Limited IT capacity requires strong partner support',
+      'Romanian language support essential for accessibility',
+      'EU funding mechanisms require specific reporting formats',
+    ],
+    keyMetrics: [
+      { label: 'Refugees Supported', value: '102K' },
+      { label: 'System Uptime', value: '99.8%' },
+      { label: 'EU Standards', value: '84%' },
+      { label: 'Cost Savings', value: '23%' },
+    ],
   },
-
-  // ========================================
-  // GOVERNANCE STANDARDS
-  // ========================================
-  {
-    id: 'std-data-governance',
-    title: 'IVYAR Data Governance Standard v3.0',
-    description: 'Comprehensive data governance framework covering data classification, access controls, retention policies, and cross-border data flows.',
-    category: 'standard',
-    date: '2026-01',
-    pages: 86,
-    tags: ['data', 'governance', 'GDPR', 'privacy'],
-    featured: true,
+  jordan: {
+    id: 'jordan',
+    name: 'Jordan',
+    flag: '🇯🇴',
+    region: 'Middle East',
+    status: 'Active',
+    since: '2024',
+    population: '11M',
+    beneficiaries: '680K',
+    budget: '$234M',
+    programs: 14,
+    context: 'Host to 680K+ registered Syrian refugees. IVYAR deployed to unify fragmented assistance delivery and enable better coordination between government and humanitarian actors.',
+    implementationModel: 'Hybrid humanitarian-development model. Integration with UNHCR proGres and NAF (National Aid Fund). Supports both camp-based and urban refugee populations. Mobile-first design for accessibility.',
+    governanceModel: 'Joint governance between Ministry of Social Development and UNHCR. Jordan Response Platform provides coordination. Data sharing agreements with humanitarian partners.',
+    keyPartners: ['UNHCR', 'WFP', 'UNICEF', 'USAID', 'EU MADAD'],
+    lessonsLearned: [
+      'Camp and urban contexts require different delivery modalities',
+      'Mobile-first essential in refugee contexts',
+      'Humanitarian-development nexus requires flexible systems',
+      'Arabic language and RTL support critical',
+    ],
+    keyMetrics: [
+      { label: 'Refugees Served', value: '680K' },
+      { label: 'Deduplication', value: '12K removed' },
+      { label: 'Mobile Usage', value: '89%' },
+      { label: 'Partner Integration', value: '23 orgs' },
+    ],
   },
-  {
-    id: 'std-api-governance',
-    title: 'API Governance & Integration Standards',
-    description: 'Standards for API design, versioning, security, rate limiting, and integration patterns for IVYAR platform extensions.',
-    category: 'standard',
-    date: '2025-10',
-    pages: 54,
-    tags: ['API', 'integration', 'security', 'standards'],
+  kenya: {
+    id: 'kenya',
+    name: 'Kenya',
+    flag: '🇰🇪',
+    region: 'East Africa',
+    status: 'Pilot',
+    since: '2024',
+    population: '54M',
+    beneficiaries: '145K',
+    budget: '$45M',
+    programs: 6,
+    context: 'Pilot deployment for public procurement transparency. Focus on county-level procurement with blockchain verification to reduce corruption and improve value for money.',
+    implementationModel: 'Pilot in 3 counties (Nairobi, Mombasa, Kisumu) with Public Procurement Regulatory Authority. Integration with IFMIS (government financial system). Expansion to national level planned.',
+    governanceModel: 'National Treasury oversight with PPRA operational lead. County governments maintain procurement autonomy. Civil society monitoring through open data portal.',
+    keyPartners: ['World Bank', 'DFID/FCDO', 'Open Contracting Partnership', 'Transparency International Kenya'],
+    lessonsLearned: [
+      'Procurement transparency generates strong political support',
+      'Civil society engagement increases accountability',
+      'County-level pilots enable learning before scale',
+      'OCDS compliance attracts international partners',
+    ],
+    keyMetrics: [
+      { label: 'Contracts Published', value: '2,340' },
+      { label: 'Corruption Indicators', value: '-67%' },
+      { label: 'Competition', value: '+52%' },
+      { label: 'Cost Savings', value: '18%' },
+    ],
   },
-  {
-    id: 'std-procurement',
-    title: 'Public Procurement Governance Framework',
-    description: 'Standards for transparent procurement processes, bid evaluation criteria, contract management, and anti-corruption measures.',
-    category: 'standard',
-    date: '2025-08',
-    pages: 72,
-    tags: ['procurement', 'transparency', 'anti-corruption', 'OCDS'],
+  ethiopia: {
+    id: 'ethiopia',
+    name: 'Ethiopia',
+    flag: '🇪🇹',
+    region: 'East Africa',
+    status: 'Pilot',
+    since: '2024',
+    population: '120M',
+    beneficiaries: '2.1M',
+    budget: '$320M',
+    programs: 4,
+    context: 'Integration with PSNP (Productive Safety Net Program), Africa\'s largest social protection program. Pilot focuses on payment digitization and beneficiary management modernization.',
+    implementationModel: 'Integration layer over existing PSNP systems. Focus on payment digitization through mobile money and bank accounts. Gradual expansion of platform capabilities. Offline-first design for rural areas.',
+    governanceModel: 'Ministry of Agriculture (PSNP lead) with World Bank supervision. Regional state coordination for implementation. Food Security Coordination Directorate provides oversight.',
+    keyPartners: ['World Bank', 'WFP', 'USAID', 'EU', 'DFID/FCDO'],
+    lessonsLearned: [
+      'Integration with existing systems more feasible than replacement',
+      'Offline functionality essential for rural coverage',
+      'Mobile money infrastructure enables payment modernization',
+      'Scale (8M beneficiaries) requires phased approach',
+    ],
+    keyMetrics: [
+      { label: 'Payment Digitization', value: '34%' },
+      { label: 'Targeting Accuracy', value: '+23%' },
+      { label: 'Payment Time', value: '-45%' },
+      { label: 'Leakage Reduction', value: '31%' },
+    ],
   },
-  {
-    id: 'std-beneficiary',
-    title: 'Beneficiary Data Protection Standard',
-    description: 'Privacy-preserving standards for handling sensitive beneficiary information in social protection programs.',
-    category: 'standard',
-    date: '2025-06',
-    pages: 48,
-    tags: ['privacy', 'beneficiary', 'protection', 'PII'],
-  },
-  {
-    id: 'std-interoperability',
-    title: 'Government Systems Interoperability Standard',
-    description: 'Technical standards for integrating IVYAR with national ID systems, treasury management, and social registries.',
-    category: 'standard',
-    date: '2025-04',
-    pages: 64,
-    tags: ['interoperability', 'integration', 'government', 'X-Road'],
-  },
-  {
-    id: 'std-iati-implementation',
-    title: 'IATI 2.03 Implementation Guide',
-    description: 'Complete guide for achieving IATI compliance, including data mapping, validation rules, and reporting workflows.',
-    category: 'standard',
-    date: '2025-03',
-    pages: 42,
-    tags: ['IATI', 'transparency', 'reporting', 'donors'],
-  },
-
-  // ========================================
-  // ETHICAL FRAMEWORK
-  // ========================================
-  {
-    id: 'eth-core-charter',
-    title: 'IVYAR Ethical Charter v2.0',
-    description: 'Foundational ethical principles governing all IVYAR operations: zero harm, non-discrimination, transparency, human oversight, and accountability.',
-    category: 'ethics',
-    date: '2026-01',
-    pages: 28,
-    tags: ['ethics', 'charter', 'principles', 'values'],
-    featured: true,
-  },
-  {
-    id: 'eth-ai-governance',
-    title: 'Ethical AI Governance Framework',
-    description: 'Comprehensive framework for developing, deploying, and monitoring AI systems in humanitarian and government contexts.',
-    category: 'ethics',
-    date: '2025-11',
-    pages: 56,
-    tags: ['AI ethics', 'governance', 'bias', 'fairness'],
-  },
-  {
-    id: 'eth-human-oversight',
-    title: 'Human-in-the-Loop: Oversight Protocols for AI Systems',
-    description: 'Detailed protocols for maintaining human oversight over AI-driven decisions, including escalation procedures and override mechanisms.',
-    category: 'ethics',
-    date: '2025-09',
-    pages: 34,
-    tags: ['human oversight', 'AI', 'control', 'safety'],
-  },
-  {
-    id: 'eth-bias-mitigation',
-    title: 'Bias Detection & Mitigation Guidelines',
-    description: 'Technical and procedural guidelines for identifying, measuring, and mitigating algorithmic bias in IVYAR systems.',
-    category: 'ethics',
-    date: '2025-07',
-    pages: 46,
-    tags: ['bias', 'fairness', 'ML', 'discrimination'],
-  },
-  {
-    id: 'eth-data-ethics',
-    title: 'Data Ethics in Humanitarian Operations',
-    description: 'Ethical considerations for collecting, processing, and sharing data about vulnerable populations.',
-    category: 'ethics',
-    date: '2025-05',
-    pages: 38,
-    tags: ['data ethics', 'humanitarian', 'consent', 'privacy'],
-  },
-  {
-    id: 'eth-ess-protocols',
-    title: 'Emergency Stop System (ESS) Protocols',
-    description: 'Technical documentation for ESS implementation, including trigger conditions, response procedures, and recovery processes.',
-    category: 'ethics',
-    date: '2025-04',
-    pages: 24,
-    tags: ['ESS', 'safety', 'emergency', 'shutdown'],
-  },
-
-  // ========================================
-  // AUDIT & COMPLIANCE
-  // ========================================
-  {
-    id: 'aud-iso27001-cert',
-    title: 'ISO 27001:2022 Certification Report',
-    description: 'External audit report confirming IVYAR platform compliance with ISO 27001 information security management standards.',
-    category: 'audit',
-    date: '2025-12',
-    author: 'Deloitte',
-    pages: 124,
-    tags: ['ISO 27001', 'security', 'certification', 'audit'],
-    featured: true,
-  },
-  {
-    id: 'aud-soc2-report',
-    title: 'SOC 2 Type II Attestation Report',
-    description: 'Independent attestation report on security, availability, processing integrity, confidentiality, and privacy controls.',
-    category: 'audit',
-    date: '2025-11',
-    author: 'KPMG',
-    pages: 186,
-    tags: ['SOC 2', 'controls', 'attestation', 'security'],
-  },
-  {
-    id: 'aud-gdpr-assessment',
-    title: 'GDPR Compliance Assessment',
-    description: 'Comprehensive assessment of IVYAR GDPR compliance including data processing activities, legal bases, and rights fulfillment.',
-    category: 'audit',
-    date: '2025-09',
-    author: 'DLA Piper',
-    pages: 78,
-    tags: ['GDPR', 'privacy', 'compliance', 'EU'],
-  },
-  {
-    id: 'aud-penetration-test',
-    title: 'Q4 2025 Penetration Testing Report',
-    description: 'Quarterly security assessment including vulnerability scanning, penetration testing, and remediation recommendations.',
-    category: 'audit',
-    date: '2025-12',
-    author: 'NCC Group',
-    pages: 92,
-    tags: ['security', 'pentest', 'vulnerability', 'assessment'],
-  },
-  {
-    id: 'aud-blockchain-audit',
-    title: 'Prometheus Smart Contract Audit',
-    description: 'Independent security audit of Prometheus blockchain smart contracts by leading blockchain security firm.',
-    category: 'audit',
-    date: '2025-10',
-    author: 'Trail of Bits',
-    pages: 64,
-    tags: ['blockchain', 'smart contract', 'security', 'audit'],
-  },
-  {
-    id: 'aud-ethics-review',
-    title: 'Annual Ethical AI Review 2025',
-    description: 'Independent review of AI systems ethics compliance, bias assessments, and human oversight effectiveness.',
-    category: 'audit',
-    date: '2025-12',
-    author: 'Ada Lovelace Institute',
-    pages: 56,
-    tags: ['AI ethics', 'review', 'bias', 'oversight'],
-  },
-  {
-    id: 'aud-compliance-guide',
-    title: 'Regulatory Compliance Guide',
-    description: 'Comprehensive guide to regulatory requirements across jurisdictions including EU, US, UK, and partner countries.',
-    category: 'audit',
-    date: '2025-08',
-    pages: 148,
-    tags: ['compliance', 'regulatory', 'legal', 'international'],
-  },
-
-  // ========================================
-  // CASE STUDIES
-  // ========================================
-  {
-    id: 'cs-ukraine-idp',
-    title: 'Ukraine IDP Cash Assistance Program',
-    description: 'How IVYAR enabled rapid deployment of cash assistance to 2.1 million internally displaced persons within 6 weeks.',
-    category: 'case-study',
-    date: '2025-11',
-    readTime: '12 min',
-    tags: ['Ukraine', 'IDP', 'cash transfer', 'emergency'],
-    featured: true,
-    country: 'Ukraine',
-    countryFlag: '🇺🇦',
-  },
-  {
-    id: 'cs-jordan-refugees',
-    title: 'Jordan Refugee Social Protection Integration',
-    description: 'Integration of UNHCR refugee data with national social protection system serving 680,000 Syrian refugees.',
-    category: 'case-study',
-    date: '2025-09',
-    readTime: '15 min',
-    tags: ['Jordan', 'refugees', 'UNHCR', 'integration'],
-    country: 'Jordan',
-    countryFlag: '🇯🇴',
-  },
-  {
-    id: 'cs-kenya-procurement',
-    title: 'Kenya Public Procurement Transparency Initiative',
-    description: 'Blockchain-verified procurement reducing corruption indicators by 67% across 12 government ministries.',
-    category: 'case-study',
-    date: '2025-07',
-    readTime: '10 min',
-    tags: ['Kenya', 'procurement', 'anti-corruption', 'blockchain'],
-    country: 'Kenya',
-    countryFlag: '🇰🇪',
-  },
-  {
-    id: 'cs-bangladesh-flood',
-    title: 'Bangladesh Flood Response: Crisis Anticipation in Action',
-    description: 'How 14-day early warning enabled pre-positioning of resources, reducing response time by 56%.',
-    category: 'case-study',
-    date: '2025-05',
-    readTime: '8 min',
-    tags: ['Bangladesh', 'flood', 'crisis', 'early warning'],
-    country: 'Bangladesh',
-    countryFlag: '🇧🇩',
-  },
-  {
-    id: 'cs-colombia-peace',
-    title: 'Colombia Post-Conflict Reintegration Program',
-    description: 'Supporting reintegration of 13,000 ex-combatants through targeted social protection and skills training.',
-    category: 'case-study',
-    date: '2025-03',
-    readTime: '14 min',
-    tags: ['Colombia', 'peace', 'reintegration', 'social protection'],
-    country: 'Colombia',
-    countryFlag: '🇨🇴',
-  },
-  {
-    id: 'cs-morocco-digital',
-    title: 'Morocco Digital Social Registry',
-    description: 'Building a unified social registry covering 11 million households for targeted social protection.',
-    category: 'case-study',
-    date: '2025-01',
-    readTime: '11 min',
-    tags: ['Morocco', 'registry', 'digital', 'social protection'],
-    country: 'Morocco',
-    countryFlag: '🇲🇦',
-  },
-
-  // ========================================
-  // COUNTRY DEPLOYMENT STORIES
-  // ========================================
-  {
-    id: 'dep-ukraine',
-    title: 'Ukraine: National Scale HBS Deployment',
-    description: 'Full deployment story of IVYAR HBS in Ukraine, managing $4.2B in social protection across all 24 oblasts with 9.6M beneficiaries.',
-    category: 'deployment',
-    date: '2025-12',
-    readTime: '20 min',
-    tags: ['Ukraine', 'national', 'HBS', 'scale'],
-    featured: true,
-    country: 'Ukraine',
-    countryFlag: '🇺🇦',
-  },
-  {
-    id: 'dep-poland',
-    title: 'Poland: Cross-Border Humanitarian Coordination',
-    description: 'Coordinating refugee response across Poland-Ukraine border with real-time data sharing between 47 organizations.',
-    category: 'deployment',
-    date: '2025-10',
-    readTime: '15 min',
-    tags: ['Poland', 'coordination', 'refugees', 'border'],
-    country: 'Poland',
-    countryFlag: '🇵🇱',
-  },
-  {
-    id: 'dep-germany',
-    title: 'Germany: Federal Integration Program',
-    description: 'Integration of IVYAR with German federal systems for refugee benefit administration across 16 Länder.',
-    category: 'deployment',
-    date: '2025-08',
-    readTime: '18 min',
-    tags: ['Germany', 'federal', 'integration', 'refugees'],
-    country: 'Germany',
-    countryFlag: '🇩🇪',
-  },
-  {
-    id: 'dep-georgia',
-    title: 'Georgia: Digital Government Transformation',
-    description: 'Comprehensive e-governance deployment integrating social protection, procurement, and citizen services.',
-    category: 'deployment',
-    date: '2025-06',
-    readTime: '14 min',
-    tags: ['Georgia', 'e-governance', 'digital', 'transformation'],
-    country: 'Georgia',
-    countryFlag: '🇬🇪',
-  },
-  {
-    id: 'dep-moldova',
-    title: 'Moldova: EU Accession Alignment',
-    description: 'Aligning Moldovan social protection systems with EU standards using IVYAR governance framework.',
-    category: 'deployment',
-    date: '2025-04',
-    readTime: '12 min',
-    tags: ['Moldova', 'EU', 'alignment', 'standards'],
-    country: 'Moldova',
-    countryFlag: '🇲🇩',
-  },
-  {
-    id: 'dep-albania',
-    title: 'Albania: Post-Earthquake Recovery Program',
-    description: 'Rapid deployment supporting 45,000 households affected by 2019 earthquake through reconstruction assistance.',
-    category: 'deployment',
-    date: '2025-02',
-    readTime: '10 min',
-    tags: ['Albania', 'recovery', 'earthquake', 'reconstruction'],
-    country: 'Albania',
-    countryFlag: '🇦🇱',
-  },
-  {
-    id: 'dep-ethiopia',
-    title: 'Ethiopia: Productive Safety Net Program Integration',
-    description: 'Integration with Ethiopia PSNP, the largest social protection program in Africa serving 8 million beneficiaries.',
-    category: 'deployment',
-    date: '2024-12',
-    readTime: '16 min',
-    tags: ['Ethiopia', 'PSNP', 'Africa', 'scale'],
-    country: 'Ethiopia',
-    countryFlag: '🇪🇹',
-  },
-  {
-    id: 'dep-indonesia',
-    title: 'Indonesia: PKH Program Digitization',
-    description: 'Digital transformation of Indonesia\'s flagship conditional cash transfer program reaching 10 million families.',
-    category: 'deployment',
-    date: '2024-10',
-    readTime: '14 min',
-    tags: ['Indonesia', 'PKH', 'digital', 'CCT'],
-    country: 'Indonesia',
-    countryFlag: '🇮🇩',
-  },
-];
-
-// Update category counts
-CATEGORIES.forEach(cat => {
-  if (cat.id === 'all') {
-    cat.count = RESOURCES.length;
-  } else {
-    cat.count = RESOURCES.filter(r => r.category === cat.id).length;
-  }
-});
-
-const CATEGORY_COLORS: Record<ResourceCategory, string> = {
-  'whitepaper': '#00A3FF',
-  'standard': '#A371F7',
-  'ethics': '#3CCB7F',
-  'audit': '#F59E0B',
-  'case-study': '#EC4899',
-  'deployment': '#06B6D4',
 };
+
+// ============================================
+// OFFICIAL PACKS DATA
+// ============================================
+const OFFICIAL_PACKS: Record<PackId, {
+  id: PackId;
+  title: string;
+  subtitle: string;
+  icon: string;
+  color: string;
+  description: string;
+  audience: string[];
+  documents: { name: string; type: string; pages: number; description: string }[];
+  useCases: string[];
+}> = {
+  government: {
+    id: 'government',
+    title: 'Government Briefing Pack',
+    subtitle: 'Executive Decision Support',
+    icon: '🏛️',
+    color: '#A371F7',
+    description: 'Comprehensive materials for government officials considering or implementing IVYAR. Includes executive summaries, policy briefs, and implementation roadmaps.',
+    audience: ['Ministers', 'Deputy Ministers', 'State Secretaries', 'Senior Policy Advisors', 'Cabinet Members'],
+    documents: [
+      { name: 'Executive Summary: IVYAR Platform v10.0', type: 'PDF', pages: 8, description: 'High-level overview for decision makers' },
+      { name: 'Policy Brief: Sovereign Intelligence for Social Protection', type: 'PDF', pages: 12, description: 'Policy implications and opportunities' },
+      { name: 'Implementation Roadmap Template', type: 'DOCX', pages: 24, description: 'Customizable national implementation plan' },
+      { name: 'Business Case Template', type: 'XLSX', pages: 1, description: 'ROI calculator and cost-benefit analysis' },
+      { name: 'Stakeholder Engagement Guide', type: 'PDF', pages: 16, description: 'Managing political and institutional dynamics' },
+      { name: 'Ministerial Presentation Deck', type: 'PPTX', pages: 32, description: 'Ready-to-use Cabinet presentation' },
+      { name: 'FAQ for Government Officials', type: 'PDF', pages: 10, description: 'Answers to common questions' },
+      { name: 'Country Case Studies Compilation', type: 'PDF', pages: 48, description: 'Lessons from 24+ deployments' },
+    ],
+    useCases: [
+      'National social protection reform',
+      'Post-crisis humanitarian response',
+      'Digital government transformation',
+      'EU accession preparation',
+      'Donor coordination improvement',
+    ],
+  },
+  donor: {
+    id: 'donor',
+    title: 'Donor Pack',
+    subtitle: 'Development Partner Resources',
+    icon: '🤝',
+    color: '#EC4899',
+    description: 'Materials for international donors, UN agencies, and development partners evaluating IVYAR for funding, integration, or coordination.',
+    audience: ['UN Agency Representatives', 'World Bank Teams', 'Bilateral Donors', 'EU Delegation Officers', 'Foundation Program Officers'],
+    documents: [
+      { name: 'Donor Overview: IVYAR Platform v10.0', type: 'PDF', pages: 16, description: 'Comprehensive donor-focused introduction' },
+      { name: 'IATI 2.03 Compliance Documentation', type: 'PDF', pages: 24, description: 'Transparency standard alignment' },
+      { name: 'Funding Tracking & Reporting Guide', type: 'PDF', pages: 20, description: 'How IVYAR tracks donor contributions' },
+      { name: 'Multi-Donor Coordination Framework', type: 'PDF', pages: 18, description: 'Avoiding duplication and gaps' },
+      { name: 'Impact Measurement Framework', type: 'PDF', pages: 28, description: 'KPIs, outcomes, and evaluation' },
+      { name: 'Due Diligence Checklist', type: 'XLSX', pages: 1, description: 'Standard assessment criteria' },
+      { name: 'Fiduciary Risk Assessment', type: 'PDF', pages: 14, description: 'Financial management controls' },
+      { name: 'Integration Options Guide', type: 'PDF', pages: 22, description: 'API, data sharing, and system integration' },
+    ],
+    useCases: [
+      'Program funding decisions',
+      'Technical assistance design',
+      'Monitoring and evaluation',
+      'Multi-donor coordination',
+      'Results-based financing',
+    ],
+  },
+  technical: {
+    id: 'technical',
+    title: 'Technical Pack',
+    subtitle: 'Architecture & Implementation',
+    icon: '💻',
+    color: '#00A3FF',
+    description: 'Deep technical documentation for IT teams, architects, and engineers responsible for deploying, integrating, and maintaining IVYAR.',
+    audience: ['IT Directors', 'Solution Architects', 'DevOps Engineers', 'Security Officers', 'Database Administrators'],
+    documents: [
+      { name: 'Technical Architecture Document v10.0', type: 'PDF', pages: 86, description: 'Complete system architecture' },
+      { name: 'API Reference (OpenAPI 3.1)', type: 'YAML', pages: 1, description: 'Full API specification' },
+      { name: 'Deployment Guide: Cloud', type: 'PDF', pages: 42, description: 'AWS/GCP/Azure deployment' },
+      { name: 'Deployment Guide: On-Premise', type: 'PDF', pages: 56, description: 'Air-gapped and hybrid options' },
+      { name: 'Integration Patterns Catalog', type: 'PDF', pages: 38, description: 'Common integration scenarios' },
+      { name: 'Security Architecture & Controls', type: 'PDF', pages: 64, description: 'Security design and implementation' },
+      { name: 'Database Schema Documentation', type: 'PDF', pages: 48, description: 'Data model and relationships' },
+      { name: 'Performance Tuning Guide', type: 'PDF', pages: 32, description: 'Optimization best practices' },
+      { name: 'Disaster Recovery Playbook', type: 'PDF', pages: 28, description: 'BC/DR procedures' },
+      { name: 'Monitoring & Alerting Setup', type: 'PDF', pages: 24, description: 'Observability stack configuration' },
+    ],
+    useCases: [
+      'National deployment planning',
+      'System integration design',
+      'Security assessment preparation',
+      'Performance optimization',
+      'Disaster recovery planning',
+    ],
+  },
+  legal: {
+    id: 'legal',
+    title: 'Legal & Ethics Pack',
+    subtitle: 'Compliance & Governance',
+    icon: '⚖️',
+    color: '#3CCB7F',
+    description: 'Legal frameworks, ethical guidelines, and compliance documentation for legal teams, data protection officers, and ethics committees.',
+    audience: ['Legal Counsel', 'Data Protection Officers', 'Ethics Committee Members', 'Compliance Officers', 'Procurement Officers'],
+    documents: [
+      { name: 'IVYAR Ethical Charter v2.0', type: 'PDF', pages: 28, description: 'Core ethical principles and commitments' },
+      { name: 'Data Processing Agreement Template', type: 'DOCX', pages: 18, description: 'GDPR-compliant DPA' },
+      { name: 'Privacy Impact Assessment', type: 'PDF', pages: 42, description: 'DPIA for IVYAR deployment' },
+      { name: 'AI Governance Framework', type: 'PDF', pages: 36, description: 'Ethical AI guidelines and controls' },
+      { name: 'Human Oversight Protocols', type: 'PDF', pages: 24, description: 'HITL requirements and procedures' },
+      { name: 'Compliance Matrix (UN/EU/USAID/WB)', type: 'XLSX', pages: 1, description: 'Standard-by-standard alignment' },
+      { name: 'Terms of Service Template', type: 'DOCX', pages: 22, description: 'Customizable ToS' },
+      { name: 'Procurement Documentation Pack', type: 'ZIP', pages: 0, description: 'RFP/RFI templates and responses' },
+      { name: 'Insurance & Liability Framework', type: 'PDF', pages: 16, description: 'Risk allocation and coverage' },
+    ],
+    useCases: [
+      'Legal due diligence',
+      'Contract negotiation',
+      'Data protection compliance',
+      'Ethics committee review',
+      'Procurement process',
+    ],
+  },
+};
+
+// ============================================
+// USE CASE LIBRARY DATA
+// ============================================
+const USE_CASE_SECTORS: Record<SectorId, {
+  id: SectorId;
+  title: string;
+  icon: string;
+  color: string;
+  description: string;
+  useCases: {
+    title: string;
+    country: string;
+    flag: string;
+    challenge: string;
+    solution: string;
+    outcomes: string[];
+    metrics: { label: string; value: string }[];
+  }[];
+}> = {
+  health: {
+    id: 'health',
+    title: 'Health',
+    icon: '🏥',
+    color: '#F85149',
+    description: 'Healthcare system support, medical supply chain, health insurance, and pandemic response.',
+    useCases: [
+      {
+        title: 'Medical Supply Chain Optimization',
+        country: 'Ukraine',
+        flag: '🇺🇦',
+        challenge: 'Fragmented medical supply distribution to frontline hospitals with 40% wastage and frequent stockouts.',
+        solution: 'IVYAR Logistics Engine with predictive demand modeling, real-time inventory tracking, and optimized routing for medical supplies.',
+        outcomes: [
+          'Reduced wastage from 40% to 8%',
+          'Eliminated critical stockouts',
+          'Real-time visibility across 340 facilities',
+          'Automated reorder triggers',
+        ],
+        metrics: [
+          { label: 'Wastage Reduction', value: '80%' },
+          { label: 'Delivery Time', value: '-45%' },
+          { label: 'Cost Savings', value: '$23M/year' },
+        ],
+      },
+      {
+        title: 'Health Insurance Registry',
+        country: 'Georgia',
+        flag: '🇬🇪',
+        challenge: 'Fragmented health insurance coverage data preventing effective universal health coverage planning.',
+        solution: 'Unified health insurance registry integrated with social protection data for gap analysis and targeted enrollment.',
+        outcomes: [
+          'Single view of coverage across providers',
+          'Identified 180K uninsured vulnerable households',
+          'Automated eligibility for subsidized insurance',
+        ],
+        metrics: [
+          { label: 'Coverage Visibility', value: '98%' },
+          { label: 'New Enrollments', value: '145K' },
+          { label: 'Processing Time', value: '-67%' },
+        ],
+      },
+    ],
+  },
+  education: {
+    id: 'education',
+    title: 'Education',
+    icon: '🎓',
+    color: '#F59E0B',
+    description: 'Education grants, school feeding programs, scholarship management, and education emergency response.',
+    useCases: [
+      {
+        title: 'Education Emergency Cash Grants',
+        country: 'Ukraine',
+        flag: '🇺🇦',
+        challenge: 'Displaced children unable to access education due to lack of supplies, uniforms, and technology.',
+        solution: 'Targeted education cash grants to IDP families with school-age children, verified through school enrollment data.',
+        outcomes: [
+          '890K children received education support',
+          'Integration with school registry for verification',
+          'Seasonal disbursements aligned with school year',
+        ],
+        metrics: [
+          { label: 'Children Supported', value: '890K' },
+          { label: 'School Enrollment', value: '+23%' },
+          { label: 'Grant Utilization', value: '94%' },
+        ],
+      },
+      {
+        title: 'Scholarship Management System',
+        country: 'Jordan',
+        flag: '🇯🇴',
+        challenge: 'Multiple scholarship programs for refugees with no unified tracking, leading to duplication and gaps.',
+        solution: 'Unified scholarship registry across UNHCR, UNICEF, and bilateral programs with shared eligibility assessment.',
+        outcomes: [
+          'Single application for all scholarship programs',
+          'Eliminated duplicate awards',
+          'Merit-based allocation algorithm',
+        ],
+        metrics: [
+          { label: 'Programs Unified', value: '12' },
+          { label: 'Duplicates Removed', value: '4.2K' },
+          { label: 'Processing Time', value: '-78%' },
+        ],
+      },
+    ],
+  },
+  social: {
+    id: 'social',
+    title: 'Social Protection',
+    icon: '🛡️',
+    color: '#A371F7',
+    description: 'Cash transfers, social assistance, pension management, disability support, and family benefits.',
+    useCases: [
+      {
+        title: 'National Cash Transfer Program',
+        country: 'Ukraine',
+        flag: '🇺🇦',
+        challenge: 'Emergency cash assistance needed for 9.6M beneficiaries across 192 programs with multiple funding sources.',
+        solution: 'IVYAR HBS Core as national platform for all social protection payments with blockchain-verified transactions.',
+        outcomes: [
+          'Unified platform for all programs',
+          '$4.2B disbursed with full traceability',
+          '99.7% payment success rate',
+          'Multi-donor funding coordination',
+        ],
+        metrics: [
+          { label: 'Beneficiaries', value: '9.6M' },
+          { label: 'Programs', value: '192' },
+          { label: 'Payment Success', value: '99.7%' },
+          { label: 'Fraud Prevented', value: '$127M' },
+        ],
+      },
+      {
+        title: 'Disability Benefit Modernization',
+        country: 'Moldova',
+        flag: '🇲🇩',
+        challenge: 'Paper-based disability assessment causing delays, inconsistency, and accessibility barriers.',
+        solution: 'Digital disability assessment workflow with standardized criteria, appeal management, and accessible interfaces.',
+        outcomes: [
+          'Reduced assessment time from 45 to 12 days',
+          'Consistent application of criteria',
+          'Accessible portal for applicants',
+        ],
+        metrics: [
+          { label: 'Processing Time', value: '-73%' },
+          { label: 'Appeal Rate', value: '-34%' },
+          { label: 'Satisfaction', value: '87%' },
+        ],
+      },
+    ],
+  },
+  reconstruction: {
+    id: 'reconstruction',
+    title: 'Reconstruction',
+    icon: '🏗️',
+    color: '#00A3FF',
+    description: 'Post-conflict and post-disaster reconstruction, housing assistance, and infrastructure restoration.',
+    useCases: [
+      {
+        title: 'Housing Damage Compensation',
+        country: 'Ukraine',
+        flag: '🇺🇦',
+        challenge: 'Massive housing damage from conflict with no systematic assessment or compensation mechanism.',
+        solution: 'Digital housing damage registry with satellite verification, AI-assisted assessment, and compensation workflow.',
+        outcomes: [
+          '2.3M properties assessed',
+          'Satellite imagery integration for verification',
+          'Tiered compensation based on damage level',
+          'Blockchain-recorded disbursements',
+        ],
+        metrics: [
+          { label: 'Properties Assessed', value: '2.3M' },
+          { label: 'Compensation Paid', value: '$890M' },
+          { label: 'Assessment Accuracy', value: '94%' },
+        ],
+      },
+      {
+        title: 'Post-Earthquake Recovery',
+        country: 'Albania',
+        flag: '🇦🇱',
+        challenge: '2019 earthquake left 45,000 households needing reconstruction assistance with limited coordination.',
+        solution: 'Integrated reconstruction management platform linking damage assessment, beneficiary registry, contractor management, and disbursement.',
+        outcomes: [
+          'Unified registry of affected households',
+          'Contractor performance tracking',
+          'Progress-based payment releases',
+        ],
+        metrics: [
+          { label: 'Households Supported', value: '45K' },
+          { label: 'Reconstruction Rate', value: '87%' },
+          { label: 'Cost Overruns', value: '-23%' },
+        ],
+      },
+    ],
+  },
+  procurement: {
+    id: 'procurement',
+    title: 'Procurement',
+    icon: '📋',
+    color: '#3CCB7F',
+    description: 'Public procurement, tender management, contract monitoring, and anti-corruption measures.',
+    useCases: [
+      {
+        title: 'Transparent Public Procurement',
+        country: 'Kenya',
+        flag: '🇰🇪',
+        challenge: 'Procurement corruption estimated at 30% of public spending with limited transparency and competition.',
+        solution: 'Blockchain-verified procurement platform with open data, automated bid evaluation, and contract monitoring.',
+        outcomes: [
+          'All tenders published openly (OCDS compliant)',
+          'Automated bid evaluation reduces manipulation',
+          'Contract performance tracking',
+          'Civil society monitoring access',
+        ],
+        metrics: [
+          { label: 'Corruption Indicators', value: '-67%' },
+          { label: 'Competition', value: '+52%' },
+          { label: 'Cost Savings', value: '18%' },
+          { label: 'Contracts Published', value: '2,340' },
+        ],
+      },
+      {
+        title: 'Humanitarian Procurement Coordination',
+        country: 'Jordan',
+        flag: '🇯🇴',
+        challenge: 'Multiple humanitarian agencies procuring similar items without coordination, losing bulk pricing benefits.',
+        solution: 'Joint procurement platform enabling agencies to combine requirements and share framework contracts.',
+        outcomes: [
+          'Consolidated procurement across 15 agencies',
+          'Framework contracts for common items',
+          'Shared supplier database',
+        ],
+        metrics: [
+          { label: 'Agencies Participating', value: '15' },
+          { label: 'Cost Savings', value: '24%' },
+          { label: 'Lead Time', value: '-38%' },
+        ],
+      },
+    ],
+  },
+  crisis: {
+    id: 'crisis',
+    title: 'Crisis Response',
+    icon: '🚨',
+    color: '#F85149',
+    description: 'Emergency response, early warning, disaster management, and humanitarian coordination.',
+    useCases: [
+      {
+        title: 'Flood Early Warning & Response',
+        country: 'Bangladesh',
+        flag: '🇧🇩',
+        challenge: 'Annual flooding affects millions with limited advance warning and slow response mobilization.',
+        solution: 'Crisis Anticipation Engine integrating satellite, weather, and ground sensor data for 14-day flood prediction.',
+        outcomes: [
+          '14-day advance warning capability',
+          'Automated resource pre-positioning triggers',
+          'Beneficiary notification system',
+          'Response coordination dashboard',
+        ],
+        metrics: [
+          { label: 'Warning Lead Time', value: '14 days' },
+          { label: 'Prediction Accuracy', value: '89%' },
+          { label: 'Response Time', value: '-56%' },
+          { label: 'Lives Protected', value: '2.3M' },
+        ],
+      },
+      {
+        title: 'IDP Emergency Registration',
+        country: 'Ukraine',
+        flag: '🇺🇦',
+        challenge: 'Massive displacement requiring rapid registration and assistance delivery in conflict conditions.',
+        solution: 'Mobile-first IDP registration with offline capability, biometric verification, and immediate assistance linkage.',
+        outcomes: [
+          '2.1M IDPs registered in 6 weeks',
+          'Offline registration in affected areas',
+          'Same-day assistance activation',
+          'Family reunification support',
+        ],
+        metrics: [
+          { label: 'Registration Time', value: '6 weeks' },
+          { label: 'IDPs Registered', value: '2.1M' },
+          { label: 'Assistance Activation', value: '<24hrs' },
+          { label: 'Deduplication', value: '99.4%' },
+        ],
+      },
+    ],
+  },
+};
+
+// ============================================
+// META DOCUMENTS DATA
+// ============================================
+const META_DOCUMENTS = [
+  {
+    id: 'concept-paper',
+    title: 'HBS v10.0 Concept Paper',
+    subtitle: 'The Unified Vision',
+    icon: '📄',
+    color: '#00A3FF',
+    description: 'The definitive document explaining the HBS v10.0 "Sovereign Intelligence" vision, architecture, and roadmap. Synthesizes all platform components into a coherent strategic narrative.',
+    pages: 64,
+    sections: [
+      'Executive Summary',
+      'Problem Statement: Global Social Protection Challenges',
+      'Solution: Humanitarian Budget Support Model',
+      'Platform Architecture v10.0',
+      'Sovereign Intelligence Layer',
+      'Ethical Core & Human Oversight',
+      'Implementation Approach',
+      'Governance Framework',
+      'International Standards Alignment',
+      'Roadmap & Future Vision',
+    ],
+  },
+  {
+    id: 'ethical-framework',
+    title: 'Ethical & Sovereign Intelligence Framework',
+    subtitle: 'AI Governance for Nation States',
+    icon: '🛡️',
+    color: '#A371F7',
+    description: 'Comprehensive framework for ethical AI deployment in government contexts. Defines principles, boundaries, oversight mechanisms, and accountability structures.',
+    pages: 48,
+    sections: [
+      'Foundational Principles',
+      'Ethical Boundaries & Red Lines',
+      'Human Oversight Requirements',
+      'AI Decision Classification',
+      'Emergency Stop System (ESS)',
+      'Bias Detection & Mitigation',
+      'Transparency & Explainability',
+      'Accountability Framework',
+      'Audit & Compliance',
+      'Continuous Improvement',
+    ],
+  },
+  {
+    id: 'deployment-framework',
+    title: 'State Deployment Framework',
+    subtitle: 'National Implementation Guide',
+    icon: '🚀',
+    color: '#3CCB7F',
+    description: 'Step-by-step framework for national IVYAR deployment. Covers assessment, planning, implementation, and sustainability across all government contexts.',
+    pages: 72,
+    sections: [
+      'Readiness Assessment',
+      'Stakeholder Mapping',
+      'Governance Design',
+      'Technical Architecture Selection',
+      'Data Migration Strategy',
+      'Integration Planning',
+      'Change Management',
+      'Training & Capacity Building',
+      'Phased Rollout',
+      'Sustainability Planning',
+    ],
+  },
+  {
+    id: 'alignment-statement',
+    title: 'International Alignment Statement',
+    subtitle: 'Global Standards Compliance',
+    icon: '🌐',
+    color: '#EC4899',
+    description: 'Official statement on IVYAR alignment with international standards, frameworks, and commitments. Demonstrates compliance with UN, EU, USAID, and World Bank requirements.',
+    pages: 36,
+    sections: [
+      'UN Standards (IATI, HXL, OCHA)',
+      'EU Frameworks (GDPR, AI Act, eIDAS)',
+      'USAID Requirements (ADS 579, CLA)',
+      'World Bank Standards (ESF, Procurement)',
+      'SDG Alignment',
+      'Grand Bargain Commitments',
+      'Humanitarian Principles',
+      'Open Data & Transparency',
+      'Interoperability Standards',
+      'Certification Status',
+    ],
+  },
+];
 
 // ============================================
 // MAIN COMPONENT
 // ============================================
-export default function ResourcesPage() {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredResources = RESOURCES.filter(resource => {
-    if (activeCategory !== 'all' && resource.category !== activeCategory) {
-      return false;
-    }
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      return (
-        resource.title.toLowerCase().includes(query) ||
-        resource.description.toLowerCase().includes(query) ||
-        resource.tags.some(tag => tag.toLowerCase().includes(query)) ||
-        (resource.country && resource.country.toLowerCase().includes(query))
-      );
-    }
-    return true;
-  });
-
-  const featuredResources = RESOURCES.filter(r => r.featured);
+export default function ResourcesV10Page() {
+  const [activeSection, setActiveSection] = useState<ResourceSection>('overview');
+  const [selectedCountry, setSelectedCountry] = useState<CountryId>('ukraine');
+  const [selectedPack, setSelectedPack] = useState<PackId>('government');
+  const [selectedSector, setSelectedSector] = useState<SectorId>('social');
 
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#E6EDF3]">
@@ -508,14 +779,16 @@ export default function ResourcesPage() {
             <div className="w-9 h-9 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-sm">
               IV
             </div>
-            <span className="font-semibold">IVYAR Resources</span>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Resources</span>
+              <span className="text-xs bg-[#3CCB7F]/20 text-[#3CCB7F] px-2 py-0.5 rounded font-mono">v10.0</span>
+            </div>
           </Link>
           <div className="flex items-center gap-4">
-            <Link href="/docs" className="text-sm text-[#8B949E] hover:text-white">Documentation</Link>
-            <Link href="/academy" className="text-sm text-[#8B949E] hover:text-white">Academy</Link>
-            <Link href="/demo" className="text-sm bg-[#00A3FF] text-[#0D1117] px-4 py-2 rounded font-medium hover:bg-[#33B5FF]">
-              Request Demo
-            </Link>
+            <span className="text-xs text-[#8B949E]">International Knowledge Hub</span>
+            <button className="text-sm bg-[#00A3FF] text-[#0D1117] px-4 py-2 rounded font-medium hover:bg-[#33B5FF]">
+              Download All
+            </button>
           </div>
         </div>
       </nav>
@@ -523,342 +796,71 @@ export default function ResourcesPage() {
       {/* Hero */}
       <section className="pt-24 pb-12 bg-gradient-to-b from-[#161B22] to-[#0D1117]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-3xl">📚</span>
-              <span className="text-sm bg-[#00A3FF]/10 text-[#00A3FF] px-3 py-1 rounded-full font-medium">
-                Knowledge Center
-              </span>
-            </div>
-            <h1 className="text-4xl font-bold mb-4">Resources & Publications</h1>
-            <p className="text-lg text-[#8B949E]">
-              Explore whitepapers, governance standards, ethical frameworks, audit reports, 
-              case studies, and country deployment stories from the IVYAR platform.
-            </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl">📚</span>
+            <span className="text-sm bg-[#00A3FF]/10 text-[#00A3FF] px-3 py-1 rounded-full font-medium">
+              v10.0 Knowledge Hub
+            </span>
           </div>
+          <h1 className="text-4xl font-bold mb-4">Resources Portal</h1>
+          <p className="text-lg text-[#8B949E] max-w-2xl">
+            Comprehensive knowledge base for IVYAR Platform v10.0. Country profiles, official packs, 
+            use case library, and strategic documents for all stakeholders.
+          </p>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-10">
-            {CATEGORIES.filter(c => c.id !== 'all').map((cat) => (
+      {/* Section Tabs */}
+      <section className="border-b border-[#1F242C] sticky top-16 bg-[#0D1117] z-40">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-1 overflow-x-auto py-2">
+            {[
+              { id: 'overview', label: 'Overview', icon: '📋' },
+              { id: 'countries', label: 'Country Profiles', icon: '🌍' },
+              { id: 'packs', label: 'Official Packs', icon: '📦' },
+              { id: 'usecases', label: 'Use Case Library', icon: '💡' },
+              { id: 'meta', label: 'Strategic Documents', icon: '📄' },
+            ].map((tab) => (
               <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`p-4 rounded-xl border text-center transition-all ${
-                  activeCategory === cat.id
-                    ? 'bg-[#161B22] border-[#00A3FF]'
-                    : 'bg-[#0D1117] border-[#1F242C] hover:border-[#3D444D]'
+                key={tab.id}
+                onClick={() => setActiveSection(tab.id as ResourceSection)}
+                className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                  activeSection === tab.id
+                    ? 'bg-[#00A3FF] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-white hover:bg-[#161B22]'
                 }`}
               >
-                <div className="text-2xl mb-1">{cat.icon}</div>
-                <div className="text-2xl font-bold" style={{ color: cat.color }}>{cat.count}</div>
-                <div className="text-xs text-[#8B949E]">{cat.name}</div>
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Resources */}
-      {activeCategory === 'all' && !searchQuery && (
-        <section className="py-12 border-b border-[#1F242C]">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-xl font-semibold mb-6">Featured Resources</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredResources.slice(0, 4).map((resource) => (
-                <div
-                  key={resource.id}
-                  className="bg-[#161B22] border border-[#1F242C] rounded-xl p-5 hover:border-[#3D444D] transition-all group"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg">
-                      {CATEGORIES.find(c => c.id === resource.category)?.icon}
-                    </span>
-                    <span 
-                      className="text-xs px-2 py-0.5 rounded"
-                      style={{ 
-                        backgroundColor: `${CATEGORY_COLORS[resource.category]}15`,
-                        color: CATEGORY_COLORS[resource.category]
-                      }}
-                    >
-                      {CATEGORIES.find(c => c.id === resource.category)?.name}
-                    </span>
-                  </div>
-                  <h3 className="font-semibold text-sm mb-2 line-clamp-2 group-hover:text-[#00A3FF] transition-colors">
-                    {resource.title}
-                  </h3>
-                  <p className="text-xs text-[#8B949E] line-clamp-2 mb-3">{resource.description}</p>
-                  <div className="flex items-center justify-between text-xs text-[#6E7681]">
-                    <span>{resource.date}</span>
-                    {resource.pages && <span>{resource.pages} pages</span>}
-                    {resource.readTime && <span>{resource.readTime}</span>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Main Content */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sidebar */}
-            <aside className="lg:w-64 shrink-0">
-              <div className="sticky top-24">
-                {/* Search */}
-                <div className="relative mb-6">
-                  <input
-                    type="text"
-                    placeholder="Search resources..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#161B22] border border-[#1F242C] rounded-lg pl-10 pr-4 py-2.5 text-sm"
-                  />
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6E7681]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-
-                {/* Categories */}
-                <h3 className="text-xs font-semibold text-[#8B949E] uppercase tracking-wider mb-3">
-                  Categories
-                </h3>
-                <nav className="space-y-1">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveCategory(cat.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                        activeCategory === cat.id
-                          ? 'bg-[#00A3FF]/10 text-[#00A3FF]'
-                          : 'text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#161B22]'
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span>{cat.icon}</span>
-                        <span>{cat.name}</span>
-                      </span>
-                      <span className="text-xs">{cat.count}</span>
-                    </button>
-                  ))}
-                </nav>
-
-                {/* Quick Links */}
-                <div className="mt-8 pt-6 border-t border-[#1F242C]">
-                  <h3 className="text-xs font-semibold text-[#8B949E] uppercase tracking-wider mb-3">
-                    Quick Links
-                  </h3>
-                  <div className="space-y-2 text-sm">
-                    <a href="#" className="block text-[#8B949E] hover:text-[#00A3FF]">📥 Download All (ZIP)</a>
-                    <a href="#" className="block text-[#8B949E] hover:text-[#00A3FF]">📧 Subscribe to Updates</a>
-                    <a href="#" className="block text-[#8B949E] hover:text-[#00A3FF]">🔗 API Documentation</a>
-                  </div>
-                </div>
-              </div>
-            </aside>
-
-            {/* Resource Grid */}
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold">
-                  {activeCategory === 'all' ? 'All Resources' : CATEGORIES.find(c => c.id === activeCategory)?.name}
-                  <span className="text-sm font-normal text-[#8B949E] ml-2">
-                    ({filteredResources.length} items)
-                  </span>
-                </h2>
-                <select className="bg-[#161B22] border border-[#1F242C] rounded-lg px-3 py-2 text-sm">
-                  <option>Newest First</option>
-                  <option>Oldest First</option>
-                  <option>Most Popular</option>
-                </select>
-              </div>
-
-              {/* Whitepapers Section */}
-              {(activeCategory === 'all' || activeCategory === 'whitepaper') && filteredResources.some(r => r.category === 'whitepaper') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>📄</span> Whitepapers
-                    </h3>
-                  )}
-                  <div className="space-y-4">
-                    {filteredResources.filter(r => r.category === 'whitepaper').map((resource) => (
-                      <ResourceCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Governance Standards Section */}
-              {(activeCategory === 'all' || activeCategory === 'standard') && filteredResources.some(r => r.category === 'standard') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>⚖️</span> Governance Standards
-                    </h3>
-                  )}
-                  <div className="space-y-4">
-                    {filteredResources.filter(r => r.category === 'standard').map((resource) => (
-                      <ResourceCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Ethical Framework Section */}
-              {(activeCategory === 'all' || activeCategory === 'ethics') && filteredResources.some(r => r.category === 'ethics') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>🛡️</span> Ethical Framework
-                    </h3>
-                  )}
-                  <div className="space-y-4">
-                    {filteredResources.filter(r => r.category === 'ethics').map((resource) => (
-                      <ResourceCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Audit & Compliance Section */}
-              {(activeCategory === 'all' || activeCategory === 'audit') && filteredResources.some(r => r.category === 'audit') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>✅</span> Audit & Compliance
-                    </h3>
-                  )}
-                  <div className="space-y-4">
-                    {filteredResources.filter(r => r.category === 'audit').map((resource) => (
-                      <ResourceCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Case Studies Section */}
-              {(activeCategory === 'all' || activeCategory === 'case-study') && filteredResources.some(r => r.category === 'case-study') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>💡</span> Case Studies
-                    </h3>
-                  )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {filteredResources.filter(r => r.category === 'case-study').map((resource) => (
-                      <CaseStudyCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Country Deployments Section */}
-              {(activeCategory === 'all' || activeCategory === 'deployment') && filteredResources.some(r => r.category === 'deployment') && (
-                <div className="mb-10">
-                  {activeCategory === 'all' && (
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <span>🌍</span> Country Deployment Stories
-                    </h3>
-                  )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {filteredResources.filter(r => r.category === 'deployment').map((resource) => (
-                      <DeploymentCard key={resource.id} resource={resource} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {filteredResources.length === 0 && (
-                <div className="text-center py-16">
-                  <div className="text-4xl mb-4">🔍</div>
-                  <h3 className="text-lg font-semibold mb-2">No resources found</h3>
-                  <p className="text-[#8B949E]">Try adjusting your search or filter criteria</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* World Map Section */}
-      <section className="py-16 bg-[#161B22] border-t border-[#1F242C]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold mb-4">Global Deployment Footprint</h2>
-            <p className="text-[#8B949E]">IVYAR is deployed in 24+ countries across 6 continents</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            {[
-              { flag: '🇺🇦', name: 'Ukraine', status: 'National' },
-              { flag: '🇵🇱', name: 'Poland', status: 'Active' },
-              { flag: '🇩🇪', name: 'Germany', status: 'Active' },
-              { flag: '🇬🇪', name: 'Georgia', status: 'Active' },
-              { flag: '🇲🇩', name: 'Moldova', status: 'Active' },
-              { flag: '🇦🇱', name: 'Albania', status: 'Active' },
-              { flag: '🇯🇴', name: 'Jordan', status: 'Active' },
-              { flag: '🇰🇪', name: 'Kenya', status: 'Pilot' },
-              { flag: '🇧🇩', name: 'Bangladesh', status: 'Pilot' },
-              { flag: '🇨🇴', name: 'Colombia', status: 'Active' },
-              { flag: '🇲🇦', name: 'Morocco', status: 'Active' },
-              { flag: '🇪🇹', name: 'Ethiopia', status: 'Pilot' },
-              { flag: '🇮🇩', name: 'Indonesia', status: 'Pilot' },
-              { flag: '🇹🇷', name: 'Turkey', status: 'Active' },
-              { flag: '🇱🇻', name: 'Latvia', status: 'Active' },
-              { flag: '🇱🇹', name: 'Lithuania', status: 'Active' },
-            ].map((country, i) => (
-              <div key={i} className="bg-[#0D1117] border border-[#1F242C] rounded-lg p-3 text-center">
-                <div className="text-2xl mb-1">{country.flag}</div>
-                <div className="text-xs font-medium">{country.name}</div>
-                <div className={`text-[10px] mt-1 ${
-                  country.status === 'National' ? 'text-[#3CCB7F]' :
-                  country.status === 'Active' ? 'text-[#00A3FF]' : 'text-[#F59E0B]'
-                }`}>
-                  {country.status}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter CTA */}
-      <section className="py-16 border-t border-[#1F242C]">
-        <div className="max-w-2xl mx-auto px-6 text-center">
-          <h2 className="text-2xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-[#8B949E] mb-6">
-            Subscribe to receive new whitepapers, case studies, and platform updates.
-          </p>
-          <div className="flex gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 bg-[#161B22] border border-[#1F242C] rounded-lg px-4 py-3 text-sm"
-            />
-            <button className="px-6 py-3 bg-[#00A3FF] text-[#0D1117] rounded-lg font-medium hover:bg-[#33B5FF]">
-              Subscribe
-            </button>
-          </div>
+          {activeSection === 'overview' && <OverviewSection />}
+          {activeSection === 'countries' && (
+            <CountriesSection selected={selectedCountry} setSelected={setSelectedCountry} />
+          )}
+          {activeSection === 'packs' && (
+            <PacksSection selected={selectedPack} setSelected={setSelectedPack} />
+          )}
+          {activeSection === 'usecases' && (
+            <UseCasesSection selected={selectedSector} setSelected={setSelectedSector} />
+          )}
+          {activeSection === 'meta' && <MetaSection />}
         </div>
       </section>
 
       {/* Footer */}
       <footer className="bg-[#161B22] border-t border-[#1F242C] py-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-xs">
-                IV
-              </div>
-              <span className="text-sm text-[#8B949E]">IVYAR Resources — Knowledge Center</span>
-            </div>
-            <div className="flex gap-6 text-sm text-[#6E7681]">
-              <a href="#" className="hover:text-white">Terms</a>
-              <a href="#" className="hover:text-white">Privacy</a>
-              <a href="#" className="hover:text-white">Contact</a>
-            </div>
-          </div>
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-sm text-[#8B949E]">
+            Resources Portal v10.0 — International Knowledge Hub for IVYAR Platform
+          </p>
         </div>
       </footer>
     </div>
@@ -866,76 +868,266 @@ export default function ResourcesPage() {
 }
 
 // ============================================
-// SUB-COMPONENTS
+// OVERVIEW SECTION
 // ============================================
-function ResourceCard({ resource }: { resource: Resource }) {
+function OverviewSection() {
   return (
-    <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-5 hover:border-[#3D444D] transition-all group">
-      <div className="flex items-start gap-4">
-        <div 
-          className="w-12 h-12 shrink-0 rounded-lg flex items-center justify-center text-xl"
-          style={{ backgroundColor: `${CATEGORY_COLORS[resource.category]}15` }}
-        >
-          {CATEGORIES.find(c => c.id === resource.category)?.icon}
+    <div className="space-y-12">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { value: '8', label: 'Country Profiles', icon: '🌍' },
+          { value: '4', label: 'Official Packs', icon: '📦' },
+          { value: '12', label: 'Use Cases', icon: '💡' },
+          { value: '4', label: 'Strategic Documents', icon: '📄' },
+        ].map((stat, i) => (
+          <div key={i} className="bg-[#161B22] border border-[#1F242C] rounded-xl p-5 text-center">
+            <div className="text-3xl mb-2">{stat.icon}</div>
+            <div className="text-2xl font-bold text-[#00A3FF]">{stat.value}</div>
+            <div className="text-sm text-[#8B949E]">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Resource Categories */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span>🌍</span> Country Profiles
+          </h3>
+          <p className="text-sm text-[#8B949E] mb-4">
+            Detailed profiles for 8 deployment countries including context, implementation model, 
+            governance, partners, and lessons learned.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.values(COUNTRY_PROFILES).map((c) => (
+              <span key={c.id} className="text-lg">{c.flag}</span>
+            ))}
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h4 className="font-semibold group-hover:text-[#00A3FF] transition-colors mb-1">
-                {resource.title}
-              </h4>
-              <p className="text-sm text-[#8B949E] line-clamp-2 mb-3">{resource.description}</p>
-            </div>
-            {resource.featured && (
-              <span className="shrink-0 text-xs bg-[#F59E0B]/20 text-[#F59E0B] px-2 py-0.5 rounded">
-                Featured
+
+        <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span>📦</span> Official Packs
+          </h3>
+          <p className="text-sm text-[#8B949E] mb-4">
+            Curated document packages for specific audiences: Government, Donor, Technical, and Legal teams.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.values(OFFICIAL_PACKS).map((p) => (
+              <span 
+                key={p.id} 
+                className="text-xs px-2 py-1 rounded"
+                style={{ backgroundColor: `${p.color}20`, color: p.color }}
+              >
+                {p.title.split(' ')[0]}
               </span>
-            )}
+            ))}
           </div>
-          <div className="flex items-center flex-wrap gap-4 text-xs text-[#6E7681]">
-            <span>{resource.date}</span>
-            {resource.author && <span>by {resource.author}</span>}
-            {resource.pages && <span>{resource.pages} pages</span>}
-            {resource.readTime && <span>{resource.readTime} read</span>}
+        </div>
+
+        <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span>💡</span> Use Case Library
+          </h3>
+          <p className="text-sm text-[#8B949E] mb-4">
+            Real-world implementation examples across 6 sectors with challenges, solutions, and measurable outcomes.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.values(USE_CASE_SECTORS).map((s) => (
+              <span 
+                key={s.id} 
+                className="text-xs px-2 py-1 rounded"
+                style={{ backgroundColor: `${s.color}20`, color: s.color }}
+              >
+                {s.title}
+              </span>
+            ))}
           </div>
-          <div className="flex items-center justify-between mt-3">
-            <div className="flex flex-wrap gap-1">
-              {resource.tags.slice(0, 4).map((tag, i) => (
-                <span key={i} className="text-xs bg-[#1F242C] text-[#6E7681] px-2 py-0.5 rounded">
-                  {tag}
+        </div>
+
+        <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span>📄</span> Strategic Documents
+          </h3>
+          <p className="text-sm text-[#8B949E] mb-4">
+            Foundational documents defining HBS vision, ethical framework, deployment methodology, and international alignment.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {META_DOCUMENTS.map((d) => (
+              <span 
+                key={d.id} 
+                className="text-xs px-2 py-1 rounded"
+                style={{ backgroundColor: `${d.color}20`, color: d.color }}
+              >
+                {d.title.split(':')[0]}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* World Map */}
+      <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+        <h3 className="text-lg font-semibold mb-6 text-center">Global Deployment Footprint</h3>
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+          {Object.values(COUNTRY_PROFILES).map((country) => (
+            <div key={country.id} className="text-center">
+              <div className="text-3xl mb-1">{country.flag}</div>
+              <div className="text-xs font-medium">{country.name}</div>
+              <div className={`text-[10px] ${
+                country.status === 'National Scale' ? 'text-[#3CCB7F]' :
+                country.status === 'Active' ? 'text-[#00A3FF]' : 'text-[#F59E0B]'
+              }`}>
+                {country.status}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// COUNTRIES SECTION
+// ============================================
+function CountriesSection({ 
+  selected, 
+  setSelected 
+}: { 
+  selected: CountryId; 
+  setSelected: (id: CountryId) => void;
+}) {
+  const country = COUNTRY_PROFILES[selected];
+
+  return (
+    <div className="space-y-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">Country Profiles</h2>
+        <p className="text-[#8B949E]">
+          Detailed deployment profiles for each IVYAR implementation country.
+        </p>
+      </div>
+
+      {/* Country Selector */}
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {Object.values(COUNTRY_PROFILES).map((c) => (
+          <button
+            key={c.id}
+            onClick={() => setSelected(c.id)}
+            className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+              selected === c.id
+                ? 'bg-[#00A3FF] text-[#0D1117]'
+                : 'bg-[#161B22] text-[#8B949E] hover:text-white border border-[#1F242C]'
+            }`}
+          >
+            <span className="text-lg">{c.flag}</span>
+            <span>{c.name}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Country Profile */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
+          {/* Header */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="text-6xl">{country.flag}</div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold">{country.name}</h3>
+                <p className="text-[#8B949E]">{country.region}</p>
+                <div className="flex items-center gap-3 mt-2">
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    country.status === 'National Scale' ? 'bg-[#3CCB7F]/20 text-[#3CCB7F]' :
+                    country.status === 'Active' ? 'bg-[#00A3FF]/20 text-[#00A3FF]' : 
+                    'bg-[#F59E0B]/20 text-[#F59E0B]'
+                  }`}>
+                    {country.status}
+                  </span>
+                  <span className="text-xs text-[#6E7681]">Since {country.since}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: 'Population', value: country.population },
+                { label: 'Beneficiaries', value: country.beneficiaries },
+                { label: 'Budget', value: country.budget },
+                { label: 'Programs', value: country.programs.toString() },
+              ].map((stat, i) => (
+                <div key={i} className="bg-[#0D1117] rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-[#00A3FF]">{stat.value}</div>
+                  <div className="text-xs text-[#8B949E]">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Context */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-3">Context</h4>
+            <p className="text-sm text-[#8B949E]">{country.context}</p>
+          </div>
+
+          {/* Implementation Model */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-3">Implementation Model</h4>
+            <p className="text-sm text-[#8B949E]">{country.implementationModel}</p>
+          </div>
+
+          {/* Governance Model */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-3">Governance Model</h4>
+            <p className="text-sm text-[#8B949E]">{country.governanceModel}</p>
+          </div>
+
+          {/* Lessons Learned */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-3">Lessons Learned</h4>
+            <ul className="space-y-2">
+              {country.lessonsLearned.map((lesson, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-[#8B949E]">
+                  <span className="text-[#3CCB7F] mt-0.5">✓</span>
+                  {lesson}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          {/* Key Metrics */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-4">Key Metrics</h4>
+            <div className="space-y-3">
+              {country.keyMetrics.map((metric, i) => (
+                <div key={i} className="flex justify-between items-center">
+                  <span className="text-sm text-[#8B949E]">{metric.label}</span>
+                  <span className="font-mono text-[#3CCB7F]">{metric.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Key Partners */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-4">Key Partners</h4>
+            <div className="flex flex-wrap gap-2">
+              {country.keyPartners.map((partner, i) => (
+                <span key={i} className="text-xs bg-[#1F242C] text-[#8B949E] px-2 py-1 rounded">
+                  {partner}
                 </span>
               ))}
             </div>
-            <button className="text-sm text-[#00A3FF] font-medium hover:underline">
-              Download PDF →
-            </button>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function CaseStudyCard({ resource }: { resource: Resource }) {
-  return (
-    <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden hover:border-[#EC4899] transition-all group">
-      <div className="h-2" style={{ backgroundColor: CATEGORY_COLORS['case-study'] }}></div>
-      <div className="p-5">
-        <div className="flex items-center gap-2 mb-3">
-          {resource.countryFlag && <span className="text-2xl">{resource.countryFlag}</span>}
-          <span className="text-xs text-[#EC4899] font-medium">{resource.country}</span>
-        </div>
-        <h4 className="font-semibold mb-2 group-hover:text-[#EC4899] transition-colors">
-          {resource.title}
-        </h4>
-        <p className="text-sm text-[#8B949E] line-clamp-2 mb-4">{resource.description}</p>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 text-xs text-[#6E7681]">
-            <span>{resource.date}</span>
-            {resource.readTime && <span>{resource.readTime}</span>}
-          </div>
-          <button className="text-sm text-[#EC4899] font-medium hover:underline">
-            Read Story →
+          {/* Download Profile */}
+          <button className="w-full py-3 bg-[#00A3FF] text-[#0D1117] rounded-lg font-medium hover:bg-[#33B5FF]">
+            Download Country Profile (PDF)
           </button>
         </div>
       </div>
@@ -943,35 +1135,283 @@ function CaseStudyCard({ resource }: { resource: Resource }) {
   );
 }
 
-function DeploymentCard({ resource }: { resource: Resource }) {
+// ============================================
+// PACKS SECTION
+// ============================================
+function PacksSection({ 
+  selected, 
+  setSelected 
+}: { 
+  selected: PackId; 
+  setSelected: (id: PackId) => void;
+}) {
+  const pack = OFFICIAL_PACKS[selected];
+
   return (
-    <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden hover:border-[#06B6D4] transition-all group">
-      <div className="h-2" style={{ backgroundColor: CATEGORY_COLORS['deployment'] }}></div>
-      <div className="p-5">
-        <div className="flex items-center gap-3 mb-3">
-          {resource.countryFlag && <span className="text-3xl">{resource.countryFlag}</span>}
+    <div className="space-y-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">Official Packs</h2>
+        <p className="text-[#8B949E]">
+          Curated document packages for specific stakeholder audiences.
+        </p>
+      </div>
+
+      {/* Pack Selector */}
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {Object.values(OFFICIAL_PACKS).map((p) => (
+          <button
+            key={p.id}
+            onClick={() => setSelected(p.id)}
+            className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+              selected === p.id
+                ? 'text-[#0D1117]'
+                : 'bg-[#161B22] text-[#8B949E] hover:text-white border border-[#1F242C]'
+            }`}
+            style={selected === p.id ? { backgroundColor: p.color } : {}}
+          >
+            <span>{p.icon}</span>
+            <span>{p.title.split(' ')[0]}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Pack Details */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <div className="flex items-start gap-4 mb-6">
+              <div 
+                className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
+                style={{ backgroundColor: `${pack.color}20` }}
+              >
+                {pack.icon}
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">{pack.title}</h3>
+                <p className="text-[#8B949E]">{pack.subtitle}</p>
+              </div>
+            </div>
+            <p className="text-sm text-[#8B949E] mb-6">{pack.description}</p>
+
+            <h4 className="font-semibold mb-3">Documents Included</h4>
+            <div className="space-y-3">
+              {pack.documents.map((doc, i) => (
+                <div key={i} className="bg-[#0D1117] border border-[#1F242C] rounded-lg p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">📄</span>
+                    <div>
+                      <div className="font-medium text-sm">{doc.name}</div>
+                      <div className="text-xs text-[#6E7681]">{doc.description}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-[#8B949E]">{doc.type} • {doc.pages > 0 ? `${doc.pages} pages` : 'Archive'}</span>
+                    <button className="text-[#00A3FF] hover:underline text-sm">↓</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-4">Target Audience</h4>
+            <ul className="space-y-2">
+              {pack.audience.map((a, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm text-[#8B949E]">
+                  <span style={{ color: pack.color }}>•</span>
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+            <h4 className="font-semibold mb-4">Common Use Cases</h4>
+            <ul className="space-y-2">
+              {pack.useCases.map((uc, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm text-[#8B949E]">
+                  <span className="text-[#3CCB7F]">✓</span>
+                  {uc}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <button 
+            className="w-full py-3 rounded-lg font-medium text-[#0D1117]"
+            style={{ backgroundColor: pack.color }}
+          >
+            Download Complete Pack (ZIP)
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// USE CASES SECTION
+// ============================================
+function UseCasesSection({ 
+  selected, 
+  setSelected 
+}: { 
+  selected: SectorId; 
+  setSelected: (id: SectorId) => void;
+}) {
+  const sector = USE_CASE_SECTORS[selected];
+
+  return (
+    <div className="space-y-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">Use Case Library</h2>
+        <p className="text-[#8B949E]">
+          Real-world implementation examples organized by sector.
+        </p>
+      </div>
+
+      {/* Sector Selector */}
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {Object.values(USE_CASE_SECTORS).map((s) => (
+          <button
+            key={s.id}
+            onClick={() => setSelected(s.id)}
+            className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+              selected === s.id
+                ? 'text-[#0D1117]'
+                : 'bg-[#161B22] text-[#8B949E] hover:text-white border border-[#1F242C]'
+            }`}
+            style={selected === s.id ? { backgroundColor: s.color } : {}}
+          >
+            <span>{s.icon}</span>
+            <span>{s.title}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Sector Header */}
+      <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+        <div className="flex items-center gap-4">
+          <div 
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+            style={{ backgroundColor: `${sector.color}20` }}
+          >
+            {sector.icon}
+          </div>
           <div>
-            <span className="text-lg font-semibold">{resource.country}</span>
-            <div className="text-xs text-[#06B6D4]">Deployment Story</div>
+            <h3 className="text-xl font-bold">{sector.title}</h3>
+            <p className="text-sm text-[#8B949E]">{sector.description}</p>
           </div>
         </div>
-        <h4 className="font-medium mb-2 group-hover:text-[#06B6D4] transition-colors">
-          {resource.title}
-        </h4>
-        <p className="text-sm text-[#8B949E] line-clamp-2 mb-4">{resource.description}</p>
-        <div className="flex flex-wrap gap-1 mb-4">
-          {resource.tags.slice(0, 3).map((tag, i) => (
-            <span key={i} className="text-xs bg-[#06B6D4]/10 text-[#06B6D4] px-2 py-0.5 rounded">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-[#6E7681]">{resource.readTime}</span>
-          <button className="text-sm text-[#06B6D4] font-medium hover:underline">
-            Explore →
-          </button>
-        </div>
+      </div>
+
+      {/* Use Cases */}
+      <div className="space-y-6">
+        {sector.useCases.map((uc, i) => (
+          <div key={i} className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+            <div className="h-1" style={{ backgroundColor: sector.color }}></div>
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">{uc.flag}</span>
+                <div>
+                  <h4 className="font-semibold">{uc.title}</h4>
+                  <span className="text-sm text-[#8B949E]">{uc.country}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="bg-[#0D1117] rounded-lg p-4">
+                  <div className="text-xs text-[#F85149] font-semibold mb-2">CHALLENGE</div>
+                  <p className="text-sm text-[#8B949E]">{uc.challenge}</p>
+                </div>
+                <div className="bg-[#0D1117] rounded-lg p-4">
+                  <div className="text-xs font-semibold mb-2" style={{ color: sector.color }}>SOLUTION</div>
+                  <p className="text-sm text-[#8B949E]">{uc.solution}</p>
+                </div>
+                <div className="bg-[#0D1117] rounded-lg p-4">
+                  <div className="text-xs text-[#3CCB7F] font-semibold mb-2">OUTCOMES</div>
+                  <ul className="space-y-1">
+                    {uc.outcomes.slice(0, 3).map((o, j) => (
+                      <li key={j} className="text-xs text-[#8B949E]">• {o}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                {uc.metrics.map((m, j) => (
+                  <div key={j} className="bg-[#0D1117] rounded-lg px-4 py-2">
+                    <div className="text-lg font-bold" style={{ color: sector.color }}>{m.value}</div>
+                    <div className="text-xs text-[#6E7681]">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// META SECTION
+// ============================================
+function MetaSection() {
+  return (
+    <div className="space-y-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">Strategic Documents</h2>
+        <p className="text-[#8B949E]">
+          Foundational documents defining the HBS v10.0 vision and framework.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {META_DOCUMENTS.map((doc) => (
+          <div key={doc.id} className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+            <div className="h-2" style={{ backgroundColor: doc.color }}></div>
+            <div className="p-6">
+              <div className="flex items-start gap-4 mb-4">
+                <div 
+                  className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl"
+                  style={{ backgroundColor: `${doc.color}20` }}
+                >
+                  {doc.icon}
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold">{doc.title}</h3>
+                  <p className="text-sm text-[#8B949E]">{doc.subtitle}</p>
+                  <span className="text-xs text-[#6E7681]">{doc.pages} pages</span>
+                </div>
+              </div>
+              <p className="text-sm text-[#8B949E] mb-4">{doc.description}</p>
+              
+              <div className="mb-4">
+                <div className="text-xs font-semibold text-[#8B949E] mb-2">SECTIONS</div>
+                <div className="flex flex-wrap gap-1">
+                  {doc.sections.slice(0, 5).map((section, i) => (
+                    <span key={i} className="text-xs bg-[#0D1117] text-[#6E7681] px-2 py-1 rounded">
+                      {section}
+                    </span>
+                  ))}
+                  {doc.sections.length > 5 && (
+                    <span className="text-xs text-[#6E7681]">+{doc.sections.length - 5} more</span>
+                  )}
+                </div>
+              </div>
+
+              <button 
+                className="w-full py-2 rounded-lg font-medium text-sm text-[#0D1117]"
+                style={{ backgroundColor: doc.color }}
+              >
+                Download PDF
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
