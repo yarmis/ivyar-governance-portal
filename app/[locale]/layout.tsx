@@ -6,19 +6,22 @@ export function generateStaticParams() {
   return localeCodes.map((locale) => ({ locale }));
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  // Await params in Next.js 15+
+  const { locale: localeCode } = await params;
+
   // Validate locale
-  if (!localeCodes.includes(params.locale as any)) {
+  if (!localeCodes.includes(localeCode as any)) {
     notFound();
   }
 
-  const locale = getLocaleByCode(params.locale);
+  const locale = getLocaleByCode(localeCode);
 
   return (
     <div dir={locale.dir} lang={locale.lang}>
