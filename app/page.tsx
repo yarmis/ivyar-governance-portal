@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { GlobalSearch } from '@/components/GlobalSearch';
 
 // ============================================
 // TRANSLATIONS
@@ -241,12 +242,32 @@ export default function LandingPage() {
             <Link href="#about" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.about}</Link>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
+          <div className="flex items-center gap-3">
+            {/* Global Search */}
+            <GlobalSearch />
+            
+            {/* Status Badge */}
+            <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
               <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
               <span className="text-xs font-medium text-[#3CCB7F]">Operational</span>
             </div>
-            <Link href="/dashboard" className="h-11 px-6 bg-[#00A3FF] text-[#0D1117] font-medium text-sm flex items-center hover:bg-[#33B5FF] transition-colors">
+            
+            {/* Request Demo CTA */}
+            <Link 
+              href="/demo" 
+              className="hidden sm:flex h-11 px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
+            >
+              {t.cta.demo}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+            
+            {/* Access Portal */}
+            <Link 
+              href="/hbs" 
+              className="h-11 px-5 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center hover:bg-[#2D333B] transition-colors"
+            >
               {t.nav.portal}
             </Link>
           </div>
@@ -268,7 +289,7 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <Link href="/dashboard" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors">
+                <Link href="/hbs" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors">
                   {t.nav.portal}
                 </Link>
                 <Link href="#modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors">
@@ -426,7 +447,7 @@ export default function LandingPage() {
             <h2 className="text-2xl lg:text-4xl font-semibold">{t.cta.title}</h2>
             <p className="text-[#8B949E] text-lg">{t.cta.subtitle}</p>
             <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <Link href="#contact" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
+              <Link href="/demo" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
               <Link href="#contact" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">{t.cta.contact}</Link>
             </div>
           </div>
@@ -454,7 +475,7 @@ export default function LandingPage() {
               <h4 className="text-sm font-semibold">{t.footer.platform}</h4>
               <div className="flex flex-col gap-3">
                 {['Dashboard', 'AI Operations', 'Documentation', 'API Reference'].map((link, i) => (
-                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+                  <Link key={i} href="/hbs" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
@@ -462,8 +483,13 @@ export default function LandingPage() {
             <div className="flex flex-col gap-4">
               <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
               <div className="flex flex-col gap-3">
-                {['Procurement', 'Logistics', 'Donor Dashboard', 'HBS Module'].map((link, i) => (
-                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+                {[
+                  { name: 'Procurement', href: '/hbs' },
+                  { name: 'Logistics', href: '/hbs' },
+                  { name: 'Donor Dashboard', href: '/hbs' },
+                  { name: 'HBS Module', href: '/hbs' }
+                ].map((link, i) => (
+                  <Link key={i} href={link.href} className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link.name}</Link>
                 ))}
               </div>
             </div>
