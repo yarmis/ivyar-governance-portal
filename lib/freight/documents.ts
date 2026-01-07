@@ -700,7 +700,6 @@ export function generateProofOfDelivery(loadData: any, bol: BillOfLading, delive
       lng: deliveryData.location?.lng || 0,
     },
     
-    receiverName: deliveryData.receiverName,
     receiverTitle: deliveryData.receiverTitle,
     receiverCompany: bol.consignee.company,
     
