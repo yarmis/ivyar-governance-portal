@@ -1,0 +1,1209 @@
+openapi: 3.0.3
+info:
+  title: HBS Health Module API
+  description: |
+    Ethical Governance Module for Doctors and Patients.
+    
+    HBS Health provides standardized, transparent, and ethical decision-making 
+    framework for healthcare interactions. This is NOT a clinical/medical system - 
+    it focuses on ethical governance, communication protocols, risk assessment, 
+    and patient rights.
+    
+    ## Key Features
+    - Doctor Decision Tree for ethical guidance
+    - Patient Rights Framework
+    - Risk Assessment Engine (6 factors)
+    - Communication Protocols (SPIKES, NURSE, SBAR)
+    - Consent Management
+    - Full Audit Trail
+    
+    ## Compliance
+    - WHO Ethics Guidelines
+    - WMA Declaration of Lisbon
+    - GDPR / HIPAA
+    - ISO/IEC 27001
+    
+  version: 1.0.0
+  contact:
+    name: IVYAR / HBS Support
+    email: info@ivyar.org
+    url: https://ivyar.org
+  license:
+    name: Proprietary
+    url: https://ivyar.org/license
+
+servers:
+  - url: https://api.ivyar.org/v1
+    description: Production
+  - url: https://staging-api.ivyar.org/v1
+    description: Staging
+  - url: http://localhost:3000/api
+    description: Development
+
+tags:
+  - name: Decision Tree
+    description: Ethical decision guidance for doctors
+  - name: Patient Rights
+    description: Patient rights and expectations
+  - name: Risk Assessment
+    description: Ethical and communication risk evaluation
+  - name: Scenarios
+    description: Ethical scenario library
+  - name: Communication
+    description: Communication protocols
+  - name: Consent
+    description: Informed consent management
+  - name: Audit
+    description: Audit log and compliance
+
+paths:
+  # ============================================================================
+  # DECISION TREE
+  # ============================================================================
+  /hbs/health/doctor/decision-tree:
+    get:
+      tags: [Decision Tree]
+      summary: Get ethical decision tree
+      description: Returns the complete ethical decision tree with all nodes and branches.
+      operationId: getDecisionTree
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: locale
+          in: query
+          description: Language code
+          schema:
+            type: string
+            default: en
+            enum: [en, uk, pl, de, fr, es]
+      responses:
+        '200':
+          description: Decision tree structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionTree'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /hbs/health/doctor/decision:
+    post:
+      tags: [Decision Tree]
+      summary: Record a doctor's decision
+      description: Records an ethical decision made by a doctor during patient interaction.
+      operationId: recordDecision
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoctorDecisionRequest'
+      responses:
+        '201':
+          description: Decision recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorDecisionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /hbs/health/doctor/decisions:
+    get:
+      tags: [Decision Tree]
+      summary: Get decision history
+      description: Returns history of decisions for a doctor or patient.
+      operationId: getDecisions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: doctorId
+          in: query
+          schema:
+            type: string
+        - name: patientId
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 200
+      responses:
+        '200':
+          description: List of decisions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DoctorDecisionResponse'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  # ============================================================================
+  # PATIENT RIGHTS
+  # ============================================================================
+  /hbs/health/patient/rights:
+    get:
+      tags: [Patient Rights]
+      summary: Get patient rights
+      description: Returns the complete list of patient rights with descriptions and legal references.
+      operationId: getPatientRights
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+            default: en
+      responses:
+        '200':
+          description: List of patient rights
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PatientRight'
+
+  /hbs/health/patient/expectations:
+    get:
+      tags: [Patient Rights]
+      summary: Get patient expectations guide
+      description: Returns what patients should expect during healthcare interactions.
+      operationId: getExpectations
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+            default: en
+      responses:
+        '200':
+          description: Expectations guide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpectationsGuide'
+
+  # ============================================================================
+  # RISK ASSESSMENT
+  # ============================================================================
+  /hbs/health/risk/evaluate:
+    post:
+      tags: [Risk Assessment]
+      summary: Evaluate risk score
+      description: Calculates composite risk score based on 6 factors.
+      operationId: evaluateRisk
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskInput'
+      responses:
+        '200':
+          description: Risk evaluation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskResult'
+
+  /hbs/health/risk/factors:
+    get:
+      tags: [Risk Assessment]
+      summary: Get risk factor definitions
+      description: Returns definitions and weights of all risk factors.
+      operationId: getRiskFactors
+      responses:
+        '200':
+          description: Risk factor definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  factors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RiskFactor'
+
+  /hbs/health/risk/history:
+    get:
+      tags: [Risk Assessment]
+      summary: Get risk assessment history
+      description: Returns historical risk assessments for trend analysis.
+      operationId: getRiskHistory
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: patientId
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Risk history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RiskResult'
+
+  # ============================================================================
+  # ETHICAL SCENARIOS
+  # ============================================================================
+  /hbs/health/scenarios:
+    get:
+      tags: [Scenarios]
+      summary: Get ethical scenarios
+      description: Returns library of ethical scenarios with recommendations.
+      operationId: getScenarios
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [autonomy, communication, justice, confidentiality, end_of_life, consent, conflict]
+        - name: locale
+          in: query
+          schema:
+            type: string
+            default: en
+      responses:
+        '200':
+          description: List of scenarios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EthicalScenario'
+
+  /hbs/health/scenarios/{scenarioId}:
+    get:
+      tags: [Scenarios]
+      summary: Get scenario details
+      operationId: getScenarioById
+      parameters:
+        - name: scenarioId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scenario details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EthicalScenario'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================================================
+  # COMMUNICATION PROTOCOLS
+  # ============================================================================
+  /hbs/health/communication/protocols:
+    get:
+      tags: [Communication]
+      summary: Get communication protocols
+      description: Returns available communication protocols (SPIKES, NURSE, SBAR).
+      operationId: getProtocols
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+            default: en
+      responses:
+        '200':
+          description: List of protocols
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommunicationProtocol'
+
+  /hbs/health/communication/protocols/{protocolId}:
+    get:
+      tags: [Communication]
+      summary: Get protocol details
+      operationId: getProtocolById
+      parameters:
+        - name: protocolId
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [SPIKES, NURSE, SBAR]
+      responses:
+        '200':
+          description: Protocol details with steps
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationProtocol'
+
+  /hbs/health/communication/boundaries:
+    get:
+      tags: [Communication]
+      summary: Get ethical boundaries
+      description: Returns professional, communication, and responsibility boundaries.
+      operationId: getBoundaries
+      responses:
+        '200':
+          description: Boundaries definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EthicalBoundaries'
+
+  # ============================================================================
+  # CONSENT MANAGEMENT
+  # ============================================================================
+  /hbs/health/consent:
+    post:
+      tags: [Consent]
+      summary: Record consent/refusal
+      description: Records informed consent, refusal, or delegation.
+      operationId: recordConsent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentRequest'
+      responses:
+        '201':
+          description: Consent recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentResponse'
+
+    get:
+      tags: [Consent]
+      summary: Get consent records
+      description: Returns consent history for a patient.
+      operationId: getConsents
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: patientId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [consent, refusal, delegation, emergency, minor]
+      responses:
+        '200':
+          description: Consent records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConsentResponse'
+
+  /hbs/health/consent/forms:
+    get:
+      tags: [Consent]
+      summary: Get consent form templates
+      description: Returns available consent form templates.
+      operationId: getConsentForms
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [general, procedure, research, emergency, minor]
+        - name: locale
+          in: query
+          schema:
+            type: string
+            default: en
+      responses:
+        '200':
+          description: Consent form templates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConsentForm'
+
+  /hbs/health/consent/verify:
+    post:
+      tags: [Consent]
+      summary: Verify consent status
+      description: Checks if valid consent exists for a specific procedure.
+      operationId: verifyConsent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [patientId, procedureType]
+              properties:
+                patientId:
+                  type: string
+                procedureType:
+                  type: string
+      responses:
+        '200':
+          description: Consent verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  consentId:
+                    type: string
+                  expiresAt:
+                    type: string
+                    format: date-time
+                  type:
+                    type: string
+
+  # ============================================================================
+  # AUDIT
+  # ============================================================================
+  /hbs/health/audit:
+    get:
+      tags: [Audit]
+      summary: Get audit log
+      description: Returns audit entries for HBS Health module.
+      operationId: getAudit
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: actorId
+          in: query
+          schema:
+            type: string
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [doctor, patient, clinic_admin, super_admin]
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum: [decision, consent, risk_evaluation, scenario_view, protocol_use, boundary_alert]
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+            maximum: 500
+      responses:
+        '200':
+          description: Audit entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditEntry'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  /hbs/health/audit/stats:
+    get:
+      tags: [Audit]
+      summary: Get audit statistics
+      description: Returns aggregated statistics from audit log.
+      operationId: getAuditStats
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, year]
+            default: month
+      responses:
+        '200':
+          description: Audit statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditStats'
+
+  /hbs/health/audit/export:
+    post:
+      tags: [Audit]
+      summary: Export audit log
+      description: Exports audit log for compliance purposes.
+      operationId: exportAudit
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [json, csv, pdf]
+                from:
+                  type: string
+                  format: date-time
+                to:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Export file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+# ============================================================================
+# COMPONENTS
+# ============================================================================
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    mfaToken:
+      type: apiKey
+      in: header
+      name: X-MFA-Token
+
+  schemas:
+    # Decision Tree
+    DecisionTree:
+      type: object
+      properties:
+        version:
+          type: string
+          example: "1.0"
+        root:
+          type: string
+          example: "start"
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DecisionNode'
+
+    DecisionNode:
+      type: object
+      properties:
+        id:
+          type: string
+        question:
+          type: string
+        type:
+          type: string
+          enum: [question, outcome, emergency, boundary]
+        yesPath:
+          type: string
+          nullable: true
+        noPath:
+          type: string
+          nullable: true
+        outcome:
+          type: string
+        recommendation:
+          type: string
+        riskLevel:
+          type: string
+          enum: [low, medium, high, critical]
+
+    DoctorDecisionRequest:
+      type: object
+      required: [doctorId, nodeId, decision]
+      properties:
+        doctorId:
+          type: string
+        patientId:
+          type: string
+        sessionId:
+          type: string
+        nodeId:
+          type: string
+        decision:
+          type: string
+          enum: [yes, no, escalate, defer]
+        riskScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        notes:
+          type: string
+        context:
+          type: object
+          additionalProperties: true
+
+    DoctorDecisionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        doctorId:
+          type: string
+        patientId:
+          type: string
+        nodeId:
+          type: string
+        decision:
+          type: string
+        riskScore:
+          type: integer
+        outcome:
+          type: string
+        recommendation:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    # Patient Rights
+    PatientRight:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        articles:
+          type: array
+          items:
+            type: string
+        actions:
+          type: array
+          items:
+            type: string
+
+    ExpectationsGuide:
+      type: object
+      properties:
+        beforeConsultation:
+          type: array
+          items:
+            type: string
+        duringConsultation:
+          type: array
+          items:
+            type: string
+        afterConsultation:
+          type: array
+          items:
+            type: string
+        yourRights:
+          type: array
+          items:
+            type: string
+
+    # Risk Assessment
+    RiskInput:
+      type: object
+      properties:
+        clinical:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Clinical complexity and patient health status
+        ethical:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Potential for ethical dilemmas
+        communication:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Language barriers, comprehension issues
+        legal:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Litigation potential
+        emotional:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Patient/family emotional state
+        reputational:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Impact on trust and reputation
+        context:
+          type: object
+          properties:
+            emergencyPresent:
+              type: boolean
+            consentMissing:
+              type: boolean
+            conflictPresent:
+              type: boolean
+            boundaryRisk:
+              type: boolean
+
+    RiskResult:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        composite:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+        level:
+          type: string
+          enum: [low, medium, high, critical]
+        factors:
+          type: object
+          properties:
+            clinical:
+              type: integer
+            ethical:
+              type: integer
+            communication:
+              type: integer
+            legal:
+              type: integer
+            emotional:
+              type: integer
+            reputational:
+              type: integer
+        alerts:
+          type: array
+          items:
+            type: string
+        recommendedActions:
+          type: array
+          items:
+            type: string
+
+    RiskFactor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        weight:
+          type: number
+          format: float
+        thresholds:
+          type: object
+          properties:
+            low:
+              type: integer
+            medium:
+              type: integer
+            high:
+              type: integer
+            critical:
+              type: integer
+
+    # Ethical Scenarios
+    EthicalScenario:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        stakeholders:
+          type: array
+          items:
+            type: string
+        dilemma:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              pros:
+                type: array
+                items:
+                  type: string
+              cons:
+                type: array
+                items:
+                  type: string
+              risk:
+                type: string
+        recommendation:
+          type: string
+        references:
+          type: array
+          items:
+            type: string
+
+    # Communication
+    CommunicationProtocol:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        acronym:
+          type: string
+        description:
+          type: string
+        applicableTo:
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          items:
+            type: object
+            properties:
+              letter:
+                type: string
+              step:
+                type: string
+              description:
+                type: string
+              tips:
+                type: array
+                items:
+                  type: string
+
+    EthicalBoundaries:
+      type: object
+      properties:
+        professional:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
+              examples:
+                type: array
+                items:
+                  type: string
+        communication:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
+        responsibility:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              doctorResponsibility:
+                type: string
+              patientResponsibility:
+                type: string
+
+    # Consent
+    ConsentRequest:
+      type: object
+      required: [patientId, doctorId, type]
+      properties:
+        patientId:
+          type: string
+        doctorId:
+          type: string
+        type:
+          type: string
+          enum: [consent, refusal, delegation, emergency, minor]
+        procedureType:
+          type: string
+        context:
+          type: string
+        guardianId:
+          type: string
+          description: Required for minor consent
+        expiresAt:
+          type: string
+          format: date-time
+        signature:
+          type: string
+          description: Base64 encoded signature
+        witnessId:
+          type: string
+
+    ConsentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        patientId:
+          type: string
+        doctorId:
+          type: string
+        type:
+          type: string
+        procedureType:
+          type: string
+        status:
+          type: string
+          enum: [active, expired, revoked]
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+
+    ConsentForm:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        required:
+          type: array
+          items:
+            type: string
+        sections:
+          type: array
+          items:
+            type: string
+        validityPeriod:
+          type: string
+        template:
+          type: string
+          description: HTML/Markdown template
+
+    # Audit
+    AuditEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        actorId:
+          type: string
+        actorRole:
+          type: string
+        action:
+          type: string
+        target:
+          type: string
+        targetType:
+          type: string
+        result:
+          type: string
+          enum: [success, failure, denied]
+        ip:
+          type: string
+        userAgent:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+
+    AuditStats:
+      type: object
+      properties:
+        period:
+          type: string
+        totalActions:
+          type: integer
+        byAction:
+          type: object
+          additionalProperties:
+            type: integer
+        byRole:
+          type: object
+          additionalProperties:
+            type: integer
+        riskAssessments:
+          type: object
+          properties:
+            total:
+              type: integer
+            byLevel:
+              type: object
+              additionalProperties:
+                type: integer
+        consents:
+          type: object
+          properties:
+            total:
+              type: integer
+            byType:
+              type: object
+              additionalProperties:
+                type: integer
+
+    # Common
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        pages:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
