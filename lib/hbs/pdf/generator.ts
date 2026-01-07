@@ -549,7 +549,7 @@ function generateReadinessReport(payload: PdfPayload): ReportSection[] {
         { label: 'Critical Issues', value: data.criticalIssues || 0 },
         { label: 'Modules Ready', value: `${data.modulesReady || 4}/${data.totalModules || 5}` },
         { label: 'Security Score', value: `${data.securityScore || 92}%` },
-      ],
+      ] as any,
     },
     {
       id: 'checklist',
