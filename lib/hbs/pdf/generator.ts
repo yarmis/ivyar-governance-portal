@@ -544,7 +544,7 @@ function generateReadinessReport(payload: PdfPayload): ReportSection[] {
       id: 'kpis',
       title: 'Key Metrics',
       type: 'kpi' as any,
-      content: [   [
+      content: [
         { label: 'Readiness Score', value: `${data.readinessScore || 85}%` },
         { label: 'Critical Issues', value: data.criticalIssues || 0 },
         { label: 'Modules Ready', value: `${data.modulesReady || 4}/${data.totalModules || 5}` },
