@@ -1,6 +1,6 @@
 // lib/freight/index.ts
 // IVYAR Direct Freight Module v2.0
-// Document Flow Engine + Performance & Discipline System
+// Document Flow Engine + Performance System + AI Assistant
 
 // ============================================================================
 // DOCUMENT FLOW ENGINE
@@ -15,13 +15,19 @@ export * from './documents';
 export * from './performance';
 
 // ============================================================================
+// AI ASSISTANT
+// ============================================================================
+
+export * from './ai-assistant';
+
+// ============================================================================
 // MODULE INFO
 // ============================================================================
 
 export const FREIGHT_MODULE_INFO = {
   name: 'Direct Freight',
   version: '2.0.0',
-  description: 'Broker-free logistics platform with document automation and performance tracking',
+  description: 'Broker-free logistics platform with document automation, performance tracking, and AI assistant',
   
   features: {
     documentFlow: {
@@ -45,6 +51,12 @@ export const FREIGHT_MODULE_INFO = {
       badges: true,
       leaderboards: true,
     },
+    aiAssistant: {
+      enabled: true,
+      roles: ['driver', 'shipper', 'dispatcher', 'carrier', 'admin'],
+      modules: ['loads', 'documents', 'payments', 'tracking', 'compliance', 'performance', 'rates'],
+      features: ['hos_guidance', 'rate_calculation', 'document_help', 'compliance_info'],
+    },
     aiRateEngine: {
       enabled: true,
       confidence: 94,
@@ -61,6 +73,7 @@ export const FREIGHT_MODULE_INFO = {
     loadBoard: '/freight/load-board',
     documents: '/freight/documents',
     performance: '/freight/performance',
+    aiAssistant: '/freight/ai-assistant',
     tracking: '/freight/tracking',
     earnings: '/freight/earnings',
   },
@@ -69,6 +82,7 @@ export const FREIGHT_MODULE_INFO = {
     loads: '/api/freight/loads',
     documents: '/api/freight/documents',
     performance: '/api/freight/performance',
+    ai: '/api/freight/ai',
     tracking: '/api/freight/tracking',
     payments: '/api/freight/payments',
   },
