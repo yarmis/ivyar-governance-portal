@@ -1,0 +1,987 @@
+openapi: 3.0.3
+info:
+  title: IVYAR Access Governance API
+  description: |
+    The IVYAR Access Governance Module (AGM) API provides centralized, auditable, 
+    and policy-driven access control for all IVYAR platform modules.
+    
+    ## Authentication
+    All endpoints require Bearer token authentication.
+    
+    ## Rate Limiting
+    - Standard: 1000 requests/minute
+    - Admin: 100 requests/minute
+    
+    ## Compliance
+    - GDPR compliant
+    - NIST 800-53 aligned
+    - ISO/IEC 27001 certified
+  version: 2.0.0
+  contact:
+    name: IVYAR Support
+    email: info@ivyar.org
+    url: https://ivyar.org
+  license:
+    name: Proprietary
+    url: https://ivyar.org/license
+
+servers:
+  - url: https://api.ivyar.org/v2
+    description: Production server
+  - url: https://staging-api.ivyar.org/v2
+    description: Staging server
+  - url: http://localhost:3000/api
+    description: Development server
+
+tags:
+  - name: Roles
+    description: Role management operations
+  - name: Permissions
+    description: Permission management operations
+  - name: Users
+    description: User access management
+  - name: Policies
+    description: Policy configuration
+  - name: Audit
+    description: Audit log operations
+  - name: Consistency
+    description: Consistency checks
+
+paths:
+  # ============================================================================
+  # ROLES
+  # ============================================================================
+  /access/roles:
+    get:
+      tags: [Roles]
+      summary: Get all roles
+      description: Returns a list of all defined roles with their permissions and metadata.
+      operationId: getRoles
+      parameters:
+        - name: level
+          in: query
+          description: Filter by role level
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10
+        - name: type
+          in: query
+          description: Filter by role type
+          schema:
+            type: string
+            enum: [user, partner, admin]
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags: [Roles]
+      summary: Create a new role
+      description: Creates a new role. Requires super_admin privileges.
+      operationId: createRole
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoleRequest'
+      responses:
+        '201':
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /access/roles/{roleCode}:
+    get:
+      tags: [Roles]
+      summary: Get role by code
+      operationId: getRoleByCode
+      parameters:
+        - name: roleCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Role details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Roles]
+      summary: Update a role
+      operationId: updateRole
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+      parameters:
+        - name: roleCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoleRequest'
+      responses:
+        '200':
+          description: Role updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Roles]
+      summary: Delete a role
+      description: Deletes a role. Role must have no active users.
+      operationId: deleteRole
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+      parameters:
+        - name: roleCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Role deleted
+        '400':
+          description: Role has active users
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================================================
+  # PERMISSIONS
+  # ============================================================================
+  /access/permissions:
+    get:
+      tags: [Permissions]
+      summary: Get all permissions
+      operationId: getPermissions
+      parameters:
+        - name: module
+          in: query
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [read, write, admin, system]
+      responses:
+        '200':
+          description: List of permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Permission'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+
+  /access/permissions/{permissionKey}:
+    get:
+      tags: [Permissions]
+      summary: Get permission by key
+      operationId: getPermissionByKey
+      parameters:
+        - name: permissionKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Permission details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================================================
+  # USERS
+  # ============================================================================
+  /access/users:
+    get:
+      tags: [Users]
+      summary: Get users with roles
+      operationId: getUsers
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, pending, suspended, blocked]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 100
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  /access/users/{userId}:
+    get:
+      tags: [Users]
+      summary: Get user by ID
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /access/assign:
+    post:
+      tags: [Users]
+      summary: Assign role to user
+      operationId: assignRole
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, role]
+              properties:
+                userId:
+                  type: string
+                role:
+                  type: string
+                expiresAt:
+                  type: string
+                  format: date-time
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Role assigned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  auditId:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /access/revoke:
+    post:
+      tags: [Users]
+      summary: Revoke role from user
+      operationId: revokeRole
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, role]
+              properties:
+                userId:
+                  type: string
+                role:
+                  type: string
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Role revoked successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ============================================================================
+  # POLICIES
+  # ============================================================================
+  /access/policies:
+    get:
+      tags: [Policies]
+      summary: Get all policies
+      operationId: getPolicies
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, draft, deprecated]
+      responses:
+        '200':
+          description: List of policies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Policy'
+
+  /access/policies/{policyId}:
+    get:
+      tags: [Policies]
+      summary: Get policy by ID
+      operationId: getPolicyById
+      parameters:
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Policy details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Policies]
+      summary: Update a policy
+      description: Requires dual approval for security policies.
+      operationId: updatePolicy
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+        - dualApproval: []
+      parameters:
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePolicyRequest'
+      responses:
+        '200':
+          description: Policy updated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ============================================================================
+  # CONSISTENCY
+  # ============================================================================
+  /access/consistency:
+    get:
+      tags: [Consistency]
+      summary: Run consistency checks
+      description: Executes all 12 consistency checks and returns results.
+      operationId: runConsistencyChecks
+      responses:
+        '200':
+          description: Consistency check results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsistencyReport'
+
+  /access/consistency/{checkId}:
+    get:
+      tags: [Consistency]
+      summary: Get specific check result
+      operationId: getCheckById
+      parameters:
+        - name: checkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Check details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsistencyCheck'
+
+  # ============================================================================
+  # AUDIT
+  # ============================================================================
+  /access/audit:
+    get:
+      tags: [Audit]
+      summary: Get audit log
+      operationId: getAuditLog
+      parameters:
+        - name: actor
+          in: query
+          schema:
+            type: string
+        - name: action
+          in: query
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          schema:
+            type: string
+            enum: [user, role, permission, policy, module, system]
+        - name: result
+          in: query
+          schema:
+            type: string
+            enum: [success, failure, denied]
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+            maximum: 1000
+      responses:
+        '200':
+          description: Audit entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditEntry'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  /access/audit/export:
+    post:
+      tags: [Audit]
+      summary: Export audit log
+      description: Export audit log for compliance review.
+      operationId: exportAuditLog
+      security:
+        - bearerAuth: []
+        - mfaToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [json, csv, pdf]
+                from:
+                  type: string
+                  format: date-time
+                to:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Export file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /access/audit/stats:
+    get:
+      tags: [Audit]
+      summary: Get audit statistics
+      operationId: getAuditStats
+      responses:
+        '200':
+          description: Audit statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditStats'
+
+# ============================================================================
+# COMPONENTS
+# ============================================================================
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    mfaToken:
+      type: apiKey
+      in: header
+      name: X-MFA-Token
+    dualApproval:
+      type: apiKey
+      in: header
+      name: X-Dual-Approval-Token
+
+  schemas:
+    Role:
+      type: object
+      properties:
+        code:
+          type: string
+          example: business
+        name:
+          type: string
+          example: Business
+        nameUk:
+          type: string
+          example: Бізнес
+        level:
+          type: integer
+          minimum: 0
+          maximum: 10
+          example: 2
+        type:
+          type: string
+          enum: [user, partner, admin]
+        permissions:
+          type: array
+          items:
+            type: string
+        routes:
+          type: array
+          items:
+            type: string
+        canCreate:
+          type: array
+          items:
+            type: string
+        userCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateRoleRequest:
+      type: object
+      required: [code, name, level, permissions]
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        nameUk:
+          type: string
+        level:
+          type: integer
+        permissions:
+          type: array
+          items:
+            type: string
+        routes:
+          type: array
+          items:
+            type: string
+        canCreate:
+          type: array
+          items:
+            type: string
+
+    UpdateRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        routes:
+          type: array
+          items:
+            type: string
+
+    Permission:
+      type: object
+      properties:
+        key:
+          type: string
+          example: business.contracts.sign
+        module:
+          type: string
+          example: business
+        name:
+          type: string
+          example: Sign Contracts
+        description:
+          type: string
+        risk:
+          type: string
+          enum: [low, medium, high, critical]
+        category:
+          type: string
+          enum: [read, write, admin, system]
+        assignedRoles:
+          type: array
+          items:
+            type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [active, pending, suspended, blocked]
+        lastLogin:
+          type: string
+          format: date-time
+        mfaEnabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    Policy:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fullName:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+          enum: [active, draft, deprecated]
+        purpose:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+        effectiveDate:
+          type: string
+          format: date
+        references:
+          type: array
+          items:
+            type: string
+
+    PolicyRule:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        condition:
+          type: string
+        action:
+          type: string
+          enum: [allow, deny, require_mfa, dual_approval, log, escalate, alert]
+        severity:
+          type: string
+          enum: [info, warning, critical]
+
+    UpdatePolicyRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [active, draft, deprecated]
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+
+    ConsistencyReport:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        passed:
+          type: boolean
+        summary:
+          type: object
+          properties:
+            total:
+              type: integer
+            passed:
+              type: integer
+            failed:
+              type: integer
+            critical:
+              type: integer
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsistencyCheck'
+
+    ConsistencyCheck:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        passed:
+          type: boolean
+        severity:
+          type: string
+          enum: [info, warning, critical]
+        details:
+          type: array
+          items:
+            type: string
+
+    AuditEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          type: string
+        actorRole:
+          type: string
+        action:
+          type: string
+        target:
+          type: string
+        targetType:
+          type: string
+        result:
+          type: string
+          enum: [success, failure, denied]
+        ip:
+          type: string
+        userAgent:
+          type: string
+        metadata:
+          type: object
+
+    AuditStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        last24h:
+          type: integer
+        byResult:
+          type: object
+          properties:
+            success:
+              type: integer
+            failure:
+              type: integer
+            denied:
+              type: integer
+        byAction:
+          type: object
+          additionalProperties:
+            type: integer
+
+    Meta:
+      type: object
+      properties:
+        total:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        pages:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

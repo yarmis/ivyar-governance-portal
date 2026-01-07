@@ -4,191 +4,169 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 // ============================================================================
-// IMPORTS (These would come from lib/auth in production)
+// COMPLETE DATA (54 permissions, 11 roles, 6 policies, 12 checks)
 // ============================================================================
 
-// Permission definitions
-const PERMISSION_MODULES = [
-  'auth', 'profile', 'citizen', 'business', 'employer', 'attorney',
-  'payments', 'api', 'localization', 'notifications', 'security',
-  'breaches', 'admin'
-];
-
-interface PermissionDefinition {
-  key: string;
-  module: string;
-  name: string;
-  description: string;
-  risk: 'low' | 'medium' | 'high' | 'critical';
-  category: 'read' | 'write' | 'admin' | 'system';
-}
-
-// Complete 54 permissions
-const PERMISSIONS: PermissionDefinition[] = [
+// Permissions (54 total)
+const PERMISSIONS = [
   // Auth (5)
-  { key: 'auth.login', module: 'auth', name: 'Login', description: 'Authenticate into the platform', risk: 'low', category: 'system' },
-  { key: 'auth.logout', module: 'auth', name: 'Logout', description: 'End current session', risk: 'low', category: 'system' },
-  { key: 'auth.refresh', module: 'auth', name: 'Refresh Token', description: 'Refresh authentication tokens', risk: 'low', category: 'system' },
-  { key: 'auth.mfa.enable', module: 'auth', name: 'Enable MFA', description: 'Enable multi-factor authentication', risk: 'medium', category: 'write' },
-  { key: 'auth.mfa.disable', module: 'auth', name: 'Disable MFA', description: 'Disable multi-factor authentication', risk: 'high', category: 'write' },
+  { key: 'auth.login', module: 'auth', name: 'Login', risk: 'low', category: 'system' },
+  { key: 'auth.logout', module: 'auth', name: 'Logout', risk: 'low', category: 'system' },
+  { key: 'auth.refresh', module: 'auth', name: 'Refresh Token', risk: 'low', category: 'system' },
+  { key: 'auth.mfa.enable', module: 'auth', name: 'Enable MFA', risk: 'medium', category: 'write' },
+  { key: 'auth.mfa.disable', module: 'auth', name: 'Disable MFA', risk: 'high', category: 'write' },
   // Profile (4)
-  { key: 'profile.view', module: 'profile', name: 'View Profile', description: 'View own user profile', risk: 'low', category: 'read' },
-  { key: 'profile.update', module: 'profile', name: 'Update Profile', description: 'Modify own profile information', risk: 'low', category: 'write' },
-  { key: 'profile.documents.upload', module: 'profile', name: 'Upload Documents', description: 'Upload personal documents', risk: 'low', category: 'write' },
-  { key: 'profile.documents.delete', module: 'profile', name: 'Delete Documents', description: 'Remove personal documents', risk: 'medium', category: 'write' },
+  { key: 'profile.view', module: 'profile', name: 'View Profile', risk: 'low', category: 'read' },
+  { key: 'profile.update', module: 'profile', name: 'Update Profile', risk: 'low', category: 'write' },
+  { key: 'profile.documents.upload', module: 'profile', name: 'Upload Documents', risk: 'low', category: 'write' },
+  { key: 'profile.documents.delete', module: 'profile', name: 'Delete Documents', risk: 'medium', category: 'write' },
   // Citizen (5)
-  { key: 'citizen.dashboard', module: 'citizen', name: 'Citizen Dashboard', description: 'Access citizen dashboard', risk: 'low', category: 'read' },
-  { key: 'citizen.applications.create', module: 'citizen', name: 'Create Applications', description: 'Submit new applications', risk: 'low', category: 'write' },
-  { key: 'citizen.applications.view', module: 'citizen', name: 'View Applications', description: 'View own applications', risk: 'low', category: 'read' },
-  { key: 'citizen.applications.update', module: 'citizen', name: 'Update Applications', description: 'Modify pending applications', risk: 'low', category: 'write' },
-  { key: 'citizen.documents.view', module: 'citizen', name: 'View Documents', description: 'View personal documents', risk: 'low', category: 'read' },
+  { key: 'citizen.dashboard', module: 'citizen', name: 'Citizen Dashboard', risk: 'low', category: 'read' },
+  { key: 'citizen.applications.create', module: 'citizen', name: 'Create Applications', risk: 'low', category: 'write' },
+  { key: 'citizen.applications.view', module: 'citizen', name: 'View Applications', risk: 'low', category: 'read' },
+  { key: 'citizen.applications.update', module: 'citizen', name: 'Update Applications', risk: 'low', category: 'write' },
+  { key: 'citizen.documents.view', module: 'citizen', name: 'View Documents', risk: 'low', category: 'read' },
   // Business (7)
-  { key: 'business.dashboard', module: 'business', name: 'Business Dashboard', description: 'Access business dashboard', risk: 'low', category: 'read' },
-  { key: 'business.company.manage', module: 'business', name: 'Manage Company', description: 'Manage company profile', risk: 'medium', category: 'write' },
-  { key: 'business.documents.manage', module: 'business', name: 'Manage Documents', description: 'Manage business documents', risk: 'medium', category: 'write' },
-  { key: 'business.contracts.create', module: 'business', name: 'Create Contracts', description: 'Create new contracts', risk: 'medium', category: 'write' },
-  { key: 'business.contracts.sign', module: 'business', name: 'Sign Contracts', description: 'Digitally sign contracts', risk: 'high', category: 'write' },
-  { key: 'business.payments.process', module: 'business', name: 'Process Payments', description: 'Execute payments', risk: 'high', category: 'write' },
-  { key: 'business.api.access', module: 'business', name: 'API Access', description: 'Access business API', risk: 'medium', category: 'read' },
+  { key: 'business.dashboard', module: 'business', name: 'Business Dashboard', risk: 'low', category: 'read' },
+  { key: 'business.company.manage', module: 'business', name: 'Manage Company', risk: 'medium', category: 'write' },
+  { key: 'business.documents.manage', module: 'business', name: 'Manage Documents', risk: 'medium', category: 'write' },
+  { key: 'business.contracts.create', module: 'business', name: 'Create Contracts', risk: 'medium', category: 'write' },
+  { key: 'business.contracts.sign', module: 'business', name: 'Sign Contracts', risk: 'high', category: 'write' },
+  { key: 'business.payments.process', module: 'business', name: 'Process Payments', risk: 'high', category: 'write' },
+  { key: 'business.api.access', module: 'business', name: 'API Access', risk: 'medium', category: 'read' },
   // Employer (5)
-  { key: 'employer.dashboard', module: 'employer', name: 'Employer Dashboard', description: 'Access employer dashboard', risk: 'low', category: 'read' },
-  { key: 'employer.employees.manage', module: 'employer', name: 'Manage Employees', description: 'Manage employee records', risk: 'medium', category: 'write' },
-  { key: 'employer.documents.verify', module: 'employer', name: 'Verify Documents', description: 'Verify employee documents', risk: 'medium', category: 'write' },
-  { key: 'employer.hr.integrations', module: 'employer', name: 'HR Integrations', description: 'Connect HR systems', risk: 'high', category: 'admin' },
-  { key: 'employer.applications.submit', module: 'employer', name: 'Submit Applications', description: 'Submit on behalf of company', risk: 'medium', category: 'write' },
+  { key: 'employer.dashboard', module: 'employer', name: 'Employer Dashboard', risk: 'low', category: 'read' },
+  { key: 'employer.employees.manage', module: 'employer', name: 'Manage Employees', risk: 'medium', category: 'write' },
+  { key: 'employer.documents.verify', module: 'employer', name: 'Verify Documents', risk: 'medium', category: 'write' },
+  { key: 'employer.hr.integrations', module: 'employer', name: 'HR Integrations', risk: 'high', category: 'admin' },
+  { key: 'employer.applications.submit', module: 'employer', name: 'Submit Applications', risk: 'medium', category: 'write' },
   // Attorney (5)
-  { key: 'attorney.dashboard', module: 'attorney', name: 'Attorney Dashboard', description: 'Access legal dashboard', risk: 'low', category: 'read' },
-  { key: 'attorney.clients.access', module: 'attorney', name: 'Client Access', description: 'Access client information', risk: 'high', category: 'read' },
-  { key: 'attorney.documents.sign', module: 'attorney', name: 'Sign Documents', description: 'Sign legal documents', risk: 'high', category: 'write' },
-  { key: 'attorney.applications.submit.on_behalf', module: 'attorney', name: 'Submit on Behalf', description: 'Submit for clients', risk: 'high', category: 'write' },
-  { key: 'attorney.audit.view', module: 'attorney', name: 'View Audit', description: 'View case audit history', risk: 'medium', category: 'read' },
+  { key: 'attorney.dashboard', module: 'attorney', name: 'Attorney Dashboard', risk: 'low', category: 'read' },
+  { key: 'attorney.clients.access', module: 'attorney', name: 'Client Access', risk: 'high', category: 'read' },
+  { key: 'attorney.documents.sign', module: 'attorney', name: 'Sign Documents', risk: 'high', category: 'write' },
+  { key: 'attorney.applications.submit.on_behalf', module: 'attorney', name: 'Submit on Behalf', risk: 'high', category: 'write' },
+  { key: 'attorney.audit.view', module: 'attorney', name: 'View Audit', risk: 'medium', category: 'read' },
   // Payments (4)
-  { key: 'payments.initiate', module: 'payments', name: 'Initiate Payment', description: 'Start payment transactions', risk: 'high', category: 'write' },
-  { key: 'payments.refund', module: 'payments', name: 'Process Refund', description: 'Issue payment refunds', risk: 'critical', category: 'write' },
-  { key: 'payments.history.view', module: 'payments', name: 'View History', description: 'View transaction history', risk: 'low', category: 'read' },
-  { key: 'payments.billing.manage', module: 'payments', name: 'Manage Billing', description: 'Configure billing', risk: 'high', category: 'admin' },
+  { key: 'payments.initiate', module: 'payments', name: 'Initiate Payment', risk: 'high', category: 'write' },
+  { key: 'payments.refund', module: 'payments', name: 'Process Refund', risk: 'critical', category: 'write' },
+  { key: 'payments.history.view', module: 'payments', name: 'View History', risk: 'low', category: 'read' },
+  { key: 'payments.billing.manage', module: 'payments', name: 'Manage Billing', risk: 'high', category: 'admin' },
   // API (5)
-  { key: 'api.read', module: 'api', name: 'API Read', description: 'Read data via API', risk: 'low', category: 'read' },
-  { key: 'api.write', module: 'api', name: 'API Write', description: 'Write data via API', risk: 'medium', category: 'write' },
-  { key: 'api.admin', module: 'api', name: 'API Admin', description: 'Administer API', risk: 'high', category: 'admin' },
-  { key: 'api.keys.create', module: 'api', name: 'Create Keys', description: 'Generate API keys', risk: 'high', category: 'admin' },
-  { key: 'api.keys.revoke', module: 'api', name: 'Revoke Keys', description: 'Invalidate API keys', risk: 'high', category: 'admin' },
+  { key: 'api.read', module: 'api', name: 'API Read', risk: 'low', category: 'read' },
+  { key: 'api.write', module: 'api', name: 'API Write', risk: 'medium', category: 'write' },
+  { key: 'api.admin', module: 'api', name: 'API Admin', risk: 'high', category: 'admin' },
+  { key: 'api.keys.create', module: 'api', name: 'Create Keys', risk: 'high', category: 'admin' },
+  { key: 'api.keys.revoke', module: 'api', name: 'Revoke Keys', risk: 'high', category: 'admin' },
   // Localization (3)
-  { key: 'localization.languages.manage', module: 'localization', name: 'Manage Languages', description: 'Manage supported languages', risk: 'medium', category: 'admin' },
-  { key: 'localization.translations.edit', module: 'localization', name: 'Edit Translations', description: 'Modify translations', risk: 'low', category: 'write' },
-  { key: 'localization.translations.publish', module: 'localization', name: 'Publish Translations', description: 'Deploy translations', risk: 'medium', category: 'admin' },
+  { key: 'localization.languages.manage', module: 'localization', name: 'Manage Languages', risk: 'medium', category: 'admin' },
+  { key: 'localization.translations.edit', module: 'localization', name: 'Edit Translations', risk: 'low', category: 'write' },
+  { key: 'localization.translations.publish', module: 'localization', name: 'Publish Translations', risk: 'medium', category: 'admin' },
   // Notifications (3)
-  { key: 'notifications.send', module: 'notifications', name: 'Send Notifications', description: 'Send system notifications', risk: 'medium', category: 'write' },
-  { key: 'notifications.templates.manage', module: 'notifications', name: 'Manage Templates', description: 'Manage notification templates', risk: 'medium', category: 'admin' },
-  { key: 'notifications.settings.update', module: 'notifications', name: 'Update Settings', description: 'Configure notification settings', risk: 'low', category: 'write' },
+  { key: 'notifications.send', module: 'notifications', name: 'Send Notifications', risk: 'medium', category: 'write' },
+  { key: 'notifications.templates.manage', module: 'notifications', name: 'Manage Templates', risk: 'medium', category: 'admin' },
+  { key: 'notifications.settings.update', module: 'notifications', name: 'Update Settings', risk: 'low', category: 'write' },
   // Security (6)
-  { key: 'security.dashboard', module: 'security', name: 'Security Dashboard', description: 'Access security dashboard', risk: 'high', category: 'read' },
-  { key: 'security.heatmap.view', module: 'security', name: 'View Heatmap', description: 'View threat heatmap', risk: 'medium', category: 'read' },
-  { key: 'security.ip.analysis', module: 'security', name: 'IP Analysis', description: 'Analyze IP patterns', risk: 'high', category: 'read' },
-  { key: 'security.user.block', module: 'security', name: 'Block User', description: 'Block user accounts', risk: 'critical', category: 'admin' },
-  { key: 'security.user.unblock', module: 'security', name: 'Unblock User', description: 'Restore blocked users', risk: 'high', category: 'admin' },
-  { key: 'security.audit.logs', module: 'security', name: 'Audit Logs', description: 'Access audit logs', risk: 'high', category: 'read' },
+  { key: 'security.dashboard', module: 'security', name: 'Security Dashboard', risk: 'high', category: 'read' },
+  { key: 'security.heatmap.view', module: 'security', name: 'View Heatmap', risk: 'medium', category: 'read' },
+  { key: 'security.ip.analysis', module: 'security', name: 'IP Analysis', risk: 'high', category: 'read' },
+  { key: 'security.user.block', module: 'security', name: 'Block User', risk: 'critical', category: 'admin' },
+  { key: 'security.user.unblock', module: 'security', name: 'Unblock User', risk: 'high', category: 'admin' },
+  { key: 'security.audit.logs', module: 'security', name: 'Audit Logs', risk: 'high', category: 'read' },
   // Breaches (4)
-  { key: 'breaches.incidents.view', module: 'breaches', name: 'View Incidents', description: 'View security incidents', risk: 'high', category: 'read' },
-  { key: 'breaches.incidents.manage', module: 'breaches', name: 'Manage Incidents', description: 'Manage incidents', risk: 'critical', category: 'admin' },
-  { key: 'breaches.events.timeline', module: 'breaches', name: 'Event Timeline', description: 'View incident timeline', risk: 'medium', category: 'read' },
-  { key: 'breaches.escalation.trigger', module: 'breaches', name: 'Trigger Escalation', description: 'Escalate incidents', risk: 'critical', category: 'admin' },
+  { key: 'breaches.incidents.view', module: 'breaches', name: 'View Incidents', risk: 'high', category: 'read' },
+  { key: 'breaches.incidents.manage', module: 'breaches', name: 'Manage Incidents', risk: 'critical', category: 'admin' },
+  { key: 'breaches.events.timeline', module: 'breaches', name: 'Event Timeline', risk: 'medium', category: 'read' },
+  { key: 'breaches.escalation.trigger', module: 'breaches', name: 'Trigger Escalation', risk: 'critical', category: 'admin' },
   // Admin (6)
-  { key: 'admin.users.manage', module: 'admin', name: 'Manage Users', description: 'Manage user accounts', risk: 'critical', category: 'admin' },
-  { key: 'admin.roles.manage', module: 'admin', name: 'Manage Roles', description: 'Manage roles', risk: 'critical', category: 'admin' },
-  { key: 'admin.permissions.manage', module: 'admin', name: 'Manage Permissions', description: 'Manage permissions', risk: 'critical', category: 'admin' },
-  { key: 'admin.modules.enable', module: 'admin', name: 'Enable Modules', description: 'Activate modules', risk: 'high', category: 'admin' },
-  { key: 'admin.modules.disable', module: 'admin', name: 'Disable Modules', description: 'Deactivate modules', risk: 'critical', category: 'admin' },
-  { key: 'admin.settings.update', module: 'admin', name: 'Update Settings', description: 'Modify system settings', risk: 'high', category: 'admin' },
+  { key: 'admin.users.manage', module: 'admin', name: 'Manage Users', risk: 'critical', category: 'admin' },
+  { key: 'admin.roles.manage', module: 'admin', name: 'Manage Roles', risk: 'critical', category: 'admin' },
+  { key: 'admin.permissions.manage', module: 'admin', name: 'Manage Permissions', risk: 'critical', category: 'admin' },
+  { key: 'admin.modules.enable', module: 'admin', name: 'Enable Modules', risk: 'high', category: 'admin' },
+  { key: 'admin.modules.disable', module: 'admin', name: 'Disable Modules', risk: 'critical', category: 'admin' },
+  { key: 'admin.settings.update', module: 'admin', name: 'Update Settings', risk: 'high', category: 'admin' },
 ];
 
-// Roles
-interface Role {
-  code: string;
-  name: string;
-  level: number;
-  permissionCount: number;
-  userCount: number;
-  type: 'user' | 'partner' | 'admin';
-}
-
-const ROLES: Role[] = [
-  { code: 'citizen', name: 'Citizen', level: 1, permissionCount: 17, userCount: 8920, type: 'user' },
-  { code: 'business', name: 'Business', level: 2, permissionCount: 21, userCount: 2340, type: 'user' },
-  { code: 'employer', name: 'Employer', level: 3, permissionCount: 23, userCount: 890, type: 'user' },
-  { code: 'attorney', name: 'Attorney', level: 4, permissionCount: 18, userCount: 156, type: 'user' },
-  { code: 'government', name: 'Government', level: 6, permissionCount: 15, userCount: 45, type: 'partner' },
-  { code: 'donor', name: 'Donor', level: 5, permissionCount: 10, userCount: 12, type: 'partner' },
-  { code: 'auditor', name: 'Auditor', level: 5, permissionCount: 16, userCount: 8, type: 'partner' },
-  { code: 'pilot_admin', name: 'Pilot Admin', level: 7, permissionCount: 11, userCount: 5, type: 'admin' },
-  { code: 'security_admin', name: 'Security Admin', level: 8, permissionCount: 14, userCount: 3, type: 'admin' },
-  { code: 'breaches_admin', name: 'Breaches Admin', level: 8, permissionCount: 13, userCount: 2, type: 'admin' },
-  { code: 'super_admin', name: 'Super Admin', level: 10, permissionCount: 54, userCount: 2, type: 'admin' },
+// Roles (11 total)
+const ROLES = [
+  { code: 'public', name: 'Public', level: 0, permCount: 1, userCount: 0, type: 'user' },
+  { code: 'citizen', name: 'Citizen', level: 1, permCount: 17, userCount: 8920, type: 'user' },
+  { code: 'business', name: 'Business', level: 2, permCount: 21, userCount: 2340, type: 'user' },
+  { code: 'employer', name: 'Employer', level: 3, permCount: 23, userCount: 890, type: 'user' },
+  { code: 'attorney', name: 'Attorney', level: 4, permCount: 18, userCount: 156, type: 'user' },
+  { code: 'donor', name: 'Donor', level: 5, permCount: 10, userCount: 12, type: 'partner' },
+  { code: 'auditor', name: 'Auditor', level: 5, permCount: 16, userCount: 8, type: 'partner' },
+  { code: 'government', name: 'Government', level: 6, permCount: 15, userCount: 45, type: 'partner' },
+  { code: 'pilot_admin', name: 'Pilot Admin', level: 7, permCount: 11, userCount: 5, type: 'admin' },
+  { code: 'security_admin', name: 'Security Admin', level: 8, permCount: 14, userCount: 3, type: 'admin' },
+  { code: 'breaches_admin', name: 'Breaches Admin', level: 8, permCount: 13, userCount: 2, type: 'admin' },
+  { code: 'super_admin', name: 'Super Admin', level: 10, permCount: 54, userCount: 2, type: 'admin' },
 ];
 
-// Policies
-interface Policy {
-  id: string;
-  name: string;
-  type: string;
-  status: 'active' | 'draft' | 'restricted' | 'deprecated';
-  rules: number;
-}
-
-const POLICIES: Policy[] = [
-  { id: 'POL-001', name: 'Module Access Policy', type: 'access', status: 'active', rules: 2 },
-  { id: 'POL-002', name: 'Admin Access Policy', type: 'access', status: 'active', rules: 2 },
-  { id: 'POL-003', name: 'Security Operations Policy', type: 'security', status: 'active', rules: 2 },
-  { id: 'POL-004', name: 'Incident Escalation Policy', type: 'escalation', status: 'active', rules: 2 },
-  { id: 'POL-005', name: 'Data Protection Policy', type: 'data', status: 'active', rules: 2 },
+// Formal Policies (6 total, 25 rules)
+const POLICIES = [
+  {
+    id: 'ACP-01', name: 'Access Control Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'ACP-01.01', desc: 'Role-Based Access Only', action: 'deny', severity: 'critical' },
+      { id: 'ACP-01.02', desc: 'Least Privilege Principle', action: 'alert', severity: 'warning' },
+      { id: 'ACP-01.03', desc: 'No Implicit Access', action: 'deny', severity: 'critical' },
+      { id: 'ACP-01.04', desc: 'Separation of Duties', action: 'deny', severity: 'critical' },
+      { id: 'ACP-01.05', desc: 'Sensitive Modules Restricted', action: 'deny', severity: 'critical' },
+      { id: 'ACP-01.06', desc: 'Government Role Restriction', action: 'deny', severity: 'critical' },
+    ]
+  },
+  {
+    id: 'PRM-02', name: 'Role Management Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'PRM-02.01', desc: 'Role Creation Restricted', action: 'deny', severity: 'critical' },
+      { id: 'PRM-02.02', desc: 'Role Modification Audit', action: 'log', severity: 'info' },
+      { id: 'PRM-02.03', desc: 'Role Deletion Protection', action: 'deny', severity: 'critical' },
+      { id: 'PRM-02.04', desc: 'Role Consistency Check', action: 'deny', severity: 'critical' },
+      { id: 'PRM-02.05', desc: 'Admin Role Dual Approval', action: 'dual_approval', severity: 'critical' },
+    ]
+  },
+  {
+    id: 'PP-03', name: 'Permission Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'PP-03.01', desc: 'Permission Namespacing Required', action: 'deny', severity: 'warning' },
+      { id: 'PP-03.02', desc: 'No Wildcards Except Super Admin', action: 'deny', severity: 'critical' },
+      { id: 'PP-03.03', desc: 'No Orphan Permissions', action: 'alert', severity: 'warning' },
+      { id: 'PP-03.04', desc: 'Critical Permissions Require MFA', action: 'require_mfa', severity: 'critical' },
+    ]
+  },
+  {
+    id: 'SP-04', name: 'Security Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'SP-04.01', desc: 'High-Risk Actions Require MFA', action: 'require_mfa', severity: 'critical' },
+      { id: 'SP-04.02', desc: 'IP-based Restrictions for Admins', action: 'deny', severity: 'critical' },
+      { id: 'SP-04.03', desc: '5+ Changes in 5min = Incident', action: 'escalate', severity: 'critical' },
+      { id: 'SP-04.04', desc: '30min Admin Session Timeout', action: 'deny', severity: 'warning' },
+      { id: 'SP-04.05', desc: '5 Failed Logins = Lockout', action: 'deny', severity: 'critical' },
+    ]
+  },
+  {
+    id: 'EP-05', name: 'Escalation Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'EP-05.01', desc: 'Security Changes Need Dual Approval', action: 'dual_approval', severity: 'critical' },
+      { id: 'EP-05.02', desc: 'Emergency Access: 30min Max', action: 'allow', severity: 'critical' },
+      { id: 'EP-05.03', desc: 'Escalation Log Required', action: 'log', severity: 'info' },
+      { id: 'EP-05.04', desc: 'Critical Incident Notification', action: 'alert', severity: 'critical' },
+      { id: 'EP-05.05', desc: '24h Unresolved = Auto-Escalate', action: 'escalate', severity: 'warning' },
+    ]
+  },
+  {
+    id: 'DP-06', name: 'Data Protection Policy', status: 'active', version: '2.0',
+    rules: [
+      { id: 'DP-06.01', desc: 'Sensitive Data Requires MFA', action: 'require_mfa', severity: 'critical' },
+      { id: 'DP-06.02', desc: 'Large Export Logging (>1000)', action: 'log', severity: 'warning' },
+      { id: 'DP-06.03', desc: 'PII Access Audit', action: 'log', severity: 'info' },
+      { id: 'DP-06.04', desc: 'Cross-border Transfer Restriction', action: 'deny', severity: 'critical' },
+    ]
+  }
 ];
 
-// Users (sample)
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: 'active' | 'pending' | 'suspended' | 'blocked';
-  lastLogin: string;
-}
-
-const USERS: User[] = [
-  { id: '1', name: 'Olena Kovalenko', email: 'o.kovalenko@gov.ua', role: 'super_admin', status: 'active', lastLogin: '2 min ago' },
-  { id: '2', name: 'John Smith', email: 'j.smith@company.com', role: 'business', status: 'active', lastLogin: '1 hour ago' },
-  { id: '3', name: 'Maria Garcia', email: 'm.garcia@legal.com', role: 'attorney', status: 'active', lastLogin: '3 hours ago' },
-  { id: '4', name: 'Ahmed Hassan', email: 'a.hassan@org.com', role: 'employer', status: 'pending', lastLogin: 'Never' },
-  { id: '5', name: 'Sarah Johnson', email: 's.johnson@usaid.gov', role: 'donor', status: 'active', lastLogin: '1 day ago' },
-  { id: '6', name: 'Ivan Petrenko', email: 'i.petrenko@audit.com', role: 'auditor', status: 'active', lastLogin: '2 days ago' },
-];
-
-// Audit entries
-interface AuditEntry {
-  id: string;
-  timestamp: string;
-  actor: string;
-  action: string;
-  target: string;
-  result: 'success' | 'failure' | 'denied';
-}
-
-const AUDIT_LOG: AuditEntry[] = [
-  { id: '1', timestamp: '2026-01-06 14:12', actor: 'super_admin', action: 'update_role', target: 'business', result: 'success' },
-  { id: '2', timestamp: '2026-01-06 14:08', actor: 'security_admin', action: 'user_block', target: '45.33.32.156', result: 'success' },
-  { id: '3', timestamp: '2026-01-06 13:55', actor: 'admin@ivyar.org', action: 'role_assign', target: 'j.smith@company.com', result: 'success' },
-  { id: '4', timestamp: '2026-01-06 13:44', actor: 'system', action: 'policy_check', target: 'POL-001', result: 'success' },
-  { id: '5', timestamp: '2026-01-06 13:30', actor: 'WAF', action: 'incident_create', target: 'INC-005', result: 'success' },
-];
-
-// Consistency checks
-interface ConsistencyCheck {
-  id: string;
-  name: string;
-  passed: boolean;
-  severity: 'info' | 'warning' | 'critical';
-}
-
-const CONSISTENCY_CHECKS: ConsistencyCheck[] = [
+// Consistency Checks (12 total)
+const CHECKS = [
   { id: '1', name: 'No roles without permissions', passed: true, severity: 'critical' },
   { id: '2', name: 'No users without roles', passed: true, severity: 'critical' },
   { id: '3', name: 'No orphan permissions', passed: true, severity: 'warning' },
@@ -203,15 +181,35 @@ const CONSISTENCY_CHECKS: ConsistencyCheck[] = [
   { id: '12', name: 'Profile access consistency', passed: true, severity: 'info' },
 ];
 
+// Country Scenarios
+const SCENARIOS = [
+  { code: 'UA', flag: '🇺🇦', country: 'Ukraine', ministry: 'Ministry of Social Policy', timeline: '14 weeks', budget: '$150K-$250K' },
+  { code: 'PL', flag: '🇵🇱', country: 'Poland', ministry: 'Ministry of Digital Affairs', timeline: '14 weeks', budget: '$200K-$350K' },
+  { code: 'GE', flag: '🇬🇪', country: 'Georgia', ministry: 'Ministry of Justice', timeline: '12 weeks', budget: '$100K-$180K' },
+  { code: 'MD', flag: '🇲🇩', country: 'Moldova', ministry: 'Ministry of Labor', timeline: '14 weeks', budget: '$80K-$150K' },
+  { code: 'KE', flag: '🇰🇪', country: 'Kenya', ministry: 'Ministry of Interior', timeline: '16 weeks', budget: '$120K-$220K' },
+];
+
+// Audit Log
+const AUDIT = [
+  { id: '1', time: '2026-01-06 14:12', actor: 'super_admin', action: 'update_role', target: 'business', result: 'success' },
+  { id: '2', time: '2026-01-06 14:08', actor: 'security_admin', action: 'user_block', target: '45.33.32.156', result: 'success' },
+  { id: '3', time: '2026-01-06 13:55', actor: 'admin@ivyar.org', action: 'role_assign', target: 'j.smith@company.com', result: 'success' },
+  { id: '4', time: '2026-01-06 13:44', actor: 'system', action: 'policy_check', target: 'ACP-01', result: 'success' },
+  { id: '5', time: '2026-01-06 13:30', actor: 'WAF', action: 'incident_create', target: 'INC-005', result: 'success' },
+  { id: '6', time: '2026-01-06 13:15', actor: 'breaches_admin', action: 'escalation_trigger', target: 'INC-003', result: 'success' },
+  { id: '7', time: '2026-01-06 12:45', actor: 'o.kovalenko@gov.ua', action: 'login', target: 'session', result: 'success' },
+];
+
 // ============================================================================
 // COMPONENT
 // ============================================================================
 
 export default function AccessGovernancePage() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'roles' | 'permissions' | 'policies' | 'users' | 'audit'>('dashboard');
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [selectedPolicy, setSelectedPolicy] = useState<string | null>(null);
   const [permissionFilter, setPermissionFilter] = useState('');
-  const [moduleFilter, setModuleFilter] = useState<string>('all');
+  const [moduleFilter, setModuleFilter] = useState('all');
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -220,41 +218,46 @@ export default function AccessGovernancePage() {
   }, []);
 
   const totalUsers = ROLES.reduce((sum, r) => sum + r.userCount, 0);
-  const passedChecks = CONSISTENCY_CHECKS.filter(c => c.passed).length;
+  const totalRules = POLICIES.reduce((sum, p) => sum + p.rules.length, 0);
+  const passedChecks = CHECKS.filter(c => c.passed).length;
 
+  const modules = [...new Set(PERMISSIONS.map(p => p.module))];
   const filteredPermissions = PERMISSIONS.filter(p => {
     if (moduleFilter !== 'all' && p.module !== moduleFilter) return false;
     if (permissionFilter && !p.key.toLowerCase().includes(permissionFilter.toLowerCase())) return false;
     return true;
   });
 
-  const getRoleColor = (type: string) => {
-    switch (type) {
-      case 'admin': return 'bg-red-500/20 text-red-400 border-red-500/30';
-      case 'partner': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-      default: return 'bg-green-500/20 text-green-400 border-green-500/30';
-    }
-  };
-
   const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case 'critical': return 'bg-red-500/20 text-red-400';
-      case 'high': return 'bg-orange-500/20 text-orange-400';
-      case 'medium': return 'bg-yellow-500/20 text-yellow-400';
-      default: return 'bg-green-500/20 text-green-400';
-    }
+    const colors: Record<string, string> = {
+      critical: 'bg-red-500/20 text-red-400',
+      high: 'bg-orange-500/20 text-orange-400',
+      medium: 'bg-yellow-500/20 text-yellow-400',
+      low: 'bg-green-500/20 text-green-400'
+    };
+    return colors[risk] || 'bg-gray-500/20 text-gray-400';
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-500/20 text-green-400';
-      case 'pending': return 'bg-yellow-500/20 text-yellow-400';
-      case 'draft': return 'bg-blue-500/20 text-blue-400';
-      case 'restricted': return 'bg-orange-500/20 text-orange-400';
-      case 'suspended': return 'bg-red-500/20 text-red-400';
-      case 'blocked': return 'bg-gray-500/20 text-gray-400';
-      default: return 'bg-gray-500/20 text-gray-400';
-    }
+  const getRoleColor = (type: string) => {
+    const colors: Record<string, string> = {
+      admin: 'bg-red-500/20 text-red-400 border-red-500/30',
+      partner: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      user: 'bg-green-500/20 text-green-400 border-green-500/30'
+    };
+    return colors[type] || 'bg-gray-500/20 text-gray-400';
+  };
+
+  const getActionColor = (action: string) => {
+    const colors: Record<string, string> = {
+      deny: 'bg-red-500/20 text-red-400',
+      allow: 'bg-green-500/20 text-green-400',
+      require_mfa: 'bg-purple-500/20 text-purple-400',
+      dual_approval: 'bg-blue-500/20 text-blue-400',
+      log: 'bg-cyan-500/20 text-cyan-400',
+      alert: 'bg-yellow-500/20 text-yellow-400',
+      escalate: 'bg-orange-500/20 text-orange-400'
+    };
+    return colors[action] || 'bg-gray-500/20 text-gray-400';
   };
 
   return (
@@ -277,7 +280,7 @@ export default function AccessGovernancePage() {
             </div>
             <div className="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-full text-sm font-medium flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              {passedChecks}/{CONSISTENCY_CHECKS.length} Checks Passed
+              {passedChecks}/{CHECKS.length} Passed
             </div>
           </div>
         </div>
@@ -287,27 +290,35 @@ export default function AccessGovernancePage() {
         <div className="max-w-[1600px] mx-auto">
           {/* Title */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Access Governance</h1>
-            <p className="text-[#8B949E]">Single source of truth for roles, permissions, and policies</p>
+            <h1 className="text-3xl font-bold mb-2">Access Governance Module</h1>
+            <p className="text-[#8B949E]">Single source of truth for roles, permissions, policies, and audit</p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
-              <div className="text-3xl font-bold text-[#00E0B8]">{totalUsers.toLocaleString()}</div>
-              <div className="text-sm text-[#8B949E]">Total Users</div>
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-[#00E0B8]">{totalUsers.toLocaleString()}</div>
+              <div className="text-xs text-[#8B949E]">Total Users</div>
             </div>
-            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
-              <div className="text-3xl font-bold text-[#00A3FF]">{ROLES.length}</div>
-              <div className="text-sm text-[#8B949E]">Active Roles</div>
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-[#00A3FF]">{ROLES.length}</div>
+              <div className="text-xs text-[#8B949E]">Roles</div>
             </div>
-            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
-              <div className="text-3xl font-bold text-[#F59E0B]">{PERMISSIONS.length}</div>
-              <div className="text-sm text-[#8B949E]">Permissions</div>
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-[#F59E0B]">{PERMISSIONS.length}</div>
+              <div className="text-xs text-[#8B949E]">Permissions</div>
             </div>
-            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
-              <div className="text-3xl font-bold text-green-400">{passedChecks}/{CONSISTENCY_CHECKS.length}</div>
-              <div className="text-sm text-[#8B949E]">Policy Checks Passed</div>
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-purple-400">{POLICIES.length}</div>
+              <div className="text-xs text-[#8B949E]">Policies</div>
+            </div>
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-cyan-400">{totalRules}</div>
+              <div className="text-xs text-[#8B949E]">Policy Rules</div>
+            </div>
+            <div className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-2xl font-bold text-green-400">{passedChecks}/{CHECKS.length}</div>
+              <div className="text-xs text-[#8B949E]">Checks Passed</div>
             </div>
           </div>
 
@@ -318,18 +329,18 @@ export default function AccessGovernancePage() {
               { key: 'roles', label: 'Roles', icon: '🎭' },
               { key: 'permissions', label: 'Permissions', icon: '🔐' },
               { key: 'policies', label: 'Policies', icon: '📜' },
-              { key: 'users', label: 'Users', icon: '👥' },
-              { key: 'audit', label: 'Audit Log', icon: '📋' },
+              { key: 'audit', label: 'Audit', icon: '📋' },
+              { key: 'deployment', label: 'Deployment', icon: '🌍' },
             ].map(tab => (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                onClick={() => setActiveTab(tab.key)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
                   activeTab === tab.key ? 'bg-[#00E0B8] text-[#0D1117]' : 'hover:bg-[#1F242C] text-[#8B949E]'
                 }`}
               >
                 <span>{tab.icon}</span>
-                <span>{tab.label}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -341,17 +352,13 @@ export default function AccessGovernancePage() {
               <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
                 <div className="p-4 border-b border-[#1F242C] flex items-center justify-between">
                   <h3 className="font-semibold">Consistency Checker</h3>
-                  <span className={`px-2 py-1 rounded text-xs ${passedChecks === CONSISTENCY_CHECKS.length ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
-                    {passedChecks === CONSISTENCY_CHECKS.length ? 'All Passed' : `${CONSISTENCY_CHECKS.length - passedChecks} Issues`}
-                  </span>
+                  <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">All Passed</span>
                 </div>
-                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
-                  {CONSISTENCY_CHECKS.map(check => (
+                <div className="p-4 space-y-2 max-h-[350px] overflow-y-auto">
+                  {CHECKS.map(check => (
                     <div key={check.id} className="flex items-center justify-between p-2 bg-[#0D1117] rounded-lg">
                       <span className="text-sm">{check.name}</span>
-                      <span className={check.passed ? 'text-green-400' : 'text-red-400'}>
-                        {check.passed ? '✓' : '✗'}
-                      </span>
+                      <span className="text-green-400">✓</span>
                     </div>
                   ))}
                 </div>
@@ -362,18 +369,18 @@ export default function AccessGovernancePage() {
                 <div className="p-4 border-b border-[#1F242C]">
                   <h3 className="font-semibold">Roles Overview</h3>
                 </div>
-                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
-                  {ROLES.sort((a, b) => b.level - a.level).map(role => (
-                    <div key={role.code} className="flex items-center justify-between p-3 bg-[#0D1117] rounded-lg">
+                <div className="p-4 space-y-2 max-h-[350px] overflow-y-auto">
+                  {ROLES.filter(r => r.code !== 'public').sort((a, b) => b.level - a.level).map(role => (
+                    <div key={role.code} className="flex items-center justify-between p-2 bg-[#0D1117] rounded-lg">
                       <div>
-                        <div className="font-medium">{role.name}</div>
-                        <div className="text-xs text-[#8B949E]">{role.permissionCount} permissions</div>
+                        <div className="font-medium text-sm">{role.name}</div>
+                        <div className="text-xs text-[#8B949E]">{role.permCount} perms</div>
                       </div>
                       <div className="text-right">
                         <span className={`px-2 py-0.5 rounded text-xs border ${getRoleColor(role.type)}`}>
                           Lvl {role.level}
                         </span>
-                        <div className="text-xs text-[#8B949E] mt-1">{role.userCount.toLocaleString()} users</div>
+                        <div className="text-xs text-[#8B949E] mt-1">{role.userCount.toLocaleString()}</div>
                       </div>
                     </div>
                   ))}
@@ -384,21 +391,17 @@ export default function AccessGovernancePage() {
               <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
                 <div className="p-4 border-b border-[#1F242C] flex items-center justify-between">
                   <h3 className="font-semibold">Recent Activity</h3>
-                  <button onClick={() => setActiveTab('audit')} className="text-xs text-[#00E0B8] hover:underline">
-                    View all →
-                  </button>
+                  <button onClick={() => setActiveTab('audit')} className="text-xs text-[#00E0B8]">View all →</button>
                 </div>
-                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
-                  {AUDIT_LOG.map(entry => (
-                    <div key={entry.id} className="p-3 bg-[#0D1117] rounded-lg">
+                <div className="p-4 space-y-2 max-h-[350px] overflow-y-auto">
+                  {AUDIT.slice(0, 5).map(entry => (
+                    <div key={entry.id} className="p-2 bg-[#0D1117] rounded-lg">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-medium text-sm">{entry.actor}</span>
-                        <span className={`px-2 py-0.5 rounded text-xs ${entry.result === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                          {entry.result}
-                        </span>
+                        <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs">{entry.result}</span>
                       </div>
                       <div className="text-xs text-[#8B949E]">{entry.action} → {entry.target}</div>
-                      <div className="text-xs text-[#3D444D] mt-1">{entry.timestamp}</div>
+                      <div className="text-xs text-[#3D444D] mt-1">{entry.time}</div>
                     </div>
                   ))}
                 </div>
@@ -409,35 +412,18 @@ export default function AccessGovernancePage() {
           {/* Roles Tab */}
           {activeTab === 'roles' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {ROLES.sort((a, b) => b.level - a.level).map(role => (
-                <div
-                  key={role.code}
-                  className={`p-5 bg-[#161B22] border rounded-xl cursor-pointer transition-all ${
-                    selectedRole === role.code ? 'border-[#00E0B8]' : 'border-[#1F242C] hover:border-[#3D444D]'
-                  }`}
-                  onClick={() => setSelectedRole(selectedRole === role.code ? null : role.code)}
-                >
+              {ROLES.filter(r => r.code !== 'public').sort((a, b) => b.level - a.level).map(role => (
+                <div key={role.code} className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold">{role.name}</h3>
-                    <span className={`px-2 py-0.5 rounded text-xs border ${getRoleColor(role.type)}`}>
-                      {role.type}
-                    </span>
+                    <span className={`px-2 py-0.5 rounded text-xs border ${getRoleColor(role.type)}`}>{role.type}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                      <div className="text-[#8B949E]">Level</div>
-                      <div className="font-medium">{role.level}</div>
-                    </div>
-                    <div>
-                      <div className="text-[#8B949E]">Permissions</div>
-                      <div className="font-medium">{role.permissionCount}</div>
-                    </div>
-                    <div>
-                      <div className="text-[#8B949E]">Users</div>
-                      <div className="font-medium">{role.userCount.toLocaleString()}</div>
-                    </div>
+                  <div className="grid grid-cols-3 gap-2 text-sm mb-4">
+                    <div><div className="text-[#8B949E] text-xs">Level</div><div className="font-medium">{role.level}</div></div>
+                    <div><div className="text-[#8B949E] text-xs">Perms</div><div className="font-medium">{role.permCount}</div></div>
+                    <div><div className="text-[#8B949E] text-xs">Users</div><div className="font-medium">{role.userCount.toLocaleString()}</div></div>
                   </div>
-                  <button className="w-full mt-4 px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm hover:border-[#00E0B8] transition-colors">
+                  <button className="w-full px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm hover:border-[#00E0B8]">
                     View Details
                   </button>
                 </div>
@@ -459,113 +445,88 @@ export default function AccessGovernancePage() {
                 <select
                   value={moduleFilter}
                   onChange={(e) => setModuleFilter(e.target.value)}
-                  className="px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm focus:border-[#00E0B8] focus:outline-none"
+                  className="px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm"
                 >
-                  <option value="all">All Modules</option>
-                  {PERMISSION_MODULES.map(mod => (
-                    <option key={mod} value={mod}>{mod}</option>
+                  <option value="all">All Modules ({PERMISSIONS.length})</option>
+                  {modules.map(mod => (
+                    <option key={mod} value={mod}>{mod} ({PERMISSIONS.filter(p => p.module === mod).length})</option>
                   ))}
                 </select>
-                <span className="text-sm text-[#8B949E]">{filteredPermissions.length} permissions</span>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto max-h-[500px]">
                 <table className="w-full">
-                  <thead>
+                  <thead className="sticky top-0 bg-[#161B22]">
                     <tr className="border-b border-[#1F242C]">
                       <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Permission</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Description</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Name</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Module</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Risk</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Category</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredPermissions.slice(0, 20).map(perm => (
+                    {filteredPermissions.map(perm => (
                       <tr key={perm.key} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
                         <td className="px-4 py-3 font-mono text-sm text-[#00E0B8]">{perm.key}</td>
-                        <td className="px-4 py-3 text-sm">{perm.description}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <span className="px-2 py-0.5 bg-[#1F242C] rounded">{perm.module}</span>
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          <span className={`px-2 py-0.5 rounded ${getRiskColor(perm.risk)}`}>{perm.risk}</span>
-                        </td>
+                        <td className="px-4 py-3 text-sm">{perm.name}</td>
+                        <td className="px-4 py-3 text-sm"><span className="px-2 py-0.5 bg-[#1F242C] rounded">{perm.module}</span></td>
+                        <td className="px-4 py-3 text-sm"><span className={`px-2 py-0.5 rounded ${getRiskColor(perm.risk)}`}>{perm.risk}</span></td>
                         <td className="px-4 py-3 text-sm text-[#8B949E]">{perm.category}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              {filteredPermissions.length > 20 && (
-                <div className="p-4 text-center text-sm text-[#8B949E]">
-                  Showing 20 of {filteredPermissions.length} permissions
-                </div>
-              )}
             </div>
           )}
 
           {/* Policies Tab */}
           {activeTab === 'policies' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {POLICIES.map(policy => (
-                <div key={policy.id} className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono text-[#8B949E]">{policy.id}</span>
-                    <span className={`px-2 py-0.5 rounded text-xs ${getStatusColor(policy.status)}`}>
-                      {policy.status}
-                    </span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                {POLICIES.map(policy => (
+                  <div
+                    key={policy.id}
+                    className={`p-4 bg-[#161B22] border rounded-xl cursor-pointer transition-all ${
+                      selectedPolicy === policy.id ? 'border-[#00E0B8]' : 'border-[#1F242C] hover:border-[#3D444D]'
+                    }`}
+                    onClick={() => setSelectedPolicy(selectedPolicy === policy.id ? null : policy.id)}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono text-sm text-[#8B949E]">{policy.id}</span>
+                      <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs">{policy.status}</span>
+                    </div>
+                    <h3 className="font-semibold mb-1">{policy.name}</h3>
+                    <div className="text-xs text-[#8B949E]">v{policy.version} • {policy.rules.length} rules</div>
                   </div>
-                  <h3 className="font-semibold mb-2">{policy.name}</h3>
-                  <div className="flex items-center gap-4 text-sm text-[#8B949E]">
-                    <span>Type: {policy.type}</span>
-                    <span>Rules: {policy.rules}</span>
+                ))}
+              </div>
+              <div>
+                {selectedPolicy ? (
+                  <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
+                    <div className="p-4 border-b border-[#1F242C]">
+                      <h3 className="font-semibold">{POLICIES.find(p => p.id === selectedPolicy)?.name} Rules</h3>
+                    </div>
+                    <div className="p-4 space-y-2">
+                      {POLICIES.find(p => p.id === selectedPolicy)?.rules.map(rule => (
+                        <div key={rule.id} className="p-3 bg-[#0D1117] rounded-lg">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-mono text-xs text-[#8B949E]">{rule.id}</span>
+                            <span className={`px-2 py-0.5 rounded text-xs ${getActionColor(rule.action)}`}>{rule.action}</span>
+                          </div>
+                          <div className="text-sm">{rule.desc}</div>
+                          <div className={`text-xs mt-1 ${getRiskColor(rule.severity)}`}>Severity: {rule.severity}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <button className="w-full mt-4 px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm hover:border-[#00E0B8] transition-colors">
-                    Configure
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Users Tab */}
-          {activeTab === 'users' && (
-            <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-[#1F242C]">
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">User</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Email</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Role</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Status</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Last Login</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-[#8B949E]">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {USERS.map(user => (
-                      <tr key={user.id} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
-                        <td className="px-4 py-4 font-medium">{user.name}</td>
-                        <td className="px-4 py-4 text-sm text-[#8B949E]">{user.email}</td>
-                        <td className="px-4 py-4">
-                          <span className="px-2 py-0.5 bg-[#1F242C] rounded text-sm">{user.role}</span>
-                        </td>
-                        <td className="px-4 py-4">
-                          <span className={`px-2 py-0.5 rounded text-xs ${getStatusColor(user.status)}`}>
-                            {user.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 text-sm text-[#8B949E]">{user.lastLogin}</td>
-                        <td className="px-4 py-4 text-right">
-                          <button className="px-3 py-1 bg-[#0D1117] border border-[#1F242C] rounded text-sm hover:border-[#00E0B8]">
-                            Manage
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                ) : (
+                  <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-8 text-center">
+                    <span className="text-4xl mb-4 block">📜</span>
+                    <h3 className="font-semibold mb-2">Select a Policy</h3>
+                    <p className="text-[#8B949E] text-sm">Click on a policy to view its rules and configuration.</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -585,19 +546,13 @@ export default function AccessGovernancePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {AUDIT_LOG.map(entry => (
+                    {AUDIT.map(entry => (
                       <tr key={entry.id} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
-                        <td className="px-4 py-3 text-sm text-[#8B949E]">{entry.timestamp}</td>
+                        <td className="px-4 py-3 text-sm text-[#8B949E]">{entry.time}</td>
                         <td className="px-4 py-3 font-medium">{entry.actor}</td>
-                        <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 bg-[#1F242C] rounded text-sm">{entry.action}</span>
-                        </td>
+                        <td className="px-4 py-3"><span className="px-2 py-0.5 bg-[#1F242C] rounded text-sm">{entry.action}</span></td>
                         <td className="px-4 py-3 text-sm">{entry.target}</td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-0.5 rounded text-xs ${entry.result === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                            {entry.result}
-                          </span>
-                        </td>
+                        <td className="px-4 py-3"><span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs">{entry.result}</span></td>
                       </tr>
                     ))}
                   </tbody>
@@ -606,44 +561,69 @@ export default function AccessGovernancePage() {
             </div>
           )}
 
+          {/* Deployment Tab */}
+          {activeTab === 'deployment' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {SCENARIOS.map(s => (
+                  <div key={s.code} className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors">
+                    <div className="text-3xl mb-2">{s.flag}</div>
+                    <h3 className="font-semibold mb-1">{s.country}</h3>
+                    <div className="text-xs text-[#8B949E] mb-3">{s.ministry}</div>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between"><span className="text-[#8B949E]">Timeline:</span><span>{s.timeline}</span></div>
+                      <div className="flex justify-between"><span className="text-[#8B949E]">Budget:</span><span className="text-[#00E0B8]">{s.budget}</span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+                <h3 className="font-semibold text-lg mb-4">Deployment Timeline</h3>
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                  {[
+                    { phase: '1', name: 'Architecture', weeks: '2-4' },
+                    { phase: '2', name: 'Development', weeks: '4-8' },
+                    { phase: '3', name: 'Integration', weeks: '2-4' },
+                    { phase: '4', name: 'Testing', weeks: '2-3' },
+                    { phase: '5', name: 'Training', weeks: '1-2' },
+                    { phase: '6', name: 'Deployment', weeks: '2-3' },
+                  ].map(p => (
+                    <div key={p.phase} className="p-4 bg-[#0D1117] rounded-lg text-center">
+                      <div className="w-8 h-8 bg-[#00E0B8] rounded-full flex items-center justify-center mx-auto mb-2 text-[#0D1117] font-bold">{p.phase}</div>
+                      <div className="font-medium text-sm">{p.name}</div>
+                      <div className="text-xs text-[#8B949E]">{p.weeks} weeks</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Quick Links */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <Link href="/admin/hub" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <Link href="/admin/hub" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] flex items-center gap-3">
               <span className="text-2xl">📊</span>
-              <div>
-                <div className="font-medium">Admin Hub</div>
-                <div className="text-xs text-[#8B949E]">Central dashboard</div>
-              </div>
+              <div><div className="font-medium">Admin Hub</div><div className="text-xs text-[#8B949E]">Dashboard</div></div>
             </Link>
-            <Link href="/admin/security" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+            <Link href="/admin/security" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] flex items-center gap-3">
               <span className="text-2xl">🛡️</span>
-              <div>
-                <div className="font-medium">Security Center</div>
-                <div className="text-xs text-[#8B949E]">Monitor threats</div>
-              </div>
+              <div><div className="font-medium">Security</div><div className="text-xs text-[#8B949E]">Monitoring</div></div>
             </Link>
-            <Link href="/admin/breaches" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+            <Link href="/admin/breaches" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] flex items-center gap-3">
               <span className="text-2xl">⚠️</span>
-              <div>
-                <div className="font-medium">Breaches Center</div>
-                <div className="text-xs text-[#8B949E]">Incidents</div>
-              </div>
+              <div><div className="font-medium">Breaches</div><div className="text-xs text-[#8B949E]">Incidents</div></div>
             </Link>
-            <Link href="/admin/access" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+            <Link href="/admin/access" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] flex items-center gap-3">
               <span className="text-2xl">🔐</span>
-              <div>
-                <div className="font-medium">Access Control</div>
-                <div className="text-xs text-[#8B949E]">Manage users</div>
-              </div>
+              <div><div className="font-medium">Access</div><div className="text-xs text-[#8B949E]">Users</div></div>
             </Link>
           </div>
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="py-6 px-4 border-t border-[#1F242C]">
         <div className="max-w-[1600px] mx-auto text-center text-sm text-[#8B949E]">
-          © 2024-2026 IVYAR. All rights reserved. | Access Governance Module v2.0
+          © 2024-2026 IVYAR. All rights reserved. | Access Governance Module v2.0 | Washington, USA
         </div>
       </footer>
     </div>
