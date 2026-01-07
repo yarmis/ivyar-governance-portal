@@ -580,7 +580,3 @@ function generateContextualResponse(
     tags: ['general', 'help'],
     suggestedActions: FREIGHT_QUICK_ACTIONS[role],
   };
-}
-
-  COMPLIANCE_KNOWLEDGE,
-};
