@@ -1,337 +1,308 @@
-import Link from "next/link";
-"use client";
-import { useState } from "react";
+'use client';
 
-// Mock breach data
-const mockBreaches = [
-  {
-    id: "breach-001",
-    claimId: "SDG-2026-00142",
-    actor: "Sedgwick",
-    actorType: "tpa",
-    delayDays: 18,
-    severity: "critical",
-    escalationLevel: 2,
-    lastNotification: "sent",
-    createdAt: "2025-11-07T14:30:00Z",
-  },
-  {
-    id: "breach-002",
-    claimId: "SDG-2026-00142",
-    actor: "Sedgwick",
-    actorType: "tpa",
-    delayDays: 14,
-    severity: "critical",
-    escalationLevel: 1,
-    lastNotification: "delivered",
-    createdAt: "2025-12-15T10:00:00Z",
-  },
-  {
-    id: "breach-003",
-    claimId: "SDG-2026-00144",
-    actor: "BuildRight Construction",
-    actorType: "employer",
-    delayDays: 7,
-    severity: "major",
-    escalationLevel: 1,
-    lastNotification: "sent",
-    createdAt: "2026-01-05T09:00:00Z",
-  },
-  {
-    id: "breach-004",
-    claimId: "SDG-2026-00145",
-    actor: "Sedgwick",
-    actorType: "tpa",
-    delayDays: 3,
-    severity: "minor",
-    escalationLevel: 1,
-    lastNotification: "pending",
-    createdAt: "2026-01-10T16:00:00Z",
-  },
+import { useState } from 'react';
+import Link from 'next/link';
+
+const STATS = [
+  { label: 'Open Incidents', value: '7', change: '+2', icon: '🔴', color: 'red' },
+  { label: 'Investigating', value: '3', change: '0', icon: '🔍', color: 'yellow' },
+  { label: 'Resolved (30d)', value: '24', change: '+8', icon: '✅', color: 'green' },
+  { label: 'Avg Resolution', value: '4.2h', change: '-1.5h', icon: '⏱️', color: 'green' },
 ];
 
-const severityColors: Record<string, string> = {
-  minor: "bg-yellow-100 text-yellow-800",
-  major: "bg-orange-100 text-orange-800",
-  critical: "bg-red-100 text-red-800",
+type Severity = 'critical' | 'high' | 'medium' | 'low';
+type Status = 'open' | 'investigating' | 'resolved' | 'closed';
+
+interface Incident {
+  id: string;
+  title: string;
+  description: string;
+  severity: Severity;
+  status: Status;
+  reporter: string;
+  assignee: string;
+  createdAt: string;
+  updatedAt: string;
+  affectedUsers: number;
+  category: string;
+}
+
+const INCIDENTS: Incident[] = [
+  { id: 'INC-001', title: 'Unauthorized API Access Attempt', description: 'Multiple failed API authentication attempts from suspicious IP range', severity: 'critical', status: 'investigating', reporter: 'System', assignee: 'Security Team', createdAt: '2 hours ago', updatedAt: '30 min ago', affectedUsers: 0, category: 'API Security' },
+  { id: 'INC-002', title: 'Brute Force Attack Detected', description: 'Over 500 login attempts from single IP in 10 minutes', severity: 'high', status: 'open', reporter: 'System', assignee: 'Unassigned', createdAt: '4 hours ago', updatedAt: '4 hours ago', affectedUsers: 0, category: 'Authentication' },
+  { id: 'INC-003', title: 'Data Export Anomaly', description: 'Unusual large data export by user account', severity: 'high', status: 'investigating', reporter: 'o.kovalenko@gov.ua', assignee: 'I. Petrenko', createdAt: '1 day ago', updatedAt: '2 hours ago', affectedUsers: 1, category: 'Data Leak' },
+  { id: 'INC-004', title: 'Session Hijacking Attempt', description: 'Detected session token reuse from different location', severity: 'critical', status: 'resolved', reporter: 'System', assignee: 'Security Team', createdAt: '2 days ago', updatedAt: '1 day ago', affectedUsers: 3, category: 'Session Security' },
+  { id: 'INC-005', title: 'SQL Injection Blocked', description: 'Malicious SQL query detected and blocked', severity: 'medium', status: 'closed', reporter: 'WAF', assignee: 'Auto-resolved', createdAt: '3 days ago', updatedAt: '3 days ago', affectedUsers: 0, category: 'Web Security' },
+  { id: 'INC-006', title: 'Suspicious Permission Change', description: 'User elevated own permissions without approval', severity: 'high', status: 'investigating', reporter: 'Audit System', assignee: 'M. Garcia', createdAt: '3 days ago', updatedAt: '1 day ago', affectedUsers: 1, category: 'Access Control' },
+  { id: 'INC-007', title: 'DDoS Attack Mitigated', description: 'Distributed denial of service attack from botnet', severity: 'critical', status: 'resolved', reporter: 'Cloudflare', assignee: 'Infrastructure Team', createdAt: '5 days ago', updatedAt: '4 days ago', affectedUsers: 0, category: 'Infrastructure' },
+];
+
+const SEVERITY_STYLES: Record<Severity, string> = {
+  critical: 'bg-red-500/20 text-red-400 border-red-500/30',
+  high: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+  medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  low: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
 };
 
-const statusColors: Record<string, string> = {
-  pending: "bg-gray-100 text-gray-800",
-  sent: "bg-blue-100 text-blue-800",
-  delivered: "bg-green-100 text-green-800",
-  failed: "bg-red-100 text-red-800",
+const STATUS_STYLES: Record<Status, string> = {
+  open: 'bg-red-500/20 text-red-400',
+  investigating: 'bg-yellow-500/20 text-yellow-400',
+  resolved: 'bg-green-500/20 text-green-400',
+  closed: 'bg-gray-500/20 text-gray-400',
 };
 
-export default function BreachCenterPage() {
-  const [selectedBreach, setSelectedBreach] = useState<any>(null);
-  const [filterSeverity, setFilterSeverity] = useState<string>("all");
+const CATEGORIES = ['All', 'API Security', 'Authentication', 'Data Leak', 'Session Security', 'Web Security', 'Access Control', 'Infrastructure'];
 
-  const filteredBreaches = mockBreaches.filter(
-    (b) => filterSeverity === "all" || b.severity === filterSeverity
-  );
+export default function BreachesCenter() {
+  const [filterSeverity, setFilterSeverity] = useState<Severity | 'all'>('all');
+  const [filterStatus, setFilterStatus] = useState<Status | 'all'>('all');
+  const [filterCategory, setFilterCategory] = useState('All');
+  const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
 
-  const stats = {
-    total: mockBreaches.length,
-    critical: mockBreaches.filter((b) => b.severity === "critical").length,
-    major: mockBreaches.filter((b) => b.severity === "major").length,
-    minor: mockBreaches.filter((b) => b.severity === "minor").length,
-  };
+  const filteredIncidents = INCIDENTS.filter(inc => {
+    if (filterSeverity !== 'all' && inc.severity !== filterSeverity) return false;
+    if (filterStatus !== 'all' && inc.status !== filterStatus) return false;
+    if (filterCategory !== 'All' && inc.category !== filterCategory) return false;
+    return true;
+  });
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0D1B2A", color: "white", fontFamily: "system-ui" }}>
+    <div className="min-h-screen bg-[#0D1117] text-white">
       {/* Header */}
-      <div style={{ background: "#1B3A5C", padding: "20px 40px", borderBottom: "1px solid #2D4A6A" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <h1 style={{ margin: 0, fontSize: "24px" }}>🚨 SLA Breach Center</h1>
-            <p style={{ margin: "8px 0 0", color: "#A8B5C4" }}>
-              Monitor and escalate SLA breaches across all claims
-            </p>
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
+        <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
+              <span className="font-semibold">IVYAR</span>
+            </Link>
+            <span className="text-[#8B949E]">/</span>
+            <span className="text-[#8B949E]">Admin</span>
+            <span className="text-[#8B949E]">/</span>
+            <span className="text-[#00A3FF]">⚠️ Breaches Center</span>
           </div>
-          <Link href="/admin" style={{ color: "#10B9B9", textDecoration: "none" }}>
-            ← Back to Admin
-          </Link>
-        </div>
-      </div>
-
-      <div style={{ padding: "32px 40px" }}>
-        {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "32px" }}>
-          <div style={{ background: "#1B3A5C", padding: "20px", borderRadius: "12px" }}>
-            <p style={{ color: "#A8B5C4", margin: 0, fontSize: "14px" }}>Total Breaches</p>
-            <p style={{ fontSize: "32px", fontWeight: "700", margin: "8px 0 0" }}>{stats.total}</p>
-          </div>
-          <div style={{ background: "#1B3A5C", padding: "20px", borderRadius: "12px", borderLeft: "4px solid #EF4444" }}>
-            <p style={{ color: "#A8B5C4", margin: 0, fontSize: "14px" }}>Critical</p>
-            <p style={{ fontSize: "32px", fontWeight: "700", margin: "8px 0 0", color: "#EF4444" }}>{stats.critical}</p>
-          </div>
-          <div style={{ background: "#1B3A5C", padding: "20px", borderRadius: "12px", borderLeft: "4px solid #F59E0B" }}>
-            <p style={{ color: "#A8B5C4", margin: 0, fontSize: "14px" }}>Major</p>
-            <p style={{ fontSize: "32px", fontWeight: "700", margin: "8px 0 0", color: "#F59E0B" }}>{stats.major}</p>
-          </div>
-          <div style={{ background: "#1B3A5C", padding: "20px", borderRadius: "12px", borderLeft: "4px solid #FCD34D" }}>
-            <p style={{ color: "#A8B5C4", margin: 0, fontSize: "14px" }}>Minor</p>
-            <p style={{ fontSize: "32px", fontWeight: "700", margin: "8px 0 0", color: "#FCD34D" }}>{stats.minor}</p>
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-full">7 Open Incidents</span>
           </div>
         </div>
+      </nav>
 
-        {/* Filters */}
-        <div style={{ display: "flex", gap: "12px", marginBottom: "24px" }}>
-          {["all", "critical", "major", "minor"].map((sev) => (
-            <button
-              key={sev}
-              onClick={() => setFilterSeverity(sev)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "6px",
-                border: "none",
-                background: filterSeverity === sev ? "#10B9B9" : "#1B3A5C",
-                color: "white",
-                cursor: "pointer",
-                textTransform: "capitalize",
-              }}
-            >
-              {sev}
+      <main className="pt-24 pb-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Title */}
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Breaches Center</h1>
+              <p className="text-[#8B949E]">Incident management, investigation, and response</p>
+            </div>
+            <button className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2">
+              <span>🚨</span>
+              <span>Report Incident</span>
             </button>
-          ))}
-        </div>
+          </div>
 
-        {/* Breach Table */}
-        <div style={{ background: "#1B3A5C", borderRadius: "12px", overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ background: "#0D1B2A" }}>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Claim</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Actor</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Delay</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Severity</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Escalation</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Notification</th>
-                <th style={{ padding: "16px", textAlign: "left", color: "#A8B5C4", fontWeight: "500" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBreaches.map((breach) => (
-                <tr key={breach.id} style={{ borderTop: "1px solid #2D4A6A" }}>
-                  <td style={{ padding: "16px", fontWeight: "600" }}>{breach.claimId}</td>
-                  <td style={{ padding: "16px" }}>
-                    <div>{breach.actor}</div>
-                    <div style={{ fontSize: "12px", color: "#A8B5C4" }}>{breach.actorType}</div>
-                  </td>
-                  <td style={{ padding: "16px", fontWeight: "600" }}>{breach.delayDays} days</td>
-                  <td style={{ padding: "16px" }}>
-                    <span
-                      style={{
-                        padding: "4px 12px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        fontWeight: "600",
-                        background:
-                          breach.severity === "critical"
-                            ? "#EF444430"
-                            : breach.severity === "major"
-                            ? "#F59E0B30"
-                            : "#FCD34D30",
-                        color:
-                          breach.severity === "critical"
-                            ? "#EF4444"
-                            : breach.severity === "major"
-                            ? "#F59E0B"
-                            : "#FCD34D",
-                      }}
-                    >
-                      {breach.severity.toUpperCase()}
-                    </span>
-                  </td>
-                  <td style={{ padding: "16px" }}>
-                    <span
-                      style={{
-                        padding: "4px 12px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        background: "#10B9B930",
-                        color: "#10B9B9",
-                      }}
-                    >
-                      Level {breach.escalationLevel}
-                    </span>
-                  </td>
-                  <td style={{ padding: "16px" }}>
-                    <span
-                      style={{
-                        padding: "4px 12px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        background:
-                          breach.lastNotification === "delivered"
-                            ? "#10B98130"
-                            : breach.lastNotification === "sent"
-                            ? "#3B82F630"
-                            : "#6B728030",
-                        color:
-                          breach.lastNotification === "delivered"
-                            ? "#10B981"
-                            : breach.lastNotification === "sent"
-                            ? "#3B82F6"
-                            : "#6B7280",
-                      }}
-                    >
-                      {breach.lastNotification}
-                    </span>
-                  </td>
-                  <td style={{ padding: "16px" }}>
-                    <button
-                      onClick={() => setSelectedBreach(breach)}
-                      style={{
-                        padding: "6px 12px",
-                        borderRadius: "6px",
-                        border: "none",
-                        background: "#10B9B9",
-                        color: "white",
-                        cursor: "pointer",
-                        marginRight: "8px",
-                      }}
-                    >
-                      View
-                    </button>
-                    <button
-                      style={{
-                        padding: "6px 12px",
-                        borderRadius: "6px",
-                        border: "none",
-                        background: "#2D4A6A",
-                        color: "white",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Escalate
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-2xl">{stat.icon}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded ${
+                    stat.color === 'green' ? 'bg-green-500/20 text-green-400' :
+                    stat.color === 'red' ? 'bg-red-500/20 text-red-400' :
+                    'bg-yellow-500/20 text-yellow-400'
+                  }`}>
+                    {stat.change}
+                  </span>
+                </div>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className="text-sm text-[#8B949E]">{stat.label}</div>
+              </div>
+            ))}
+          </div>
 
-        {/* Modal */}
-        {selectedBreach && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.7)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onClick={() => setSelectedBreach(null)}
-          >
-            <div
-              style={{
-                background: "#1B3A5C",
-                padding: "32px",
-                borderRadius: "16px",
-                width: "500px",
-                maxWidth: "90%",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 style={{ margin: "0 0 24px" }}>Breach Details</h2>
-              <div style={{ display: "grid", gap: "16px" }}>
-                <div>
-                  <p style={{ color: "#A8B5C4", margin: 0, fontSize: "12px" }}>CLAIM ID</p>
-                  <p style={{ margin: "4px 0 0", fontSize: "18px", fontWeight: "600" }}>{selectedBreach.claimId}</p>
-                </div>
-                <div>
-                  <p style={{ color: "#A8B5C4", margin: 0, fontSize: "12px" }}>RESPONSIBLE ACTOR</p>
-                  <p style={{ margin: "4px 0 0" }}>{selectedBreach.actor} ({selectedBreach.actorType})</p>
-                </div>
-                <div>
-                  <p style={{ color: "#A8B5C4", margin: 0, fontSize: "12px" }}>DELAY DURATION</p>
-                  <p style={{ margin: "4px 0 0", fontSize: "24px", fontWeight: "700", color: "#EF4444" }}>
-                    {selectedBreach.delayDays} days
-                  </p>
-                </div>
-                <div>
-                  <p style={{ color: "#A8B5C4", margin: 0, fontSize: "12px" }}>DETECTED</p>
-                  <p style={{ margin: "4px 0 0" }}>{new Date(selectedBreach.createdAt).toLocaleString()}</p>
-                </div>
-              </div>
-              <div style={{ marginTop: "24px", display: "flex", gap: "12px" }}>
-                <button
-                  style={{
-                    flex: 1,
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "none",
-                    background: "#10B9B9",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: "600",
-                  }}
-                >
-                  Send Reminder
-                </button>
-                <button
-                  onClick={() => setSelectedBreach(null)}
-                  style={{
-                    flex: 1,
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "1px solid #2D4A6A",
-                    background: "transparent",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                >
-                  Close
-                </button>
-              </div>
+          {/* Filters */}
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div>
+              <label className="text-sm text-[#8B949E] block mb-1">Severity</label>
+              <select
+                value={filterSeverity}
+                onChange={(e) => setFilterSeverity(e.target.value as Severity | 'all')}
+                className="px-3 py-2 bg-[#161B22] border border-[#1F242C] rounded-lg focus:border-[#00A3FF] focus:outline-none"
+              >
+                <option value="all">All Severities</option>
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-[#8B949E] block mb-1">Status</label>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value as Status | 'all')}
+                className="px-3 py-2 bg-[#161B22] border border-[#1F242C] rounded-lg focus:border-[#00A3FF] focus:outline-none"
+              >
+                <option value="all">All Statuses</option>
+                <option value="open">Open</option>
+                <option value="investigating">Investigating</option>
+                <option value="resolved">Resolved</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-[#8B949E] block mb-1">Category</label>
+              <select
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="px-3 py-2 bg-[#161B22] border border-[#1F242C] rounded-lg focus:border-[#00A3FF] focus:outline-none"
+              >
+                {CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Incidents List */}
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+            <div className="p-4 border-b border-[#1F242C]">
+              <h3 className="font-semibold">Incidents ({filteredIncidents.length})</h3>
+            </div>
+            <div className="divide-y divide-[#1F242C]">
+              {filteredIncidents.map((incident) => (
+                <div
+                  key={incident.id}
+                  onClick={() => setSelectedIncident(incident)}
+                  className="p-4 hover:bg-[#1F242C]/50 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-2 h-2 rounded-full mt-2 ${
+                      incident.severity === 'critical' ? 'bg-red-500' :
+                      incident.severity === 'high' ? 'bg-orange-500' :
+                      incident.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'
+                    }`} />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-mono text-sm text-[#8B949E]">{incident.id}</span>
+                        <span className={`text-xs px-2 py-0.5 rounded border ${SEVERITY_STYLES[incident.severity]}`}>
+                          {incident.severity}
+                        </span>
+                        <span className={`text-xs px-2 py-0.5 rounded ${STATUS_STYLES[incident.status]}`}>
+                          {incident.status}
+                        </span>
+                      </div>
+                      <h4 className="font-medium mb-1">{incident.title}</h4>
+                      <p className="text-sm text-[#8B949E]">{incident.description}</p>
+                      <div className="flex items-center gap-4 mt-2 text-xs text-[#8B949E]">
+                        <span>📁 {incident.category}</span>
+                        <span>👤 {incident.assignee}</span>
+                        <span>🕐 {incident.createdAt}</span>
+                      </div>
+                    </div>
+                    <div className="text-[#8B949E]">→</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Incident Detail Modal */}
+          {selectedIncident && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-[#161B22] border border-[#1F242C] rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                <div className="p-6 border-b border-[#1F242C] flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[#8B949E]">{selectedIncident.id}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded border ${SEVERITY_STYLES[selectedIncident.severity]}`}>
+                      {selectedIncident.severity}
+                    </span>
+                  </div>
+                  <button onClick={() => setSelectedIncident(null)} className="text-[#8B949E] hover:text-white text-xl">✕</button>
+                </div>
+                <div className="p-6">
+                  <h2 className="text-xl font-bold mb-2">{selectedIncident.title}</h2>
+                  <p className="text-[#8B949E] mb-6">{selectedIncident.description}</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Status</div>
+                      <span className={`text-sm px-2 py-1 rounded ${STATUS_STYLES[selectedIncident.status]}`}>
+                        {selectedIncident.status}
+                      </span>
+                    </div>
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Category</div>
+                      <div className="font-medium">{selectedIncident.category}</div>
+                    </div>
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Reporter</div>
+                      <div className="font-medium">{selectedIncident.reporter}</div>
+                    </div>
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Assignee</div>
+                      <div className="font-medium">{selectedIncident.assignee}</div>
+                    </div>
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Created</div>
+                      <div className="font-medium">{selectedIncident.createdAt}</div>
+                    </div>
+                    <div className="p-4 bg-[#0D1117] rounded-lg">
+                      <div className="text-sm text-[#8B949E] mb-1">Last Updated</div>
+                      <div className="font-medium">{selectedIncident.updatedAt}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button className="flex-1 px-4 py-2 bg-[#00A3FF] text-[#0D1117] font-medium rounded-lg hover:bg-[#33B5FF] transition-colors">
+                      Start Investigation
+                    </button>
+                    <button className="px-4 py-2 bg-green-500/20 text-green-400 font-medium rounded-lg hover:bg-green-500/30 transition-colors">
+                      Mark Resolved
+                    </button>
+                    <button className="px-4 py-2 bg-[#1F242C] text-white font-medium rounded-lg hover:bg-[#2D333B] transition-colors">
+                      Assign
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Quick Links */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link href="/admin/access" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00A3FF] transition-colors flex items-center gap-3">
+              <span className="text-2xl">🔐</span>
+              <div>
+                <div className="font-medium">Access Control</div>
+                <div className="text-sm text-[#8B949E]">Manage roles & users</div>
+              </div>
+            </Link>
+            <Link href="/admin/security" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00A3FF] transition-colors flex items-center gap-3">
+              <span className="text-2xl">🛡️</span>
+              <div>
+                <div className="font-medium">Security Center</div>
+                <div className="text-sm text-[#8B949E]">Monitor threats</div>
+              </div>
+            </Link>
+            <Link href="/admin/audit" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00A3FF] transition-colors flex items-center gap-3">
+              <span className="text-2xl">📋</span>
+              <div>
+                <div className="font-medium">Audit Logs</div>
+                <div className="text-sm text-[#8B949E]">Activity & compliance</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-6 px-4 border-t border-[#1F242C]">
+        <div className="max-w-7xl mx-auto text-center text-sm text-[#8B949E]">
+          © 2024-2026 IVYAR. All rights reserved. | Breaches Center v1.0
+        </div>
+      </footer>
     </div>
   );
 }
