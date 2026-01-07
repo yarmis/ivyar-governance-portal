@@ -601,7 +601,7 @@ function generateAuditReport(payload: PdfPayload): ReportSection[] {
         { label: 'Violations', value: data.violations || 12 },
         { label: 'Compliance Rate', value: `${data.complianceRate || 98.7}%` },
         { label: 'Risk Score', value: data.avgRisk || 3.8 },
-      ],
+      ] as any,
     },
     {
       id: 'activity',
