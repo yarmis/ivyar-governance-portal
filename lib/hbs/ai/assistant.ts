@@ -1,4 +1,5 @@
 // lib/hbs/ai/assistant.ts
+import { AIModule } from "./governance-policy";
 // HBS AI Assistant Core Engine v1.0
 // Ethical, Transparent, Multi-Tenant AI Governance Assistant
 
