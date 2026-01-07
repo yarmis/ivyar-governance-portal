@@ -652,7 +652,7 @@ function generateDeploymentReport(payload: PdfPayload): ReportSection[] {
         { label: 'Phase', value: data.currentPhase || '3 of 5' },
         { label: 'Days Remaining', value: data.daysRemaining || 45 },
         { label: 'Budget Used', value: `${data.budgetUsed || 68}%` },
-      ],
+      ] as any,
     },
     {
       id: 'timeline',
