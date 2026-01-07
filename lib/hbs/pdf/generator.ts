@@ -543,8 +543,8 @@ function generateReadinessReport(payload: PdfPayload): ReportSection[] {
     {
       id: 'kpis',
       title: 'Key Metrics',
-      type: 'kpi',
-      content: [
+      type: 'kpi' as any,
+      content: [   [
         { label: 'Readiness Score', value: `${data.readinessScore || 85}%` },
         { label: 'Critical Issues', value: data.criticalIssues || 0 },
         { label: 'Modules Ready', value: `${data.modulesReady || 4}/${data.totalModules || 5}` },
@@ -595,7 +595,7 @@ function generateAuditReport(payload: PdfPayload): ReportSection[] {
     {
       id: 'kpis',
       title: 'Audit Summary',
-      type: 'kpi',
+      type: 'kpi' as any,
       content: [
         { label: 'Total Actions', value: (data.totalActions || 15420).toLocaleString() },
         { label: 'Violations', value: data.violations || 12 },
@@ -646,7 +646,7 @@ function generateDeploymentReport(payload: PdfPayload): ReportSection[] {
     {
       id: 'kpis',
       title: 'Deployment Status',
-      type: 'kpi',
+      type: 'kpi' as any,
       content: [
         { label: 'Progress', value: `${data.progress || 75}%` },
         { label: 'Phase', value: data.currentPhase || '3 of 5' },
