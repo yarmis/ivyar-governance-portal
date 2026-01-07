@@ -1,5 +1,5 @@
-import Link from "next/link";
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 const roles = ["client", "attorney", "employer", "admin"] as const;
@@ -22,7 +22,6 @@ export default function UserManagementPage() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production: POST to /api/admin/users
     setMessage(`User ${email} created successfully!`);
     setShowCreate(false);
     setEmail("");
@@ -31,7 +30,6 @@ export default function UserManagementPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#0D1B2A", color: "white", fontFamily: "system-ui" }}>
-      {/* Header */}
       <div style={{ background: "#1B3A5C", padding: "20px 40px", borderBottom: "1px solid #2D4A6A" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
@@ -57,7 +55,6 @@ export default function UserManagementPage() {
           </div>
         )}
 
-        {/* Users Table */}
         <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
@@ -98,7 +95,6 @@ export default function UserManagementPage() {
           </table>
         </div>
 
-        {/* Create User Modal */}
         {showCreate && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowCreate(false)}>
             <div style={{ background: "#1B3A5C", padding: "32px", borderRadius: "16px", width: "400px" }} onClick={(e) => e.stopPropagation()}>
