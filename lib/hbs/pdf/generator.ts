@@ -509,7 +509,7 @@ function renderSectionContent(section: ReportSection): string {
       `;
       
     case 'kpi':
-      const kpis = section.content as { label: string; value: string | number }[];
+      const kpis = section.content as unknown as { label: string; value: string | number }[];
       return `
         <div class="kpi-grid">
           ${kpis.map(kpi => `
