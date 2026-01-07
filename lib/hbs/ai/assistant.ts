@@ -8,7 +8,6 @@
 
 export type AIRole = 'doctor' | 'patient' | 'admin' | 'ministry' | 'officer';
 
-export type AIModule = 'health' | 'access' | 'governance' | 'aviation' | 'business' | 'education' | 'immigration';
 
 export type AITag = 'ethics' | 'risk' | 'policy' | 'communication' | 'governance' | 'rights' | 'procedure' | 'documentation';
 
