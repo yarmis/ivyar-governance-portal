@@ -369,7 +369,7 @@ export default function LandingPage() {
                   onKeyDown={(e) => e.key === 'Enter' && handleModuleClick(mod.href)}
                   className="bg-[#161B22] border border-[#1F242C] p-6 hover:border-[#00A3FF] transition-colors group cursor-pointer select-none"
                 >
-                  <div className="flex flex-col gap-4 pointer-events-none">
+                  <div className="flex flex-col gap-4 ">
                     <div className="flex items-start justify-between">
                       <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
                       <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
