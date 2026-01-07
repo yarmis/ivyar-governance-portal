@@ -1,32 +1,86 @@
-import { NextResponse } from 'next/server';
-import { loadMarkdownFileSync } from '@/lib/markdown/loader';
+// app/api/hbs/analytics/route.ts
+// HBS Analytics API Route
 
-export async function GET() {
-  try {
-    const whitepaper = loadMarkdownFileSync('WHITEPAPER_v1.0.md');
-    const governance = loadMarkdownFileSync('GOVERNANCE.md');
-    const education = loadMarkdownFileSync('EDUCATION.md');
+import { NextRequest, NextResponse } from 'next/server';
 
-    const analyze = (doc: any, name: string) => ({
-      name,
-      words: doc.content.split(/\s+/).length,
-      headings: doc.headings.length,
-      readingTime: Math.ceil(doc.content.split(/\s+/).length / 200)
-    });
+interface AnalyticsData {
+  timestamp: string;
+  tenantId?: string;
+  period: string;
+  summary: {
+    totalUsers: number;
+    totalDecisions: number;
+    totalAssessments: number;
+    averageRisk: number;
+    complianceRate: number;
+    incidentsOpen: number;
+  };
+  tenants: {
+    id: string;
+    name: string;
+    status: string;
+    users: number;
+    decisions: number;
+    risk: number;
+  }[];
+  modules: {
+    id: string;
+    name: string;
+    decisions: number;
+    users: number;
+    risk: number;
+  }[];
+  trends: {
+    period: string;
+    decisions: number;
+    risk: number;
+    incidents: number;
+  }[];
+}
 
-    const docs = [
-      analyze(whitepaper, 'whitepaper'),
-      analyze(governance, 'governance'),
-      analyze(education, 'education')
-    ];
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const tenantId = request.headers.get('x-tenant-id') || searchParams.get('tenantId');
+  const period = searchParams.get('period') || 'month';
 
-    return NextResponse.json({
-      success: true,
-      generatedAt: new Date().toISOString(),
-      totalWords: docs.reduce((a, d) => a + d.words, 0),
-      documents: docs
-    });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
+  // Mock data - in production, aggregate from all engines
+  const data: AnalyticsData = {
+    timestamp: new Date().toISOString(),
+    tenantId: tenantId || undefined,
+    period,
+    summary: {
+      totalUsers: 90930,
+      totalDecisions: 26840,
+      totalAssessments: 8420,
+      averageRisk: 3.8,
+      complianceRate: 98.7,
+      incidentsOpen: 4,
+    },
+    tenants: [
+      { id: 'UA', name: 'Ukraine MSPS', status: 'active', users: 45230, decisions: 12450, risk: 4.2 },
+      { id: 'PL', name: 'Poland MoD', status: 'active', users: 28100, decisions: 8320, risk: 3.1 },
+      { id: 'GE', name: 'Georgia MoJ', status: 'active', users: 12400, decisions: 4180, risk: 3.8 },
+      { id: 'MD', name: 'Moldova MLSP', status: 'active', users: 5200, decisions: 1890, risk: 4.5 },
+      { id: 'KE', name: 'Kenya MoI', status: 'pending', users: 0, decisions: 0, risk: 0 },
+    ],
+    modules: [
+      { id: 'health', name: 'Health', decisions: 8420, users: 12300, risk: 4.1 },
+      { id: 'access', name: 'Access', decisions: 15200, users: 89500, risk: 3.2 },
+      { id: 'governance', name: 'Governance', decisions: 3100, users: 450, risk: 2.8 },
+      { id: 'emigrant', name: 'Emigrant', decisions: 4500, users: 8900, risk: 3.5 },
+    ],
+    trends: [
+      { period: '2025-08', decisions: 4200, risk: 4.0, incidents: 8 },
+      { period: '2025-09', decisions: 4500, risk: 3.8, incidents: 5 },
+      { period: '2025-10', decisions: 4800, risk: 3.6, incidents: 6 },
+      { period: '2025-11', decisions: 5100, risk: 3.5, incidents: 4 },
+      { period: '2025-12', decisions: 4300, risk: 3.7, incidents: 7 },
+      { period: '2026-01', decisions: 3940, risk: 3.8, incidents: 4 },
+    ],
+  };
+
+  return NextResponse.json({
+    success: true,
+    data,
+  });
 }
