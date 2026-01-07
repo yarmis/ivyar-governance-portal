@@ -1,608 +1,404 @@
-import Link from "next/link";
-"use client";
-import { useState } from "react";
+'use client';
 
-type Section = 
-  | "overview"
-  | "access"
-  | "security"
-  | "compliance"
-  | "notifications"
-  | "sla"
-  | "data"
-  | "reporting"
-  | "pilot"
-  | "architecture"
-  | "api"
-  | "policies";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-const sections: { id: Section; label: string; icon: string }[] = [
-  { id: "overview", label: "Overview", icon: "🏛️" },
-  { id: "access", label: "Access Control", icon: "🔐" },
-  { id: "security", label: "Security & Audit", icon: "🛡️" },
-  { id: "compliance", label: "Compliance", icon: "✅" },
-  { id: "notifications", label: "Notifications", icon: "📧" },
-  { id: "sla", label: "SLA Governance", icon: "⏱️" },
-  { id: "data", label: "Data Integrity", icon: "🔒" },
-  { id: "reporting", label: "Reporting", icon: "📊" },
-  { id: "pilot", label: "Pilot Program", icon: "🚀" },
-  { id: "architecture", label: "Architecture", icon: "🏗️" },
-  { id: "api", label: "API Documentation", icon: "🔌" },
-  { id: "policies", label: "Policies", icon: "📜" },
+// ============================================================================
+// IMPORTS (These would come from lib/auth in production)
+// ============================================================================
+
+// Permission definitions
+const PERMISSION_MODULES = [
+  'auth', 'profile', 'citizen', 'business', 'employer', 'attorney',
+  'payments', 'api', 'localization', 'notifications', 'security',
+  'breaches', 'admin'
 ];
 
-export default function GovernancePortal() {
-  const [activeSection, setActiveSection] = useState<Section>("overview");
+interface PermissionDefinition {
+  key: string;
+  module: string;
+  name: string;
+  description: string;
+  risk: 'low' | 'medium' | 'high' | 'critical';
+  category: 'read' | 'write' | 'admin' | 'system';
+}
+
+// Complete 54 permissions
+const PERMISSIONS: PermissionDefinition[] = [
+  // Auth (5)
+  { key: 'auth.login', module: 'auth', name: 'Login', description: 'Authenticate into the platform', risk: 'low', category: 'system' },
+  { key: 'auth.logout', module: 'auth', name: 'Logout', description: 'End current session', risk: 'low', category: 'system' },
+  { key: 'auth.refresh', module: 'auth', name: 'Refresh Token', description: 'Refresh authentication tokens', risk: 'low', category: 'system' },
+  { key: 'auth.mfa.enable', module: 'auth', name: 'Enable MFA', description: 'Enable multi-factor authentication', risk: 'medium', category: 'write' },
+  { key: 'auth.mfa.disable', module: 'auth', name: 'Disable MFA', description: 'Disable multi-factor authentication', risk: 'high', category: 'write' },
+  // Profile (4)
+  { key: 'profile.view', module: 'profile', name: 'View Profile', description: 'View own user profile', risk: 'low', category: 'read' },
+  { key: 'profile.update', module: 'profile', name: 'Update Profile', description: 'Modify own profile information', risk: 'low', category: 'write' },
+  { key: 'profile.documents.upload', module: 'profile', name: 'Upload Documents', description: 'Upload personal documents', risk: 'low', category: 'write' },
+  { key: 'profile.documents.delete', module: 'profile', name: 'Delete Documents', description: 'Remove personal documents', risk: 'medium', category: 'write' },
+  // Citizen (5)
+  { key: 'citizen.dashboard', module: 'citizen', name: 'Citizen Dashboard', description: 'Access citizen dashboard', risk: 'low', category: 'read' },
+  { key: 'citizen.applications.create', module: 'citizen', name: 'Create Applications', description: 'Submit new applications', risk: 'low', category: 'write' },
+  { key: 'citizen.applications.view', module: 'citizen', name: 'View Applications', description: 'View own applications', risk: 'low', category: 'read' },
+  { key: 'citizen.applications.update', module: 'citizen', name: 'Update Applications', description: 'Modify pending applications', risk: 'low', category: 'write' },
+  { key: 'citizen.documents.view', module: 'citizen', name: 'View Documents', description: 'View personal documents', risk: 'low', category: 'read' },
+  // Business (7)
+  { key: 'business.dashboard', module: 'business', name: 'Business Dashboard', description: 'Access business dashboard', risk: 'low', category: 'read' },
+  { key: 'business.company.manage', module: 'business', name: 'Manage Company', description: 'Manage company profile', risk: 'medium', category: 'write' },
+  { key: 'business.documents.manage', module: 'business', name: 'Manage Documents', description: 'Manage business documents', risk: 'medium', category: 'write' },
+  { key: 'business.contracts.create', module: 'business', name: 'Create Contracts', description: 'Create new contracts', risk: 'medium', category: 'write' },
+  { key: 'business.contracts.sign', module: 'business', name: 'Sign Contracts', description: 'Digitally sign contracts', risk: 'high', category: 'write' },
+  { key: 'business.payments.process', module: 'business', name: 'Process Payments', description: 'Execute payments', risk: 'high', category: 'write' },
+  { key: 'business.api.access', module: 'business', name: 'API Access', description: 'Access business API', risk: 'medium', category: 'read' },
+  // Employer (5)
+  { key: 'employer.dashboard', module: 'employer', name: 'Employer Dashboard', description: 'Access employer dashboard', risk: 'low', category: 'read' },
+  { key: 'employer.employees.manage', module: 'employer', name: 'Manage Employees', description: 'Manage employee records', risk: 'medium', category: 'write' },
+  { key: 'employer.documents.verify', module: 'employer', name: 'Verify Documents', description: 'Verify employee documents', risk: 'medium', category: 'write' },
+  { key: 'employer.hr.integrations', module: 'employer', name: 'HR Integrations', description: 'Connect HR systems', risk: 'high', category: 'admin' },
+  { key: 'employer.applications.submit', module: 'employer', name: 'Submit Applications', description: 'Submit on behalf of company', risk: 'medium', category: 'write' },
+  // Attorney (5)
+  { key: 'attorney.dashboard', module: 'attorney', name: 'Attorney Dashboard', description: 'Access legal dashboard', risk: 'low', category: 'read' },
+  { key: 'attorney.clients.access', module: 'attorney', name: 'Client Access', description: 'Access client information', risk: 'high', category: 'read' },
+  { key: 'attorney.documents.sign', module: 'attorney', name: 'Sign Documents', description: 'Sign legal documents', risk: 'high', category: 'write' },
+  { key: 'attorney.applications.submit.on_behalf', module: 'attorney', name: 'Submit on Behalf', description: 'Submit for clients', risk: 'high', category: 'write' },
+  { key: 'attorney.audit.view', module: 'attorney', name: 'View Audit', description: 'View case audit history', risk: 'medium', category: 'read' },
+  // Payments (4)
+  { key: 'payments.initiate', module: 'payments', name: 'Initiate Payment', description: 'Start payment transactions', risk: 'high', category: 'write' },
+  { key: 'payments.refund', module: 'payments', name: 'Process Refund', description: 'Issue payment refunds', risk: 'critical', category: 'write' },
+  { key: 'payments.history.view', module: 'payments', name: 'View History', description: 'View transaction history', risk: 'low', category: 'read' },
+  { key: 'payments.billing.manage', module: 'payments', name: 'Manage Billing', description: 'Configure billing', risk: 'high', category: 'admin' },
+  // API (5)
+  { key: 'api.read', module: 'api', name: 'API Read', description: 'Read data via API', risk: 'low', category: 'read' },
+  { key: 'api.write', module: 'api', name: 'API Write', description: 'Write data via API', risk: 'medium', category: 'write' },
+  { key: 'api.admin', module: 'api', name: 'API Admin', description: 'Administer API', risk: 'high', category: 'admin' },
+  { key: 'api.keys.create', module: 'api', name: 'Create Keys', description: 'Generate API keys', risk: 'high', category: 'admin' },
+  { key: 'api.keys.revoke', module: 'api', name: 'Revoke Keys', description: 'Invalidate API keys', risk: 'high', category: 'admin' },
+  // Localization (3)
+  { key: 'localization.languages.manage', module: 'localization', name: 'Manage Languages', description: 'Manage supported languages', risk: 'medium', category: 'admin' },
+  { key: 'localization.translations.edit', module: 'localization', name: 'Edit Translations', description: 'Modify translations', risk: 'low', category: 'write' },
+  { key: 'localization.translations.publish', module: 'localization', name: 'Publish Translations', description: 'Deploy translations', risk: 'medium', category: 'admin' },
+  // Notifications (3)
+  { key: 'notifications.send', module: 'notifications', name: 'Send Notifications', description: 'Send system notifications', risk: 'medium', category: 'write' },
+  { key: 'notifications.templates.manage', module: 'notifications', name: 'Manage Templates', description: 'Manage notification templates', risk: 'medium', category: 'admin' },
+  { key: 'notifications.settings.update', module: 'notifications', name: 'Update Settings', description: 'Configure notification settings', risk: 'low', category: 'write' },
+  // Security (6)
+  { key: 'security.dashboard', module: 'security', name: 'Security Dashboard', description: 'Access security dashboard', risk: 'high', category: 'read' },
+  { key: 'security.heatmap.view', module: 'security', name: 'View Heatmap', description: 'View threat heatmap', risk: 'medium', category: 'read' },
+  { key: 'security.ip.analysis', module: 'security', name: 'IP Analysis', description: 'Analyze IP patterns', risk: 'high', category: 'read' },
+  { key: 'security.user.block', module: 'security', name: 'Block User', description: 'Block user accounts', risk: 'critical', category: 'admin' },
+  { key: 'security.user.unblock', module: 'security', name: 'Unblock User', description: 'Restore blocked users', risk: 'high', category: 'admin' },
+  { key: 'security.audit.logs', module: 'security', name: 'Audit Logs', description: 'Access audit logs', risk: 'high', category: 'read' },
+  // Breaches (4)
+  { key: 'breaches.incidents.view', module: 'breaches', name: 'View Incidents', description: 'View security incidents', risk: 'high', category: 'read' },
+  { key: 'breaches.incidents.manage', module: 'breaches', name: 'Manage Incidents', description: 'Manage incidents', risk: 'critical', category: 'admin' },
+  { key: 'breaches.events.timeline', module: 'breaches', name: 'Event Timeline', description: 'View incident timeline', risk: 'medium', category: 'read' },
+  { key: 'breaches.escalation.trigger', module: 'breaches', name: 'Trigger Escalation', description: 'Escalate incidents', risk: 'critical', category: 'admin' },
+  // Admin (6)
+  { key: 'admin.users.manage', module: 'admin', name: 'Manage Users', description: 'Manage user accounts', risk: 'critical', category: 'admin' },
+  { key: 'admin.roles.manage', module: 'admin', name: 'Manage Roles', description: 'Manage roles', risk: 'critical', category: 'admin' },
+  { key: 'admin.permissions.manage', module: 'admin', name: 'Manage Permissions', description: 'Manage permissions', risk: 'critical', category: 'admin' },
+  { key: 'admin.modules.enable', module: 'admin', name: 'Enable Modules', description: 'Activate modules', risk: 'high', category: 'admin' },
+  { key: 'admin.modules.disable', module: 'admin', name: 'Disable Modules', description: 'Deactivate modules', risk: 'critical', category: 'admin' },
+  { key: 'admin.settings.update', module: 'admin', name: 'Update Settings', description: 'Modify system settings', risk: 'high', category: 'admin' },
+];
+
+// Roles
+interface Role {
+  code: string;
+  name: string;
+  level: number;
+  permissionCount: number;
+  userCount: number;
+  type: 'user' | 'partner' | 'admin';
+}
+
+const ROLES: Role[] = [
+  { code: 'citizen', name: 'Citizen', level: 1, permissionCount: 17, userCount: 8920, type: 'user' },
+  { code: 'business', name: 'Business', level: 2, permissionCount: 21, userCount: 2340, type: 'user' },
+  { code: 'employer', name: 'Employer', level: 3, permissionCount: 23, userCount: 890, type: 'user' },
+  { code: 'attorney', name: 'Attorney', level: 4, permissionCount: 18, userCount: 156, type: 'user' },
+  { code: 'government', name: 'Government', level: 6, permissionCount: 15, userCount: 45, type: 'partner' },
+  { code: 'donor', name: 'Donor', level: 5, permissionCount: 10, userCount: 12, type: 'partner' },
+  { code: 'auditor', name: 'Auditor', level: 5, permissionCount: 16, userCount: 8, type: 'partner' },
+  { code: 'pilot_admin', name: 'Pilot Admin', level: 7, permissionCount: 11, userCount: 5, type: 'admin' },
+  { code: 'security_admin', name: 'Security Admin', level: 8, permissionCount: 14, userCount: 3, type: 'admin' },
+  { code: 'breaches_admin', name: 'Breaches Admin', level: 8, permissionCount: 13, userCount: 2, type: 'admin' },
+  { code: 'super_admin', name: 'Super Admin', level: 10, permissionCount: 54, userCount: 2, type: 'admin' },
+];
+
+// Policies
+interface Policy {
+  id: string;
+  name: string;
+  type: string;
+  status: 'active' | 'draft' | 'restricted' | 'deprecated';
+  rules: number;
+}
+
+const POLICIES: Policy[] = [
+  { id: 'POL-001', name: 'Module Access Policy', type: 'access', status: 'active', rules: 2 },
+  { id: 'POL-002', name: 'Admin Access Policy', type: 'access', status: 'active', rules: 2 },
+  { id: 'POL-003', name: 'Security Operations Policy', type: 'security', status: 'active', rules: 2 },
+  { id: 'POL-004', name: 'Incident Escalation Policy', type: 'escalation', status: 'active', rules: 2 },
+  { id: 'POL-005', name: 'Data Protection Policy', type: 'data', status: 'active', rules: 2 },
+];
+
+// Users (sample)
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: 'active' | 'pending' | 'suspended' | 'blocked';
+  lastLogin: string;
+}
+
+const USERS: User[] = [
+  { id: '1', name: 'Olena Kovalenko', email: 'o.kovalenko@gov.ua', role: 'super_admin', status: 'active', lastLogin: '2 min ago' },
+  { id: '2', name: 'John Smith', email: 'j.smith@company.com', role: 'business', status: 'active', lastLogin: '1 hour ago' },
+  { id: '3', name: 'Maria Garcia', email: 'm.garcia@legal.com', role: 'attorney', status: 'active', lastLogin: '3 hours ago' },
+  { id: '4', name: 'Ahmed Hassan', email: 'a.hassan@org.com', role: 'employer', status: 'pending', lastLogin: 'Never' },
+  { id: '5', name: 'Sarah Johnson', email: 's.johnson@usaid.gov', role: 'donor', status: 'active', lastLogin: '1 day ago' },
+  { id: '6', name: 'Ivan Petrenko', email: 'i.petrenko@audit.com', role: 'auditor', status: 'active', lastLogin: '2 days ago' },
+];
+
+// Audit entries
+interface AuditEntry {
+  id: string;
+  timestamp: string;
+  actor: string;
+  action: string;
+  target: string;
+  result: 'success' | 'failure' | 'denied';
+}
+
+const AUDIT_LOG: AuditEntry[] = [
+  { id: '1', timestamp: '2026-01-06 14:12', actor: 'super_admin', action: 'update_role', target: 'business', result: 'success' },
+  { id: '2', timestamp: '2026-01-06 14:08', actor: 'security_admin', action: 'user_block', target: '45.33.32.156', result: 'success' },
+  { id: '3', timestamp: '2026-01-06 13:55', actor: 'admin@ivyar.org', action: 'role_assign', target: 'j.smith@company.com', result: 'success' },
+  { id: '4', timestamp: '2026-01-06 13:44', actor: 'system', action: 'policy_check', target: 'POL-001', result: 'success' },
+  { id: '5', timestamp: '2026-01-06 13:30', actor: 'WAF', action: 'incident_create', target: 'INC-005', result: 'success' },
+];
+
+// Consistency checks
+interface ConsistencyCheck {
+  id: string;
+  name: string;
+  passed: boolean;
+  severity: 'info' | 'warning' | 'critical';
+}
+
+const CONSISTENCY_CHECKS: ConsistencyCheck[] = [
+  { id: '1', name: 'No roles without permissions', passed: true, severity: 'critical' },
+  { id: '2', name: 'No users without roles', passed: true, severity: 'critical' },
+  { id: '3', name: 'No orphan permissions', passed: true, severity: 'warning' },
+  { id: '4', name: 'No conflicting policies', passed: true, severity: 'critical' },
+  { id: '5', name: 'Super admin has wildcard', passed: true, severity: 'critical' },
+  { id: '6', name: 'All roles have auth permissions', passed: true, severity: 'warning' },
+  { id: '7', name: 'Critical perms only for admins', passed: true, severity: 'warning' },
+  { id: '8', name: 'No duplicate permissions', passed: true, severity: 'info' },
+  { id: '9', name: 'Module permission coverage', passed: true, severity: 'warning' },
+  { id: '10', name: 'Citizen least privilege', passed: true, severity: 'warning' },
+  { id: '11', name: 'Security roles configured', passed: true, severity: 'critical' },
+  { id: '12', name: 'Profile access consistency', passed: true, severity: 'info' },
+];
+
+// ============================================================================
+// COMPONENT
+// ============================================================================
+
+export default function AccessGovernancePage() {
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'roles' | 'permissions' | 'policies' | 'users' | 'audit'>('dashboard');
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [permissionFilter, setPermissionFilter] = useState('');
+  const [moduleFilter, setModuleFilter] = useState<string>('all');
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const totalUsers = ROLES.reduce((sum, r) => sum + r.userCount, 0);
+  const passedChecks = CONSISTENCY_CHECKS.filter(c => c.passed).length;
+
+  const filteredPermissions = PERMISSIONS.filter(p => {
+    if (moduleFilter !== 'all' && p.module !== moduleFilter) return false;
+    if (permissionFilter && !p.key.toLowerCase().includes(permissionFilter.toLowerCase())) return false;
+    return true;
+  });
+
+  const getRoleColor = (type: string) => {
+    switch (type) {
+      case 'admin': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'partner': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      default: return 'bg-green-500/20 text-green-400 border-green-500/30';
+    }
+  };
+
+  const getRiskColor = (risk: string) => {
+    switch (risk) {
+      case 'critical': return 'bg-red-500/20 text-red-400';
+      case 'high': return 'bg-orange-500/20 text-orange-400';
+      case 'medium': return 'bg-yellow-500/20 text-yellow-400';
+      default: return 'bg-green-500/20 text-green-400';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-500/20 text-green-400';
+      case 'pending': return 'bg-yellow-500/20 text-yellow-400';
+      case 'draft': return 'bg-blue-500/20 text-blue-400';
+      case 'restricted': return 'bg-orange-500/20 text-orange-400';
+      case 'suspended': return 'bg-red-500/20 text-red-400';
+      case 'blocked': return 'bg-gray-500/20 text-gray-400';
+      default: return 'bg-gray-500/20 text-gray-400';
+    }
+  };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#0D1B2A", color: "white", fontFamily: "system-ui" }}>
-      {/* Sidebar */}
-      <div style={{ width: "280px", background: "#0A1628", borderRight: "1px solid #1B3A5C", padding: "20px 0", flexShrink: 0 }}>
-        <div style={{ padding: "0 20px 20px", borderBottom: "1px solid #1B3A5C" }}>
-          <h1 style={{ margin: 0, fontSize: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
-            🏛️ Governance Portal
-          </h1>
-          <p style={{ margin: "8px 0 0", fontSize: "12px", color: "#A8B5C4" }}>Institutional Framework</p>
-        </div>
-        <nav style={{ padding: "16px 0" }}>
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => setActiveSection(section.id)}
-              style={{
-                width: "100%",
-                padding: "12px 20px",
-                border: "none",
-                background: activeSection === section.id ? "#1B3A5C" : "transparent",
-                color: activeSection === section.id ? "#10B9B9" : "#A8B5C4",
-                textAlign: "left",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                fontSize: "14px",
-                borderLeft: activeSection === section.id ? "3px solid #10B9B9" : "3px solid transparent",
-              }}
-            >
-              <span>{section.icon}</span>
-              {section.label}
-            </button>
-          ))}
-        </nav>
-        <div style={{ padding: "20px", borderTop: "1px solid #1B3A5C", marginTop: "auto" }}>
-          <Link href="/admin" style={{ color: "#A8B5C4", textDecoration: "none", fontSize: "14px" }}>← Back to Admin</Link>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ flex: 1, overflow: "auto" }}>
-        {/* Header */}
-        <div style={{ background: "#1B3A5C", padding: "20px 40px", borderBottom: "1px solid #2D4A6A" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "28px" }}>{sections.find(s => s.id === activeSection)?.icon}</span>
-            <div>
-              <h2 style={{ margin: 0 }}>{sections.find(s => s.id === activeSection)?.label}</h2>
-              <p style={{ margin: "4px 0 0", color: "#A8B5C4", fontSize: "14px" }}>IVYAR Institutional Governance Framework</p>
+    <div className="min-h-screen bg-[#0D1117] text-white">
+      {/* Header */}
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
+        <div className="max-w-[1600px] mx-auto px-4 h-full flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#00E0B8] to-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] rounded-lg">IV</div>
+              <div>
+                <div className="font-bold text-lg">IVYAR</div>
+                <div className="text-xs text-[#8B949E]">Access Governance</div>
+              </div>
+            </Link>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-[#161B22] rounded-lg border border-[#1F242C] text-sm text-[#8B949E]">
+              {currentTime.toLocaleTimeString()} | {currentTime.toLocaleDateString()}
+            </div>
+            <div className="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-full text-sm font-medium flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+              {passedChecks}/{CONSISTENCY_CHECKS.length} Checks Passed
             </div>
           </div>
         </div>
+      </nav>
 
-        <div style={{ padding: "32px 40px" }}>
-          {/* OVERVIEW */}
-          {activeSection === "overview" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Executive Summary</h3>
-                <p style={{ margin: 0, lineHeight: 1.8, color: "#E6E6E6" }}>
-                  The IVYAR Governance Portal defines the institutional governance framework that ensures 
-                  transparency, accountability, security, and compliance across all operational layers of 
-                  the IVYAR Platform. It serves as the authoritative reference for partners, auditors, 
-                  employers, attorneys, and internal teams.
-                </p>
-              </div>
+      <main className="pt-24 pb-16 px-4">
+        <div className="max-w-[1600px] mx-auto">
+          {/* Title */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2">Access Governance</h1>
+            <p className="text-[#8B949E]">Single source of truth for roles, permissions, and policies</p>
+          </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "24px" }}>
-                {[
-                  { title: "Access Control", desc: "RBAC, roles, route protection", icon: "🔐" },
-                  { title: "Security Layer", desc: "Audit, alerts, monitoring", icon: "🛡️" },
-                  { title: "Compliance", desc: "SOC2, ISO27001, NIST, GDPR", icon: "✅" },
-                  { title: "Notifications", desc: "Delivery rules, escalation", icon: "📧" },
-                  { title: "SLA Governance", desc: "Breach detection, reporting", icon: "⏱️" },
-                  { title: "Data Integrity", desc: "Immutable logs, retention", icon: "🔒" },
-                ].map((item, i) => (
-                  <div key={i} style={{ background: "#1B3A5C", padding: "20px", borderRadius: "8px" }}>
-                    <span style={{ fontSize: "24px" }}>{item.icon}</span>
-                    <h4 style={{ margin: "12px 0 8px" }}>{item.title}</h4>
-                    <p style={{ margin: 0, fontSize: "14px", color: "#A8B5C4" }}>{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Governance Principles</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-                  {["Transparency", "Accountability", "Auditability", "Security by Design", "Compliance Readiness", "Institutional Trust"].map((p, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "12px 16px", borderRadius: "6px", display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ color: "#10B9B9" }}>✓</span> {p}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-3xl font-bold text-[#00E0B8]">{totalUsers.toLocaleString()}</div>
+              <div className="text-sm text-[#8B949E]">Total Users</div>
             </div>
-          )}
-
-          {/* ACCESS CONTROL */}
-          {activeSection === "access" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>1. Roles & Access Levels</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #2D4A6A" }}>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Role</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Category</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { role: "client", cat: "Worker", desc: "Access to personal case and timeline" },
-                      { role: "attorney", cat: "Legal", desc: "Access to client case as legal representative" },
-                      { role: "employer", cat: "Employer", desc: "Access to employer dashboards and reporting" },
-                      { role: "admin", cat: "Institutional", desc: "Full governance, audit, and system control" },
-                    ].map((r, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #2D4A6A" }}>
-                        <td style={{ padding: "12px" }}><code style={{ background: "#0D1B2A", padding: "4px 8px", borderRadius: "4px" }}>{r.role}</code></td>
-                        <td style={{ padding: "12px" }}>{r.cat}</td>
-                        <td style={{ padding: "12px", color: "#A8B5C4" }}>{r.desc}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>2. Route Access Matrix</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #2D4A6A" }}>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Route</th>
-                      <th style={{ textAlign: "center", padding: "12px", color: "#A8B5C4" }}>Client</th>
-                      <th style={{ textAlign: "center", padding: "12px", color: "#A8B5C4" }}>Attorney</th>
-                      <th style={{ textAlign: "center", padding: "12px", color: "#A8B5C4" }}>Employer</th>
-                      <th style={{ textAlign: "center", padding: "12px", color: "#A8B5C4" }}>Admin</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { route: "/login", c: true, a: true, e: true, ad: true },
-                      { route: "/client/*", c: true, a: true, e: false, ad: true },
-                      { route: "/employer/*", c: false, a: false, e: true, ad: true },
-                      { route: "/admin/*", c: false, a: false, e: false, ad: true },
-                      { route: "/admin/governance", c: false, a: false, e: false, ad: true },
-                      { route: "/admin/security", c: false, a: false, e: false, ad: true },
-                    ].map((r, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #2D4A6A" }}>
-                        <td style={{ padding: "12px" }}><code>{r.route}</code></td>
-                        <td style={{ padding: "12px", textAlign: "center", color: r.c ? "#10B981" : "#EF4444" }}>{r.c ? "✔" : "✖"}</td>
-                        <td style={{ padding: "12px", textAlign: "center", color: r.a ? "#10B981" : "#EF4444" }}>{r.a ? "✔" : "✖"}</td>
-                        <td style={{ padding: "12px", textAlign: "center", color: r.e ? "#10B981" : "#EF4444" }}>{r.e ? "✔" : "✖"}</td>
-                        <td style={{ padding: "12px", textAlign: "center", color: r.ad ? "#10B981" : "#EF4444" }}>{r.ad ? "✔" : "✖"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>3. Authorization Rules</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { portal: "Client Portal", rule: "role ∈ {client, attorney, admin}" },
-                    { portal: "Employer Portal", rule: "role ∈ {employer, admin}" },
-                    { portal: "Admin Portal", rule: "role === admin" },
-                  ].map((r, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px" }}>
-                      <p style={{ margin: "0 0 8px", fontWeight: "600" }}>{r.portal}</p>
-                      <code style={{ color: "#10B9B9" }}>{r.rule}</code>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-3xl font-bold text-[#00A3FF]">{ROLES.length}</div>
+              <div className="text-sm text-[#8B949E]">Active Roles</div>
             </div>
-          )}
-
-          {/* SECURITY & AUDIT */}
-          {activeSection === "security" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>1. Login Audit</h3>
-                <p style={{ margin: "0 0 16px", color: "#A8B5C4" }}>All login attempts are recorded with the following fields:</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
-                  {["email", "user_id", "success/failure", "ip_address", "user_agent", "timestamp"].map((f, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "12px", borderRadius: "6px", fontFamily: "monospace" }}>{f}</div>
-                  ))}
-                </div>
-                <div style={{ marginTop: "16px", padding: "12px", background: "#10B9B920", borderRadius: "8px", borderLeft: "4px solid #10B9B9" }}>
-                  <strong>Retention:</strong> Minimum 3 years • <strong>Access:</strong> Admin only • <strong>Immutable:</strong> Yes
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>2. Security Alerts</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #2D4A6A" }}>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Alert Type</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Trigger</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Severity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { type: "FAILED_LOGIN_BURST", trigger: ">5 failures in 10 minutes", sev: "High", color: "#EF4444" },
-                      { type: "NEW_ADMIN_IP", trigger: "Admin login from new IP", sev: "Medium", color: "#F59E0B" },
-                      { type: "MULTI_ACCOUNT_IP", trigger: "Multiple accounts from same IP", sev: "Medium", color: "#F59E0B" },
-                      { type: "GEO_ANOMALY", trigger: "Login from unusual location", sev: "High", color: "#EF4444" },
-                    ].map((a, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #2D4A6A" }}>
-                        <td style={{ padding: "12px" }}><code>{a.type}</code></td>
-                        <td style={{ padding: "12px", color: "#A8B5C4" }}>{a.trigger}</td>
-                        <td style={{ padding: "12px" }}><span style={{ background: `${a.color}20`, color: a.color, padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>{a.sev}</span></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>3. Security Center Components</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-                  {[
-                    { name: "Alerts Dashboard", desc: "Real-time security alerts view" },
-                    { name: "Login Heatmap", desc: "Behavioral pattern visualization" },
-                    { name: "IP Risk Profiles", desc: "IP classification and risk scoring" },
-                    { name: "User Login History", desc: "Per-user login audit trail" },
-                    { name: "Export Tools", desc: "CSV, JSON, PDF export" },
-                    { name: "Incident Response", desc: "Alert lifecycle management" },
-                  ].map((c, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px" }}>
-                      <p style={{ margin: "0 0 4px", fontWeight: "600" }}>{c.name}</p>
-                      <p style={{ margin: 0, fontSize: "14px", color: "#A8B5C4" }}>{c.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-3xl font-bold text-[#F59E0B]">{PERMISSIONS.length}</div>
+              <div className="text-sm text-[#8B949E]">Permissions</div>
             </div>
-          )}
-
-          {/* COMPLIANCE */}
-          {activeSection === "compliance" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Compliance Standards</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
-                  {[
-                    { name: "SOC2", color: "#3B82F6" },
-                    { name: "ISO27001", color: "#10B981" },
-                    { name: "NIST", color: "#F59E0B" },
-                    { name: "GDPR", color: "#8B5CF6" },
-                  ].map((s, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "24px", borderRadius: "8px", textAlign: "center", borderTop: `4px solid ${s.color}` }}>
-                      <p style={{ margin: 0, fontSize: "24px", fontWeight: "700" }}>{s.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Compliance Mapping</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #2D4A6A" }}>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Standard</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Controls</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>IVYAR Coverage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { std: "SOC2", ctrl: "CC6.1, CC6.2, CC7.2", cov: "RBAC, Audit, Monitoring" },
-                      { std: "ISO27001", ctrl: "A.9.1, A.9.2, A.12.4", cov: "Access Control, Logging" },
-                      { std: "NIST", ctrl: "AC-2, AC-3, AC-7", cov: "Account Management, Access" },
-                      { std: "GDPR", ctrl: "Art. 30", cov: "Records of Processing" },
-                    ].map((r, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #2D4A6A" }}>
-                        <td style={{ padding: "12px", fontWeight: "600" }}>{r.std}</td>
-                        <td style={{ padding: "12px" }}><code>{r.ctrl}</code></td>
-                        <td style={{ padding: "12px", color: "#A8B5C4" }}>{r.cov}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Evidence Requirements</h3>
-                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                  {["Audit Logs", "Access Logs", "Security Alerts", "SLA Reports", "User Activity", "Change History"].map((e, i) => (
-                    <span key={i} style={{ background: "#0D1B2A", padding: "8px 16px", borderRadius: "20px", fontSize: "14px" }}>{e}</span>
-                  ))}
-                </div>
-              </div>
+            <div className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+              <div className="text-3xl font-bold text-green-400">{passedChecks}/{CONSISTENCY_CHECKS.length}</div>
+              <div className="text-sm text-[#8B949E]">Policy Checks Passed</div>
             </div>
-          )}
+          </div>
 
-          {/* NOTIFICATIONS */}
-          {activeSection === "notifications" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Notification Types</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-                  {[
-                    { type: "System", desc: "Platform alerts and updates" },
-                    { type: "SLA Breach", desc: "Deadline violations" },
-                    { type: "Security", desc: "Login alerts, anomalies" },
-                    { type: "Employer", desc: "Worker updates, reports" },
-                    { type: "Attorney", desc: "Case updates, filings" },
-                    { type: "Escalation", desc: "Critical breach alerts" },
-                  ].map((n, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px" }}>
-                      <p style={{ margin: "0 0 4px", fontWeight: "600" }}>{n.type}</p>
-                      <p style={{ margin: 0, fontSize: "14px", color: "#A8B5C4" }}>{n.desc}</p>
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-2 mb-6 p-1 bg-[#161B22] rounded-xl border border-[#1F242C] w-fit">
+            {[
+              { key: 'dashboard', label: 'Dashboard', icon: '📊' },
+              { key: 'roles', label: 'Roles', icon: '🎭' },
+              { key: 'permissions', label: 'Permissions', icon: '🔐' },
+              { key: 'policies', label: 'Policies', icon: '📜' },
+              { key: 'users', label: 'Users', icon: '👥' },
+              { key: 'audit', label: 'Audit Log', icon: '📋' },
+            ].map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  activeTab === tab.key ? 'bg-[#00E0B8] text-[#0D1117]' : 'hover:bg-[#1F242C] text-[#8B949E]'
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Dashboard Tab */}
+          {activeTab === 'dashboard' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Consistency Checker */}
+              <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
+                <div className="p-4 border-b border-[#1F242C] flex items-center justify-between">
+                  <h3 className="font-semibold">Consistency Checker</h3>
+                  <span className={`px-2 py-1 rounded text-xs ${passedChecks === CONSISTENCY_CHECKS.length ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                    {passedChecks === CONSISTENCY_CHECKS.length ? 'All Passed' : `${CONSISTENCY_CHECKS.length - passedChecks} Issues`}
+                  </span>
+                </div>
+                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
+                  {CONSISTENCY_CHECKS.map(check => (
+                    <div key={check.id} className="flex items-center justify-between p-2 bg-[#0D1117] rounded-lg">
+                      <span className="text-sm">{check.name}</span>
+                      <span className={check.passed ? 'text-green-400' : 'text-red-400'}>
+                        {check.passed ? '✓' : '✗'}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Delivery Channels</h3>
-                <div style={{ display: "flex", gap: "16px" }}>
-                  {[
-                    { ch: "Email", icon: "📧" },
-                    { ch: "In-App", icon: "🔔" },
-                    { ch: "SMS", icon: "📱" },
-                  ].map((c, i) => (
-                    <div key={i} style={{ flex: 1, background: "#0D1B2A", padding: "24px", borderRadius: "8px", textAlign: "center" }}>
-                      <span style={{ fontSize: "32px" }}>{c.icon}</span>
-                      <p style={{ margin: "12px 0 0", fontWeight: "600" }}>{c.ch}</p>
-                    </div>
-                  ))}
+              {/* Roles Overview */}
+              <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
+                <div className="p-4 border-b border-[#1F242C]">
+                  <h3 className="font-semibold">Roles Overview</h3>
                 </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Escalation Rules</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { level: "Level 1", time: "0-24 hours", action: "Email attorney, portal notification" },
-                    { level: "Level 2", time: "24-72 hours", action: "Email employer + TPA, timeline event" },
-                    { level: "Level 3", time: "72+ hours", action: "Critical report, email all parties" },
-                  ].map((l, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px", display: "flex", alignItems: "center", gap: "16px" }}>
-                      <span style={{ background: i === 2 ? "#EF4444" : i === 1 ? "#F59E0B" : "#10B9B9", padding: "8px 12px", borderRadius: "6px", fontWeight: "600" }}>{l.level}</span>
-                      <span style={{ color: "#A8B5C4" }}>{l.time}</span>
-                      <span style={{ flex: 1 }}>{l.action}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* SLA GOVERNANCE */}
-          {activeSection === "sla" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>SLA Types</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #2D4A6A" }}>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>SLA Rule</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Actor</th>
-                      <th style={{ textAlign: "left", padding: "12px", color: "#A8B5C4" }}>Deadline</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { rule: "Initial Response", actor: "TPA", deadline: "3 business days" },
-                      { rule: "Document Review", actor: "TPA", deadline: "10 business days" },
-                      { rule: "Claim Decision", actor: "TPA", deadline: "14 business days" },
-                      { rule: "Employer Response", actor: "Employer", deadline: "7 business days" },
-                      { rule: "Attorney Filing", actor: "Attorney", deadline: "30 days" },
-                    ].map((s, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #2D4A6A" }}>
-                        <td style={{ padding: "12px" }}>{s.rule}</td>
-                        <td style={{ padding: "12px" }}><code>{s.actor}</code></td>
-                        <td style={{ padding: "12px", color: "#A8B5C4" }}>{s.deadline}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Breach Center</h3>
-                <p style={{ margin: "0 0 16px", color: "#A8B5C4" }}>The SLA Breach Center provides:</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
-                  {["Breach Detection", "Severity Classification", "Actor Attribution", "Timeline Recording", "Escalation Triggers", "Reporting"].map((f, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "12px 16px", borderRadius: "6px", display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ color: "#10B9B9" }}>✓</span> {f}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* DATA INTEGRITY */}
-          {activeSection === "data" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Immutable Logs</h3>
-                <p style={{ margin: "0 0 16px", color: "#A8B5C4" }}>The following logs are immutable and cannot be modified or deleted:</p>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  {["Login Audit", "Security Alerts", "Notification Log", "SLA Breaches", "Timeline Events"].map((l, i) => (
-                    <span key={i} style={{ background: "#0D1B2A", padding: "12px 20px", borderRadius: "8px", border: "1px solid #10B9B9" }}>{l}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Data Retention</h3>
-                <div style={{ background: "#0D1B2A", padding: "20px", borderRadius: "8px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                    <span>Audit Logs</span>
-                    <strong>3 years minimum</strong>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                    <span>Security Alerts</span>
-                    <strong>3 years minimum</strong>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <span>Case Data</span>
-                    <strong>7 years minimum</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Tamper-Proofing</h3>
-                <p style={{ margin: 0, color: "#A8B5C4" }}>
-                  Optional hash chain implementation for cryptographic integrity verification. 
-                  Each audit entry can be linked to the previous entry via SHA-256 hash, 
-                  ensuring any modification is detectable.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* REPORTING */}
-          {activeSection === "reporting" && (
-            <div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "24px", marginBottom: "24px" }}>
-                <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                  <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Security Reports</h3>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    {["Security Alerts Report", "Login Audit Summary", "IP Risk Analysis", "Incident Report"].map((r, i) => (
-                      <div key={i} style={{ background: "#0D1B2A", padding: "12px", borderRadius: "6px" }}>{r}</div>
-                    ))}
-                  </div>
-                </div>
-                <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                  <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Operational Reports</h3>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    {["SLA Compliance Report", "Notification Summary", "Employer Dashboard", "Case Timeline"].map((r, i) => (
-                      <div key={i} style={{ background: "#0D1B2A", padding: "12px", borderRadius: "6px" }}>{r}</div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Export Formats</h3>
-                <div style={{ display: "flex", gap: "16px" }}>
-                  {[
-                    { fmt: "CSV", desc: "Spreadsheet compatible" },
-                    { fmt: "JSON", desc: "API integration" },
-                    { fmt: "PDF", desc: "Official documents" },
-                  ].map((f, i) => (
-                    <div key={i} style={{ flex: 1, background: "#0D1B2A", padding: "20px", borderRadius: "8px", textAlign: "center" }}>
-                      <p style={{ margin: "0 0 8px", fontSize: "24px", fontWeight: "700", color: "#10B9B9" }}>{f.fmt}</p>
-                      <p style={{ margin: 0, fontSize: "14px", color: "#A8B5C4" }}>{f.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* PILOT PROGRAM */}
-          {activeSection === "pilot" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Pilot Objectives</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
-                  {["Transparency", "Accountability", "SLA Enforcement", "Security Monitoring", "Reporting", "Partner Onboarding"].map((o, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px", textAlign: "center" }}>
-                      <span style={{ color: "#10B9B9" }}>✓</span> {o}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Partner Packs</h3>
-                <div style={{ display: "flex", gap: "16px" }}>
-                  {[
-                    { type: "Employer", color: "#3B82F6" },
-                    { type: "Attorney", color: "#10B981" },
-                    { type: "TPA", color: "#F59E0B" },
-                  ].map((p, i) => (
-                    <div key={i} style={{ flex: 1, background: "#0D1B2A", padding: "24px", borderRadius: "8px", textAlign: "center", borderTop: `4px solid ${p.color}` }}>
-                      <p style={{ margin: 0, fontSize: "18px", fontWeight: "600" }}>{p.type} Pack</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Pilot Dashboard Metrics</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px" }}>
-                  {[
-                    { metric: "SLA Compliance", value: "78%" },
-                    { metric: "Active Claims", value: "24" },
-                    { metric: "Breaches", value: "8" },
-                    { metric: "Resolved", value: "5" },
-                  ].map((m, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px", textAlign: "center" }}>
-                      <p style={{ margin: "0 0 8px", fontSize: "24px", fontWeight: "700" }}>{m.value}</p>
-                      <p style={{ margin: 0, fontSize: "12px", color: "#A8B5C4" }}>{m.metric}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ARCHITECTURE */}
-          {activeSection === "architecture" && (
-            <div>
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 20px", color: "#10B9B9" }}>High-Level Architecture</h3>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px", background: "#0D1B2A", borderRadius: "8px" }}>
-                  {["Frontend", "API", "Database", "Audit", "Security"].map((c, i) => (
-                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                      <div style={{ background: "#10B9B920", padding: "16px", borderRadius: "8px", textAlign: "center" }}>
-                        <p style={{ margin: 0, fontWeight: "600" }}>{c}</p>
+                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
+                  {ROLES.sort((a, b) => b.level - a.level).map(role => (
+                    <div key={role.code} className="flex items-center justify-between p-3 bg-[#0D1117] rounded-lg">
+                      <div>
+                        <div className="font-medium">{role.name}</div>
+                        <div className="text-xs text-[#8B949E]">{role.permissionCount} permissions</div>
                       </div>
-                      {i < 4 && <span style={{ color: "#10B9B9", fontSize: "20px" }}>→</span>}
+                      <div className="text-right">
+                        <span className={`px-2 py-0.5 rounded text-xs border ${getRoleColor(role.type)}`}>
+                          Lvl {role.level}
+                        </span>
+                        <div className="text-xs text-[#8B949E] mt-1">{role.userCount.toLocaleString()} users</div>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Data Flow</h3>
-                <div style={{ background: "#0D1B2A", padding: "20px", borderRadius: "8px", fontFamily: "monospace", textAlign: "center" }}>
-                  User → Auth → Portal → API → Database → Audit → Dashboard
+              {/* Recent Audit */}
+              <div className="bg-[#161B22] border border-[#1F242C] rounded-xl">
+                <div className="p-4 border-b border-[#1F242C] flex items-center justify-between">
+                  <h3 className="font-semibold">Recent Activity</h3>
+                  <button onClick={() => setActiveTab('audit')} className="text-xs text-[#00E0B8] hover:underline">
+                    View all →
+                  </button>
                 </div>
-              </div>
-
-              <div style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px" }}>
-                <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>Technology Stack</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
-                  {[
-                    { layer: "Frontend", tech: "Next.js 16, React, TypeScript" },
-                    { layer: "Backend", tech: "API Routes, Node.js" },
-                    { layer: "Database", tech: "PostgreSQL (planned)" },
-                    { layer: "Auth", tech: "JWT, HttpOnly Cookies" },
-                    { layer: "Email", tech: "Resend API" },
-                    { layer: "Deploy", tech: "Vercel (planned)" },
-                  ].map((t, i) => (
-                    <div key={i} style={{ background: "#0D1B2A", padding: "16px", borderRadius: "8px" }}>
-                      <p style={{ margin: "0 0 4px", fontWeight: "600", color: "#10B9B9" }}>{t.layer}</p>
-                      <p style={{ margin: 0, fontSize: "14px", color: "#A8B5C4" }}>{t.tech}</p>
+                <div className="p-4 space-y-2 max-h-[400px] overflow-y-auto">
+                  {AUDIT_LOG.map(entry => (
+                    <div key={entry.id} className="p-3 bg-[#0D1117] rounded-lg">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-medium text-sm">{entry.actor}</span>
+                        <span className={`px-2 py-0.5 rounded text-xs ${entry.result === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                          {entry.result}
+                        </span>
+                      </div>
+                      <div className="text-xs text-[#8B949E]">{entry.action} → {entry.target}</div>
+                      <div className="text-xs text-[#3D444D] mt-1">{entry.timestamp}</div>
                     </div>
                   ))}
                 </div>
@@ -610,48 +406,246 @@ export default function GovernancePortal() {
             </div>
           )}
 
-          {/* API DOCUMENTATION */}
-          {activeSection === "api" && (
-            <div>
-              {[
-                { cat: "Authentication", endpoints: ["/api/auth/login", "/api/auth/logout", "/api/auth/me"] },
-                { cat: "Admin", endpoints: ["/api/orchestrator", "/api/notifications/send"] },
-                { cat: "Protection", endpoints: ["/api/protection/claims", "/api/protection/sla/rules", "/api/protection/delays"] },
-              ].map((c, i) => (
-                <div key={i} style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "24px" }}>
-                  <h3 style={{ margin: "0 0 16px", color: "#10B9B9" }}>{c.cat} APIs</h3>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    {c.endpoints.map((e, j) => (
-                      <div key={j} style={{ background: "#0D1B2A", padding: "12px", borderRadius: "6px", fontFamily: "monospace" }}>
-                        <span style={{ color: "#10B981", marginRight: "12px" }}>GET/POST</span>
-                        {e}
-                      </div>
-                    ))}
+          {/* Roles Tab */}
+          {activeTab === 'roles' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {ROLES.sort((a, b) => b.level - a.level).map(role => (
+                <div
+                  key={role.code}
+                  className={`p-5 bg-[#161B22] border rounded-xl cursor-pointer transition-all ${
+                    selectedRole === role.code ? 'border-[#00E0B8]' : 'border-[#1F242C] hover:border-[#3D444D]'
+                  }`}
+                  onClick={() => setSelectedRole(selectedRole === role.code ? null : role.code)}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-semibold">{role.name}</h3>
+                    <span className={`px-2 py-0.5 rounded text-xs border ${getRoleColor(role.type)}`}>
+                      {role.type}
+                    </span>
                   </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <div className="text-[#8B949E]">Level</div>
+                      <div className="font-medium">{role.level}</div>
+                    </div>
+                    <div>
+                      <div className="text-[#8B949E]">Permissions</div>
+                      <div className="font-medium">{role.permissionCount}</div>
+                    </div>
+                    <div>
+                      <div className="text-[#8B949E]">Users</div>
+                      <div className="font-medium">{role.userCount.toLocaleString()}</div>
+                    </div>
+                  </div>
+                  <button className="w-full mt-4 px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm hover:border-[#00E0B8] transition-colors">
+                    View Details
+                  </button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* POLICIES */}
-          {activeSection === "policies" && (
-            <div>
-              {[
-                { name: "Access Control Policy", desc: "RBAC enforced at middleware. Admin-only user creation. Immutable audit logs." },
-                { name: "Security Monitoring Policy", desc: "Alerts generated automatically. Admin review required. Critical alerts escalated." },
-                { name: "Data Integrity Policy", desc: "No deletion of audit logs. No modification of access records. 3-year minimum retention." },
-                { name: "Incident Response Policy", desc: "Identify → Classify → Contain → Document → Report → Remediate" },
-                { name: "Change Management Policy", desc: "All changes require governance approval. Semantic versioning. Structured release notes." },
-              ].map((p, i) => (
-                <div key={i} style={{ background: "#1B3A5C", padding: "24px", borderRadius: "12px", marginBottom: "16px" }}>
-                  <h3 style={{ margin: "0 0 12px" }}>{p.name}</h3>
-                  <p style={{ margin: 0, color: "#A8B5C4" }}>{p.desc}</p>
+          {/* Permissions Tab */}
+          {activeTab === 'permissions' && (
+            <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+              <div className="p-4 border-b border-[#1F242C] flex flex-wrap items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Search permissions..."
+                  value={permissionFilter}
+                  onChange={(e) => setPermissionFilter(e.target.value)}
+                  className="px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm focus:border-[#00E0B8] focus:outline-none w-64"
+                />
+                <select
+                  value={moduleFilter}
+                  onChange={(e) => setModuleFilter(e.target.value)}
+                  className="px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm focus:border-[#00E0B8] focus:outline-none"
+                >
+                  <option value="all">All Modules</option>
+                  {PERMISSION_MODULES.map(mod => (
+                    <option key={mod} value={mod}>{mod}</option>
+                  ))}
+                </select>
+                <span className="text-sm text-[#8B949E]">{filteredPermissions.length} permissions</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-[#1F242C]">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Permission</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Description</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Module</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Risk</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Category</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredPermissions.slice(0, 20).map(perm => (
+                      <tr key={perm.key} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
+                        <td className="px-4 py-3 font-mono text-sm text-[#00E0B8]">{perm.key}</td>
+                        <td className="px-4 py-3 text-sm">{perm.description}</td>
+                        <td className="px-4 py-3 text-sm">
+                          <span className="px-2 py-0.5 bg-[#1F242C] rounded">{perm.module}</span>
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          <span className={`px-2 py-0.5 rounded ${getRiskColor(perm.risk)}`}>{perm.risk}</span>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-[#8B949E]">{perm.category}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {filteredPermissions.length > 20 && (
+                <div className="p-4 text-center text-sm text-[#8B949E]">
+                  Showing 20 of {filteredPermissions.length} permissions
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Policies Tab */}
+          {activeTab === 'policies' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {POLICIES.map(policy => (
+                <div key={policy.id} className="p-5 bg-[#161B22] border border-[#1F242C] rounded-xl">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono text-[#8B949E]">{policy.id}</span>
+                    <span className={`px-2 py-0.5 rounded text-xs ${getStatusColor(policy.status)}`}>
+                      {policy.status}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold mb-2">{policy.name}</h3>
+                  <div className="flex items-center gap-4 text-sm text-[#8B949E]">
+                    <span>Type: {policy.type}</span>
+                    <span>Rules: {policy.rules}</span>
+                  </div>
+                  <button className="w-full mt-4 px-3 py-2 bg-[#0D1117] border border-[#1F242C] rounded-lg text-sm hover:border-[#00E0B8] transition-colors">
+                    Configure
+                  </button>
                 </div>
               ))}
             </div>
           )}
+
+          {/* Users Tab */}
+          {activeTab === 'users' && (
+            <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-[#1F242C]">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">User</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Email</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Role</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Status</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Last Login</th>
+                      <th className="px-4 py-3 text-right text-sm font-medium text-[#8B949E]">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {USERS.map(user => (
+                      <tr key={user.id} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
+                        <td className="px-4 py-4 font-medium">{user.name}</td>
+                        <td className="px-4 py-4 text-sm text-[#8B949E]">{user.email}</td>
+                        <td className="px-4 py-4">
+                          <span className="px-2 py-0.5 bg-[#1F242C] rounded text-sm">{user.role}</span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className={`px-2 py-0.5 rounded text-xs ${getStatusColor(user.status)}`}>
+                            {user.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-[#8B949E]">{user.lastLogin}</td>
+                        <td className="px-4 py-4 text-right">
+                          <button className="px-3 py-1 bg-[#0D1117] border border-[#1F242C] rounded text-sm hover:border-[#00E0B8]">
+                            Manage
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Audit Tab */}
+          {activeTab === 'audit' && (
+            <div className="bg-[#161B22] border border-[#1F242C] rounded-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-[#1F242C]">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Time</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Actor</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Action</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Target</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-[#8B949E]">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {AUDIT_LOG.map(entry => (
+                      <tr key={entry.id} className="border-b border-[#1F242C]/50 hover:bg-[#1F242C]/30">
+                        <td className="px-4 py-3 text-sm text-[#8B949E]">{entry.timestamp}</td>
+                        <td className="px-4 py-3 font-medium">{entry.actor}</td>
+                        <td className="px-4 py-3">
+                          <span className="px-2 py-0.5 bg-[#1F242C] rounded text-sm">{entry.action}</span>
+                        </td>
+                        <td className="px-4 py-3 text-sm">{entry.target}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-0.5 rounded text-xs ${entry.result === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                            {entry.result}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Quick Links */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <Link href="/admin/hub" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+              <span className="text-2xl">📊</span>
+              <div>
+                <div className="font-medium">Admin Hub</div>
+                <div className="text-xs text-[#8B949E]">Central dashboard</div>
+              </div>
+            </Link>
+            <Link href="/admin/security" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+              <span className="text-2xl">🛡️</span>
+              <div>
+                <div className="font-medium">Security Center</div>
+                <div className="text-xs text-[#8B949E]">Monitor threats</div>
+              </div>
+            </Link>
+            <Link href="/admin/breaches" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+              <span className="text-2xl">⚠️</span>
+              <div>
+                <div className="font-medium">Breaches Center</div>
+                <div className="text-xs text-[#8B949E]">Incidents</div>
+              </div>
+            </Link>
+            <Link href="/admin/access" className="p-4 bg-[#161B22] border border-[#1F242C] rounded-xl hover:border-[#00E0B8] transition-colors flex items-center gap-3">
+              <span className="text-2xl">🔐</span>
+              <div>
+                <div className="font-medium">Access Control</div>
+                <div className="text-xs text-[#8B949E]">Manage users</div>
+              </div>
+            </Link>
+          </div>
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-6 px-4 border-t border-[#1F242C]">
+        <div className="max-w-[1600px] mx-auto text-center text-sm text-[#8B949E]">
+          © 2024-2026 IVYAR. All rights reserved. | Access Governance Module v2.0
+        </div>
+      </footer>
     </div>
   );
 }
