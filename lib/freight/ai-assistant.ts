@@ -582,14 +582,5 @@ function generateContextualResponse(
   };
 }
 
-// ============================================================================
-// EXPORTS
-// ============================================================================
-
-export {
-  FREIGHT_AI_ROLES,
-  FREIGHT_AI_MODULES,
-  FREIGHT_QUICK_ACTIONS,
-  FREIGHT_DISCLAIMERS,
   COMPLIANCE_KNOWLEDGE,
 };
