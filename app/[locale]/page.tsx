@@ -316,6 +316,101 @@ export default function LocalizedLandingPage() {
         </div>
       </section>
 
+
+      {/* ========================================== */}
+      {/* TEAM OS SECTION - Internal Operations      */}
+      {/* ========================================== */}
+      <section id="team-os" className="py-24 bg-[#0D1117]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 border border-orange-500/30 rounded-full mb-4">
+              <svg className="w-3 h-3 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              <span className="text-xs font-mono text-orange-400 uppercase tracking-wider">Internal Operations</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Team Operating System</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">Operational foundation and cultural principles for world-class execution</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <a href="/team-os/leadership-principles" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">🧭</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Leadership Principles</h3>
+              <p className="text-sm text-gray-400 mb-4">7 principles that define how we work</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+            <a href="/team-os/dri-handbook" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">👤</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">DRI Handbook</h3>
+              <p className="text-sm text-gray-400 mb-4">Ownership model and responsibilities</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+            <a href="/team-os/operational-rhythm" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">🕐</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Operational Rhythm</h3>
+              <p className="text-sm text-gray-400 mb-4">Daily and weekly cadence</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+            <a href="/team-os/kickoff-script" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">▶️</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Kickoff Script</h3>
+              <p className="text-sm text-gray-400 mb-4">30-minute meeting template</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+            <a href="/team-os/team-charter" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">📜</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Team Charter</h3>
+              <p className="text-sm text-gray-400 mb-4">Mission, values, and standards</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+            <a href="/team-os/dashboard" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Dashboard</h3>
+              <p className="text-sm text-gray-400 mb-4">Critical Path and Red Flags monitoring</p>
+              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
+                <span>Learn more</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+          </div>
+          <div className="text-center">
+            <a href="/team-os" className="inline-flex items-center gap-2 text-[#00A3FF] hover:underline text-lg font-medium">
+              <span>View Full Team Operating System</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 sm:py-20 lg:py-[120px]">
         <div className="max-w-[800px] mx-auto px-4 sm:px-6 text-center">
