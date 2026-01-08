@@ -100,3 +100,77 @@ model TimelineEvent {
   @@index([caseId])
   @@map("timeline_events")
 }
+// ============================================================================
+// HBS AUTOPILOT v8 MODELS
+// ============================================================================
+
+model FeatureFlag {
+  id                String    @id @default(cuid())
+  key               String    @unique
+  enabled           Boolean   @default(false)
+  rolloutStrategy   Json?     @map("rollout_strategy")
+  metadata          Json?
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  createdBy         String?   @map("created_by")
+
+  @@index([key])
+  @@index([enabled])
+  @@map("feature_flags")
+}
+
+model AutopilotDecision {
+  id                    String    @id @default(cuid())
+  requestId             String    @unique @map("request_id")
+  version               String
+  actionType            String    @map("action_type")
+  recommendedAction     String    @map("recommended_action")
+  riskLevel             String    @map("risk_level")
+  riskScore             Float     @map("risk_score")
+  confidence            Float
+  reasoning             String?   @db.Text
+  reasoningTrace        Json?     @map("reasoning_trace")
+  safetyCheck           Json?     @map("safety_check")
+  humanApprovalRequired Boolean   @default(false) @map("human_approval_required")
+  countryCode           String    @map("country_code")
+  userId                String    @map("user_id")
+  processingTimeMs      Int       @map("processing_time_ms")
+  metadata              Json?
+  createdAt             DateTime  @default(now()) @map("created_at")
+
+  @@index([version])
+  @@index([countryCode])
+  @@index([actionType])
+  @@index([createdAt])
+  @@map("autopilot_decisions")
+}
+
+model AutopilotComparison {
+  id                  String    @id @default(cuid())
+  requestId           String    @map("request_id")
+  v7DecisionId        String    @map("v7_decision_id")
+  v8DecisionId        String    @map("v8_decision_id")
+  actionChanged       Boolean   @map("action_changed")
+  riskScoreDelta      Float     @map("risk_score_delta")
+  confidenceDelta     Float     @map("confidence_delta")
+  similarity          Float
+  recommendation      String
+  createdAt           DateTime  @default(now()) @map("created_at")
+
+  @@index([similarity])
+  @@index([createdAt])
+  @@map("autopilot_comparisons")
+}
+
+model CircuitBreakerState {
+  id              String    @id @default(cuid())
+  state           String
+  failureCount    Int       @default(0) @map("failure_count")
+  successCount    Int       @default(0) @map("success_count")
+  lastFailureAt   DateTime? @map("last_failure_at")
+  lastStateChange DateTime  @default(now()) @map("last_state_change")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("circuit_breaker_state")
+}
