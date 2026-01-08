@@ -1,5 +1,5 @@
 // lib/procurement/construction-intelligence.ts
-// Construction Intelligence Platform v1.0 - FIXED
+// Construction Intelligence Platform v1.0 - FIXED v2
 // PunchOut Integration for Ariba, Coupa, Ivalua, Jaggaer
 
 // ============================================================================
@@ -10,6 +10,7 @@ export type ProcurementPlatform = 'ariba' | 'coupa' | 'ivalua' | 'jaggaer';
 export type PunchOutProtocol = 'cxml' | 'oci';
 export type CatalogFormat = 'cif' | 'csv' | 'xml' | 'cxml' | 'excel';
 export type PunchOutLevel = 'L1' | 'L2';
+export type ComplianceStatus = 'compliant' | 'review_required' | 'non_compliant';
 
 export interface PlatformConfig {
   platform: ProcurementPlatform;
@@ -115,7 +116,7 @@ export interface PunchOutOrderMessage {
   items: PunchOutCartItem[];
   compliance?: {
     codes: string[];
-    status: 'compliant' | 'review_required' | 'non_compliant';
+    status: ComplianceStatus;
     warnings: string[];
   };
   deliveryLocation?: {
@@ -159,7 +160,6 @@ export type MaterialCategory =
   | 'insulation' | 'electrical' | 'plumbing' | 'hvac' 
   | 'finishing' | 'hardware' | 'safety' | 'equipment';
 
-// FIXED: Added IECC, IPC, IMC, AHRI to ComplianceStandard
 export type ComplianceStandard = 
   | 'DBN' | 'DSTU' | 'IBC' | 'IRC' | 'NEC' | 'NFPA' 
   | 'ADA' | 'OSHA' | 'EPA' | 'ASTM' | 'ISO' | 'EN'
@@ -226,7 +226,7 @@ export interface Catalog {
   version: string;
   previousVersion?: string;
   complianceChecked: boolean;
-  complianceStatus: 'compliant' | 'partial' | 'review_required';
+  complianceStatus: ComplianceStatus | 'partial';
   platforms: ProcurementPlatform[];
   createdAt: string;
   updatedAt: string;
@@ -315,7 +315,7 @@ export interface GeoMaterialRecommendation {
   score: number;
   reasons: string[];
   warnings: string[];
-  complianceStatus: 'compliant' | 'review_required' | 'non_compliant';
+  complianceStatus: ComplianceStatus;
 }
 
 // ============================================================================
@@ -631,7 +631,7 @@ export class PunchOutService {
       items,
       compliance: {
         codes: [...new Set(items.flatMap(i => i.attributes?.complianceCodes || []))],
-        status: 'compliant',
+        status: 'compliant' as ComplianceStatus,
         warnings: [],
       },
       deliveryLocation: geoContext ? {
@@ -761,7 +761,7 @@ export class ComplianceService {
         status,
         message,
         checkedAt: new Date().toISOString(),
-        checkedBy: 'system',
+        checkedBy: 'system' as const,
       };
     });
   }
@@ -838,13 +838,16 @@ export class GeoIntelligenceService {
         reasons.push('In stock and ready to ship');
       }
       
+      // FIXED: Explicit type assertion for complianceStatus
+      const complianceStatus: ComplianceStatus = warnings.length === 0 ? 'compliant' : 'review_required';
+      
       return {
         itemId: item.id,
         item,
         score: Math.max(0, Math.min(100, score)),
         reasons,
         warnings,
-        complianceStatus: warnings.length === 0 ? 'compliant' : 'review_required',
+        complianceStatus,
       };
     }).sort((a, b) => b.score - a.score);
   }
