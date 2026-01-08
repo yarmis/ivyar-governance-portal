@@ -1,0 +1,11 @@
+{
+  "name": "HBS Module",
+  "fullName": "Humanitarian Budget Support",
+  "icon": "🏛️",
+  "version": "3.0",
+  "status": "core",
+  "apiEndpoints": 8,
+  "updated": "2026-01-08",
+  "compliance": ["ISO 27001", "SOC 2", "GDPR", "IRAP"],
+  "description": "The HBS module provides institutional-grade tools for transparent, ethical, and AI-aligned humanitarian budget governance across ministries, donors, and international partners."
+}

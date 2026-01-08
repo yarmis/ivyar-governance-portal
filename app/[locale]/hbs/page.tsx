@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import moduleData from '@/modules/hbs.json';
 
 export default async function HBSPage({
   params,
@@ -8,68 +9,171 @@ export default async function HBSPage({
   const { locale } = await params;
 
   return (
-    <main style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '30px' }}>
-        <Link href={`/${locale}`} style={{ color: '#0070f3', textDecoration: 'none', fontSize: '16px' }}>
-          ← Back to Home
-        </Link>
-      </div>
+    <main className="min-h-screen bg-[#0a0a0a] text-gray-100 py-8 px-6">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Back Link */}
+        <div className="mb-8">
+          <Link 
+            href={`/${locale}`} 
+            className="inline-flex items-center text-gray-400 hover:text-blue-400 font-mono text-sm transition-colors"
+          >
+            ← BACK TO MODULES
+          </Link>
+        </div>
 
-      <h1 style={{ fontSize: '48px', fontWeight: '700', marginBottom: '10px' }}>🏛️ HBS Module</h1>
-      <h2 style={{ fontSize: '24px', fontWeight: '400', color: '#666', marginBottom: '30px' }}>
-        Humanitarian Budget Support
-      </h2>
-      
-      <div style={{ 
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        padding: '24px', 
-        borderRadius: '16px',
-        marginTop: '20px',
-        boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)',
-        border: '1px solid rgba(255, 255, 255, 0.2)'
-      }}>
-        <p style={{ fontSize: '16px', fontWeight: '600', color: '#ffffff', marginBottom: '10px' }}>
-          <strong style={{ opacity: 0.9 }}>Status:</strong>{' '}
-          <span style={{ 
-            background: 'rgba(34, 197, 94, 0.2)',
-            padding: '4px 12px',
-            borderRadius: '6px',
-            fontWeight: '700',
-            color: '#4ade80'
-          }}>
-            ✓ Core
-          </span>
-        </p>
-        <p style={{ fontSize: '16px', fontWeight: '600', color: '#ffffff' }}>
-          <strong style={{ opacity: 0.9 }}>API Endpoints:</strong>{' '}
-          <span style={{ 
-            background: 'rgba(255, 255, 255, 0.15)',
-            padding: '4px 12px',
-            borderRadius: '6px',
-            fontWeight: '700'
-          }}>
-            8
-          </span>
-        </p>
-      </div>
+        {/* Header */}
+        <div className="mb-12 border-l-4 border-blue-500 pl-6">
+          <div className="flex items-center gap-4 mb-2">
+            <span className="text-6xl">{moduleData.icon}</span>
+            <div>
+              <h1 className="text-4xl font-light tracking-tight text-white mb-1">
+                {moduleData.name.toUpperCase()}
+              </h1>
+              <p className="text-lg text-gray-400 font-light">
+                {moduleData.fullName}
+              </p>
+            </div>
+          </div>
+        </div>
 
-      <div style={{ marginTop: '40px' }}>
-        <h3 style={{ fontSize: '28px', fontWeight: '600', marginBottom: '16px' }}>Overview</h3>
-        <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#374151' }}>
-          The Humanitarian Budget Support (HBS) module provides comprehensive 
-          tools for ethical governance and transparent humanitarian aid distribution.
-        </p>
+        {/* Status Bar */}
+        <div className="mb-12 bg-[#111111] border border-gray-800 rounded-sm p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Status</div>
+              <div className="text-green-400 font-mono font-semibold">
+                ✓ {moduleData.status.toUpperCase()}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Version</div>
+              <div className="text-white font-mono">{moduleData.version}</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">API Endpoints</div>
+              <div className="text-white font-mono">{moduleData.apiEndpoints}</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Updated</div>
+              <div className="text-white font-mono text-sm">{moduleData.updated}</div>
+            </div>
+          </div>
+          
+          {/* Compliance Badges */}
+          {moduleData.compliance && moduleData.compliance.length > 0 && (
+            <div className="mt-6 pt-6 border-t border-gray-800">
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Compliance</div>
+              <div className="flex flex-wrap gap-2">
+                {moduleData.compliance.map((cert) => (
+                  <span
+                    key={cert}
+                    className="px-3 py-1 bg-[#1a1a1a] border border-gray-700 text-gray-300 text-xs font-mono"
+                  >
+                    {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
-        <h3 style={{ fontSize: '28px', fontWeight: '600', marginTop: '40px', marginBottom: '16px' }}>
-          Key Features
-        </h3>
-        <ul style={{ fontSize: '18px', lineHeight: '2', color: '#374151' }}>
-          <li>📊 Budget tracking and transparency</li>
-          <li>🌍 Humanitarian aid distribution management</li>
-          <li>⚖️ Ethical governance frameworks</li>
-          <li>🤖 AI-powered decision support</li>
-          <li>📋 Full audit trail and compliance</li>
-        </ul>
+        {/* Main Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          
+          {/* Overview */}
+          <div className="bg-[#111111] border border-gray-800 p-8">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800">
+              <span className="text-2xl">📘</span>
+              <h2 className="text-xl font-light tracking-wide text-white">OVERVIEW</h2>
+            </div>
+            <p className="text-gray-400 leading-relaxed font-light">
+              {moduleData.description}
+            </p>
+          </div>
+
+          {/* AI Governance */}
+          <div className="bg-[#111111] border border-blue-900/30 p-8">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-blue-900/30">
+              <span className="text-2xl">🧠</span>
+              <h2 className="text-xl font-light tracking-wide text-blue-400">AI GOVERNANCE</h2>
+            </div>
+            <ul className="space-y-3 text-gray-400 font-light">
+              <li className="flex items-start gap-3">
+                <span className="text-blue-500 mt-1">▸</span>
+                <span>Human-in-the-loop approval</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-blue-500 mt-1">▸</span>
+                <span>Explainable decisions</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-blue-500 mt-1">▸</span>
+                <span>Risk scoring & assessment</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-blue-500 mt-1">▸</span>
+                <span>Complete audit logs</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Key Capabilities */}
+        <div className="bg-[#111111] border border-gray-800 p-8 mb-6">
+          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-gray-800">
+            <span className="text-2xl">🔑</span>
+            <h2 className="text-xl font-light tracking-wide text-white">KEY CAPABILITIES</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { icon: '📊', text: 'Budget tracking & transparency' },
+              { icon: '🌍', text: 'Humanitarian aid distribution' },
+              { icon: '⚖️', text: 'Ethical governance frameworks' },
+              { icon: '🤖', text: 'AI-powered decision support' },
+              { icon: '📋', text: 'Full audit trail & compliance' },
+              { icon: '🧩', text: 'Module integration' },
+            ].map((item, idx) => (
+              <div 
+                key={idx}
+                className="flex items-start gap-3 p-4 bg-[#1a1a1a] border border-gray-800 hover:border-gray-700 transition-colors"
+              >
+                <span className="text-xl opacity-70">{item.icon}</span>
+                <span className="text-gray-400 text-sm font-light">{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="bg-[#111111] border border-gray-800 p-8">
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800">
+            <span className="text-2xl">🔗</span>
+            <h2 className="text-xl font-light tracking-wide text-white">ACTIONS</h2>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/portal/hbs"
+              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-mono text-sm tracking-wider transition-colors"
+            >
+              OPEN MODULE →
+            </Link>
+            <Link
+              href="/docs/hbs"
+              className="px-8 py-3 border border-gray-700 hover:border-blue-600 text-gray-300 hover:text-blue-400 font-mono text-sm tracking-wider transition-colors"
+            >
+              VIEW API →
+            </Link>
+            <Link
+              href="/demo/hbs"
+              className="px-8 py-3 border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white font-mono text-sm tracking-wider transition-colors"
+            >
+              RUN DEMO →
+            </Link>
+          </div>
+        </div>
+
       </div>
     </main>
   );
