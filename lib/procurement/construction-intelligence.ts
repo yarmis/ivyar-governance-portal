@@ -1,7 +1,6 @@
 // lib/procurement/construction-intelligence.ts
-// Construction Intelligence Platform v1.0
+// Construction Intelligence Platform v1.0 - FIXED
 // PunchOut Integration for Ariba, Coupa, Ivalua, Jaggaer
-// Catalogs, Materials, Compliance, Geo-Intelligence
 
 // ============================================================================
 // PROCUREMENT PLATFORM TYPES
@@ -77,8 +76,6 @@ export interface PunchOutSetupRequest {
   protocol: PunchOutProtocol;
   buyerCookie: string;
   browserFormPost: string;
-  
-  // Credentials
   fromDomain: string;
   fromIdentity: string;
   toDomain: string;
@@ -86,17 +83,11 @@ export interface PunchOutSetupRequest {
   senderDomain: string;
   senderIdentity: string;
   sharedSecret: string;
-  
-  // User info
   userEmail?: string;
   userName?: string;
   userContact?: string;
-  
-  // Context
   operation: 'create' | 'edit' | 'inspect';
   selectedItem?: string;
-  
-  // Location context (our unique feature)
   geoContext?: {
     latitude: number;
     longitude: number;
@@ -122,15 +113,11 @@ export interface PunchOutOrderMessage {
   total: number;
   currency: string;
   items: PunchOutCartItem[];
-  
-  // Compliance info (our unique feature)
   compliance?: {
     codes: string[];
     status: 'compliant' | 'review_required' | 'non_compliant';
     warnings: string[];
   };
-  
-  // Geo context
   deliveryLocation?: {
     address: string;
     coordinates: { lat: number; lng: number };
@@ -148,13 +135,9 @@ export interface PunchOutCartItem {
   unitOfMeasure: string;
   description: string;
   shortName: string;
-  
-  // Classification
   unspsc?: string;
   manufacturerPartId?: string;
   manufacturerName?: string;
-  
-  // Extended attributes (construction specific)
   attributes?: {
     category: string;
     subcategory: string;
@@ -162,8 +145,6 @@ export interface PunchOutCartItem {
     certifications: string[];
     complianceCodes: string[];
   };
-  
-  // Lead time and availability
   leadTimeDays?: number;
   inStock?: boolean;
   minOrderQty?: number;
@@ -178,66 +159,47 @@ export type MaterialCategory =
   | 'insulation' | 'electrical' | 'plumbing' | 'hvac' 
   | 'finishing' | 'hardware' | 'safety' | 'equipment';
 
+// FIXED: Added IECC, IPC, IMC, AHRI to ComplianceStandard
 export type ComplianceStandard = 
   | 'DBN' | 'DSTU' | 'IBC' | 'IRC' | 'NEC' | 'NFPA' 
-  | 'ADA' | 'OSHA' | 'EPA' | 'ASTM' | 'ISO' | 'EN';
+  | 'ADA' | 'OSHA' | 'EPA' | 'ASTM' | 'ISO' | 'EN'
+  | 'IECC' | 'IPC' | 'IMC' | 'AHRI' | 'UL' | 'CSA' | 'NSF';
 
 export interface CatalogItem {
   id: string;
   supplierId: string;
   supplierName: string;
   supplierPartId: string;
-  
-  // Basic info
   name: string;
   shortName: string;
   description: string;
   longDescription?: string;
-  
-  // Classification
   category: MaterialCategory;
   subcategory: string;
   unspsc: string;
   unspscDescription: string;
-  
-  // Pricing
   unitPrice: number;
   currency: 'USD' | 'EUR' | 'UAH';
   unitOfMeasure: string;
   priceUnit: number;
   minOrderQty: number;
-  
-  // Contract pricing (optional)
   contractId?: string;
   contractPrice?: number;
   contractStartDate?: string;
   contractEndDate?: string;
-  
-  // Specifications
   specifications: MaterialSpecification[];
-  
-  // Compliance
   complianceStandards: ComplianceStandard[];
   certifications: string[];
-  
-  // Availability
   leadTimeDays: number;
   inStock: boolean;
   stockQty?: number;
-  
-  // Media
   imageUrl?: string;
   thumbnailUrl?: string;
   datasheetUrl?: string;
-  
-  // Metadata
   manufacturerName?: string;
   manufacturerPartId?: string;
   countryOfOrigin?: string;
-  
-  // Geo restrictions
   availableRegions?: string[];
-  
   status: 'active' | 'inactive' | 'discontinued';
   createdAt: string;
   updatedAt: string;
@@ -255,28 +217,17 @@ export interface Catalog {
   name: string;
   supplierId: string;
   supplierName: string;
-  
   type: 'hosted' | 'punchout' | 'contract';
   format: CatalogFormat;
-  
   items: CatalogItem[];
   itemCount: number;
-  
-  // Validity
   effectiveDate: string;
   expirationDate: string;
-  
-  // Versioning
   version: string;
   previousVersion?: string;
-  
-  // Compliance
   complianceChecked: boolean;
   complianceStatus: 'compliant' | 'partial' | 'review_required';
-  
-  // Target platforms
   platforms: ProcurementPlatform[];
-  
   createdAt: string;
   updatedAt: string;
 }
@@ -293,21 +244,14 @@ export interface ComplianceRule {
   title: string;
   description: string;
   requirement: string;
-  
-  // Applicability
   country: 'UA' | 'US' | 'both';
   categories: MaterialCategory[];
-  
-  // Validation
   validationType: 'specification' | 'certification' | 'test_report' | 'manual';
   validationField?: string;
   validationOperator?: 'equals' | 'contains' | 'greater_than' | 'less_than' | 'in_range';
   validationValue?: string | number;
   validationRange?: { min: number; max: number };
-  
-  // Severity
   severity: 'critical' | 'major' | 'minor' | 'informational';
-  
   effectiveDate: string;
   updatedAt: string;
 }
@@ -317,11 +261,9 @@ export interface ComplianceCheck {
   itemId: string;
   ruleId: string;
   standard: ComplianceStandard;
-  
   status: 'pass' | 'fail' | 'warning' | 'not_applicable' | 'manual_review';
   message: string;
   details?: string;
-  
   checkedAt: string;
   checkedBy: 'system' | 'manual';
 }
@@ -330,10 +272,8 @@ export interface ComplianceReport {
   id: string;
   catalogId?: string;
   itemIds: string[];
-  
   country: 'UA' | 'US';
   standards: ComplianceStandard[];
-  
   summary: {
     total: number;
     passed: number;
@@ -341,10 +281,8 @@ export interface ComplianceReport {
     warnings: number;
     manualReview: number;
   };
-  
   checks: ComplianceCheck[];
   recommendations: string[];
-  
   generatedAt: string;
 }
 
@@ -356,30 +294,18 @@ export interface GeoContext {
   coordinates: { lat: number; lng: number };
   address: string;
   country: 'UA' | 'US';
-  
-  // UA specific
   oblast?: string;
   hromada?: string;
-  
-  // US specific
   state?: string;
   county?: string;
   city?: string;
-  
-  // Zoning
   zoneCode?: string;
   zoneName?: string;
   permittedUses?: string[];
-  
-  // Risk assessment
   floodZone?: string;
   floodRisk?: 'minimal' | 'moderate' | 'high' | 'severe';
   seismicZone?: string;
-  
-  // Utilities
   availableUtilities?: string[];
-  
-  // Applicable codes
   applicableCodes: ComplianceStandard[];
 }
 
@@ -558,7 +484,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       { name: 'Voltage Rating', value: '600', unit: 'V', type: 'performance' },
       { name: 'Temperature Rating', value: '90', unit: '°C', type: 'performance' },
     ],
-    complianceStandards: ['NEC', 'NFPA', 'IBC'],
+    complianceStandards: ['NEC', 'NFPA', 'IBC', 'UL', 'CSA'],
     certifications: ['UL Listed', 'CSA Certified'],
     leadTimeDays: 2,
     inStock: true,
@@ -744,7 +670,7 @@ export class CatalogService {
   static filterByCompliance(country: 'UA' | 'US'): CatalogItem[] {
     const countryStandards: ComplianceStandard[] = country === 'UA'
       ? ['DBN', 'DSTU', 'ISO', 'EN']
-      : ['IBC', 'IRC', 'NEC', 'NFPA', 'ASTM', 'ADA', 'OSHA'];
+      : ['IBC', 'IRC', 'NEC', 'NFPA', 'ASTM', 'ADA', 'OSHA', 'IECC'];
     
     return CATALOG_ITEMS.filter(i =>
       i.complianceStandards.some(s => countryStandards.includes(s))
@@ -752,7 +678,6 @@ export class CatalogService {
   }
 
   static exportToCIF(items: CatalogItem[]): string {
-    // CIF 3.0 format for Ariba
     let cif = `CIF_I_V3.0\n`;
     cif += `LOADMODE: F\n`;
     cif += `CODEFORMAT: UNSPSC\n`;
@@ -772,7 +697,6 @@ export class CatalogService {
   }
 
   static exportToCSV(items: CatalogItem[]): string {
-    // Coupa CSV format
     const headers = [
       'Supplier Part Number', 'Name', 'Description', 'Price', 'Currency',
       'Unit of Measure', 'UNSPSC', 'Lead Time', 'Manufacturer', 'Image URL'
@@ -811,7 +735,6 @@ export class ComplianceService {
       let status: ComplianceCheck['status'] = 'pass';
       let message = `Compliant with ${rule.standard} ${rule.section}`;
       
-      // Check if item has required certification
       if (rule.validationType === 'certification') {
         const hasCert = item.certifications.some(c =>
           c.toLowerCase().includes(rule.standard.toLowerCase())
@@ -822,7 +745,6 @@ export class ComplianceService {
         }
       }
       
-      // Check specification value
       if (rule.validationType === 'specification' && rule.validationField) {
         const spec = item.specifications.find(s => s.name === rule.validationField);
         if (!spec) {
@@ -867,7 +789,7 @@ export class ComplianceService {
       id: `RPT-${Date.now()}`,
       itemIds: items.map(i => i.id),
       country,
-      standards: country === 'UA' ? ['DBN', 'DSTU'] : ['IBC', 'IRC', 'NEC'],
+      standards: country === 'UA' ? ['DBN', 'DSTU'] : ['IBC', 'IRC', 'NEC', 'IECC'],
       summary,
       checks: allChecks,
       recommendations,
@@ -883,7 +805,6 @@ export class GeoIntelligenceService {
       const reasons: string[] = [];
       const warnings: string[] = [];
       
-      // Check regional availability
       if (item.availableRegions && !item.availableRegions.some(r => 
         r === geoContext.country || r.startsWith(geoContext.country)
       )) {
@@ -891,7 +812,6 @@ export class GeoIntelligenceService {
         warnings.push('Material not typically available in this region');
       }
       
-      // Check compliance standards
       const countryStandards = geoContext.applicableCodes;
       const hasRelevantStandards = item.complianceStandards.some(s => 
         countryStandards.includes(s)
@@ -904,19 +824,16 @@ export class GeoIntelligenceService {
         warnings.push('May require additional compliance verification');
       }
       
-      // Check flood zone considerations
       if (geoContext.floodRisk === 'high' || geoContext.floodRisk === 'severe') {
         if (item.category === 'insulation' || item.category === 'lumber') {
           warnings.push('Consider flood-resistant alternatives for high-risk zone');
         }
       }
       
-      // Check lead time
       if (item.leadTimeDays <= 3) {
         reasons.push('Fast delivery available');
       }
       
-      // Check stock
       if (item.inStock) {
         reasons.push('In stock and ready to ship');
       }
