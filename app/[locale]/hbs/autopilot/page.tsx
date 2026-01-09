@@ -171,9 +171,9 @@ export default function AutopilotDashboard() {
               {/* Last 24 Hours */}
               <StatusCard
                 title="Last 24 Hours"
-                value={data.last24Hours.total.toString()}
+                value={(data.last24Hours?.total ?? 0).toString()}
                 status="info"
-                subtitle={`v7: ${data.last24Hours.v7} | v8: ${data.last24Hours.v8}`}
+                subtitle={`v7: ${data.last24Hours?.v7 ?? 0} | v8: ${data.last24Hours?.v8 ?? 0}`}
               />
 
               {/* Avg Similarity */}
