@@ -1,64 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { signAuthToken, getRedirectByRole } from '@/lib/auth/jwt';
-import { findUserByEmail, verifyPassword } from '@/lib/auth/users';
-import { logLoginAttempt } from '@/lib/auth/audit';
+import { sign } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { Client } from 'pg';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { email, password } = body;
 
-    // Get client info for audit
-    const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    const userAgent = request.headers.get('user-agent') || 'unknown';
-
-    // Validate input
     if (!email || !password) {
-      logLoginAttempt({ email: email || 'unknown', success: false, ipAddress, userAgent });
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
     }
 
-    // Find user
-    const user = findUserByEmail(email);
-    if (!user) {
-      logLoginAttempt({ email, success: false, ipAddress, userAgent });
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    // Verify password
-    const validPassword = verifyPassword(password, user);
-    if (!validPassword) {
-      logLoginAttempt({ userId: user.id, email, success: false, ipAddress, userAgent });
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    // Create token
-    const token = await signAuthToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-      category: user.category,
+    const client = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
     });
 
-    // Log successful login
-    logLoginAttempt({ userId: user.id, email, success: true, ipAddress, userAgent });
+    await client.connect();
 
-    // Create response with cookie
-    const redirectTo = getRedirectByRole(user.role);
-    const response = NextResponse.json({ success: true, redirectTo, role: user.role });
+    try {
+      const result = await client.query(
+        'SELECT id, email, password_hash, role, category FROM users WHERE email = $1',
+        [email.toLowerCase()]
+      );
 
-    // Set HttpOnly cookie
-    response.cookies.set('ivyar_auth', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
+      if (result.rows.length === 0) {
+        return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      }
 
-    return response;
-  } catch (error) {
+      const user = result.rows[0];
+      const passwordValid = await bcrypt.compare(password, user.password_hash);
+
+      if (!passwordValid) {
+        return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      }
+
+      const token = sign(
+        { userId: user.id, email: user.email, role: user.role, category: user.category, mfaVerified: true },
+        JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      const response = NextResponse.json({
+        success: true,
+        user: { email: user.email, role: user.role, category: user.category }
+      });
+
+      response.cookies.set('auth-token', token, { httpOnly: true, maxAge: 86400 });
+      return response;
+    } finally {
+      await client.end();
+    }
+  } catch (error: any) {
     console.error('Login error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
