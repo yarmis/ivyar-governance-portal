@@ -230,7 +230,7 @@ export default function LandingPage() {
               href="/demo" 
               className="hidden sm:flex h-11 px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
             >
-              {t.cta.demo}
+              Request Demo
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -428,7 +428,7 @@ export default function LandingPage() {
             <h2 className="text-2xl lg:text-4xl font-semibold">{t.cta.title}</h2>
             <p className="text-[#8B949E] text-lg">{t.cta.subtitle}</p>
             <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <Link href="/demo" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
+              <Link href="/demo" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">Request Demo</Link>
               <Link href="#contact" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">{t.cta.contact}</Link>
             </div>
           </div>
