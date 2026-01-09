@@ -81,7 +81,7 @@ export class SmartAccessCoordinator {
       return {
         allowed: false,
         reason: securityCheck.reason || 'Security validation failed',
-        
+
         auditLog: true
       };
     }
@@ -199,7 +199,7 @@ export class SmartAccessCoordinator {
     // 2. Check for suspicious activity
     const suspiciousActivity = await this.detectAnomalies(context);
     if (suspiciousActivity.detected) {
-      await this.logSecurityAlert(context, suspiciousActivity.reason);
+      await this.logSecurityAlert(context, suspiciousActivity.reason || 'Suspicious activity detected');
       
       return {
         passed: false,
