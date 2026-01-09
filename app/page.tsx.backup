@@ -198,15 +198,9 @@ const MODULE_META = [
   { icon: '🚚', status: 'pilot', apis: 14, href: '/modules/logistics' },
   { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
   { icon: '🗄️', status: 'dev', apis: 10, href: '/modules/data-platform' },
-  { icon: '🏛️', status: 'core', apis: 8, href: '/us/hbs' },
+  { icon: '🏛️', status: 'core', apis: 8, href: '/hbs' },
   { icon: '🤖', status: 'beta', apis: 5, href: '/modules/ai-services' },
-  { icon: '🏪', status: 'live', apis: 4, href: '/modules/trade' },
-  { icon: '🛡️', status: 'live', apis: 4, href: '/modules/insurance' },
-  { icon: '💳', status: 'live', apis: 4, href: '/modules/payments' },
-  { icon: '🏗️', status: 'pilot', apis: 4, href: '/modules/reconstruction' },
-  { icon: '🚛', status: 'live', apis: 4, href: '/modules/freight' },
 ];
-
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
 
@@ -221,19 +215,7 @@ export default function LandingPage() {
     name: t.modulesList[i]?.name || '',
     desc: t.modulesList[i]?.desc || '',
   }));
-modulesList: [
-  { name: 'Procurement Engine', desc: 'Transparent tender management and contract oversight' },
-  { name: 'Logistics Engine', desc: 'Route optimization and supply chain tracking' },
-  { name: 'Donor Dashboard', desc: 'Funding transparency and impact reporting' },
-  { name: 'Data Platform', desc: 'Unified data lake and document management' },
-  { name: 'HBS Module', desc: 'Humanitarian budget support and ethical governance' },
-  { name: 'AI Services', desc: 'Intelligent automation and decision support' },
-  { name: 'Trade Module', desc: 'B2B marketplace for verified business transactions' }, // ДОДАТИ
-  { name: 'Insurance Module', desc: 'AI-powered insurance for cargo, liability, and operations' }, // ДОДАТИ
-  { name: 'Payments Module', desc: 'Instant settlements and cross-border payments' }, // ДОДАТИ
-  { name: 'Reconstruction Module', desc: 'Transparent post-war rebuilding with AI anti-corruption' }, // ДОДАТИ
-  { name: 'Direct Freight', desc: 'Broker-free logistics with AI rate optimization' }, // ДОДАТИ
-],
+
   const handleModuleClick = (href: string) => {
     console.log("CLICK:", href); window.location.href = href;
   };
