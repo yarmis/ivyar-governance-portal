@@ -42,7 +42,7 @@ export default function AutopilotDashboard() {
 
   const fetchStatus = async () => {
     try {
-      const res = await fetch('/api/hbs/autopilot/status');
+      const res = await fetch('/api/hbs/autopilot/stats');
       const json = await res.json();
       setData({
         v8Enabled: json.flag?.enabled || false,
