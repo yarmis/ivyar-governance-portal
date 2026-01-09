@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   return NextResponse.json({
+    success: true,
     v8Enabled: true,
     rolloutPercentage: 45,
     last24Hours: {
