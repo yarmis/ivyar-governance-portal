@@ -8,11 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  // ... rest of code
-}
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  
   return protectedRoute(
     request,
     Permission.SYSTEM_VIEW_CONFIG,
@@ -27,17 +23,17 @@ export async function GET(
         
         const requirements = await client.query(
           `SELECT * FROM module_requirements WHERE module_id = $1 ORDER BY priority DESC, due_date ASC`,
-          [params.id]
+          [id]
         );
         
         const readiness = await client.query(
           `SELECT * FROM module_launch_readiness WHERE module_id = $1`,
-          [params.id]
+          [id]
         );
 
         return NextResponse.json({
           success: true,
-          moduleId: params.id,
+          moduleId: id,
           requirements: requirements.rows,
           readiness: readiness.rows[0] || null
         });
@@ -50,8 +46,10 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
+  
   return protectedRoute(
     request,
     Permission.SYSTEM_MANAGE_MODULES,
@@ -76,7 +74,7 @@ export async function POST(
                     $6::requirement_status, $7, $8, $9, $10, $11, $12, $13)
           RETURNING *`,
           [
-            params.id,
+            id,
             body.title,
             body.description,
             body.category,
