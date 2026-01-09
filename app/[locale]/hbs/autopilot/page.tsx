@@ -1,384 +1,433 @@
 // ============================================================================
-// HBS AUTOPILOT v8 DASHBOARD
+// HBS AUTOPILOT DASHBOARD - PALANTIR STYLE
 // File: app/[locale]/hbs/autopilot/page.tsx
 // ============================================================================
 
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-interface AutopilotStatus {
-  timestamp: string;
-  flag: {
-    enabled: boolean;
-    strategy: {
-      type: string;
-      percentage: number;
-    } | null;
-  };
+interface DashboardData {
+  v8Enabled: boolean;
+  rolloutPercentage: number;
   last24Hours: {
-    v7Decisions: number;
-    v8Decisions: number;
-    totalDecisions: number;
-    v8Percentage: string;
+    total: number;
+    v7: number;
+    v8: number;
   };
-  comparison: {
-    averageSimilarity: string;
-    totalComparisons: number;
-  };
+  avgSimilarity: number;
+  comparisons: number;
 }
 
 export default function AutopilotDashboard() {
-  const [status, setStatus] = useState<AutopilotStatus | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
+  const [data, setData] = useState<DashboardData>({
+    v8Enabled: false,
+    rolloutPercentage: 0,
+    last24Hours: { total: 1, v7: 1, v8: 0 },
+    avgSimilarity: 0,
+    comparisons: 0,
+  });
+
+  const [scanLine, setScanLine] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchStatus();
-    const interval = setInterval(fetchStatus, 10000); // Refresh every 10s
+    const interval = setInterval(fetchStatus, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  async function fetchStatus() {
+  useEffect(() => {
+    const scanInterval = setInterval(() => {
+      setScanLine(prev => (prev + 1) % 100);
+    }, 50);
+    return () => clearInterval(scanInterval);
+  }, []);
+
+  const fetchStatus = async () => {
     try {
       const res = await fetch('/api/hbs/autopilot/status');
-      const data = await res.json();
-      setStatus(data);
+      const json = await res.json();
+      setData({
+        v8Enabled: json.flag?.enabled || false,
+        rolloutPercentage: json.flag?.strategy?.percentage || 0,
+        last24Hours: json.last24Hours || { total: 1, v7: 1, v8: 0 },
+        avgSimilarity: json.avgSimilarity || 0,
+        comparisons: json.comparisons || 0,
+      });
     } catch (error) {
       console.error('Failed to fetch status:', error);
-    } finally {
-      setLoading(false);
     }
-  }
+  };
 
-  async function updateRollout(percentage: number) {
-    setUpdating(true);
+  const handleRollout = async (percentage: number) => {
+    setLoading(true);
     try {
-      const res = await fetch('/api/hbs/autopilot/flags/enable', {
+      await fetch('/api/hbs/autopilot/flags/enable', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ percentage }),
       });
-
-      if (res.ok) {
-        await fetchStatus();
-        alert(`✓ v8 enabled for ${percentage}%`);
-      } else {
-        alert('Failed to update rollout');
-      }
+      await fetchStatus();
     } catch (error) {
-      console.error('Failed to update:', error);
-      alert('Failed to update rollout');
+      console.error('Rollout failed:', error);
     } finally {
-      setUpdating(false);
+      setLoading(false);
     }
-  }
+  };
 
-  async function disableV8() {
-    if (!confirm('⚠️ Rollback to v7? This will disable v8 for all users.')) {
-      return;
-    }
-
-    setUpdating(true);
+  const handleDisable = async () => {
+    setLoading(true);
     try {
-      const res = await fetch('/api/hbs/autopilot/flags/disable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
-      });
-
-      if (res.ok) {
-        await fetchStatus();
-        alert('✓ Rolled back to v7');
-      } else {
-        alert('Failed to disable v8');
-      }
+      await fetch('/api/hbs/autopilot/flags/disable', { method: 'POST' });
+      await fetchStatus();
     } catch (error) {
-      console.error('Failed to disable:', error);
-      alert('Failed to disable v8');
+      console.error('Disable failed:', error);
     } finally {
-      setUpdating(false);
+      setLoading(false);
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!status) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg text-red-600">Failed to load status</div>
-      </div>
-    );
-  }
-
-  const currentPercentage = status.flag.strategy?.percentage || 0;
-  const isEnabled = status.flag.enabled;
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#0a0e27] text-gray-100 relative overflow-hidden">
+      {/* Animated Background Grid */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(to right, #0ea5e9 1px, transparent 1px),
+            linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }} />
+      </div>
+
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-blue-900/10 animate-pulse" style={{ animationDuration: '8s' }} />
+
+      {/* Scan Line */}
+      <div 
+        className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-30 pointer-events-none"
+        style={{ top: `${scanLine}%`, transition: 'top 0.05s linear' }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            🤖 HBS Autopilot Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Monitor and control v7 → v8 migration
-          </p>
-        </div>
+        <header className="border-b border-cyan-900/30 bg-[#0d1117]/95 backdrop-blur-md sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link href="/us/hbs" className="text-cyan-400 hover:text-cyan-300 text-sm font-mono flex items-center gap-2 group">
+                  <span className="group-hover:-translate-x-1 transition-transform">←</span>
+                  <span>HBS MODULE</span>
+                </Link>
+                <div className="h-6 w-px bg-gradient-to-b from-transparent via-cyan-500 to-transparent" />
+                <h1 className="text-xl font-mono tracking-wider">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                    AUTOPILOT DASHBOARD
+                  </span>
+                </h1>
+              </div>
 
-        {/* Status Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* v8 Status */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-700">v8 Status</h3>
-              <div
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  isEnabled
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-800'
-                }`}
-              >
-                {isEnabled ? '✓ ENABLED' : '○ DISABLED'}
+              <div className="flex items-center gap-4">
+                <div className="text-xs font-mono text-gray-500">
+                  LAST UPDATED: <span className="text-cyan-400">{new Date().toLocaleTimeString()}</span>
+                </div>
               </div>
             </div>
-            <div className="text-4xl font-bold text-blue-600">
-              {currentPercentage}%
+          </div>
+        </header>
+
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          {/* Title */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-1 h-8 bg-gradient-to-b from-cyan-500 to-blue-600" />
+              <h2 className="text-sm font-mono text-cyan-400 tracking-widest uppercase">
+                v7 → v8 Migration Control
+              </h2>
             </div>
-            <div className="text-sm text-gray-500 mt-2">
-              Rollout percentage
+            <p className="text-gray-400 font-mono text-sm ml-4">
+              Real-time monitoring and gradual rollout management
+            </p>
+          </div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            {/* Status Cards */}
+            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* v8 Status */}
+              <StatusCard
+                title="v8 Status"
+                value={data.v8Enabled ? 'ENABLED' : 'DISABLED'}
+                status={data.v8Enabled ? 'active' : 'inactive'}
+                subtitle={`${data.rolloutPercentage}% Rollout`}
+              />
+
+              {/* Last 24 Hours */}
+              <StatusCard
+                title="Last 24 Hours"
+                value={data.last24Hours.total.toString()}
+                status="info"
+                subtitle={`v7: ${data.last24Hours.v7} | v8: ${data.last24Hours.v8}`}
+              />
+
+              {/* Avg Similarity */}
+              <StatusCard
+                title="Avg Similarity"
+                value={`${Math.round(data.avgSimilarity * 100)}%`}
+                status={data.avgSimilarity > 0.8 ? 'success' : 'warning'}
+                subtitle={`${data.comparisons} comparisons`}
+              />
+            </div>
+
+            {/* Rollout Progress */}
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000" />
+              <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/60 border border-cyan-900/30 rounded-lg p-6 backdrop-blur-sm h-full">
+                <h3 className="text-xs font-mono text-cyan-400 mb-4 tracking-widest">ROLLOUT PROGRESS</h3>
+                
+                {/* Circular Progress */}
+                <div className="relative w-32 h-32 mx-auto mb-4">
+                  <svg className="transform -rotate-90 w-32 h-32">
+                    <circle
+                      cx="64"
+                      cy="64"
+                      r="56"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="none"
+                      className="text-slate-800"
+                    />
+                    <circle
+                      cx="64"
+                      cy="64"
+                      r="56"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray={`${2 * Math.PI * 56}`}
+                      strokeDashoffset={`${2 * Math.PI * 56 * (1 - data.rolloutPercentage / 100)}`}
+                      className="text-cyan-500 transition-all duration-1000"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-3xl font-mono font-bold text-cyan-400">
+                      {data.rolloutPercentage}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Milestones */}
+                <div className="flex justify-between text-[10px] font-mono text-gray-500">
+                  <span className={data.rolloutPercentage >= 0 ? 'text-cyan-400' : ''}>0%</span>
+                  <span className={data.rolloutPercentage >= 25 ? 'text-cyan-400' : ''}>25%</span>
+                  <span className={data.rolloutPercentage >= 50 ? 'text-cyan-400' : ''}>50%</span>
+                  <span className={data.rolloutPercentage >= 75 ? 'text-cyan-400' : ''}>75%</span>
+                  <span className={data.rolloutPercentage >= 100 ? 'text-cyan-400' : ''}>100%</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Total Decisions */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Last 24 Hours
-            </h3>
-            <div className="text-4xl font-bold text-gray-900">
-              {status.last24Hours.totalDecisions}
+          {/* Decision Distribution */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Bar Chart */}
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000" />
+              <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/60 border border-purple-900/30 rounded-lg p-6 backdrop-blur-sm">
+                <h3 className="text-xs font-mono text-purple-400 mb-6 tracking-widest">
+                  DECISION DISTRIBUTION
+                </h3>
+
+                <div className="space-y-6">
+                  {/* v7 Bar */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
+                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v7}</span>
+                    </div>
+                    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-gray-500 to-gray-700 transition-all duration-1000 flex items-center justify-end pr-3"
+                        style={{ width: `${(data.last24Hours.v7 / data.last24Hours.total) * 100}%` }}
+                      >
+                        <span className="text-xs font-mono text-white">
+                          {Math.round((data.last24Hours.v7 / data.last24Hours.total) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* v8 Bar */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
+                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v8}</span>
+                    </div>
+                    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 flex items-center justify-end pr-3"
+                        style={{ width: `${(data.last24Hours.v8 / data.last24Hours.total) * 100}%` }}
+                      >
+                        <span className="text-xs font-mono text-white">
+                          {Math.round((data.last24Hours.v8 / data.last24Hours.total) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="text-sm text-gray-500 mt-2">Total decisions</div>
-            <div className="mt-4 flex gap-4 text-sm">
+
+            {/* Rollout Controls */}
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000" />
+              <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/60 border border-emerald-900/30 rounded-lg p-6 backdrop-blur-sm">
+                <h3 className="text-xs font-mono text-emerald-400 mb-6 tracking-widest">
+                  ROLLOUT CONTROLS
+                </h3>
+
+                <p className="text-xs text-gray-400 mb-4 font-mono">
+                  Start gradual rollout of v8:
+                </p>
+
+                {/* Control Buttons */}
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <ControlButton
+                    label="1%"
+                    onClick={() => handleRollout(1)}
+                    active={data.rolloutPercentage === 1}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="5%"
+                    onClick={() => handleRollout(5)}
+                    active={data.rolloutPercentage === 5}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="10%"
+                    onClick={() => handleRollout(10)}
+                    active={data.rolloutPercentage === 10}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="25%"
+                    onClick={() => handleRollout(25)}
+                    active={data.rolloutPercentage === 25}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="50%"
+                    onClick={() => handleRollout(50)}
+                    active={data.rolloutPercentage === 50}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="75%"
+                    onClick={() => handleRollout(75)}
+                    active={data.rolloutPercentage === 75}
+                    disabled={loading}
+                  />
+                  <ControlButton
+                    label="100%"
+                    onClick={() => handleRollout(100)}
+                    active={data.rolloutPercentage === 100}
+                    disabled={loading}
+                    fullWidth
+                  />
+                </div>
+
+                {/* Emergency Rollback */}
+                <button
+                  onClick={handleDisable}
+                  disabled={loading || !data.v8Enabled}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-red-900/30 to-red-800/30 border-2 border-red-500/50 text-red-400 rounded-lg font-mono text-sm font-bold hover:bg-red-900/50 hover:border-red-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? '⚙️ PROCESSING...' : '🚨 EMERGENCY ROLLBACK'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* System Info */}
+          <div className="border-t border-cyan-900/30 pt-6">
+            <div className="flex items-center justify-between text-xs font-mono text-gray-500">
               <div>
-                <span className="text-gray-600">v7:</span>{' '}
-                <span className="font-semibold">{status.last24Hours.v7Decisions}</span>
+                STATUS: <span className={data.v8Enabled ? 'text-green-400' : 'text-gray-400'}>
+                  {data.v8Enabled ? 'ACTIVE' : 'STANDBY'}
+                </span>
               </div>
               <div>
-                <span className="text-blue-600">v8:</span>{' '}
-                <span className="font-semibold text-blue-600">
-                  {status.last24Hours.v8Decisions}
-                </span>
+                TOTAL DECISIONS: <span className="text-cyan-400">{data.last24Hours.total}</span>
+              </div>
+              <div>
+                VERSION: <span className="text-cyan-400">8.0.0</span>
               </div>
             </div>
           </div>
-
-          {/* Similarity Score */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Avg Similarity
-            </h3>
-            <div className="text-4xl font-bold text-green-600">
-              {(parseFloat(status.comparison.averageSimilarity) * 100).toFixed(0)}%
-            </div>
-            <div className="text-sm text-gray-500 mt-2">
-              v7 vs v8 agreement
-            </div>
-            <div className="mt-4 text-sm text-gray-600">
-              {status.comparison.totalComparisons} comparisons
-            </div>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
-            Rollout Progress
-          </h3>
-          <div className="w-full bg-gray-200 rounded-full h-8 overflow-hidden">
-            <div
-              className="bg-gradient-to-r from-blue-500 to-blue-600 h-8 flex items-center justify-center text-white text-sm font-medium transition-all duration-500"
-              style={{ width: `${currentPercentage}%` }}
-            >
-              {currentPercentage}%
-            </div>
-          </div>
-          <div className="flex justify-between text-xs text-gray-500 mt-2">
-            <span>0%</span>
-            <span>25%</span>
-            <span>50%</span>
-            <span>75%</span>
-            <span>100%</span>
-          </div>
-        </div>
-
-        {/* Distribution Chart */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
-            Decision Distribution
-          </h3>
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">v7 (Legacy)</span>
-                <span className="text-sm font-semibold">
-                  {status.last24Hours.v7Decisions}
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                <div
-                  className="bg-gray-600 h-4"
-                  style={{
-                    width: `${
-                      status.last24Hours.totalDecisions > 0
-                        ? (status.last24Hours.v7Decisions /
-                            status.last24Hours.totalDecisions) *
-                          100
-                        : 0
-                    }%`,
-                  }}
-                ></div>
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-blue-600">v8 (AI-Powered)</span>
-                <span className="text-sm font-semibold text-blue-600">
-                  {status.last24Hours.v8Decisions}
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                <div
-                  className="bg-blue-600 h-4"
-                  style={{
-                    width: `${
-                      status.last24Hours.totalDecisions > 0
-                        ? (status.last24Hours.v8Decisions /
-                            status.last24Hours.totalDecisions) *
-                          100
-                        : 0
-                    }%`,
-                  }}
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-6">
-            Rollout Controls
-          </h3>
-
-          {!isEnabled ? (
-            <div className="space-y-4">
-              <p className="text-gray-600 mb-4">
-                Start gradual rollout of v8:
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <button
-                  onClick={() => updateRollout(1)}
-                  disabled={updating}
-                  className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  1%
-                </button>
-                <button
-                  onClick={() => updateRollout(5)}
-                  disabled={updating}
-                  className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  5%
-                </button>
-                <button
-                  onClick={() => updateRollout(10)}
-                  disabled={updating}
-                  className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  10%
-                </button>
-                <button
-                  onClick={() => updateRollout(25)}
-                  disabled={updating}
-                  className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  25%
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <p className="text-gray-600 mb-4">
-                Current: {currentPercentage}% - Increase rollout or disable:
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-                {currentPercentage < 25 && (
-                  <button
-                    onClick={() => updateRollout(25)}
-                    disabled={updating}
-                    className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                  >
-                    25%
-                  </button>
-                )}
-                {currentPercentage < 50 && (
-                  <button
-                    onClick={() => updateRollout(50)}
-                    disabled={updating}
-                    className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                  >
-                    50%
-                  </button>
-                )}
-                {currentPercentage < 75 && (
-                  <button
-                    onClick={() => updateRollout(75)}
-                    disabled={updating}
-                    className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                  >
-                    75%
-                  </button>
-                )}
-                {currentPercentage < 100 && (
-                  <button
-                    onClick={() => updateRollout(100)}
-                    disabled={updating}
-                    className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                  >
-                    100%
-                  </button>
-                )}
-                <button
-                  onClick={disableV8}
-                  disabled={updating}
-                  className="px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                >
-                  Disable v8
-                </button>
-              </div>
-            </div>
-          )}
-
-          {updating && (
-            <div className="mt-4 text-center text-sm text-gray-500">
-              Updating...
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          Last updated: {new Date(status.timestamp).toLocaleString()}
         </div>
       </div>
     </div>
+  );
+}
+
+// ============================================================================
+// COMPONENTS
+// ============================================================================
+
+function StatusCard({ title, value, status, subtitle }: {
+  title: string;
+  value: string;
+  status: 'active' | 'inactive' | 'success' | 'warning' | 'info';
+  subtitle: string;
+}) {
+  const statusColors = {
+    active: 'from-emerald-500/20 to-emerald-900/20 border-emerald-500/30 text-emerald-400',
+    inactive: 'from-gray-500/20 to-gray-900/20 border-gray-500/30 text-gray-400',
+    success: 'from-green-500/20 to-green-900/20 border-green-500/30 text-green-400',
+    warning: 'from-yellow-500/20 to-yellow-900/20 border-yellow-500/30 text-yellow-400',
+    info: 'from-cyan-500/20 to-cyan-900/20 border-cyan-500/30 text-cyan-400',
+  };
+
+  return (
+    <div className="relative group">
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${statusColors[status]} rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000`} />
+      <div className={`relative bg-gradient-to-br ${statusColors[status]} border rounded-lg p-4 backdrop-blur-sm h-full`}>
+        <div className="text-xs font-mono text-gray-400 mb-2">{title}</div>
+        <div className={`text-2xl font-mono font-bold ${statusColors[status].split(' ')[2]} mb-2`}>
+          {value}
+        </div>
+        <div className="text-xs font-mono text-gray-500">{subtitle}</div>
+        <div className="mt-3 h-1 bg-black/20 rounded-full overflow-hidden">
+          <div className={`h-full bg-gradient-to-r ${statusColors[status]} animate-pulse`} style={{ width: '100%' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ControlButton({ label, onClick, active, disabled, fullWidth = false }: {
+  label: string;
+  onClick: () => void;
+  active: boolean;
+  disabled: boolean;
+  fullWidth?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`${fullWidth ? 'col-span-2' : ''} px-4 py-3 rounded-lg font-mono text-sm font-bold transition-all ${
+        active
+          ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-2 border-cyan-400'
+          : 'bg-slate-800/50 text-cyan-400 border-2 border-cyan-900/50 hover:border-cyan-500/50 hover:bg-slate-800'
+      } disabled:opacity-50 disabled:cursor-not-allowed`}
+    >
+      {label}
+    </button>
   );
 }
