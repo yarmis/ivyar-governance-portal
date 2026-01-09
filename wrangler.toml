@@ -1,0 +1,10 @@
+name = "ivyar-governance-portal"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = ".vercel/output/static"
+
+[build]
+command = "npm run build"
+
+[[rules]]
+type = "ESModule"
+globs = ["**/*.js"]
