@@ -245,7 +245,7 @@ export default function AutopilotDashboard() {
                   DECISION DISTRIBUTION
                 </h3>
 
-                <div <div className="space-y-6">
+                <div className="space-y-6">
   {/* v7 Bar */}
   <div>
     <div className="flex items-center justify-between mb-2">
