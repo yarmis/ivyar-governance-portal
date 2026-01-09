@@ -221,6 +221,28 @@ export default function LandingPage() {
     name: t.modulesList[i]?.name || '',
     desc: t.modulesList[i]?.desc || '',
   }));
+
+  const handleModuleClick = (href: string) => {
+    console.log("CLICK:", href); window.location.href = href;
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 h-[72px] bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-full flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
+            <span className="text-lg font-semibold hidden sm:block">IVYAR</span>
+          </Link>
+          
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="#modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.modules}</Link>
+            <Link href="#ai" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.ai}</Link>
+            <Link href="#about" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.about}</Link>
+          </div>
+
+          <div className="flex items-center gap-3">
             <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
               <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
               <span className="text-xs font-medium text-[#3CCB7F]">Operational</span>
