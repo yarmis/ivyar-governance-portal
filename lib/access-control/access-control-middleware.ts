@@ -64,7 +64,7 @@ export async function protectedRoute(
       userId: authReq.user.id,
       role: authReq.user.role,
       category: accessCoordinator.getRoleCategory(authReq.user.role),
-      ipAddress: authReq.ip || authReq.headers.get('x-forwarded-for') || undefined,
+      ipAddress: authReq.headers.get('x-forwarded-for') || authReq.headers.get('x-real-ip') || undefined,
       mfaVerified: authReq.user.mfaVerified,
       sessionId: authReq.user.sessionId,
       timestamp: new Date()
