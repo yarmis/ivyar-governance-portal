@@ -13,3 +13,4 @@ export async function GET() {
     comparisons: 847
   });
 }
+// Force rebuild Fri Jan  9 14:07:46 PST 2026
