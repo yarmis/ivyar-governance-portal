@@ -45,11 +45,13 @@ export default function AutopilotDashboard() {
       const res = await fetch('https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/status');
       const json = await res.json();
       setData({
-        v8Enabled: json.flag?.enabled || false,
-        rolloutPercentage: json.flag?.strategy?.percentage || 0,
+      setData({
+        v8Enabled: json.v8Enabled || false,
+        rolloutPercentage: json.rolloutPercentage || 0,
         last24Hours: json.last24Hours || { total: 0, v7: 0, v8: 0 },
         avgSimilarity: json.avgSimilarity || 0,
         comparisons: json.comparisons || 0,
+      });
       });
     } catch (error) {
       console.error('Failed to fetch status:', error);
