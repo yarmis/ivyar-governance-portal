@@ -13,3 +13,4 @@ export async function GET() {
     comparisons: 847
   });
 }
+// Force Vercel rebuild Fri Jan  9 14:25:04 PST 2026
