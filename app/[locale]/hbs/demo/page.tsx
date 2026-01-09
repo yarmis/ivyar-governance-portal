@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-export default function HbsDemo() {
+export default function HbsDemo({ params }: { params: { locale: string } }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function HbsDemo() {
 
   return (
     <div className="min-h-screen bg-[#0a0e27] text-gray-100 p-8">
-      <Link href="/us/hbs" className="text-cyan-400 mb-4 block">← BACK</Link>
+      <Link href={`/${params.locale}/hbs`} className="text-cyan-400 mb-4 block">← BACK</Link>
       <h1 className="text-3xl font-mono text-cyan-400 mb-8">HBS Demo Mode</h1>
       
       <div className="bg-slate-900 border border-cyan-900/30 rounded-lg p-6 max-w-2xl">
