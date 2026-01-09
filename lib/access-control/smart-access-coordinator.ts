@@ -46,7 +46,8 @@ export class SmartAccessCoordinator {
       
       return {
         allowed: false,
-        reason: categoryCheck.reason,
+        reason: categoryCheck.reason || 'Category check failed',
+      
         auditLog: true
       };
     }
@@ -74,12 +75,13 @@ export class SmartAccessCoordinator {
       await this.logAccess({
         ...request,
         allowed: false,
-        reason: securityCheck.reason
+        reason: securityCheck.reason || 'Security check failed'
       });
       
       return {
         allowed: false,
-        reason: securityCheck.reason,
+        reason: securityCheck.reason || 'Security validation failed',
+        
         auditLog: true
       };
     }
