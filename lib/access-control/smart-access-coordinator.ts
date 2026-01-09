@@ -41,7 +41,7 @@ export class SmartAccessCoordinator {
       await this.logAccess({
         ...request,
         allowed: false,
-        reason: categoryCheck.reason
+        reason: categoryCheck.reason || 'Access denied'
       });
       
       return {
