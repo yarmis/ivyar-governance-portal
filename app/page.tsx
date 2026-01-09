@@ -198,9 +198,15 @@ const MODULE_META = [
   { icon: '🚚', status: 'pilot', apis: 14, href: '/modules/logistics' },
   { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
   { icon: '🗄️', status: 'dev', apis: 10, href: '/modules/data-platform' },
-  { icon: '🏛️', status: 'core', apis: 8, href: '/hbs' },
+  { icon: '🏛️', status: 'core', apis: 8, href: '/us/hbs' },
   { icon: '🤖', status: 'beta', apis: 5, href: '/modules/ai-services' },
+  { icon: '🏪', status: 'live', apis: 4, href: '/modules/trade' },
+  { icon: '🛡️', status: 'live', apis: 4, href: '/modules/insurance' },
+  { icon: '💳', status: 'live', apis: 4, href: '/modules/payments' },
+  { icon: '🏗️', status: 'pilot', apis: 4, href: '/modules/reconstruction' },
+  { icon: '🚛', status: 'live', apis: 4, href: '/modules/freight' },
 ];
+
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
 
