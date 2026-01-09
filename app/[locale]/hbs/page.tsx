@@ -466,10 +466,31 @@ function ActionButton({ href, label, icon, status = 'default' }: any) {
   );
 }
 
-function Metric({ label, value, trend, percentage, color }: any) {
-  const trendIcons = { up: '↗', down: '↘', stable: '→' };
-  const trendColors = { up: 'text-green-400', down: 'text-red-400', stable: 'text-gray-400' };
-  const barColors = { emerald: 'from-emerald-500 to-emerald-700', cyan: 'from-cyan-500 to-cyan-700', blue: 'from-blue-500 to-blue-700', purple: 'from-purple-500 to-purple-700' };
+function Metric({ label, value, trend, percentage, color }: {
+  label: string;
+  value: string;
+  trend: 'up' | 'down' | 'stable';
+  percentage: number;
+  color: 'emerald' | 'cyan' | 'blue' | 'purple';
+}) {
+  const trendIcons: Record<'up' | 'down' | 'stable', string> = { 
+    up: '↗', 
+    down: '↘', 
+    stable: '→' 
+  };
+  
+  const trendColors: Record<'up' | 'down' | 'stable', string> = { 
+    up: 'text-green-400', 
+    down: 'text-red-400', 
+    stable: 'text-gray-400' 
+  };
+  
+  const barColors: Record<'emerald' | 'cyan' | 'blue' | 'purple', string> = { 
+    emerald: 'from-emerald-500 to-emerald-700', 
+    cyan: 'from-cyan-500 to-cyan-700', 
+    blue: 'from-blue-500 to-blue-700', 
+    purple: 'from-purple-500 to-purple-700' 
+  };
 
   return (
     <div className="space-y-2">
@@ -483,17 +504,6 @@ function Metric({ label, value, trend, percentage, color }: any) {
       <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
         <div className={`h-full bg-gradient-to-r ${barColors[color]} transition-all duration-1000`} style={{ width: `${percentage}%` }} />
       </div>
-    </div>
-  );
-}
-
-function SecurityItem({ label, status, level }: any) {
-  const levelColors = { high: 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30', medium: 'text-yellow-400 bg-yellow-950/30 border-yellow-500/30', low: 'text-blue-400 bg-blue-950/30 border-blue-500/30' };
-
-  return (
-    <div className="flex items-center justify-between p-2 rounded bg-emerald-950/20 border border-emerald-900/20 hover:border-emerald-500/30 transition-colors">
-      <span className="text-gray-400">{label}</span>
-      <span className={`text-xs px-2 py-0.5 rounded border ${levelColors[level]}`}>{status}</span>
     </div>
   );
 }
