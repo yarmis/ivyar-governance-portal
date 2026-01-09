@@ -5,6 +5,12 @@ import { Client } from 'pg';
 
 export async function GET(
   request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  // ... rest of code
+}
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   return protectedRoute(
