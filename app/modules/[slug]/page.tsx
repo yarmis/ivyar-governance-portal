@@ -468,7 +468,7 @@ const MODULES_DATA: Record<string, {
       'FTL and LTL shipping',
       'Owner-operator loads',
       'Fleet carrier contracts',
-      'Last-mile delivery',
+      'Last-mile delivery', 
     ],
   },
 };
@@ -483,7 +483,8 @@ export default function ModulePage() {
   const slug = params.slug as string;
   const module = MODULES_DATA[slug];
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'api' | 'integrations' | 'roadmap'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'api' | 'integrations' | 'roadmap'>('overview'); const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showDemoForm, setShowDemoForm] = useState(false);
 
 
   useEffect(() => {
@@ -685,16 +686,16 @@ export default function ModulePage() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Quick Actions */}
-                <div className="bg-[#161B22] border border-[#1F242C] p-6 rounded-lg">
+               <div className="bg-[#161B22] border border-[#1F242C] p-6 rounded-lg">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
                   <div className="space-y-3">
-                    <Link href="/hbs" className="w-full h-11 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors rounded">
+                    <button onClick={() => setShowComingSoon(true)} className="w-full h-11 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors rounded">
                       Access Module
-                    </Link>
-                    <button className="w-full h-11 border border-[#1F242C] text-[#8B949E] font-medium flex items-center justify-center hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors rounded">
+                    </button>
+                    <button onClick={() => setActiveTab('api')} className="w-full h-11 border border-[#1F242C] text-[#8B949E] font-medium flex items-center justify-center hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors rounded">
                       View Documentation
                     </button>
-                    <button className="w-full h-11 border border-[#1F242C] text-[#8B949E] font-medium flex items-center justify-center hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors rounded">
+                    <button onClick={() => setShowDemoForm(true)} className="w-full h-11 border border-[#1F242C] text-[#8B949E] font-medium flex items-center justify-center hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors rounded">
                       Request Demo
                     </button>
                   </div>
@@ -848,6 +849,112 @@ export default function ModulePage() {
           </div>
         </div>
       </section>
+    {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+          onClick={() => setShowComingSoon(false)}
+        >
+          <div 
+            className="bg-[#0d1117] border border-[#1F242C] rounded-lg max-w-md w-full p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <div className="text-6xl mb-4">{module.icon}</div>
+              <h3 className="text-2xl font-semibold mb-2">Coming Soon</h3>
+              <p className="text-[#8B949E] mb-6">
+                The {module.name} is currently in {module.statusLabel.toLowerCase()} phase. 
+                Full access will be available soon.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#8B949E]">Status</span>
+                  <span className={module.status === 'live' ? 'text-[#3CCB7F]' : 'text-[#FFB84D]'}>
+                    {module.statusLabel}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#8B949E]">Expected Release</span>
+                  <span className="text-white">{module.roadmap[0]?.title || 'TBA'}</span>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowComingSoon(false)}
+                className="mt-6 w-full h-11 bg-[#00A3FF] text-[#0D1117] font-medium rounded hover:bg-[#33B5FF] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Request Demo Modal */}
+      {showDemoForm && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+          onClick={() => setShowDemoForm(false)}
+        >
+          <div 
+            className="bg-[#0d1117] border border-[#1F242C] rounded-lg max-w-md w-full p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-2xl font-semibold mb-6">Request Demo</h3>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Demo request submitted!'); setShowDemoForm(false); }} className="space-y-4">
+              <div>
+                <label className="block text-sm text-[#8B949E] mb-2">Name</label>
+                <input 
+                  type="text" 
+                  required
+                  className="w-full h-11 bg-[#161B22] border border-[#1F242C] rounded px-4 text-white focus:border-[#00A3FF] focus:outline-none"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[#8B949E] mb-2">Email</label>
+                <input 
+                  type="email" 
+                  required
+                  className="w-full h-11 bg-[#161B22] border border-[#1F242C] rounded px-4 text-white focus:border-[#00A3FF] focus:outline-none"
+                  placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[#8B949E] mb-2">Organization</label>
+                <input 
+                  type="text" 
+                  required
+                  className="w-full h-11 bg-[#161B22] border border-[#1F242C] rounded px-4 text-white focus:border-[#00A3FF] focus:outline-none"
+                  placeholder="Your organization"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[#8B949E] mb-2">Message</label>
+                <textarea 
+                  rows={4}
+                  className="w-full bg-[#161B22] border border-[#1F242C] rounded px-4 py-3 text-white focus:border-[#00A3FF] focus:outline-none resize-none"
+                  placeholder="Tell us about your use case..."
+                />
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button 
+                  type="button"
+                  onClick={() => setShowDemoForm(false)}
+                  className="flex-1 h-11 border border-[#1F242C] text-[#8B949E] font-medium rounded hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="flex-1 h-11 bg-[#00A3FF] text-[#0D1117] font-medium rounded hover:bg-[#33B5FF] transition-colors"
+                >
+                  Submit Request
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

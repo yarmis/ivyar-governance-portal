@@ -1,0 +1,7 @@
+'use client';
+
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+
+// [Тут весь MODULES_DATA - я скопіюю його повністю]
