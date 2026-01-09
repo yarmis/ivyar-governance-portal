@@ -16,7 +16,7 @@ interface DashboardData {
 }
 
 export default function AutopilotDashboard() {
-  const [data, setData] = useState<DashboardData>({
+  const [data, setData] = useState({ last24Hours: { total: 0, v7: 0, v8: 0 }, v8Enabled: false, rolloutPercentage: 0, avgSimilarity: 0, comparisons: 0 })<DashboardData>({
     v8Enabled: false,
     rolloutPercentage: 0,
     last24Hours: { total: 0, v7: 0, v8: 0 },
@@ -84,9 +84,9 @@ export default function AutopilotDashboard() {
     }
   };
 
-  const total = data.last24Hours.total || 1;
-  const v7Percent = Math.round((data.last24Hours.v7 / total) * 100) || 0;
-  const v8Percent = Math.round((data.last24Hours.v8 / total) * 100) || 0;
+  const total = data?.last24Hours?.total || 1;
+  const v7Percent = Math.round((data?.last24Hours?.v7 || 0 / total) * 100) || 0;
+  const v8Percent = Math.round((data?.last24Hours?.v8 || 0 / total) * 100) || 0;
 
   return (
     <div className="min-h-screen bg-[#0a0e27] text-gray-100 relative overflow-hidden">
@@ -136,7 +136,7 @@ export default function AutopilotDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
               <StatusCard title="v8 Status" value={data.v8Enabled ? 'ENABLED' : 'DISABLED'} status={data.v8Enabled ? 'active' : 'inactive'} subtitle={`${data.rolloutPercentage}% Rollout`} />
-              <StatusCard title="Last 24 Hours" value={data.last24Hours.total.toString()} status="info" subtitle={`v7: ${data.last24Hours.v7} | v8: ${data.last24Hours.v8}`} />
+              <StatusCard title="Last 24 Hours" value={data.last24Hours.total.toString()} status="info" subtitle={`v7: ${data?.last24Hours?.v7 || 0} | v8: ${data?.last24Hours?.v8 || 0}`} />
               <StatusCard title="Avg Similarity" value={`${Math.round(data.avgSimilarity * 100)}%`} status={data.avgSimilarity > 0.8 ? 'success' : 'warning'} subtitle={`${data.comparisons} comparisons`} />
             </div>
 
@@ -173,7 +173,7 @@ export default function AutopilotDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
-                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v7}</span>
+                      <span className="text-sm font-mono text-cyan-400">{data?.last24Hours?.v7 || 0}</span>
                     </div>
                     <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-gray-500 to-gray-700 transition-all duration-1000 flex items-center justify-end pr-3" style={{ width: `${v7Percent}%` }}>
@@ -184,7 +184,7 @@ export default function AutopilotDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
-                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v8}</span>
+                      <span className="text-sm font-mono text-cyan-400">{data?.last24Hours?.v8 || 0}</span>
                     </div>
                     <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 flex items-center justify-end pr-3" style={{ width: `${v8Percent}%` }}>
