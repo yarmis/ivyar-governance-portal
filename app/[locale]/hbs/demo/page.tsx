@@ -6,15 +6,23 @@ import { useState, useEffect } from 'react';
 export default function HbsDemo() {
   const [progress, setProgress] = useState(0);
   const [step, setStep] = useState(0);
+  const [showComplete, setShowComplete] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress(prev => {
         const next = prev >= 100 ? 0 : prev + 10;
+        
         if (next === 0) setStep(0);
         else if (next === 30) setStep(1);
         else if (next === 60) setStep(2);
         else if (next === 90) setStep(3);
+        
+        if (next === 100) {
+          setShowComplete(true);
+          setTimeout(() => setShowComplete(false), 2000); // Показувати 2 секунди
+        }
+        
         return next;
       });
     }, 500);
@@ -72,8 +80,14 @@ export default function HbsDemo() {
           ))}
         </div>
 
-        {progress === 100 && (
-          <div style={{ marginTop: '24px', padding: '16px', background: '#0f766e', borderRadius: '4px' }}>
+        {showComplete && (
+          <div style={{ 
+            marginTop: '24px', 
+            padding: '16px', 
+            background: '#0f766e', 
+            borderRadius: '4px',
+            animation: 'fadeIn 0.3s'
+          }}>
             <p style={{ color: '#5eead4', fontSize: '14px', margin: 0 }}>
               🎉 Demo complete! The HBS module is ready for institutional deployment.
             </p>
