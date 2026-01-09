@@ -507,7 +507,91 @@ function Metric({ label, value, trend, percentage, color }: {
     </div>
   );
 }
+function SecurityItem({ label, status, level }: {
+  label: string;
+  status: string;
+  level: 'high' | 'medium' | 'low';
+}) {
+  const levelColors: Record<'high' | 'medium' | 'low', string> = { 
+    high: 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30', 
+    medium: 'text-yellow-400 bg-yellow-950/30 border-yellow-500/30', 
+    low: 'text-blue-400 bg-blue-950/30 border-blue-500/30' 
+  };
 
+  return (
+    <div className="flex items-center justify-between p-2 rounded bg-emerald-950/20 border border-emerald-900/20 hover:border-emerald-500/30 transition-colors">
+      <span className="text-gray-400">{label}</span>
+      <span className={`text-xs px-2 py-0.5 rounded border ${levelColors[level]}`}>{status}</span>
+    </div>
+  );
+}function ActivityItem({ time, action, user, type }: {
+  time: string;
+  action: string;
+  user: string;
+  type: 'success' | 'warning' | 'info';
+}) {
+  const typeColors: Record<'success' | 'warning' | 'info', string> = { 
+    success: 'text-green-400 border-green-500/30', 
+    warning: 'text-yellow-400 border-yellow-500/30', 
+    info: 'text-cyan-400 border-cyan-500/30' 
+  };
+
+  return (
+    <div className="flex items-center gap-3 p-2 rounded bg-slate-950/30 border border-slate-800 hover:border-cyan-500/30 transition-colors group">
+      <div className={`text-[10px] font-mono ${typeColors[type]}`}>{time}</div>
+      <div className="flex-1 text-xs text-gray-300 group-hover:text-cyan-400 transition-colors">{action}</div>
+      <div className="text-[10px] font-mono text-gray-500">{user}</div>
+      <div className={`w-1.5 h-1.5 rounded-full ${typeColors[type].split(' ')[0].replace('text-', 'bg-')}`} />
+    </div>
+  );
+}
+
+function FeatureItem({ icon, title, description, metrics, progress }: {
+  icon: string;
+  title: string;
+  description: string;
+  metrics: string;
+  progress: number;
+}) {
+  return (
+    <div className="relative flex gap-4 p-4 rounded border border-cyan-900/20 hover:border-cyan-500/30 hover:bg-slate-800/30 transition-all group">
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-full bg-gradient-to-b from-cyan-500 to-blue-500 rounded transition-all duration-500" />
+      <div className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300">{icon}</div>
+      <div className="flex-1">
+        <h4 className="text-sm font-mono text-gray-200 mb-1 group-hover:text-cyan-400 transition-colors">{title}</h4>
+        <p className="text-xs text-gray-500 mb-2">{description}</p>
+        <div className="flex items-center gap-3">
+          <div className="text-xs font-mono text-cyan-400">{metrics}</div>
+          <div className="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-1000" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="text-[10px] font-mono text-gray-500">{progress}%</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ActionButton({ href, label, icon, status = 'default' }: {
+  href: string;
+  label: string;
+  icon: string;
+  status?: string;
+}) {
+  const isPrimary = status === 'primary';
+  return (
+    <Link href={href} className={`relative block p-4 rounded border overflow-hidden ${isPrimary ? 'border-cyan-500/50 bg-gradient-to-r from-cyan-900/30 to-blue-900/30' : 'border-cyan-900/30 bg-slate-800/20'} transition-all group`}>
+      {isPrimary && <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />}
+      <div className="relative flex items-center gap-3">
+        <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{icon}</span>
+        <div className="flex-1">
+          <div className={`text-sm font-mono ${isPrimary ? 'text-cyan-300' : 'text-gray-300'} group-hover:text-cyan-400 transition-colors`}>{label}</div>
+        </div>
+        <span className="text-cyan-500 text-xs group-hover:translate-x-1 transition-transform">→</span>
+      </div>
+    </Link>
+  );
+}
 function ActivityItem({ time, action, user, type }: any) {
   const typeColors = { success: 'text-green-400 border-green-500/30', warning: 'text-yellow-400 border-yellow-500/30', info: 'text-cyan-400 border-cyan-500/30' };
 
