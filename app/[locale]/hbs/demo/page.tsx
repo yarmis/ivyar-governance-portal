@@ -7,35 +7,47 @@ export default function HbsDemo() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 10));
+    console.log('Demo mounted, starting timer...');
+    
+    const timer = setInterval(() => {
+      setProgress(prev => {
+        const next = prev >= 100 ? 0 : prev + 10;
+        console.log('Progress:', next);
+        return next;
+      });
     }, 500);
-    return () => clearInterval(interval);
+    
+    return () => {
+      console.log('Cleaning up timer');
+      clearInterval(timer);
+    };
   }, []);
 
+  console.log('Rendering with progress:', progress);
+
   return (
-    <div className="min-h-screen bg-[#0a0e27] text-gray-100 p-8">
-      <Link href="/us/hbs" className="text-cyan-400 mb-4 block">← BACK</Link>
-      <h1 className="text-3xl font-mono text-cyan-400 mb-8">HBS Demo Mode</h1>
+    <div style={{ minHeight: '100vh', background: '#0a0e27', color: 'white', padding: '32px' }}>
+      <Link href="/us/hbs" style={{ color: '#22d3ee', marginBottom: '16px', display: 'block' }}>
+        ← BACK
+      </Link>
       
-      <div className="bg-slate-900 border border-cyan-900/30 rounded-lg p-6 max-w-2xl">
-        <h2 className="text-xl text-cyan-400 mb-4">Running Demo...</h2>
-        <div className="h-4 bg-slate-800 rounded-full overflow-hidden">
+      <h1 style={{ fontSize: '32px', color: '#22d3ee', marginBottom: '32px' }}>HBS Demo Mode</h1>
+      
+      <div style={{ background: '#1e293b', border: '1px solid #164e63', borderRadius: '8px', padding: '24px', maxWidth: '600px' }}>
+        <h2 style={{ fontSize: '20px', color: '#22d3ee', marginBottom: '16px' }}>Running Demo...</h2>
+        
+        <div style={{ height: '16px', background: '#334155', borderRadius: '8px', overflow: 'hidden', marginBottom: '16px' }}>
           <div 
-            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500" 
-            style={{ width: `${progress}%` }} 
+            style={{ 
+              height: '100%', 
+              background: 'linear-gradient(to right, #06b6d4, #3b82f6)',
+              width: `${progress}%`,
+              transition: 'width 0.5s'
+            }} 
           />
         </div>
-        <p className="text-gray-400 mt-4 text-sm">{progress}% Complete</p>
         
-        <div className="mt-8 space-y-4">
-          <div className="text-sm text-gray-400">
-            <p>✓ Initializing HBS Demo Environment...</p>
-            <p>✓ Loading sample data...</p>
-            <p>✓ Configuring modules...</p>
-            {progress > 50 && <p>✓ Demo ready!</p>}
-          </div>
-        </div>
+        <p style={{ color: '#94a3b8', fontSize: '14px' }}>{progress}% Complete</p>
       </div>
     </div>
   );
