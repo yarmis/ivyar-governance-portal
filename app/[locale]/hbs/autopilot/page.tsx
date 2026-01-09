@@ -42,7 +42,7 @@ export default function AutopilotDashboard() {
 
   const fetchStatus = async () => {
     try {
-      const res = await fetch('/api/hbs/v8-status');
+      const res = await fetch('https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/status');
       const json = await res.json();
       setData({
         v8Enabled: json.flag?.enabled || false,
