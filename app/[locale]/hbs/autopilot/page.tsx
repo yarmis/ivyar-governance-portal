@@ -106,6 +106,7 @@ export default function AutopilotDashboard() {
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-blue-900/10 animate-pulse" style={{ animationDuration: '8s' }} />
 
       {/* Scan Line */}
+      
       <div 
         className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-30 pointer-events-none"
         style={{ top: `${scanLine}%`, transition: 'top 0.05s linear' }}
@@ -132,7 +133,9 @@ export default function AutopilotDashboard() {
 
               <div className="flex items-center gap-4">
                 <div className="text-xs font-mono text-gray-500">
-                  LAST UPDATED: <span className="text-cyan-400">{new Date().toLocaleTimeString()}</span>
+                  LAST UPDATED: <span className="text-cyan-400" suppressHydrationWarning>
+  {typeof window !== 'undefined' ? new Date().toLocaleTimeString() : '--:--:--'}
+</span>
                 </div>
               </div>
             </div>
