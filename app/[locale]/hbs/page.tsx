@@ -375,8 +375,14 @@ export default function HBSModule() {
 }
 
 // Components
-function StatusCard({ label, value, status, icon, pulse }: any) {
-  const statusColors = {
+function StatusCard({ label, value, status, icon, pulse }: {
+  label: string;
+  value: string;
+  status: 'active' | 'ready' | 'secure' | 'granted';
+  icon: string;
+  pulse: boolean;
+}) {
+  const statusColors: Record<'active' | 'ready' | 'secure' | 'granted', string> = {
     active: 'from-emerald-500/20 to-emerald-900/20 border-emerald-500/30 text-emerald-400',
     ready: 'from-cyan-500/20 to-cyan-900/20 border-cyan-500/30 text-cyan-400',
     secure: 'from-blue-500/20 to-blue-900/20 border-blue-500/30 text-blue-400',
