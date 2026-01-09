@@ -426,8 +426,13 @@ function FeatureItem({ icon, title, description, metrics, progress }: any) {
   );
 }
 
-function ApiEndpoint({ method, path, status, latency }: any) {
-  const methodColors = {
+function ApiEndpoint({ method, path, status, latency }: {
+  method: 'GET' | 'POST';
+  path: string;
+  status: string;
+  latency: string;
+}) {
+  const methodColors: Record<'GET' | 'POST', string> = {
     GET: 'text-green-400 bg-green-500/10 border-green-500/30',
     POST: 'text-blue-400 bg-blue-500/10 border-blue-500/30',
   };
