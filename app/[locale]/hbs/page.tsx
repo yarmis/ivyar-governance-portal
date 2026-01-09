@@ -266,7 +266,28 @@ function FeatureItem({ icon, title, description, metrics, progress }: {
     </div>
   );
 }
+// ... весь код вище ...
 
+function ActionButton({ href, label, icon, status = 'default' }: {
+  href: string;
+  label: string;
+  icon: string;
+  status?: string;
+}) {
+  const isPrimary = status === 'primary';
+  return (
+    <Link href={href} className={`relative block p-4 rounded border overflow-hidden ${isPrimary ? 'border-cyan-500/50 bg-gradient-to-r from-cyan-900/30 to-blue-900/30' : 'border-cyan-900/30 bg-slate-800/20'} transition-all group`}>
+      {isPrimary && <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />}
+      <div className="relative flex items-center gap-3">
+        <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{icon}</span>
+        <div className="flex-1">
+          <div className={`text-sm font-mono ${isPrimary ? 'text-cyan-300' : 'text-gray-300'} group-hover:text-cyan-400 transition-colors`}>{label}</div>
+        </div>
+        <span className="text-cyan-500 text-xs group-hover:translate-x-1 transition-transform">→</span>
+      </div>
+    </Link>
+  );
+}
 <div className="space-y-3">
   <ActionButton href="/us/hbs/autopilot" label="Autopilot Dashboard" icon="🎯" status="primary" />
 </div>
