@@ -245,45 +245,78 @@ export default function AutopilotDashboard() {
                   DECISION DISTRIBUTION
                 </h3>
 
-                <div className="space-y-6">
-                  {/* v7 Bar */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
-                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v7}</span>
-                    </div>
-                    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-gray-500 to-gray-700 transition-all duration-1000 flex items-center justify-end pr-3"
-                        style={{ width: `${(data.last24Hours.v7 / data.last24Hours.total) * 100}%` }}
-                      >
-                        <span className="text-xs font-mono text-white">
-                          {Math.round((data.last24Hours.v7 / data.last24Hours.total) * 100)}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                <div <div className="space-y-6">
+  {/* v7 Bar */}
+  <div>
+    <div className="flex items-center justify-between mb-2">
+      <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
+      <span className="text-sm font-mono text-cyan-400">{data.last24Hours?.v7 ?? 0}</span>
+    </div>
+    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+      <div 
+        className="h-full bg-gradient-to-r from-gray-500 to-gray-700 transition-all duration-1000 flex items-center justify-end pr-3"
+        style={{ width: `${data.last24Hours.total > 0 ? (data.last24Hours.v7 / data.last24Hours.total) * 100 : 0}%` }}
+      >
+        <span className="text-xs font-mono text-white">
+          {data.last24Hours.total > 0 ? Math.round((data.last24Hours.v7 / data.last24Hours.total) * 100) : 0}%
+        </span>
+      </div>
+    </div>
+  </div>
 
-                  {/* v8 Bar */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
-                      <span className="text-sm font-mono text-cyan-400">{data.last24Hours.v8}</span>
-                    </div>
-                    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 flex items-center justify-end pr-3"
-                        style={{ width: `${(data.last24Hours.v8 / data.last24Hours.total) * 100}%` }}
-                      >
-                        <span className="text-xs font-mono text-white">
-                          {Math.round((data.last24Hours.v8 / data.last24Hours.total) * 100)}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  {/* v8 Bar */}
+  <div>
+    <div className="flex items-center justify-between mb-2">
+      <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
+      <span className="text-sm font-mono text-cyan-400">{data.last24Hours?.v8 ?? 0}</span>
+    </div>
+    <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+      <div 
+        className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 flex items-center justify-end pr-3"
+        style={{ width: `${data.last24Hours.total > 0 ? (data.last24Hours.v8 / data.last24Hours.total) * 100 : 0}%` }}
+      >
+        <span className="text-xs font-mono text-white">
+          {data.last24Hours.total > 0 ? Math.round((data.last24Hours.v8 / data.last24Hours.total) * 100) : 0}%
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+                  {/* v7 Bar */}
+<div>
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
+    <span className="text-sm font-mono text-cyan-400">{data.last24Hours?.v7 ?? 0}</span>
+  </div>
+  <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+    <div 
+      className="h-full bg-gradient-to-r from-gray-500 to-gray-700 transition-all duration-1000 flex items-center justify-end pr-3"
+      style={{ width: `${data.last24Hours.total > 0 ? (data.last24Hours.v7 / data.last24Hours.total) * 100 : 0}%` }}
+    >
+      <span className="text-xs font-mono text-white">
+        {data.last24Hours.total > 0 ? Math.round((data.last24Hours.v7 / data.last24Hours.total) * 100) : 0}%
+      </span>
+    </div>
+  </div>
+</div>
+
+                  {{/* v8 Bar */}
+<div>
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
+    <span className="text-sm font-mono text-cyan-400">{data.last24Hours?.v8 ?? 0}</span>
+  </div>
+  <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
+    <div 
+      className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 flex items-center justify-end pr-3"
+      style={{ width: `${data.last24Hours.total > 0 ? (data.last24Hours.v8 / data.last24Hours.total) * 100 : 0}%` }}
+    >
+      <span className="text-xs font-mono text-white">
+        {data.last24Hours.total > 0 ? Math.round((data.last24Hours.v8 / data.last24Hours.total) * 100) : 0}%
+      </span>
+    </div>
+  </div>
+</div>
 
             {/* Rollout Controls */}
             <div className="relative group">
