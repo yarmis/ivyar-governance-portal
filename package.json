@@ -13,7 +13,10 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "preview": "npx wrangler pages dev",
+    "deploy": "npm run pages:build && npx wrangler pages deploy"
   },
   "dependencies": {
     "@prisma/client": "^6.19.1",
