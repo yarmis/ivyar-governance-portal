@@ -5,15 +5,15 @@ import { getModuleById } from '@/lib/module-registry';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { id } = await params;
+  const { slug } = await params;
   
   return protectedRoute(
     request,
     Permission.SYSTEM_VIEW_CONFIG,
     async (req) => {
-      const module = getModuleById(id);
+      const module = getModuleById(slug);
       
       if (!module) {
         return NextResponse.json(

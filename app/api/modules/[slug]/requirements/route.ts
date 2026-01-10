@@ -5,9 +5,9 @@ import { Client } from 'pg';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { id } = await params;
+  const { slug } = await params;
   
   return protectedRoute(
     request,
@@ -23,17 +23,17 @@ export async function GET(
         
         const requirements = await client.query(
           `SELECT * FROM module_requirements WHERE module_id = $1 ORDER BY priority DESC, due_date ASC`,
-          [id]
+          [slug]
         );
         
         const readiness = await client.query(
           `SELECT * FROM module_launch_readiness WHERE module_id = $1`,
-          [id]
+          [slug]
         );
 
         return NextResponse.json({
           success: true,
-          moduleId: id,
+          moduleId: slug,
           requirements: requirements.rows,
           readiness: readiness.rows[0] || null
         });
@@ -46,9 +46,9 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { id } = await params;
+  const { slug } = await params;
   
   return protectedRoute(
     request,
@@ -74,7 +74,7 @@ export async function POST(
                     $6::requirement_status, $7, $8, $9, $10, $11, $12, $13)
           RETURNING *`,
           [
-            id,
+            slug,
             body.title,
             body.description,
             body.category,
