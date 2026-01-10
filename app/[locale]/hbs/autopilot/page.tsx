@@ -65,6 +65,9 @@ export default function AutopilotDashboard() {
     }
   };
 
+  const handleRollout = async (percentage: number) => {
+    if (!window.confirm("⚠️ Change to " + percentage + "%? Affects REAL people!")) return;
+    setLoading(true);
     try {
       await fetch('/api/hbs/autopilot/flags/enable', {
         method: 'POST',
@@ -77,15 +80,17 @@ export default function AutopilotDashboard() {
     } finally {
       setLoading(false);
     }
+    try {
   };
 
   const handleDisable = async () => {
+    if (!window.confirm("⚠️ DISABLE Autopilot? This affects REAL people!")) return;
     setLoading(true);
     try {
-      await fetch('/api/hbs/autopilot/flags/disable', { method: 'POST' });
+      await fetch("/api/hbs/autopilot/flags/disable", { method: "POST" });
       await fetchStatus();
     } catch (error) {
-      console.error('Disable failed:', error);
+      console.error("Disable failed:", error);
     } finally {
       setLoading(false);
     }
