@@ -80,7 +80,6 @@ export default function AutopilotDashboard() {
     } finally {
       setLoading(false);
     }
-    try {
   };
 
   const handleDisable = async () => {
