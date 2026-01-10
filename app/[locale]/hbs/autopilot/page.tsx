@@ -65,8 +65,6 @@ export default function AutopilotDashboard() {
     }
   };
 
-  const handleRollout = async (percentage: number) => {
-    setLoading(true);
     try {
       await fetch('/api/hbs/autopilot/flags/enable', {
         method: 'POST',
