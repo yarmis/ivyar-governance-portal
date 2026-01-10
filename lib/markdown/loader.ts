@@ -1,11 +1,13 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
-import { parseMarkdown, ParsedMarkdown } from './parser';
 
-const DOCS_DIR = path.join(process.cwd(), 'docs', 'hbs');
-
-export function loadMarkdownFileSync(filename: string): ParsedMarkdown {
-  const filePath = path.join(DOCS_DIR, filename);
-  const source = fs.readFileSync(filePath, 'utf-8');
-  return parseMarkdown(source);
+export async function loadMarkdownFileSync(filename: string): Promise<string> {
+  try {
+    const filePath = path.join(process.cwd(), 'public', 'docs', filename);
+    const content = await fs.readFile(filePath, 'utf8');
+    return content;
+  } catch (error) {
+    console.error('Markdown load error:', error);
+    return '';
+  }
 }
