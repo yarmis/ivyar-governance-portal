@@ -1,7 +1,18 @@
 name = "ivyar-api"
-main = "src/index.ts"
+main = "src/index.js"
 compatibility_date = "2024-01-01"
-tsconfig = "tsconfig.json"
+
+[vars]
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ivyar-autopilot"
+database_id = "06288565-b613-4348-9d94-b8fdc4545c6f"
+
+[[kv_namespaces]]
+binding = "AUDIT_LOG"
+id = "a74dd2a1aa084e338ff2674c978025b5"
 
 [dev]
 port = 8788

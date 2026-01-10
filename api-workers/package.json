@@ -10,6 +10,12 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260109.0",
+    "typescript": "^5.9.3",
     "wrangler": "^4.58.0"
-  }
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

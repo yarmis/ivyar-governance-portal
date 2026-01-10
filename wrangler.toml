@@ -1,10 +1,9 @@
-name = "ivyar-governance-portal"
+name = "ivyar-governance"
 compatibility_date = "2024-01-01"
-pages_build_output_dir = ".vercel/output/static"
 
-[build]
-command = "npm run build"
+[site]
+bucket = ".vercel/output/static"
 
-[[rules]]
-type = "ESModule"
-globs = ["**/*.js"]
+[[routes]]
+pattern = "ivyar.org/*"
+custom_domain = true

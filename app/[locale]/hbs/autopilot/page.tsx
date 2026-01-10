@@ -53,7 +53,12 @@ export default function AutopilotDashboard() {
 
   const fetchStatus = async () => {
     try {
-      const res = await fetch('https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/status');
+      const res = await fetch('https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/status', {
+        headers: {
+          'CF-Access-Client-Id': process.env.NEXT_PUBLIC_CF_CLIENT_ID!,
+          'CF-Access-Client-Secret': process.env.NEXT_PUBLIC_CF_CLIENT_SECRET!
+        }
+      });
       const json = await res.json();
       setData({
         v8Enabled: json.v8Enabled || false,
@@ -71,9 +76,13 @@ export default function AutopilotDashboard() {
     if (!window.confirm("⚠️ Change to " + percentage + "%? Affects REAL people!")) return;
     setLoading(true);
     try {
-      await fetch('/api/hbs/autopilot/flags/enable', {
+      await fetch('https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/flags/enable', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'CF-Access-Client-Id': process.env.NEXT_PUBLIC_CF_CLIENT_ID!,
+          'CF-Access-Client-Secret': process.env.NEXT_PUBLIC_CF_CLIENT_SECRET!
+        },
         body: JSON.stringify({ percentage }),
       });
       await fetchStatus();
@@ -88,7 +97,13 @@ export default function AutopilotDashboard() {
     if (!window.confirm("⚠️ DISABLE Autopilot? This affects REAL people!")) return;
     setLoading(true);
     try {
-      await fetch("/api/hbs/autopilot/flags/disable", { method: "POST" });
+      await fetch("https://ivyar-api.ivyar-gov.workers.dev/api/hbs/autopilot/flags/disable", {
+        method: "POST",
+        headers: {
+          'CF-Access-Client-Id': process.env.NEXT_PUBLIC_CF_CLIENT_ID!,
+          'CF-Access-Client-Secret': process.env.NEXT_PUBLIC_CF_CLIENT_SECRET!
+        }
+      });
       await fetchStatus();
     } catch (error) {
       console.error("Disable failed:", error);
