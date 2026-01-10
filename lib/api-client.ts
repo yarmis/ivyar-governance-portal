@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ivyar-api.ivyar-gov.workers.dev'\;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ivyar-api.ivyar-gov.workers.dev';
+
 
 export async function fetchAutopilotStatus() {
   const res = await fetch(`${API_URL}/api/hbs/autopilot/status`);
