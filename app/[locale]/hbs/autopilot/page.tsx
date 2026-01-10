@@ -1,4 +1,5 @@
 'use client';
+import { useAutopilotAuth } from './useAutopilotAuth';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -16,6 +17,16 @@ interface DashboardData {
 }
 
 export default function AutopilotDashboard() {
+  const { user, loading: authLoading } = useAutopilotAuth();
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-cyan-400 text-xl font-mono">🔒 Verifying ROOT access...</div>
+      </div>
+    );
+  }
+
     rolloutPercentage: 0,
     last24Hours: { total: 0, v7: 0, v8: 0 },
     avgSimilarity: 0,
