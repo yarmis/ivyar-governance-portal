@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         user: { email: user.email, role: user.role, category: user.category }
       });
 
-      response.cookies.set('auth-token', token, { httpOnly: true, maxAge: 86400 });
+      response.cookies.set('ivyar_auth', token, { httpOnly: true, maxAge: 86400 });
       return response;
     } finally {
       await client.end();
