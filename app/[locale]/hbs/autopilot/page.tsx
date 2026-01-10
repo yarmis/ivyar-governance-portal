@@ -16,7 +16,6 @@ interface DashboardData {
 }
 
 export default function AutopilotDashboard() {
-    v8Enabled: false,
     rolloutPercentage: 0,
     last24Hours: { total: 0, v7: 0, v8: 0 },
     avgSimilarity: 0,
