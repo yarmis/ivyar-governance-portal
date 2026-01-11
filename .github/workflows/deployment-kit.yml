@@ -1,0 +1,91 @@
+name: Build & Release Deployment Kit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Make scripts executable
+        run: chmod +x deployment-kit/*.sh
+
+      - name: Generate portal structure
+        run: ./deployment-kit/generate_structure.sh
+
+      - name: Generate 260 markdown documents
+        run: ./deployment-kit/generate_markdown.sh
+
+      - name: Start Next.js server in background
+        run: |
+          npm run dev &
+          sleep 10
+
+      - name: Generate PDFs
+        run: |
+          mkdir -p pdf-output
+          npx ts-node deployment-kit/generate_pdf.ts
+
+      - name: Commit generated files
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Automated generation of governance documents and PDFs" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
+
+      - name: Create deployment-kit.zip
+        run: |
+          zip -r deployment-kit.zip \
+            deployment-kit \
+            content \
+            app \
+            lib \
+            data \
+            types \
+            public/pdf \
+            pdf-output
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-kit
+          path: deployment-kit.zip
+
+  release:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-kit
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: deployment-kit.zip
+

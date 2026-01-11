@@ -1,0 +1,39 @@
+name: Generate Master Index
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "deployment-kit/generate_master_index.ts"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run master-index generator
+        run: npx ts-node deployment-kit/generate_master_index.ts
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add data/governance-master-index.ts
+          git commit -m "Auto-generated master-index" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
+

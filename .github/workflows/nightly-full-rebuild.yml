@@ -1,0 +1,49 @@
+name: Nightly Full Governance Rebuild
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  full-rebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate master index
+        run: npx ts-node deployment-kit/generate_master_index.ts
+
+      - name: Generate markdown files
+        run: npx ts-node deployment-kit/generate_markdown.ts
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Next.js server
+        run: |
+          npm run dev &
+          sleep 10
+
+      - name: Generate PDFs
+        run: npx ts-node deployment-kit/generate_pdf.ts
+
+      - name: Commit and push all changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add data/governance-master-index.ts
+          git add content/governance
+          git add public/pdf
+          git commit -m "Nightly full governance rebuild" || echo "No changes"
+          git push || echo "No changes"
