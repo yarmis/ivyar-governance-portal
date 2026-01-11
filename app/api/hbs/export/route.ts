@@ -1,37 +1,53 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadMarkdownFileSync } from '@/lib/markdown/loader';
+import { loadMarkdownDocument } from '@/lib/markdown/loader';
 
 export async function GET(request: NextRequest) {
   const document = request.nextUrl.searchParams.get('document') || 'all';
 
   try {
-    if (document === 'all') {
-      return NextResponse.json({
-        success: true,
-        exportedAt: new Date().toISOString(),
-        documents: {
-          whitepaper: loadMarkdownFileSync('WHITEPAPER_v1.0.md'),
-          governance: loadMarkdownFileSync('GOVERNANCE.md'),
-          education: loadMarkdownFileSync('EDUCATION.md')
-        }
-      });
-    }
-
     const docMap: Record<string, string> = {
       whitepaper: 'WHITEPAPER_v1.0.md',
       governance: 'GOVERNANCE.md',
       education: 'EDUCATION.md'
     };
 
+    // Export ALL documents
+    if (document === 'all') {
+      const whitepaper = await loadMarkdownDocument(docMap.whitepaper);
+      const governance = await loadMarkdownDocument(docMap.governance);
+      const education = await loadMarkdownDocument(docMap.education);
+
+      return NextResponse.json({
+        success: true,
+        exportedAt: new Date().toISOString(),
+        documents: {
+          whitepaper,
+          governance,
+          education
+        }
+      });
+    }
+
+    // Export ONE document
     const filename = docMap[document];
-    if (!filename) return NextResponse.json({ success: false, error: 'Invalid document' }, { status: 400 });
+    if (!filename) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid document' },
+        { status: 400 }
+      );
+    }
+
+    const doc = await loadMarkdownDocument(filename);
 
     return NextResponse.json({
       success: true,
       exportedAt: new Date().toISOString(),
-      document: loadMarkdownFileSync(filename)
+      document: doc
     });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
