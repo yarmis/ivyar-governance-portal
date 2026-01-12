@@ -29,7 +29,7 @@
     ],
     "target": "ES2017"
   },
-  "exclude": [ "autopilot-v8-streaming",
+  "exclude": [
     "node_modules",
     "api",
     "api-workers",
