@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-
+import { useState } from "react";
+import AutopilotWidget from "@/components/AutopilotWidget";
 // Types
 type ViolationType = 'building_code' | 'zoning' | 'environmental' | 'safety' | 'permit' | 'documentation' | 'labor' | 'quality';
 type ViolationSeverity = 'minor' | 'moderate' | 'major' | 'critical';
@@ -433,6 +433,9 @@ export default function ViolationsPage() {
           <span>Construction Governance Hub • Enforcement</span>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="violations" />
     </div>
   );
 }

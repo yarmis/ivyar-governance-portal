@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import AutopilotWidget from "@/components/AutopilotWidget"; // ← Додати цей рядок!
+
+// Types
 
 // Types
 type DonorType = 'multilateral' | 'bilateral' | 'foundation' | 'corporate';
@@ -458,7 +461,10 @@ export default function DonorPortalPage() {
           <span>IVYAR Donor Portal v1.0</span>
           <span>Construction Governance Hub • Transparency & Accountability</span>
         </div>
-      </footer>
+     </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="donors" />
     </div>
   );
 }

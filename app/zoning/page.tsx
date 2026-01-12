@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import AutopilotWidget from "@/components/AutopilotWidget";
 // Types
 type ZoneType = 'residential' | 'commercial' | 'industrial' | 'mixed_use' | 'agricultural' | 'protected';
 type ParcelStatus = 'active' | 'pending_registration' | 'disputed' | 'subdividing' | 'merging' | 'archived';
@@ -413,6 +413,9 @@ export default function ZoningPage() {
           <span>Construction Governance Hub • Cadastre Management</span>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="zoning" />
     </div>
   );
 }

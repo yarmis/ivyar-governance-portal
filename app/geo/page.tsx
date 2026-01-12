@@ -8,7 +8,7 @@ type UtilityType = 'water' | 'gas' | 'electricity' | 'heat' | 'sewer';
 type DistrictType = 'water' | 'fire' | 'school' | 'sewer' | 'trash';
 type FloodZoneType = 'A' | 'AE' | 'V' | 'VE' | 'X' | 'X500';
 type RiskLevel = 'minimal' | 'moderate' | 'high' | 'severe';
-
+import AutopilotWidget from "@/components/AutopilotWidget";
 interface Utility {
   id: string;
   name: string;
@@ -553,6 +553,9 @@ export default function GeoPlatformPage() {
           </div>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="geo_utilities" />
     </div>
   );
 }

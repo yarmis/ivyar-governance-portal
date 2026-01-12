@@ -7,7 +7,7 @@ type ProcurementPlatform = 'ariba' | 'coupa' | 'ivalua' | 'jaggaer';
 type MaterialCategory = 'concrete' | 'steel' | 'lumber' | 'insulation' | 'electrical' | 'plumbing' | 'hvac';
 type ComplianceStatus = 'compliant' | 'review_required' | 'non_compliant';
 type ConnectionStatus = 'connected' | 'pending' | 'disconnected';
-
+import AutopilotWidget from "@/components/AutopilotWidget";
 interface CatalogItem {
   id: string;
   name: string;
@@ -617,6 +617,9 @@ export default function ConstructionIntelligencePage() {
           </div>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="procurement" />
     </div>
   );
 }

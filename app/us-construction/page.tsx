@@ -5,7 +5,7 @@ import { useState } from "react";
 // Types
 type PermitStatus = 'submitted' | 'under_review' | 'approved' | 'issued' | 'inspection_scheduled' | 'final' | 'expired';
 type FloodZone = 'A' | 'AE' | 'V' | 'VE' | 'X' | 'X500' | 'D';
-
+import AutopilotWidget from "@/components/AutopilotWidget";
 interface Permit {
   id: string;
   permitNumber: string;
@@ -492,6 +492,9 @@ export default function USConstructionHubPage() {
           </div>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="us_construction" />
     </div>
   );
 }
