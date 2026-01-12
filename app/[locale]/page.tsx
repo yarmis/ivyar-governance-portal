@@ -411,6 +411,147 @@ export default function LocalizedLandingPage() {
         </div>
       </section>
 
+
+      {/* ========================================== */}
+      {/* QUANTUM SECURITY SECTION                   */}
+      {/* ========================================== */}
+      <section id="quantum-security" className="py-24 bg-[#161B22] border-y border-[#1F242C]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4">
+              <svg className="w-3 h-3 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+              </svg>
+              <span className="text-xs font-mono text-purple-400 uppercase tracking-wider">
+                Post-Quantum Cryptography
+              </span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Quantum-Resistant Security
+            </h2>
+            
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Future-proof protection using NIST-approved algorithms resistant to quantum computing attacks
+            </p>
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            {/* CRYSTALS-Kyber */}
+            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-semibold">CRYSTALS-Kyber</h3>
+              </div>
+              <p className="text-gray-400 mb-4">
+                NIST-standardized key encapsulation mechanism for secure key exchange
+              </p>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Protects API authentication between nations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Secures sensitive financial data at rest</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Hybrid mode with classical encryption</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* CRYSTALS-Dilithium */}
+            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-semibold">CRYSTALS-Dilithium</h3>
+              </div>
+              <p className="text-gray-400 mb-4">
+                NIST-standardized digital signature scheme for long-term document integrity
+              </p>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Signs contracts and tenders (50+ year validity)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Ensures immutability of audit trails</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Verifiable by any party without trust</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Why It Matters */}
+          <div className="bg-[#0D1117] border border-purple-500/30 rounded-lg p-8">
+            <h3 className="text-2xl font-semibold mb-4 flex items-center gap-3">
+              <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              Why Quantum-Resistant Cryptography Matters for Governance
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-400">
+              <div>
+                <h4 className="font-semibold text-white mb-2">⏳ "Harvest Now, Decrypt Later" Threat</h4>
+                <p className="text-sm">
+                  Adversaries are already capturing encrypted government data today, waiting for quantum computers powerful enough to break current encryption in 10-15 years.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-2">📜 Long-Term Document Validity</h4>
+                <p className="text-sm">
+                  Contracts, treaties, and procurement records must remain legally valid and tamper-proof for 50+ years, outlasting classical cryptography's security guarantees.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-2">🌍 Cross-Border Trust</h4>
+                <p className="text-sm">
+                  International cooperation requires cryptographic standards that all nations trust will remain secure against emerging quantum threats.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-2">✅ NIST Standardization (2024)</h4>
+                <p className="text-sm">
+                  CRYSTALS-Kyber and CRYSTALS-Dilithium are officially standardized by NIST, ensuring global interoperability and regulatory compliance.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 sm:py-20 lg:py-[120px]">
         <div className="max-w-[800px] mx-auto px-4 sm:px-6 text-center">
@@ -446,7 +587,7 @@ export default function LocalizedLandingPage() {
               </div>
               <p className="text-xs sm:text-sm text-[#8B949E]">Ethical AI Governance Platform</p>
               <div className="flex flex-wrap gap-2 mt-2">
-                {['ISO 27001', 'SOC 2', 'GDPR'].map((cert, i) => (
+                {['ISO 27001', 'SOC 2', 'GDPR', 'PQC Ready'].map((cert, i) => (
                   <span key={i} className="text-[9px] sm:text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
                 ))}
               </div>
