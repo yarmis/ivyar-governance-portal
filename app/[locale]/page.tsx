@@ -437,6 +437,244 @@ export default function LocalizedLandingPage() {
         </div>
       </section>
 
+
+      {/* ========================================== */}
+      {/* PROMETHEUS OBSERVABILITY PLATFORM v9.0     */}
+      {/* ========================================== */}
+      <section id="prometheus" className="py-24 bg-gradient-to-b from-[#0D1117] via-[#1a0e0e] to-[#0D1117]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-full mb-4">
+              <svg className="w-3 h-3 text-orange-400 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+              </svg>
+              <span className="text-xs font-mono text-orange-400 uppercase tracking-wider">
+                Prometheus v9.0
+              </span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 via-red-400 to-orange-400 bg-clip-text text-transparent">
+              Platform Observability
+            </h2>
+            
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Real-time monitoring, distributed tracing, and log aggregation powered by industry-standard tools
+            </p>
+          </div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            {/* Prometheus Metrics */}
+            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold">Prometheus Metrics</h3>
+                  <p className="text-sm text-gray-500">Time-series monitoring</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-400">API Response Time</span>
+                    <span className="text-sm font-mono text-green-400">42ms</span>
+                  </div>
+                  <div className="w-full bg-[#161B22] rounded-full h-2">
+                    <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: '15%'}}></div>
+                  </div>
+                </div>
+                
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-400">CPU Usage</span>
+                    <span className="text-sm font-mono text-yellow-400">34%</span>
+                  </div>
+                  <div className="w-full bg-[#161B22] rounded-full h-2">
+                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-2 rounded-full" style={{width: '34%'}}></div>
+                  </div>
+                </div>
+                
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-400">Memory Usage</span>
+                    <span className="text-sm font-mono text-orange-400">58%</span>
+                  </div>
+                  <div className="w-full bg-[#161B22] rounded-full h-2">
+                    <div className="bg-gradient-to-r from-orange-500 to-orange-400 h-2 rounded-full" style={{width: '58%'}}></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-[#30363D]">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-gray-500">Scrape interval: 15s</span>
+                  <span className="text-green-400 flex items-center gap-1">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    Active
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Grafana Dashboards */}
+            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold">Grafana Dashboards</h3>
+                  <p className="text-sm text-gray-500">Visual analytics</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-3xl font-bold text-[#00A3FF] mb-1">12</div>
+                  <div className="text-xs text-gray-500">Active Dashboards</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-1">847</div>
+                  <div className="text-xs text-gray-500">Metrics Tracked</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-3xl font-bold text-purple-400 mb-1">3</div>
+                  <div className="text-xs text-gray-500">Alert Rules</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-3xl font-bold text-orange-400 mb-1">24/7</div>
+                  <div className="text-xs text-gray-500">Monitoring</div>
+                </div>
+              </div>
+              
+              <div className="mt-6">
+                <div className="text-sm text-gray-400 mb-2">Popular Dashboards:</div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="w-2 h-2 bg-[#00A3FF] rounded-full"></div>
+                    <span>API Gateway Performance</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span>Database Metrics</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                    <span>Module Health Status</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* Loki Logs */}
+            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold">Loki Log Aggregation</h3>
+                  <p className="text-sm text-gray-500">Centralized logging</p>
+                </div>
+              </div>
+              
+              <div className="bg-[#0D1117] border border-[#30363D] rounded font-mono text-xs p-4 space-y-1 overflow-hidden">
+                <div className="text-gray-500">[2026-01-12 01:15:32] <span className="text-green-400">INFO</span> API request completed in 42ms</div>
+                <div className="text-gray-500">[2026-01-12 01:15:33] <span className="text-blue-400">DEBUG</span> Cache hit for module:procurement</div>
+                <div className="text-gray-500">[2026-01-12 01:15:34] <span className="text-yellow-400">WARN</span> High memory usage: 58%</div>
+                <div className="text-gray-500">[2026-01-12 01:15:35] <span className="text-green-400">INFO</span> Database query executed: 18ms</div>
+              </div>
+              
+              <div className="mt-4 flex items-center gap-4 text-xs">
+                <span className="text-gray-400">15.2K logs/min</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-green-400">Retention: 30 days</span>
+              </div>
+            </div>
+
+            {/* Distributed Tracing */}
+            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold">Distributed Tracing</h3>
+                  <p className="text-sm text-gray-500">Jaeger integration</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                    <span className="text-sm font-semibold">Trace ID: 7f3a9c2d</span>
+                    <span className="ml-auto text-xs text-gray-500">124ms</span>
+                  </div>
+                  <div className="space-y-1 ml-4 text-xs text-gray-400">
+                    <div>→ API Gateway <span className="text-gray-600">(8ms)</span></div>
+                    <div className="ml-3">→ Auth Service <span className="text-gray-600">(12ms)</span></div>
+                    <div className="ml-3">→ Procurement Module <span className="text-gray-600">(98ms)</span></div>
+                    <div className="ml-6">→ Database Query <span className="text-gray-600">(82ms)</span></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 grid grid-cols-3 gap-3 text-center text-xs">
+                <div>
+                  <div className="text-lg font-bold text-blue-400">2.4K</div>
+                  <div className="text-gray-500">Traces/hour</div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-green-400">98.2%</div>
+                  <div className="text-gray-500">Success rate</div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-orange-400">67ms</div>
+                  <div className="text-gray-500">Avg latency</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-lg">
+              <svg className="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm text-gray-400">
+                Powered by <span className="font-semibold text-orange-400">Prometheus</span>, 
+                <span className="font-semibold text-orange-400"> Grafana</span>, 
+                <span className="font-semibold text-purple-400"> Loki</span>, and 
+                <span className="font-semibold text-blue-400"> Jaeger</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* AI Administrator */}
       <section id="ai" className="py-16 sm:py-20 lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
