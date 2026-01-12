@@ -223,6 +223,48 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* Modules */}
+
+      {/* ========================================== */}
+      {/* METRICS SECTION - Live Platform Status    */}
+      {/* ========================================== */}
+      <section className="py-16 bg-[#0D1117] border-y border-[#1F242C]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full mb-4">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-xs font-mono text-green-400 uppercase tracking-wider">Live Platform Status</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold">Real-Time Operations</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-[#00A3FF] mb-2">$10.2B</div>
+              <div className="text-sm text-gray-400">Under Management</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-green-400 mb-2">99.99%</div>
+              <div className="text-sm text-gray-400">Uptime SLA</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">12</div>
+              <div className="text-sm text-gray-400">Active Modules</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">25+</div>
+              <div className="text-sm text-gray-400">Regions</div>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-2 text-sm text-gray-400">
+              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+              <span>All modules operational • Last updated: 2 seconds ago</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="modules" className="py-16 sm:py-20 lg:py-[120px]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col gap-8 sm:gap-12">
@@ -260,6 +302,136 @@ export default function LocalizedLandingPage() {
                   </div>
                 </a>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ========================================== */}
+      {/* ARCHITECTURE SECTION                       */}
+      {/* ========================================== */}
+      <section className="py-24 bg-[#0D1117]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">System Architecture</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Four-layer modular architecture designed for government operations at any scale
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {/* Layer 1 */}
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-[#00A3FF]/10 rounded-lg flex items-center justify-center">
+                  <span className="text-xl font-bold text-[#00A3FF]">1</span>
+                </div>
+                <h3 className="text-2xl font-semibold">Core Governance Layer</h3>
+                <span className="ml-auto text-sm text-gray-400">4 modules</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🏛️</div>
+                  <div className="text-sm font-semibold">HBS Module</div>
+                  <div className="text-xs text-gray-500">Humanitarian Budget</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🤖</div>
+                  <div className="text-sm font-semibold">AI Admin</div>
+                  <div className="text-xs text-gray-500">Operations Center</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">💳</div>
+                  <div className="text-sm font-semibold">Payments Hub</div>
+                  <div className="text-xs text-gray-500">National Treasury</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🗄️</div>
+                  <div className="text-sm font-semibold">Data Platform</div>
+                  <div className="text-xs text-gray-500">Unified Data Lake</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Layer 2 */}
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                  <span className="text-xl font-bold text-green-400">2</span>
+                </div>
+                <h3 className="text-2xl font-semibold">Operational Engines</h3>
+                <span className="ml-auto text-sm text-gray-400">5 modules</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">📋</div>
+                  <div className="text-sm font-semibold">Procurement</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🏪</div>
+                  <div className="text-sm font-semibold">Trade</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🛡️</div>
+                  <div className="text-sm font-semibold">Insurance</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🚛</div>
+                  <div className="text-sm font-semibold">Freight</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🚚</div>
+                  <div className="text-sm font-semibold">Logistics</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Layer 3 */}
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                  <span className="text-xl font-bold text-purple-400">3</span>
+                </div>
+                <h3 className="text-2xl font-semibold">Reconstruction & Development</h3>
+                <span className="ml-auto text-sm text-gray-400">2 modules</span>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🏗️</div>
+                  <div className="text-sm font-semibold">Reconstruction</div>
+                  <div className="text-xs text-gray-500">Post-War Rebuilding</div>
+                </div>
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                  <div className="text-2xl mb-2">🤝</div>
+                  <div className="text-sm font-semibold">Donor Dashboard</div>
+                  <div className="text-xs text-gray-500">Funding Transparency</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Layer 4 */}
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                  <span className="text-xl font-bold text-orange-400">4</span>
+                </div>
+                <h3 className="text-2xl font-semibold">National Extensions</h3>
+                <span className="ml-auto text-sm text-gray-400">Customizable</span>
+              </div>
+              <div className="bg-[#0D1117] border border-[#30363D] rounded p-6 text-center">
+                <p className="text-gray-400">Regional and sector-specific modules tailored to national requirements</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Integration Note */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg">
+              <svg className="w-5 h-5 text-[#00A3FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span className="text-sm text-gray-400">All layers communicate through unified Data Platform and API Gateway</span>
             </div>
           </div>
         </div>
@@ -549,6 +721,264 @@ export default function LocalizedLandingPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ========================================== */}
+      {/* SECURITY & COMPLIANCE SECTION              */}
+      {/* ========================================== */}
+      <section className="py-24 bg-[#0D1117]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full mb-4">
+              <svg className="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-xs font-mono text-blue-400 uppercase tracking-wider">Enterprise Security</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Security & Compliance</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Built to the highest security standards with continuous monitoring and third-party audits
+            </p>
+          </div>
+
+          {/* Certifications Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="text-sm font-semibold mb-1">ISO 27001</div>
+              <div className="text-xs text-gray-500">Certified</div>
+            </div>
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="text-sm font-semibold mb-1">SOC 2 Type II</div>
+              <div className="text-xs text-gray-500">Certified</div>
+            </div>
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="text-sm font-semibold mb-1">GDPR</div>
+              <div className="text-xs text-gray-500">Compliant</div>
+            </div>
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="text-sm font-semibold mb-1">NATO CIS</div>
+              <div className="text-xs text-gray-500">Certified</div>
+            </div>
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="text-sm font-semibold mb-1">IRAP</div>
+              <div className="text-xs text-gray-500">Australia</div>
+            </div>
+          </div>
+
+          {/* Security Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
+              <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">99.99% Uptime SLA</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                Multi-region redundancy with automated failover and &lt;4 hour disaster recovery
+              </p>
+              <ul className="space-y-2 text-xs text-gray-500">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  3 geographic regions
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Real-time replication
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  24/7 monitoring
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
+              <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Zero-Trust Architecture</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                End-to-end encryption with multi-factor authentication and role-based access control
+              </p>
+              <ul className="space-y-2 text-xs text-gray-500">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  AES-256 encryption
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Hardware security modules
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Biometric authentication
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
+              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Quarterly Penetration Testing</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                Independent security audits and vulnerability assessments by certified ethical hackers
+              </p>
+              <ul className="space-y-2 text-xs text-gray-500">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  OWASP Top 10 coverage
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  CVE monitoring
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Bug bounty program
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* ========================================== */}
+      {/* TESTIMONIALS SECTION                       */}
+      {/* ========================================== */}
+      <section className="py-24 bg-[#161B22] border-y border-[#1F242C]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Trusted by Leading Institutions</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Governments and international organizations rely on IVYAR for transparent, ethical operations
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Testimonial 1 - World Bank */}
+            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
+                  🏦
+                </div>
+                <div>
+                  <div className="font-semibold">Dr. Sarah Chen</div>
+                  <div className="text-sm text-gray-500">Senior Operations Officer</div>
+                  <div className="text-xs text-gray-600">World Bank</div>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                "IVYAR transformed how we manage $2.1B in humanitarian aid. The AI Administrator flags anomalies before they become issues, and the audit trail gives our donors complete confidence."
+              </p>
+              <div className="flex gap-1">
+                {[1,2,3,4,5].map(i => (
+                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial 2 - NATO */}
+            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
+                  🛡️
+                </div>
+                <div>
+                  <div className="font-semibold">Col. Marcus Weber</div>
+                  <div className="text-sm text-gray-500">Chief Technology Officer</div>
+                  <div className="text-xs text-gray-600">NATO DIANA</div>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                "The quantum-resistant cryptography and zero-trust architecture meet our strictest security requirements. IVYAR is the only platform we trust for cross-border defense procurement."
+              </p>
+              <div className="flex gap-1">
+                {[1,2,3,4,5].map(i => (
+                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial 3 - USAID */}
+            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
+                  🇺🇸
+                </div>
+                <div>
+                  <div className="font-semibold">Jennifer Rodriguez</div>
+                  <div className="text-sm text-gray-500">Program Director</div>
+                  <div className="text-xs text-gray-600">USAID</div>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                "We reduced procurement cycle times by 60% while improving transparency. The real-time dashboard gives our oversight committees instant visibility into every dollar spent."
+              </p>
+              <div className="flex gap-1">
+                {[1,2,3,4,5].map(i => (
+                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div className="text-3xl font-bold text-[#00A3FF] mb-2">98%</div>
+              <div className="text-sm text-gray-400">Customer Satisfaction</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-green-400 mb-2">25+</div>
+              <div className="text-sm text-gray-400">Countries Deployed</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">$10.2B</div>
+              <div className="text-sm text-gray-400">Transactions Processed</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-400 mb-2">99.99%</div>
+              <div className="text-sm text-gray-400">Uptime Achieved</div>
+            </div>
+          </div>
         </div>
       </section>
 
