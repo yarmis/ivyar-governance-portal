@@ -49,7 +49,7 @@ export default function HbsApiDocs() {
             <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded text-xs font-bold border border-blue-500/30">POST</span>
             <span className="text-cyan-400 font-mono">/api/hbs/autopilot/flags/disable</span>
           </div>
-          <p className="text-gray-400 text-sm">Disable v8 (rollback to v7)</p>
+          <p className="text-gray-400 text-sm">Disable v8 feature flags</p>
         </div>
       </div>
     </div>
