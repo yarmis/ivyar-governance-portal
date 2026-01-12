@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import AutopilotWidget from "@/components/AutopilotWidget";
+
 // ============================================================================
 // TYPES
 // ============================================================================
@@ -680,9 +680,6 @@ export default function MaterialsPage() {
           <span>Construction Governance Hub • Materials Management</span>
         </div>
       </footer>
-
-      {/* AI Assistant */}
-      <AutopilotWidget module="materials" />
     </div>
   );
 }

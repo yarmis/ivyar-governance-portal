@@ -1,501 +1,233 @@
 /**
- * AUTOPILOT V8 - STREAMING API ENDPOINT
- * Cloudflare Worker with streaming responses and smart caching
- *
- * Performance improvements:
- * - Streaming: First token in 200-400ms (vs 1.6-3.1s)
- * - Caching: 30-80ms for cached results (vs 1.6-3.1s)
- * - Overall: 5-10x faster user experience
+ * IVYAR Autopilot v8 - Updated Worker with Custom System Prompts
+ * Supports module-specific AI assistants
  */
-import Anthropic from "@anthropic-ai/sdk";
 // ============================================================================
-// SMART CACHE LAYER
+// DEFAULT SCENARIOS (Fallback)
 // ============================================================================
-class SmartCache {
-    constructor(kv) {
-        this.defaultTTL = 3600; // 1 hour
-        this.kv = kv;
-    }
-    /**
-     * Generate cache key from request
-     */
-    getCacheKey(request) {
-        const { documentType, scenario, data } = request;
-        // Create stable hash of request data
-        const dataHash = this.hashObject(data);
-        return `autopilot:v8:${documentType}:${scenario}:${dataHash}`;
-    }
-    /**
-     * Simple hash function for objects
-     */
-    hashObject(obj) {
-        const str = JSON.stringify(obj, Object.keys(obj).sort());
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return Math.abs(hash).toString(36);
-    }
-    /**
-     * Get from cache if valid
-     */
-    async get(request) {
-        const key = this.getCacheKey(request);
-        try {
-            const cached = await this.kv.get(key, { type: 'json' });
-            if (!cached) {
-                return null;
-            }
-            // Check if cache is still valid
-            const ttl = request.options?.cacheTTL || this.defaultTTL;
-            const age = Date.now() - cached.timestamp;
-            if (age > ttl * 1000) {
-                // Cache expired, delete it
-                await this.kv.delete(key);
-                return null;
-            }
-            console.log(`Cache HIT: ${key} (age: ${Math.round(age / 1000)}s)`);
-            return cached.data;
-        }
-        catch (error) {
-            console.error('Cache get error:', error);
-            return null;
-        }
-    }
-    /**
-     * Store in cache
-     */
-    async set(request, data, metadata) {
-        const key = this.getCacheKey(request);
-        const ttl = request.options?.cacheTTL || this.defaultTTL;
-        const entry = {
-            data,
-            timestamp: Date.now(),
-            version: 'v8'
-        };
-        try {
-            await this.kv.put(key, JSON.stringify(entry), {
-                expirationTtl: ttl,
-                metadata
-            });
-            console.log(`Cache SET: ${key} (TTL: ${ttl}s)`);
-        }
-        catch (error) {
-            console.error('Cache set error:', error);
-        }
-    }
-    /**
-     * Invalidate cache for specific pattern
-     */
-    async invalidate(pattern) {
-        // Note: KV doesn't support pattern matching, 
-        // so this is a simplified version
-        try {
-            const list = await this.kv.list({ prefix: `autopilot:v8:${pattern}` });
-            let deleted = 0;
-            for (const key of list.keys) {
-                await this.kv.delete(key.name);
-                deleted++;
-            }
-            console.log(`Cache invalidated: ${deleted} keys for pattern "${pattern}"`);
-            return deleted;
-        }
-        catch (error) {
-            console.error('Cache invalidation error:', error);
-            return 0;
-        }
-    }
-}
-// ============================================================================
-// STREAMING RESPONSE HANDLER
-// ============================================================================
-class StreamingResponseHandler {
-    constructor(controller) {
-        this.encoder = new TextEncoder();
-        this.controller = controller;
-    }
-    /**
-     * Send a chunk to the client
-     */
-    sendChunk(chunk) {
-        const message = `data: ${JSON.stringify(chunk)}\n\n`;
-        this.controller.enqueue(this.encoder.encode(message));
-    }
-    /**
-     * Send start signal
-     */
-    sendStart() {
-        this.sendChunk({
-            type: 'start',
-            data: { status: 'processing' },
-            timestamp: Date.now()
-        });
-    }
-    /**
-     * Send content chunk
-     */
-    sendContent(content) {
-        this.sendChunk({
-            type: 'content',
-            data: { text: content },
-            timestamp: Date.now()
-        });
-    }
-    /**
-     * Send completion signal
-     */
-    sendComplete(data) {
-        this.sendChunk({
-            type: 'complete',
-            data,
-            timestamp: Date.now()
-        });
-    }
-    /**
-     * Send error
-     */
-    sendError(error) {
-        this.sendChunk({
-            type: 'error',
-            data: { error },
-            timestamp: Date.now()
-        });
-    }
-    /**
-     * Close the stream
-     */
-    close() {
-        this.controller.close();
-    }
-}
-// ============================================================================
-// ANTHROPIC STREAMING CLIENT
-// ============================================================================
-async function streamAnthropicResponse(client, request, handler) {
-    const { documentType, scenario, data } = request;
-    // Build prompt
-    const prompt = buildAutopilotPrompt(documentType, scenario, data);
-    try {
-        handler.sendStart();
-        let fullResponse = '';
-        let toolUses = [];
-        // Create streaming request
-        const stream = await client.messages.stream({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 4096,
-            messages: [{
-                    role: 'user',
-                    content: prompt
-                }],
-            system: getSystemPrompt(),
-            temperature: 0.3
-        });
-        // Process stream
-        for await (const event of stream) {
-            if (event.type === 'content_block_delta') {
-                if (event.delta.type === 'text_delta') {
-                    const text = event.delta.text;
-                    fullResponse += text;
-                    handler.sendContent(text);
-                }
-            }
-            else if (event.type === 'content_block_start') {
-                if (event.content_block.type === 'tool_use') {
-                    toolUses.push(event.content_block);
-                }
-            }
-        }
-        // Parse final response
-        const result = parseAutopilotResponse(fullResponse, toolUses);
-        handler.sendComplete(result);
-        return result;
-    }
-    catch (error) {
-        handler.sendError(error.message || 'Streaming error');
-        throw error;
-    }
-}
-// ============================================================================
-// AUTOPILOT PROMPT BUILDERS
-// ============================================================================
-function buildAutopilotPrompt(documentType, scenario, data) {
-    return `You are Autopilot v8, an AI system for Ukrainian government document evaluation.
-
-DOCUMENT TYPE: ${documentType}
-SCENARIO: ${scenario}
-
-DOCUMENT DATA:
-${JSON.stringify(data, null, 2)}
-
-TASK: Evaluate this document according to Ukrainian government regulations.
-
-Provide:
-1. DECISION: approve/conditional_approve/reject/refer
-2. RISK_LEVEL: low/medium/high/critical
-3. EXPLANATION: Clear reasoning in Ukrainian
-4. CONDITIONS: If conditional approval, list requirements
-5. AUDIT_LOG: Key decision factors
-
-Respond in JSON format with these exact fields.`;
-}
-function getSystemPrompt() {
-    return `You are an expert in Ukrainian government regulations and document evaluation.
-You provide clear, structured decisions with appropriate risk assessments.
-Always respond in valid JSON format.`;
-}
-function parseAutopilotResponse(text, toolUses) {
-    try {
-        // Extract JSON from response
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-        // Fallback parsing
-        return {
-            decision: 'refer',
-            risk_level: 'medium',
-            explanation: text,
-            audit_log: {
-                raw_response: text,
-                tool_uses: toolUses
-            }
-        };
-    }
-    catch (error) {
-        console.error('Response parsing error:', error);
-        return {
-            decision: 'refer',
-            risk_level: 'high',
-            explanation: 'Error parsing AI response',
-            audit_log: { error: error instanceof Error ? error.message : String(error) }
-        };
-    }
-}
-// ============================================================================
-// MAIN WORKER HANDLER
-// ============================================================================
-export default {
-    async fetch(request, env) {
-        const url = new URL(request.url);
-        // CORS headers
-        const corsHeaders = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        };
-        // Handle CORS preflight
-        if (request.method === 'OPTIONS') {
-            return new Response(null, { headers: corsHeaders });
-        }
-        // Route handling
-        if (url.pathname === '/autopilot/evaluate' && request.method === 'POST') {
-            return handleEvaluate(request, env, corsHeaders);
-        }
-        if (url.pathname === '/autopilot/stream' && request.method === 'POST') {
-            return handleStream(request, env, corsHeaders);
-        }
-        if (url.pathname === '/autopilot/cache/invalidate' && request.method === 'POST') {
-            return handleCacheInvalidate(request, env, corsHeaders);
-        }
-        if (url.pathname === '/autopilot/health') {
-            return new Response(JSON.stringify({
-                status: 'healthy',
-                version: 'v8',
-                features: ['streaming', 'caching'],
-                timestamp: new Date().toISOString()
-            }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-            });
-        }
-        return new Response('Not Found', { status: 404, headers: corsHeaders });
-    }
+const DEFAULT_SCENARIOS = {
+    general_inquiry: `You are the IVYAR Platform AI Assistant. You help users understand IvyAR's platform and navigate to the right modules.`,
+    voting_navigation: `You are the IVYAR Voting Assistant. You help users navigate voting processes.`,
+    technical_support: `You are the IVYAR Technical Support Assistant. You help users resolve technical issues.`,
 };
-// ============================================================================
-// ENDPOINT HANDLERS
-// ============================================================================
 /**
- * Standard evaluation endpoint (with caching)
+ * CORS headers
  */
-async function handleEvaluate(request, env, corsHeaders) {
-    try {
-        const body = await request.json();
-        // Initialize cache
-        const cache = new SmartCache(env.AUTOPILOT_CACHE);
-        // Check cache if enabled (default: true)
-        if (body.options?.cacheEnabled !== false) {
-            const cached = await cache.get(body);
-            if (cached) {
-                return new Response(JSON.stringify({
-                    ...cached,
-                    cached: true,
-                    cache_age_seconds: Math.round((Date.now() - cached.timestamp) / 1000)
-                }), {
-                    headers: {
-                        ...corsHeaders,
-                        'Content-Type': 'application/json',
-                        'X-Cache': 'HIT'
-                    }
-                });
-            }
-        }
-        // Initialize Anthropic client
-        const anthropic = new Anthropic({
-            apiKey: env.ANTHROPIC_API_KEY,
-        });
-        // Build and execute prompt
-        const prompt = buildAutopilotPrompt(body.documentType, body.scenario, body.data);
-        const message = await anthropic.messages.create({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 4096,
-            messages: [{
-                    role: 'user',
-                    content: prompt
-                }],
-            system: getSystemPrompt(),
-            temperature: 0.3
-        });
-        // Parse response
-        const textContent = message.content
-            .filter(block => block.type === 'text')
-            .map(block => block.text)
-            .join('');
-        const result = parseAutopilotResponse(textContent, []);
-        // Cache the result
-        if (body.options?.cacheEnabled !== false) {
-            await cache.set(body, result, {
-                documentType: body.documentType,
-                scenario: body.scenario
-            });
-        }
-        return new Response(JSON.stringify({
-            ...result,
-            cached: false,
-            processing_time_ms: message.usage.input_tokens + message.usage.output_tokens
-        }), {
-            headers: {
-                ...corsHeaders,
-                'Content-Type': 'application/json',
-                'X-Cache': 'MISS'
-            }
-        });
-    }
-    catch (error) {
-        console.error('Evaluate error:', error);
-        return new Response(JSON.stringify({
-            error: error.message || 'Internal server error'
-        }), {
-            status: 500,
-            headers: {
-                ...corsHeaders,
-                'Content-Type': 'application/json'
-            }
-        });
-    }
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+/**
+ * Handle OPTIONS requests
+ */
+function handleOptions() {
+    return new Response(null, {
+        status: 204,
+        headers: CORS_HEADERS,
+    });
 }
 /**
- * Streaming evaluation endpoint
+ * Health check
  */
-async function handleStream(request, env, corsHeaders) {
+function handleHealth() {
+    const health = {
+        status: 'ok',
+        service: 'autopilot',
+        version: '8.1.0', // Updated version
+        features: [
+            'custom_system_prompts',
+            'module_specific_assistants',
+            'sse_streaming',
+        ],
+        supportedModules: [
+            'materials',
+            'zoning',
+            'violations',
+            'donors',
+            'us_construction',
+            'geo_utilities',
+            'procurement',
+            'general',
+        ],
+        timestamp: new Date().toISOString(),
+    };
+    return new Response(JSON.stringify(health, null, 2), {
+        status: 200,
+        headers: {
+            'Content-Type': 'application/json',
+            ...CORS_HEADERS,
+        },
+    });
+}
+/**
+ * Stream Claude responses with custom system prompts
+ */
+async function handleStream(request, env) {
     try {
         const body = await request.json();
-        // Initialize cache
-        const cache = new SmartCache(env.AUTOPILOT_CACHE);
-        // Check cache first
-        if (body.options?.cacheEnabled !== false) {
-            const cached = await cache.get(body);
-            if (cached) {
-                // Return cached result as a single event
-                const stream = new ReadableStream({
-                    start(controller) {
-                        const handler = new StreamingResponseHandler(controller);
-                        handler.sendStart();
-                        handler.sendComplete({ ...cached, cached: true });
-                        handler.close();
-                    }
-                });
-                return new Response(stream, {
-                    headers: {
-                        ...corsHeaders,
-                        'Content-Type': 'text/event-stream',
-                        'Cache-Control': 'no-cache',
-                        'Connection': 'keep-alive',
-                        'X-Cache': 'HIT'
-                    }
-                });
-            }
+        const { scenario, userMessage, conversationHistory = [], systemPrompt } = body;
+        // Validate user message
+        if (!userMessage || typeof userMessage !== 'string') {
+            return new Response(JSON.stringify({ error: 'userMessage is required and must be a string' }), {
+                status: 400,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...CORS_HEADERS,
+                },
+            });
         }
-        // Create streaming response
-        const stream = new ReadableStream({
-            async start(controller) {
-                const handler = new StreamingResponseHandler(controller);
-                const anthropic = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-                try {
-                    const result = await streamAnthropicResponse(anthropic, body, handler);
-                    // Cache the result
-                    if (body.options?.cacheEnabled !== false) {
-                        await cache.set(body, result);
-                    }
-                    handler.close();
+        // Use custom system prompt if provided, otherwise use default
+        const effectiveSystemPrompt = systemPrompt ||
+            DEFAULT_SCENARIOS[scenario] ||
+            DEFAULT_SCENARIOS.general_inquiry;
+        // Build conversation messages
+        const messages = [
+            ...conversationHistory,
+            { role: 'user', content: userMessage },
+        ];
+        // Create SSE stream
+        const { readable, writable } = new TransformStream();
+        const writer = writable.getWriter();
+        const encoder = new TextEncoder();
+        // Stream in background
+        (async () => {
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': env.ANTHROPIC_API_KEY,
+                        'anthropic-version': '2023-06-01',
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 4096,
+                        system: effectiveSystemPrompt, // Use custom or default prompt
+                        messages: messages,
+                        stream: true,
+                    }),
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Anthropic API error: ${response.status} - ${errorText}`);
                 }
-                catch (error) {
-                    handler.sendError(error.message);
-                    handler.close();
+                const reader = response.body?.getReader();
+                if (!reader) {
+                    throw new Error('No response body from Anthropic API');
+                }
+                const decoder = new TextDecoder();
+                let buffer = '';
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done)
+                        break;
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || '';
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') {
+                                continue;
+                            }
+                            try {
+                                const parsed = JSON.parse(data);
+                                // Content block delta
+                                if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+                                    await writer.write(encoder.encode(`event: text\ndata: ${JSON.stringify({ text: parsed.delta.text })}\n\n`));
+                                }
+                                // Message usage
+                                if (parsed.type === 'message_delta' && parsed.usage) {
+                                    await writer.write(encoder.encode(`event: usage\ndata: ${JSON.stringify(parsed.usage)}\n\n`));
+                                }
+                                // Stream end
+                                if (parsed.type === 'message_stop') {
+                                    await writer.write(encoder.encode(`event: done\ndata: ${JSON.stringify({
+                                        status: 'completed',
+                                        module: scenario
+                                    })}\n\n`));
+                                }
+                            }
+                            catch (parseError) {
+                                console.error('Failed to parse SSE data:', parseError);
+                            }
+                        }
+                    }
                 }
             }
-        });
-        return new Response(stream, {
+            catch (error) {
+                console.error('Stream error:', error);
+                const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+                await writer.write(encoder.encode(`event: error\ndata: ${JSON.stringify({ error: errorMessage })}\n\n`));
+            }
+            finally {
+                await writer.close();
+            }
+        })();
+        return new Response(readable, {
+            status: 200,
             headers: {
-                ...corsHeaders,
                 'Content-Type': 'text/event-stream',
                 'Cache-Control': 'no-cache',
                 'Connection': 'keep-alive',
-                'X-Cache': 'MISS'
-            }
+                ...CORS_HEADERS,
+            },
         });
     }
     catch (error) {
-        console.error('Stream error:', error);
-        return new Response(JSON.stringify({
-            error: error.message || 'Streaming failed'
-        }), {
+        console.error('Request handling error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return new Response(JSON.stringify({ error: 'Failed to process request', details: errorMessage }), {
             status: 500,
             headers: {
-                ...corsHeaders,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                ...CORS_HEADERS,
+            },
         });
     }
 }
 /**
- * Cache invalidation endpoint
+ * Main Worker fetch handler
  */
-async function handleCacheInvalidate(request, env, corsHeaders) {
-    try {
-        const body = await request.json();
-        const cache = new SmartCache(env.AUTOPILOT_CACHE);
-        const deleted = await cache.invalidate(body.pattern || '');
-        return new Response(JSON.stringify({
-            success: true,
-            deleted_keys: deleted,
-            pattern: body.pattern || 'all'
-        }), {
-            headers: {
-                ...corsHeaders,
-                'Content-Type': 'application/json'
+export default {
+    async fetch(request, env) {
+        const url = new URL(request.url);
+        const path = url.pathname;
+        // Handle CORS preflight
+        if (request.method === 'OPTIONS') {
+            return handleOptions();
+        }
+        // Route handlers
+        if (path === '/autopilot/health' || path === '/autopilot/health/') {
+            return handleHealth();
+        }
+        if (path === '/autopilot/stream' || path === '/autopilot/stream/') {
+            if (request.method !== 'POST') {
+                return new Response(JSON.stringify({ error: 'Method not allowed. Use POST.' }), {
+                    status: 405,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...CORS_HEADERS,
+                    },
+                });
             }
-        });
-    }
-    catch (error) {
+            return handleStream(request, env);
+        }
+        // 404 for unknown routes
         return new Response(JSON.stringify({
-            error: error.message
+            error: 'Not found',
+            availableEndpoints: [
+                'GET /autopilot/health',
+                'POST /autopilot/stream',
+            ],
+            version: '8.1.0',
         }), {
-            status: 500,
+            status: 404,
             headers: {
-                ...corsHeaders,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                ...CORS_HEADERS,
+            },
         });
-    }
-}
+    },
+};
