@@ -1,0 +1,40 @@
+AUTOPILOT DECISION ENGINE
+1-Minute Speech for Prime Minister
+Cabinet of Ministers of Ukraine
+
+---
+
+Honorable Prime Minister,
+
+Today we present a government module that fundamentally changes how the state makes decisions.
+
+Across Ukraine, different regions make different decisions under identical conditions. Rules are interpreted differently. Audits are slow, and citizens lack confidence in fairness.
+
+Autopilot Decision Engine solves this.
+
+It is a national-level system that evaluates cases using predefined scenarios—construction, procurement, social support—and produces transparent, explainable, auditable decisions in seconds.
+
+How it works:
+An operator selects a scenario, enters case data, and Autopilot analyzes it using government regulations and controlled reasoning. The system returns a structured decision with status, score, explanation, and references to the laws applied.
+
+Every decision is logged and auditable.
+
+For the state, this means:
+- Unified standards across all regions
+- Reduced corruption risks
+- Faster case processing
+- Full transparency for oversight
+
+For international partners, this means:
+- Verifiable decisions
+- Reduced corruption risks
+- Donor-grade transparency
+
+Autopilot is already operational. Three scenarios are live. The system is ready for Cabinet approval and pilot deployment.
+
+This is not just a tool—this is a governance standard. A foundation for transparent, data-driven public administration.
+
+Thank you.
+
+---
+Duration: ~60 seconds
