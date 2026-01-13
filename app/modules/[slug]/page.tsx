@@ -115,8 +115,8 @@ const MODULES_DATA: Record<string, {
   'donor-dashboard': {
     name: 'Donor Dashboard',
     icon: '🤝',
-    status: 'design',
-    statusLabel: 'In Design',
+    status: 'production',
+    statusLabel: 'Production Ready',
     description: 'Funding transparency and impact reporting for international donors.',
     longDescription: 'The Donor Dashboard provides complete visibility into fund allocation and impact. Every dollar is tracked from commitment to outcome, with real-time reporting and AI-powered impact analysis.',
     features: [
@@ -142,7 +142,7 @@ const MODULES_DATA: Record<string, {
     integrations: [
       { name: 'World Bank', icon: '🏦', status: 'planned' },
       { name: 'USAID', icon: '🇺🇸', status: 'planned' },
-      { name: 'EU Commission', icon: '🇪🇺', status: 'design' },
+      { name: 'EU Commission', icon: '🇪🇺', status: 'production' },
       { name: 'UN OCHA', icon: '🇺🇳', status: 'design' },
     ],
     roadmap: [
