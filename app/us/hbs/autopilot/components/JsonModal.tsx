@@ -43,7 +43,7 @@ export default function JsonModal({ decision }: Props) {
     >
       <div
         style={{
-          backgroundColor: "#fff",
+          backgroundColor: "#1e293b",
           borderRadius: "6px",
           padding: "1.5rem",
           maxWidth: "800px",
@@ -56,7 +56,7 @@ export default function JsonModal({ decision }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h3 style={{ margin: 0 }}>Autopilot Decision (JSON)</h3>
+          <h3 style={{ margin: 0, color: "#fff" }}>Autopilot Decision (JSON)</h3>
           <button
             onClick={() => setOpen(false)}
             style={{
@@ -73,7 +73,7 @@ export default function JsonModal({ decision }: Props) {
         </div>
         <pre style={{
           padding: "1rem",
-          background: "#f5f5f5",
+          background: "#0f172a", color: "#e2e8f0",
           borderRadius: "6px",
           overflow: "auto",
           fontSize: "0.875rem"

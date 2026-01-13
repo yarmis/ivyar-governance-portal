@@ -143,7 +143,7 @@ export default function AutopilotDashboard() {
                   AUTOPILOT DASHBOARD
                 </h1>
               </div>
-              <div className="text-xs font-mono text-gray-500">
+              <div className="text-xs font-mono text-gray-400">
                 LAST UPDATED: <span className="text-cyan-400" suppressHydrationWarning>
                   {typeof window !== 'undefined' ? new Date().toLocaleTimeString() : '--:--:--'}
                 </span>
@@ -158,7 +158,7 @@ export default function AutopilotDashboard() {
               <div className="w-1 h-8 bg-gradient-to-b from-cyan-500 to-blue-600" />
               <h2 className="text-sm font-mono text-cyan-400 tracking-widest uppercase">v7 → v8 Migration Control</h2>
             </div>
-            <p className="text-gray-400 font-mono text-sm ml-4">Real-time monitoring and gradual rollout management</p>
+            <p className="text-gray-200 font-mono text-sm ml-4">Real-time monitoring and gradual rollout management</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -181,7 +181,7 @@ export default function AutopilotDashboard() {
                     <span className="text-3xl font-mono font-bold text-cyan-400">{data.rolloutPercentage}%</span>
                   </div>
                 </div>
-                <div className="flex justify-between text-[10px] font-mono text-gray-500">
+                <div className="flex justify-between text-[10px] font-mono text-gray-400">
                   <span className={data.rolloutPercentage >= 0 ? 'text-cyan-400' : ''}>0%</span>
                   <span className={data.rolloutPercentage >= 25 ? 'text-cyan-400' : ''}>25%</span>
                   <span className={data.rolloutPercentage >= 50 ? 'text-cyan-400' : ''}>50%</span>
@@ -200,7 +200,7 @@ export default function AutopilotDashboard() {
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-mono text-gray-300">v7 (Legacy)</span>
+                      <span className="text-sm font-mono text-gray-100">v7 (Legacy)</span>
                       <span className="text-sm font-mono text-cyan-400">{data?.last24Hours?.v7 || 0}</span>
                     </div>
                     <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
@@ -211,7 +211,7 @@ export default function AutopilotDashboard() {
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-mono text-gray-300">v8 (AI-Powered)</span>
+                      <span className="text-sm font-mono text-gray-100">v8 (AI-Powered)</span>
                       <span className="text-sm font-mono text-cyan-400">{data?.last24Hours?.v8 || 0}</span>
                     </div>
                     <div className="h-8 bg-slate-800 rounded-full overflow-hidden">
@@ -228,7 +228,7 @@ export default function AutopilotDashboard() {
               <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000" />
               <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/60 border border-emerald-900/30 rounded-lg p-6 backdrop-blur-sm">
                 <h3 className="text-xs font-mono text-emerald-400 mb-6 tracking-widest">ROLLOUT CONTROLS</h3>
-                <p className="text-xs text-gray-400 mb-4 font-mono">Start gradual rollout of v8:</p>
+                <p className="text-xs text-gray-200 mb-4 font-mono">Start gradual rollout of v8:</p>
                 <div className="grid grid-cols-2 gap-3 mb-6">
                   <ControlButton label="1%" onClick={() => handleRollout(1)} active={data.rolloutPercentage === 1} disabled={loading} />
                   <ControlButton label="5%" onClick={() => handleRollout(5)} active={data.rolloutPercentage === 5} disabled={loading} />
@@ -246,8 +246,8 @@ export default function AutopilotDashboard() {
           </div>
 
           <div className="border-t border-cyan-900/30 pt-6">
-            <div className="flex items-center justify-between text-xs font-mono text-gray-500">
-              <div>STATUS: <span className={data.v8Enabled ? 'text-green-400' : 'text-gray-400'}>{data.v8Enabled ? 'ACTIVE' : 'STANDBY'}</span></div>
+            <div className="flex items-center justify-between text-xs font-mono text-gray-400">
+              <div>STATUS: <span className={data.v8Enabled ? 'text-green-400' : 'text-gray-200'}>{data.v8Enabled ? 'ACTIVE' : 'STANDBY'}</span></div>
               <div>TOTAL DECISIONS: <span className="text-cyan-400">{data.last24Hours.total}</span></div>
               <div>VERSION: <span className="text-cyan-400">8.0.0</span></div>
             </div>
@@ -261,7 +261,7 @@ export default function AutopilotDashboard() {
 function StatusCard({ title, value, status, subtitle }: { title: string; value: string; status: 'active' | 'inactive' | 'success' | 'warning' | 'info'; subtitle: string }) {
   const colors: Record<string, string> = {
     active: 'from-emerald-500/20 to-emerald-900/20 border-emerald-500/30 text-emerald-400',
-    inactive: 'from-gray-500/20 to-gray-900/20 border-gray-500/30 text-gray-400',
+    inactive: 'from-gray-500/20 to-gray-900/20 border-gray-500/30 text-gray-200',
     success: 'from-green-500/20 to-green-900/20 border-green-500/30 text-green-400',
     warning: 'from-yellow-500/20 to-yellow-900/20 border-yellow-500/30 text-yellow-400',
     info: 'from-cyan-500/20 to-cyan-900/20 border-cyan-500/30 text-cyan-400',
@@ -270,9 +270,9 @@ function StatusCard({ title, value, status, subtitle }: { title: string; value: 
     <div className="relative group">
       <div className={`absolute -inset-0.5 bg-gradient-to-r ${colors[status]} rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000`} />
       <div className={`relative bg-gradient-to-br ${colors[status]} border rounded-lg p-4 backdrop-blur-sm h-full`}>
-        <div className="text-xs font-mono text-gray-400 mb-2">{title}</div>
+        <div className="text-xs font-mono text-gray-200 mb-2">{title}</div>
         <div className={`text-2xl font-mono font-bold ${colors[status].split(' ')[2]} mb-2`}>{value}</div>
-        <div className="text-xs font-mono text-gray-500">{subtitle}</div>
+        <div className="text-xs font-mono text-gray-400">{subtitle}</div>
         <div className="mt-3 h-1 bg-black/20 rounded-full overflow-hidden">
           <div className={`h-full bg-gradient-to-r ${colors[status]} animate-pulse`} style={{ width: '100%' }} />
         </div>
