@@ -198,9 +198,15 @@ const MODULE_META = [
   { icon: '🚚', status: 'pilot', apis: 14, href: '/modules/logistics' },
   { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
   { icon: '🗄️', status: 'dev', apis: 10, href: '/modules/data-platform' },
-  { icon: '🏛️', status: 'core', apis: 8, href: '/hbs' },
+  { icon: '🏛️', status: 'core', apis: 8, href: '/us/hbs' },
   { icon: '🤖', status: 'beta', apis: 5, href: '/modules/ai-services' },
+  { icon: '🏪', status: 'live', apis: 4, href: '/modules/trade' },
+  { icon: '🛡️', status: 'live', apis: 4, href: '/modules/insurance' },
+  { icon: '💳', status: 'live', apis: 4, href: '/modules/payments' },
+  { icon: '🏗️', status: 'pilot', apis: 4, href: '/modules/reconstruction' },
+  { icon: '🚛', status: 'live', apis: 4, href: '/modules/freight' },
 ];
+
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
 
@@ -226,12 +232,10 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 h-[72px] bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-full flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">
-              IV
-            </div>
+            <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
             <span className="text-lg font-semibold hidden sm:block">IVYAR</span>
           </Link>
-
+          
           <div className="hidden md:flex items-center gap-8">
             <Link href="#modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.modules}</Link>
             <Link href="#ai" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.ai}</Link>
@@ -239,8 +243,6 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <GlobalSearch />
-            
             <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
               <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
               <span className="text-xs font-medium text-[#3CCB7F]">Operational</span>
@@ -250,7 +252,7 @@ export default function LandingPage() {
               href="/demo" 
               className="hidden sm:flex h-11 px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
             >
-              {t.cta.demo}
+              Request Demo
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -448,7 +450,7 @@ export default function LandingPage() {
             <h2 className="text-2xl lg:text-4xl font-semibold">{t.cta.title}</h2>
             <p className="text-[#8B949E] text-lg">{t.cta.subtitle}</p>
             <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <Link href="/demo" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
+              <Link href="/demo" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">Request Demo</Link>
               <Link href="#contact" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">{t.cta.contact}</Link>
             </div>
           </div>

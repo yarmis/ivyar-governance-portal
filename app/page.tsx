@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { GlobalSearch } from '@/components/GlobalSearch';
+import AutopilotWidget from "@/components/AutopilotWidget";
 
 const TRANSLATIONS: Record<string, {
   hero: { title: string; subtitle: string };
@@ -513,6 +514,10 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="general" />
+
 
       <style jsx global>{`
         @keyframes breathing {
