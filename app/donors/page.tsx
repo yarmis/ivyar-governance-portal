@@ -18,7 +18,7 @@ interface Donor {
 }
 
 interface Project {
-  id: string; name: string; donorName: string; donorShort: string; sector: string; oblast: string;
+  id: string; name: string; donorName: string; donorShort: string; sector: string; state: string;
   budget: number; utilized: number; utilizationRate: number; phase: ProjectPhase;
   beneficiaries: number; complianceStatus: ComplianceStatus;
 }
@@ -34,11 +34,11 @@ const DONORS: Donor[] = [
 ];
 
 const PROJECTS: Project[] = [
-  { id: 'p1', name: 'Kharkiv School Reconstruction', donorName: 'World Bank', donorShort: 'WB', sector: 'Education', oblast: 'Kharkiv', budget: 35000000, utilized: 28500000, utilizationRate: 81, phase: 'implementation', beneficiaries: 15000, complianceStatus: 'compliant' },
-  { id: 'p2', name: 'Kyiv Energy Infrastructure', donorName: 'World Bank', donorShort: 'WB', sector: 'Energy', oblast: 'Kyiv', budget: 85000000, utilized: 52000000, utilizationRate: 61, phase: 'implementation', beneficiaries: 500000, complianceStatus: 'compliant' },
-  { id: 'p3', name: 'Odesa Port Facilities', donorName: 'World Bank', donorShort: 'WB', sector: 'Transport', oblast: 'Odesa', budget: 65000000, utilized: 18000000, utilizationRate: 28, phase: 'implementation', beneficiaries: 50000, complianceStatus: 'under_review' },
-  { id: 'p4', name: 'Dnipro Water System', donorName: 'EBRD', donorShort: 'EBRD', sector: 'Water', oblast: 'Dnipro', budget: 45000000, utilized: 32000000, utilizationRate: 71, phase: 'implementation', beneficiaries: 250000, complianceStatus: 'compliant' },
-  { id: 'p5', name: 'Lviv Hospital Modernization', donorName: 'JICA', donorShort: 'JICA', sector: 'Healthcare', oblast: 'Lviv', budget: 28000000, utilized: 22000000, utilizationRate: 79, phase: 'implementation', beneficiaries: 120000, complianceStatus: 'compliant' },
+  { id: 'p1', name: 'Kharkiv School Reconstruction', donorName: 'World Bank', donorShort: 'WB', sector: 'Education', state: 'New York', budget: 35000000, utilized: 28500000, utilizationRate: 81, phase: 'implementation', beneficiaries: 15000, complianceStatus: 'compliant' },
+  { id: 'p2', name: 'Texas Energy Grid Modernization', donorName: 'World Bank', donorShort: 'WB', sector: 'Energy', state: 'Texas', budget: 85000000, utilized: 52000000, utilizationRate: 61, phase: 'implementation', beneficiaries: 500000, complianceStatus: 'compliant' },
+  { id: 'p3', name: 'Odesa Port Facilities', donorName: 'World Bank', donorShort: 'WB', sector: 'Transport', state: 'California', budget: 65000000, utilized: 18000000, utilizationRate: 28, phase: 'implementation', beneficiaries: 50000, complianceStatus: 'under_review' },
+  { id: 'p4', name: 'Dnipro Water System', donorName: 'EBRD', donorShort: 'EBRD', sector: 'Water', state: 'Dnipro', budget: 45000000, utilized: 32000000, utilizationRate: 71, phase: 'implementation', beneficiaries: 250000, complianceStatus: 'compliant' },
+  { id: 'p5', name: 'Lviv Hospital Modernization', donorName: 'JICA', donorShort: 'JICA', sector: 'Healthcare', state: 'California', budget: 28000000, utilized: 22000000, utilizationRate: 79, phase: 'implementation', beneficiaries: 120000, complianceStatus: 'compliant' },
 ];
 
 // Config
@@ -338,7 +338,7 @@ export default function DonorPortalPage() {
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ background: '#0F172A' }}>
-                    {['Project', 'Donor', 'Sector', 'Oblast', 'Budget', 'Utilized', 'Rate', 'Beneficiaries', 'Compliance', 'Actions'].map(h => (
+                    {['Project', 'Donor', 'Sector', 'State', 'Budget', 'Utilized', 'Rate', 'Beneficiaries', 'Compliance', 'Actions'].map(h => (
                       <th key={h} style={{ padding: '14px 12px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
