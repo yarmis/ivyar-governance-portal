@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { X, MessageCircle, Send, Loader2, Sparkles } from 'lucide-react';
 import { getModuleScenario, type IvyarModule } from '@/lib/autopilot/ivyar-autopilot-scenarios';
 
@@ -21,15 +22,42 @@ export default function AutopilotWidget({
   position = 'bottom-right',
   className = '',
 }: AutopilotWidgetProps) {
+  const pathname = usePathname();
+  
+  // Auto-detect module from URL path
+  const detectModuleFromPath = (): IvyarModule => {
+    if (!pathname) return 'general';
+    
+    const pathSegments = pathname.split('/').filter(Boolean);
+    if (pathSegments.length === 0) return 'general';
+    
+    const pathModule = pathSegments[0];
+    
+    // Map URL paths to module names
+    const moduleMap: Record<string, IvyarModule> = {
+      'materials': 'materials',
+      'zoning': 'zoning',
+      'violations': 'violations',
+      'donors': 'donors',
+      'us-construction': 'us_construction',
+      'geo': 'geo_utilities',
+      'procurement': 'procurement',
+    };
+    
+    return moduleMap[pathModule] || 'general';
+  };
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [currentModule, setCurrentModule] = useState<IvyarModule>(
+    module || detectModuleFromPath()
+  );
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
-  const [currentModule, setCurrentModule] = useState<IvyarModule>(module || 'general');
 
   // Detect dark mode
   useEffect(() => {
@@ -42,14 +70,16 @@ export default function AutopilotWidget({
     return () => observer.disconnect();
   }, []);
 
-  // Update module if prop changes
+  // Update module if prop changes or pathname changes
   useEffect(() => {
-    if (module) setCurrentModule(module);
-    else setCurrentModule('general');
-  }, [module]);
+    if (module) {
+      setCurrentModule(module);
+    } else {
+      setCurrentModule(detectModuleFromPath());
+    }
+  }, [module, pathname]);
 
   const scenario = getModuleScenario(currentModule);
-
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
