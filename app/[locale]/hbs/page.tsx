@@ -351,7 +351,7 @@ export default function HBSPage() {
               >
                 CLOSE
               </button>
-              <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono text-sm transition-colors">
+              <button onClick={() => setSelectedCapability(null)} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono text-sm transition-colors">
                 LEARN MORE →
               </button>
             </div>
