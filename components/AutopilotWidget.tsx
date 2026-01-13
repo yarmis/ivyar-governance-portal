@@ -54,6 +54,7 @@ export default function AutopilotWidget({
     return moduleMap[pathModule] || 'general';
   };
 
+  console.log("🤖 AutopilotWidget mounting, module:", module, "position:", position);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');

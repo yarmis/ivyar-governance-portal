@@ -1,5 +1,8 @@
 'use client';
 
+import AutopilotWidget from '@/components/AutopilotWidget';
+
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -375,9 +378,11 @@ const PLATFORM_STATS = {
 // MAIN COMPONENT
 // ============================================
 export default function DirectFreightModulePage() {
+  console.log("🚚 Freight page rendering");
   const [currentView, setCurrentView] = useState<FreightView>('landing');
   const [userRole, setUserRole] = useState<UserRole>('driver');
   const [selectedLoad, setSelectedLoad] = useState<Load | null>(null);
+  console.log("📍 currentView:", currentView);
 
   const handleViewLoad = (load: Load) => {
     setSelectedLoad(load);
@@ -525,6 +530,9 @@ export default function DirectFreightModulePage() {
           </div>
         </div>
       </footer>
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="freight" />
     </div>
   );
 }
@@ -1585,7 +1593,9 @@ function TrackingPage({ load }: { load: Load }) {
         <span className="text-6xl">🗺️</span>
         <p className="text-[#8B949E] mt-4">Real-time GPS tracking for {load.loadNumber}</p>
       </div>
+
     </div>
+
   );
 }
 
@@ -1658,6 +1668,12 @@ function AdminPanelPage({ loads, stats }: { loads: Load[]; stats: typeof PLATFOR
           </div>
         </div>
       </div>
+
+
+
+      <div style={{position: 'fixed', top: '100px', right: '20px', background: 'red', color: 'white', padding: '20px', zIndex: 9999}}>
+      </div>
+
     </div>
   );
 }

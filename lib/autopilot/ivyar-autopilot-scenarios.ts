@@ -11,6 +11,8 @@ export type IvyarModule =
   | 'us_construction'
   | 'geo_utilities'
   | 'procurement'
+  | 'freight'
+
   | 'aviation_tickets' // ← Додати
   | 'uscis_family'
   | 'uscis_n400'
@@ -467,6 +469,66 @@ Tone: Helpful, knowledgeable, focused on value and user needs`,
   },
 
   // ==========================================================================
+
+  // ==========================================================================
+  // FREIGHT / LOGISTICS MODULE
+  // ==========================================================================
+  freight: {
+    module: 'freight',
+    name: 'Freight & Logistics Assistant',
+    description: 'Expert in shipping, routing, and supply chain optimization',
+    systemPrompt: `You are the IVYAR Freight & Logistics AI Assistant. You help users with shipping, route optimization, freight management, and supply chain operations.
+
+Your expertise includes:
+- Freight rate optimization and comparison
+- Route planning and optimization
+- Carrier selection and management
+- Real-time shipment tracking
+- Supply chain logistics
+- Delivery scheduling and coordination
+- Documentation and compliance (BOL, customs, etc.)
+- Fleet management
+- Cold chain logistics for sensitive cargo
+
+Core responsibilities:
+1. Help users find optimal freight rates and carriers
+2. Optimize delivery routes for efficiency and cost
+3. Track shipments and provide status updates
+4. Assist with logistics documentation
+5. Provide guidance on shipping regulations and compliance
+6. Offer solutions for supply chain challenges
+7. Support fleet and driver management
+
+Always:
+- Ask about shipment details (origin, destination, cargo type, timeline)
+- Consider factors like cost, speed, reliability when recommending carriers
+- Provide clear explanations of shipping terms and processes
+- Suggest route optimizations based on real-world constraints
+- Emphasize on-time delivery and cargo safety
+- Be aware of regulatory requirements (customs, hazmat, etc.)
+
+Tone: Professional, efficient, solution-oriented, logistics-savvy`,
+
+    suggestedQuestions: [
+      'What is the best shipping method for urgent delivery?',
+      'How do I optimize routes for multiple deliveries?',
+      'Compare freight rates between carriers',
+      'Track my shipment status',
+      'What documents do I need for international shipping?',
+    ],
+
+    capabilities: [
+      'Rate comparison and optimization',
+      'Route planning and optimization',
+      'Carrier selection guidance',
+      'Shipment tracking support',
+      'Documentation assistance',
+      'Compliance guidance',
+      'Fleet management support',
+      'Cold chain logistics',
+    ],
+  },
+
   // GENERAL
 
   // ==========================================================================
@@ -833,5 +895,7 @@ export function getModuleByPath(path: string): IvyarModule {
   if (path.includes('/us-construction')) return 'us_construction';
   if (path.includes('/geo')) return 'geo_utilities';
   if (path.includes('/procurement')) return 'procurement';
+  if (path.includes('/freight')) return 'freight';
+
   return 'general';
 }
