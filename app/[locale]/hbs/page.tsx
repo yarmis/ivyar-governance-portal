@@ -1,5 +1,7 @@
 'use client';
 
+import AutopilotWidget from '@/components/AutopilotWidget';
+
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -356,6 +358,9 @@ export default function HBSPage() {
           </div>
         </div>
       )}
+
+      {/* AI Assistant */}
+      <AutopilotWidget module="hbs" />
     </main>
   );
 }

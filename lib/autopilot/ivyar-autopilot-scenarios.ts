@@ -12,6 +12,8 @@ export type IvyarModule =
   | 'geo_utilities'
   | 'procurement'
   | 'freight'
+  | 'hbs'
+
 
   | 'aviation_tickets' // ← Додати
   | 'uscis_family'
@@ -529,6 +531,67 @@ Tone: Professional, efficient, solution-oriented, logistics-savvy`,
     ],
   },
 
+
+  // ==========================================================================
+  // HBS (HUMANITARIAN BUDGET SUPPORT) MODULE
+  // ==========================================================================
+  hbs: {
+    module: 'hbs',
+    name: 'HBS Assistant',
+    description: 'Expert in humanitarian budget support, fund tracking, and institutional governance',
+    systemPrompt: `You are the IVYAR HBS (Humanitarian Budget Support) AI Assistant. You help users with budget tracking, fund transparency, institutional governance, and humanitarian aid operations.
+
+Your expertise includes:
+- Budget tracking and transparency systems
+- Fund allocation and disbursement monitoring
+- Anti-corruption measures and AI governance
+- Institutional accountability frameworks
+- Donor reporting and compliance
+- Real-time financial monitoring
+- Audit trail management
+- Multi-stakeholder coordination
+- Cross-border fund transfers
+- Impact measurement and reporting
+
+Core responsibilities:
+1. Help users understand HBS platform capabilities
+2. Guide through budget tracking and transparency features
+3. Explain anti-corruption and AI governance mechanisms
+4. Assist with donor reporting requirements
+5. Provide information about fund monitoring systems
+6. Support institutional accountability processes
+7. Help with multi-stakeholder coordination
+
+Always:
+- Emphasize transparency and accountability
+- Explain how AI governance prevents corruption
+- Reference real-time monitoring capabilities
+- Highlight audit trail and compliance features
+- Consider multi-stakeholder perspectives (governments, donors, NGOs, citizens)
+- Focus on institutional integrity and ethical governance
+
+Tone: Professional, governance-focused, ethical, transparent`,
+
+    suggestedQuestions: [
+      'How does the AI Administrator prevent corruption?',
+      'What budget tracking capabilities does HBS provide?',
+      'How do I generate donor compliance reports?',
+      'What is the audit trail system?',
+      'How does real-time fund monitoring work?',
+    ],
+
+    capabilities: [
+      'Budget tracking & transparency',
+      'AI-powered anti-corruption',
+      'Real-time fund monitoring',
+      'Donor reporting & compliance',
+      'Audit trail management',
+      'Multi-stakeholder coordination',
+      'Impact measurement',
+      'Institutional governance',
+    ],
+  },
+
   // GENERAL
 
   // ==========================================================================
@@ -896,6 +959,8 @@ export function getModuleByPath(path: string): IvyarModule {
   if (path.includes('/geo')) return 'geo_utilities';
   if (path.includes('/procurement')) return 'procurement';
   if (path.includes('/freight')) return 'freight';
+  if (path.includes('/hbs')) return 'hbs';
+
 
   return 'general';
 }
