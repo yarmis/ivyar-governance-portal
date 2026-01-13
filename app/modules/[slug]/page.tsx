@@ -690,9 +690,9 @@ export default function ModulePage() {
                <div className="bg-[#161B22] border border-[#1F242C] p-6 rounded-lg">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
                   <div className="space-y-3">
-                    <button onClick={() => setShowComingSoon(true)} className="w-full h-11 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors rounded">
+                    <Link href={`/${slug}`} className="w-full h-11 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors rounded block leading-[44px]">
                       Access Module
-                    </button>
+                    </Link>
                     <button onClick={() => setActiveTab('api')} className="w-full h-11 border border-[#1F242C] text-[#8B949E] font-medium flex items-center justify-center hover:border-[#00A3FF] hover:text-[#E6EDF3] transition-colors rounded">
                       View Documentation
                     </button>
