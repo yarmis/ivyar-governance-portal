@@ -43,6 +43,12 @@ export default function AutopilotWidget({
       'geo': 'geo_utilities',
       'procurement': 'procurement',
       'aviation-tickets': 'aviation_tickets',
+      'uscis-intelligence': 'uscis_family',
+      'uscis-family': 'uscis_family',
+      'uscis-n400': 'uscis_n400',
+      'uscis-employment': 'uscis_employment',
+      'uscis-nonimmigrant': 'uscis_nonimmigrant',
+      'uscis-humanitarian': 'uscis_humanitarian',
     };
     
     return moduleMap[pathModule] || 'general';
