@@ -42,6 +42,7 @@ export default function AutopilotWidget({
       'us-construction': 'us_construction',
       'geo': 'geo_utilities',
       'procurement': 'procurement',
+      'aviation-tickets': 'aviation_tickets',
     };
     
     return moduleMap[pathModule] || 'general';
