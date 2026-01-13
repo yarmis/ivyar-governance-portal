@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import AutopilotWidget from '@/components/AutopilotWidget';
 
 const MODULES_DATA: Record<string, {
   name: string;
@@ -955,6 +956,10 @@ export default function ModulePage() {
           </div>
         </div>
       )}
+
+      {/* AI Assistant */}
+      <AutopilotWidget module={slug as any} />
+
     </div>
   );
 }

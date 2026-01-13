@@ -496,7 +496,7 @@ export default function DirectFreightModulePage() {
 
       {/* Main Content */}
       <main className="pt-16 min-h-screen">
-        {currentView === 'landing' && <LandingPage onGetStarted={() => setCurrentView('load-board')} />}
+        {currentView === 'landing' && <LandingPage onGetStarted={() => setCurrentView('load-board')} onPostLoad={() => setCurrentView('create-load')} />}
         {currentView === 'load-board' && <LoadBoardPage loads={SAMPLE_LOADS} onViewLoad={handleViewLoad} />}
         {currentView === 'load-details' && selectedLoad && (
           <LoadDetailsPage 
@@ -540,7 +540,7 @@ export default function DirectFreightModulePage() {
 // ============================================
 // LANDING PAGE
 // ============================================
-function LandingPage({ onGetStarted }: { onGetStarted: () => void }) {
+function LandingPage({ onGetStarted, onPostLoad }: { onGetStarted: () => void; onPostLoad?: () => void }) {
   return (
     <div>
       {/* Hero */}
@@ -568,7 +568,7 @@ function LandingPage({ onGetStarted }: { onGetStarted: () => void }) {
               >
                 Find Loads →
               </button>
-              <button className="bg-[#161B22] border border-[#1F242C] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-[#1F242C] transition-all">
+              <button onClick={onPostLoad} className="bg-[#161B22] border border-[#1F242C] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-[#1F242C] transition-all">
                 Post a Load
               </button>
             </div>
