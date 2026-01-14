@@ -19,16 +19,17 @@ const TRANSLATIONS: Record<string, {
   en: {
     hero: {
       title: 'IVYAR Governance Platform',
-      subtitle: 'Institutional infrastructure for ethical, transparent, AI-aligned decision-making across governments and international partners.',
+      subtitle: 'Ethical, transparent, AI‑aligned infrastructure for governments and international partners.',
+      origin: '🇺🇸 Built in the United States • Inspired by Ukraine • Designed for the world',
     },
     nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
     countries: { label: 'Operating with respect across:' },
-    trusted: 'Trusted by leading institutions',
-    modules: { title: 'Platform Modules', subtitle: 'Modular Architecture for Government Operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
+    trusted: 'Trusted by Leading Institutions',
+    modules: { title: 'Platform Modules', subtitle: 'Modular architecture for government operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
     ai: {
       badge: 'Ethical AI Steward',
-      title: 'AI Administrator — Ethical, Transparent, Human-Aligned',
-      desc: 'The IVYAR AI Administrator assists operators with insights, summaries, and risk signals. It never replaces human authority, always explains its reasoning, and follows the IVYAR ethical charter and HBS safeguards.',
+      title: 'AI Administrator',
+      desc: 'Ethical AI governance with full transparency and human oversight',
       features: [
         'Calm, respectful, and non-intrusive behavior',
         'Transparent reasoning and audit-ready logs',
@@ -36,13 +37,13 @@ const TRANSLATIONS: Record<string, {
       ],
     },
     cta: {
-      title: 'Ready to modernize your governance operations?',
-      subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance.',
+      title: 'Ready to Transform Governance?',
+      subtitle: 'Join leading institutions using IVYAR',
       demo: 'Request Demo',
       contact: 'Contact Us',
     },
     footer: {
-      tagline: 'Ethical, transparent, AI-aligned governance infrastructure.',
+      tagline: 'IVYAR — Ethical AI Governance Platform',
       platform: 'Platform',
       modules: 'Modules',
       company: 'Company',
@@ -281,6 +282,16 @@ export default function LandingPage() {
                 <p className="text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
                   {t.hero.subtitle}
                 </p>
+                
+                {t.hero.origin && (
+                  <div className="flex flex-wrap gap-3 text-sm text-[#8B949E] items-center">
+                    <span>🇺🇸 Built in the United States</span>
+                    <span className="text-[#3B82F6]">•</span>
+                    <span>Inspired by Ukraine</span>
+                    <span className="text-[#3B82F6]">•</span>
+                    <span>Designed for the world</span>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-4">
