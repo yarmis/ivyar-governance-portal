@@ -6,7 +6,7 @@ import { GlobalSearch } from '@/components/GlobalSearch';
 import AutopilotWidget from "@/components/AutopilotWidget";
 
 const TRANSLATIONS: Record<string, {
-  hero: { title: string; subtitle: string };
+  hero: { title: string; subtitle: string; origin?: string };
   nav: { modules: string; ai: string; about: string; portal: string };
   countries: { label: string };
   trusted: string;
@@ -72,7 +72,8 @@ const TRANSLATIONS: Record<string, {
   uk: {
     hero: {
       title: 'Платформа управління IVYAR',
-      subtitle: 'Інституційна інфраструктура для етичного, прозорого, AI-орієнтованого прийняття рішень урядами та міжнародними партнерами.',
+      subtitle: 'Етична, прозора, AI-орієнтована інфраструктура для урядів та міжнародних партнерів.',
+      origin: '🇺🇸 Створено в США • Натхненні Україною • Розроблено для світу',
     },
     nav: { modules: 'Модулі', ai: 'AI Адміністратор', about: 'Про нас', portal: 'Увійти в портал' },
     countries: { label: 'Працюємо з повагою в:' },
@@ -112,10 +113,6 @@ const TRANSLATIONS: Record<string, {
     ],
   },
   fr: {
-    hero: {
-      title: 'Plateforme de gouvernance IVYAR',
-      subtitle: 'Infrastructure institutionnelle pour une prise de décision éthique, transparente et alignée sur l\'IA entre les gouvernements et les partenaires internationaux.',
-    },
     nav: { modules: 'Modules', ai: 'Administrateur IA', about: 'À propos', portal: 'Accès au portail' },
     countries: { label: 'Opérant avec respect à travers:' },
     trusted: 'Approuvé par les institutions leaders',
@@ -154,10 +151,6 @@ const TRANSLATIONS: Record<string, {
     ],
   },
   de: {
-    hero: {
-      title: 'IVYAR Governance-Plattform',
-      subtitle: 'Institutionelle Infrastruktur für ethische, transparente, KI-ausgerichtete Entscheidungsfindung für Regierungen und internationale Partner.',
-    },
     nav: { modules: 'Module', ai: 'KI-Administrator', about: 'Über uns', portal: 'Portal-Zugang' },
     countries: { label: 'Mit Respekt tätig in:' },
     trusted: 'Vertraut von führenden Institutionen',

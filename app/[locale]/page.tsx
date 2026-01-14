@@ -165,6 +165,10 @@ export default function LocalizedLandingPage() {
                 <p className="text-sm sm:text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
                   {t('hero.subtitle')}
                 </p>
+                
+                <div className="flex flex-wrap gap-3 text-xs sm:text-sm text-[#8B949E] items-center">
+                  {t('hero.origin')}
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
