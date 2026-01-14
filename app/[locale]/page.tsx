@@ -19,6 +19,10 @@ const MODULE_META = [
   { icon: '💳', status: 'live', apis: 8, key: 'payments', href: '/modules/payments' },
   { icon: '🏗️', status: 'pilot', apis: 14, key: 'reconstruction', href: '/modules/reconstruction' },
   { icon: '🚛', status: 'live', apis: 10, key: 'freight', href: '/modules/freight' },
+  { icon: '👁️', status: 'live', apis: 16, key: 'transparency', href: '/modules/transparency', badge: 'CIVIC CORE' },
+  { icon: '💬', status: 'live', apis: 12, key: 'feedback', href: '/modules/feedback', badge: 'CIVIC CORE' },
+  { icon: '📚', status: 'live', apis: 8, key: 'knowledge', href: '/modules/knowledge', badge: 'CIVIC CORE' },
+  { icon: '🤖', status: 'beta', apis: 10, key: 'ai-monitor', href: '/modules/ai-monitor', badge: 'CIVIC CORE' },
 ];
 
 const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
@@ -197,7 +201,7 @@ export default function LocalizedLandingPage() {
                 <div className={`absolute top-12 ${isRTL ? 'right-4 left-4 text-right' : 'left-4 right-4'} font-mono text-sm`}>
                   <p className="text-[#6E7681]">$ ivyar initialize --platform gov-cloud</p>
                   <p className="text-[#3CCB7F] mt-2">✓ IVYAR GOVERNANCE PLATFORM v3.0</p>
-                  <p className="text-[#8B949E] mt-1">✓ 12 modules loaded</p>
+                  <p className="text-[#8B949E] mt-1">✓ 15 modules loaded</p>
                   <p className="text-[#8B949E]">✓ 25 regions active</p>
                   <p className="text-[#8B949E]">✓ AI Administrator online</p>
                   <p className="text-[#00A3FF] mt-4 animate-pulse">Ready for operations_</p>
