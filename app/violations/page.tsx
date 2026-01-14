@@ -30,11 +30,11 @@ interface Violation {
 
 // Mock Data
 const VIOLATIONS: Violation[] = [
-  { id: 'v1', caseNumber: 'VIO-2025-0001', type: 'building_code', severity: 'major', status: 'remediation_required', title: 'Structural Wall Modification Without Permit', projectName: 'Kyiv Business Center', location: '15 Khreshchatyk St', violatorName: 'Kyiv Development LLC', reportedDate: '2025-01-03', fineAmount: 850000, fineStatus: 'issued', aiRiskScore: 75, deadlineDate: '2025-02-15', escalated: false },
-  { id: 'v2', caseNumber: 'VIO-2025-0002', type: 'environmental', severity: 'critical', status: 'escalated', title: 'Illegal Waste Disposal', projectName: 'Industrial Facility', location: '25 Industrial St', violatorName: 'Industrial Holdings JSC', reportedDate: '2025-01-02', fineAmount: 2500000, fineStatus: 'contested', aiRiskScore: 92, escalated: true },
-  { id: 'v3', caseNumber: 'VIO-2024-0156', type: 'safety', severity: 'moderate', status: 'resolved', title: 'Missing Safety Equipment', projectName: 'Peremohy Residential', location: '78 Peremohy Ave', violatorName: 'BuildRight Contractors', reportedDate: '2024-12-15', fineAmount: 125000, fineStatus: 'paid', aiRiskScore: 25, escalated: false },
-  { id: 'v4', caseNumber: 'VIO-2025-0003', type: 'permit', severity: 'major', status: 'under_investigation', title: 'Construction Without Permit', projectName: 'Unauthorized Development', location: '45 Svobody St', violatorName: 'Quick Build LLC', reportedDate: '2025-01-06', fineAmount: 0, fineStatus: 'pending', aiRiskScore: 60, deadlineDate: '2025-01-09', escalated: false },
-  { id: 'v5', caseNumber: 'VIO-2024-0148', type: 'quality', severity: 'minor', status: 'closed', title: 'Substandard Concrete Mix', projectName: 'Metro Extension', location: 'Line 4 Station', violatorName: 'ConcretePro Ltd', reportedDate: '2024-11-20', fineAmount: 75000, fineStatus: 'paid', aiRiskScore: 15, escalated: false },
+  { id: 'v1', caseNumber: 'VIO-2025-0001', type: 'building_code', severity: 'major', status: 'remediation_required', title: 'Structural Wall Modification Without Permit', projectName: 'Manhattan Business Tower', location: '450 5th Avenue, NYC', violatorName: 'Manhattan Development LLC', reportedDate: '2025-01-03', fineAmount: 85000, fineStatus: 'issued', aiRiskScore: 75, deadlineDate: '2025-02-15', escalated: false },
+  { id: 'v2', caseNumber: 'VIO-2025-0002', type: 'environmental', severity: 'critical', status: 'escalated', title: 'Illegal Waste Disposal', projectName: 'Chicago Industrial Complex', location: '1200 W Fulton St, Chicago', violatorName: 'Industrial Holdings JSC', reportedDate: '2025-01-02', fineAmount: 250000, fineStatus: 'contested', aiRiskScore: 92, escalated: true },
+  { id: 'v3', caseNumber: 'VIO-2024-0156', type: 'safety', severity: 'moderate', status: 'resolved', title: 'Missing Safety Equipment', projectName: 'Brooklyn Heights Residential', location: '185 Montague St, Brooklyn', violatorName: 'BuildRight Contractors', reportedDate: '2024-12-15', fineAmount: 12500, fineStatus: 'paid', aiRiskScore: 25, escalated: false },
+  { id: 'v4', caseNumber: 'VIO-2025-0003', type: 'permit', severity: 'major', status: 'under_investigation', title: 'Construction Without Permit', projectName: 'Unauthorized Development', location: '2500 Main St, Houston', violatorName: 'Quick Build LLC', reportedDate: '2025-01-06', fineAmount: 0, fineStatus: 'pending', aiRiskScore: 60, deadlineDate: '2025-01-09', escalated: false },
+  { id: 'v5', caseNumber: 'VIO-2024-0148', type: 'quality', severity: 'minor', status: 'closed', title: 'Substandard Concrete Mix', projectName: 'NYC Subway Expansion', location: 'Second Avenue Line', violatorName: 'ConcretePro Ltd', reportedDate: '2024-11-20', fineAmount: 7500, fineStatus: 'paid', aiRiskScore: 15, escalated: false },
 ];
 
 // Config
@@ -150,8 +150,8 @@ export default function ViolationsPage() {
                 { label: 'Active Cases', value: metrics.active, icon: '🔍', color: '#F59E0B' },
                 { label: 'Escalated', value: metrics.escalated, icon: '🚨', color: metrics.escalated > 0 ? '#DC2626' : '#10B981' },
                 { label: 'Critical', value: metrics.critical, icon: '⛔', color: metrics.critical > 0 ? '#DC2626' : '#10B981' },
-                { label: 'Total Fines', value: `UAH ${(metrics.totalFines / 1000000).toFixed(2)}M`, icon: '💰', color: '#F97316' },
-                { label: 'Collected', value: `UAH ${(metrics.collectedFines / 1000000).toFixed(2)}M`, icon: '✅', color: '#10B981' },
+                { label: 'Total Fines', value: `USD ${(metrics.totalFines / 1000000).toFixed(2)}M`, icon: '💰', color: '#F97316' },
+                { label: 'Collected', value: `USD ${(metrics.collectedFines / 1000000).toFixed(2)}M`, icon: '✅', color: '#10B981' },
                 { label: 'Collection Rate', value: `${collectionRate}%`, icon: '📈', color: collectionRate >= 70 ? '#10B981' : '#F59E0B' },
               ].map((m, i) => (
                 <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155' }}>
@@ -191,14 +191,14 @@ export default function ViolationsPage() {
                 <h3 style={{ margin: '0 0 16px', fontSize: '16px', fontWeight: 600, color: '#FCA5A5' }}>🚨 High Risk Violators</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {[
-                    { name: 'Industrial Holdings JSC', violations: 5, totalFines: 2500000, risk: 'critical' },
-                    { name: 'Kyiv Development LLC', violations: 2, totalFines: 850000, risk: 'medium' },
+                    { name: 'Industrial Holdings JSC', violations: 5, totalFines: 250000, risk: 'critical' },
+                    { name: 'Manhattan Development LLC', violations: 2, totalFines: 85000, risk: 'medium' },
                   ].map((v, i) => (
                     <div key={i} style={{ background: '#0F172A', borderRadius: '8px', padding: '12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
                           <p style={{ margin: 0, fontWeight: 500 }}>{v.name}</p>
-                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{v.violations} violation(s) • UAH {v.totalFines.toLocaleString()}</p>
+                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{v.violations} violation(s) • USD {v.totalFines.toLocaleString()}</p>
                         </div>
                         <span style={{
                           padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 500,
@@ -234,7 +234,7 @@ export default function ViolationsPage() {
                       </div>
                       <div style={{ textAlign: 'right' }}>
                         <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
-                        {v.fineAmount > 0 && <p style={{ margin: '8px 0 0', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</p>}
+                        {v.fineAmount > 0 && <p style={{ margin: '8px 0 0', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>USD {v.fineAmount.toLocaleString()}</p>}
                       </div>
                     </div>
                   );
@@ -296,7 +296,7 @@ export default function ViolationsPage() {
                           <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
                         </td>
                         <td style={{ padding: '12px', fontSize: '13px', fontWeight: 500 }}>
-                          {v.fineAmount > 0 ? `UAH ${v.fineAmount.toLocaleString()}` : '-'}
+                          {v.fineAmount > 0 ? `USD ${v.fineAmount.toLocaleString()}` : '-'}
                         </td>
                         <td style={{ padding: '12px' }}>
                           <span style={{
@@ -323,9 +323,9 @@ export default function ViolationsPage() {
             {/* Summary Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
               {[
-                { label: 'Total Issued', value: `UAH ${(metrics.totalFines / 1000000).toFixed(2)}M`, color: '#3B82F6' },
-                { label: 'Collected', value: `UAH ${(metrics.collectedFines / 1000000).toFixed(2)}M`, color: '#10B981' },
-                { label: 'Outstanding', value: `UAH ${((metrics.totalFines - metrics.collectedFines) / 1000000).toFixed(2)}M`, color: '#F59E0B' },
+                { label: 'Total Issued', value: `USD ${(metrics.totalFines / 1000000).toFixed(2)}M`, color: '#3B82F6' },
+                { label: 'Collected', value: `USD ${(metrics.collectedFines / 1000000).toFixed(2)}M`, color: '#10B981' },
+                { label: 'Outstanding', value: `USD ${((metrics.totalFines - metrics.collectedFines) / 1000000).toFixed(2)}M`, color: '#F59E0B' },
                 { label: 'Collection Rate', value: `${collectionRate}%`, color: collectionRate >= 70 ? '#10B981' : '#EF4444' },
               ].map((m, i) => (
                 <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155', textAlign: 'center' }}>
@@ -352,7 +352,7 @@ export default function ViolationsPage() {
                       <tr key={v.id} style={{ borderTop: '1px solid #334155', background: i % 2 === 0 ? 'transparent' : '#0F172A20' }}>
                         <td style={{ padding: '12px', fontWeight: 500, fontSize: '13px' }}>{v.caseNumber}</td>
                         <td style={{ padding: '12px', fontSize: '13px' }}>{v.violatorName}</td>
-                        <td style={{ padding: '12px', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</td>
+                        <td style={{ padding: '12px', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>USD {v.fineAmount.toLocaleString()}</td>
                         <td style={{ padding: '12px' }}>
                           <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: fineCfg.bg, color: fineCfg.color }}>{fineCfg.label}</span>
                         </td>
@@ -362,7 +362,7 @@ export default function ViolationsPage() {
                           <button onClick={(e) => alert(`Details for ${v.caseNumber}
 
 Company: ${v.violatorName}
-Fine: ${v.fineAmount.toLocaleString()} UAH`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>Details</button>
+Fine: ${v.fineAmount.toLocaleString()} USD`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>Details</button>
                         </td>
                       </tr>
                     );
@@ -401,7 +401,7 @@ Fine: ${v.fineAmount.toLocaleString()} UAH`)} style={{ padding: '6px 12px', back
                             </p>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <p style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</p>
+                            <p style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#F59E0B' }}>USD {v.fineAmount.toLocaleString()}</p>
                             <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>Fine {v.fineStatus}</p>
                           </div>
                         </div>
