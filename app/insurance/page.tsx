@@ -344,6 +344,7 @@ const POLICY_STATUS_CONFIG: Record<PolicyStatus, { label: string; color: string 
 // ============================================
 export default function InsuranceModulePage() {
   const [currentView, setCurrentView] = useState<InsuranceView>('landing');
+  const [showRenewalModal, setShowRenewalModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<InsuranceProduct | null>(null);
   const [currentQuote, setCurrentQuote] = useState<Quote | null>(null);
   const [selectedPolicy, setSelectedPolicy] = useState<Policy | null>(null);
@@ -1144,7 +1145,7 @@ function CustomerPortalPage({
               <div className="text-sm text-[#8B949E]">{expiringSoon[0].productName} expires on {expiringSoon[0].endDate}</div>
             </div>
           </div>
-          <button className="bg-[#F59E0B] text-[#0D1117] px-4 py-2 rounded-lg text-sm font-semibold">
+          <button onClick={() => setShowRenewalModal(true)} className="bg-[#F59E0B] text-[#0D1117] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#FBBF24] transition-colors">
             Renew Now
           </button>
         </div>
@@ -1682,6 +1683,66 @@ function AdminPortalPage({
           </div>
         </div>
       )}
-    </div>
+    
+      {/* Renewal Modal */}
+      {showRenewalModal && expiringSoon.length > 0 && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-6" onClick={() => setShowRenewalModal(false)}>
+          <div className="bg-[#161B22] border border-[#1F242C] rounded-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-[#F59E0B]">🔄 Renew Policy</h3>
+              <button onClick={() => setShowRenewalModal(false)} className="text-[#8B949E] hover:text-white">✕</button>
+            </div>
+            
+            <div className="bg-[#0D1117] border border-[#1F242C] rounded-lg p-4 mb-6">
+              <div className="text-sm text-[#8B949E] mb-1">Policy Details</div>
+              <div className="font-semibold">{expiringSoon[0].productName}</div>
+              <div className="text-sm text-[#8B949E]">Policy #: {expiringSoon[0].policyNumber}</div>
+              <div className="text-sm text-[#F59E0B] mt-2">Expires: {expiringSoon[0].endDate}</div>
+            </div>
+            
+            <div className="space-y-3">
+              <button 
+                onClick={() => {
+                  alert('✅ Auto-renewal activated!\n\nYour policy will automatically renew on expiration date.\nYou will receive confirmation 7 days before renewal.');
+                  setShowRenewalModal(false);
+                }}
+                className="w-full bg-[#3CCB7F] text-[#0D1117] px-4 py-3 rounded-lg font-semibold hover:bg-[#4ADB8F] transition-colors flex items-center justify-between"
+              >
+                <span>✅ Auto-renew (recommended)</span>
+                <span className="text-sm opacity-80">Easy & convenient</span>
+              </button>
+              
+              <button 
+                onClick={() => {
+                  alert('🔄 Modify Coverage\n\nThis would allow you to:\n• Change coverage amount\n• Add/remove riders\n• Update beneficiaries\n• Adjust deductibles\n\nRedirecting to coverage editor...');
+                  setShowRenewalModal(false);
+                }}
+                className="w-full bg-[#0D1117] border border-[#1F242C] text-[#E6EDF3] px-4 py-3 rounded-lg font-semibold hover:border-[#3CCB7F] transition-colors flex items-center justify-between"
+              >
+                <span>🔄 Modify coverage</span>
+                <span className="text-sm opacity-60">Customize policy</span>
+              </button>
+              
+              <button 
+                onClick={() => {
+                  alert('💰 Get New Quote\n\nWe\'ll generate a fresh quote based on:\n• Current market rates\n• Your updated profile\n• Latest AI pricing\n\nStarting quote process...');
+                  setShowRenewalModal(false);
+                }}
+                className="w-full bg-[#0D1117] border border-[#1F242C] text-[#E6EDF3] px-4 py-3 rounded-lg font-semibold hover:border-[#00A3FF] transition-colors flex items-center justify-between"
+              >
+                <span>💰 Get new quote</span>
+                <span className="text-sm opacity-60">Compare options</span>
+              </button>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-[#1F242C] flex justify-between">
+              <button onClick={() => setShowRenewalModal(false)} className="text-sm text-[#8B949E] hover:text-white">Cancel</button>
+              <div className="text-xs text-[#8B949E]">Need help? Contact support</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+</div>
   );
 }

@@ -655,7 +655,7 @@ export default function ModulePage() {
                   <h2 className="text-xl font-semibold mb-6">Key Features</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {module.features.map((feature, i) => (
-                      <div key={i} className="bg-[#161B22] border border-[#1F242C] p-5 rounded-lg hover:border-[#00A3FF]/50 transition-colors">
+                      <div key={i} onClick={() => alert(`${feature.icon} ${feature.title}\n\n${feature.description}\n\nThis feature would show:\n• Detailed information\n• How to use guides\n• API documentation\n• Live examples`)} className="bg-[#161B22] border border-[#1F242C] p-5 rounded-lg hover:border-[#00A3FF]/50 transition-colors cursor-pointer">
                         <div className="flex items-start gap-3">
                           <span className="text-2xl">{feature.icon}</span>
                           <div>
