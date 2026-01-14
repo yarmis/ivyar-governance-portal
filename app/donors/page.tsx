@@ -234,7 +234,7 @@ export default function DonorPortalPage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                         <div>
                           <p style={{ margin: 0, fontWeight: 600, fontSize: '14px' }}>{p.name}</p>
-                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{p.donorShort} • {p.oblast}</p>
+                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{p.donorShort} • {p.state}</p>
                         </div>
                         <span style={{ fontSize: '16px' }}>{compCfg.icon}</span>
                       </div>
@@ -352,7 +352,7 @@ export default function DonorPortalPage() {
                         <td style={{ padding: '12px', fontWeight: 500, fontSize: '13px' }}>{p.name}</td>
                         <td style={{ padding: '12px', fontSize: '13px' }}>{p.donorShort}</td>
                         <td style={{ padding: '12px', fontSize: '13px' }}>{p.sector}</td>
-                        <td style={{ padding: '12px', fontSize: '13px' }}>{p.oblast}</td>
+                        <td style={{ padding: '12px', fontSize: '13px' }}>{p.state}</td>
                         <td style={{ padding: '12px', fontSize: '13px', fontWeight: 500 }}>{formatCurrency(p.budget, true)}</td>
                         <td style={{ padding: '12px', fontSize: '13px' }}>{formatCurrency(p.utilized, true)}</td>
                         <td style={{ padding: '12px' }}>
