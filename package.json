@@ -13,8 +13,8 @@
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "postinstall": "echo \"Skipping Prisma - will fix before production\"",
+    "vercel-build": "prisma generate || true && next build",
+    "postinstall": "prisma generate || true",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npx wrangler pages dev",
     "deploy": "npm run pages:build && npx wrangler pages deploy"
