@@ -230,7 +230,7 @@ export default function MaterialsPage() {
                 { label: 'Active Anomalies', value: metrics.activeAnomalies, icon: '🚨', color: metrics.activeAnomalies > 0 ? '#EF4444' : '#10B981' },
                 { label: 'Avg Supplier Score', value: `${metrics.avgSupplierScore}%`, icon: '⭐', color: '#F59E0B' },
               ].map((metric, i) => (
-                <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155' }}>
+                <div key={i} onClick={() => alert(`${metric.icon} ${metric.label}\n\nValue: ${metric.value}\n\nThis would show detailed breakdown and analytics.`)} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155', cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.background = '#334155'; e.currentTarget.style.borderColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.background = '#1E293B'; e.currentTarget.style.borderColor = '#334155'; }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
                       <p style={{ margin: 0, fontSize: '13px', color: '#94A3B8' }}>{metric.label}</p>
