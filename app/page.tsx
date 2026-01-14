@@ -25,10 +25,6 @@ const TRANSLATIONS: Record<string, {
     nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
     countries: { label: 'Operating with respect across:' },
     trusted: 'Trusted by Leading Institutions',
-    liveStatus: {
-      title: 'Live Platform Status',
-      stats: [
-        { value: '$10.2B', label: 'Under Management' },
         { value: '99.99%', label: 'Uptime SLA' },
         { value: '12', label: 'Active Modules' },
         { value: '25+', label: 'Regions' },
