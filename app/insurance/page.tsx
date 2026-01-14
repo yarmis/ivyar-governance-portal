@@ -1103,6 +1103,8 @@ function CustomerPortalPage({
     const daysUntil = Math.ceil((endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
     return p.status === 'active' && daysUntil <= 30 && daysUntil > 0;
   });
+  
+  const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   return (
     <div className="max-w-[1440px] mx-auto px-8 py-12">
