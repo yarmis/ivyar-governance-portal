@@ -134,10 +134,10 @@ export default function ConstructionIntelligencePage() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button style={{ padding: '10px 20px', background: '#334155', border: 'none', borderRadius: '8px', color: '#E2E8F0', cursor: 'pointer', fontSize: '14px' }}>
+              <button onClick={() => alert('📊 Platform Analytics\n\nView detailed analytics:\n• Integration performance\n• API call volumes\n• Response times\n• Error rates\n• Usage trends')} style={{ padding: '10px 20px', background: '#334155', border: 'none', borderRadius: '8px', color: '#E2E8F0', cursor: 'pointer', fontSize: '14px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>
                 📊 Analytics
               </button>
-              <button style={{ padding: '10px 20px', background: '#3B82F6', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}>
+              <button onClick={() => alert('➕ Add New Platform\n\nConnect a new procurement platform:\n• SAP Ariba\n• Oracle Procurement Cloud\n• Jaggaer\n• Zycus\n• Custom API integration')} style={{ padding: '10px 20px', background: '#3B82F6', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: '14px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#2563EB'} onMouseLeave={(e) => e.currentTarget.style.background = '#3B82F6'}>
                 + Add Platform
               </button>
             </div>
@@ -503,7 +503,7 @@ export default function ConstructionIntelligencePage() {
                           </span>
                         </td>
                         <td style={{ padding: '14px 12px' }}>
-                          <button style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>View</button>
+                          <button onClick={() => alert(`🛒 PunchOut Session Details\n\nSession ID: ${session.id}\nPlatform: ${session.platform}\nBuyer: ${session.buyerName}\nItems: ${session.itemCount}\nTotal: $${session.totalValue.toLocaleString()}\nStatus: ${session.status}\n\nThis would show full session details.`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>View</button>
                         </td>
                       </tr>
                     );
@@ -591,7 +591,7 @@ export default function ConstructionIntelligencePage() {
                 <p style={{ margin: '0 0 16px', fontSize: '14px', color: '#94A3B8' }}>{exp.desc}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '14px', color: '#64748B' }}>{formatNumber(exp.items)} items</span>
-                  <button style={{ padding: '10px 20px', background: '#3B82F6', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}>
+                  <button onClick={(e) => { const format = e.currentTarget.closest('.export-format')?.querySelector('div')?.textContent || 'Unknown'; alert(`📥 Exporting Catalog\n\nFormat: ${format}\n\nThis would download the catalog in the selected format.`); }} style={{ padding: '10px 20px', background: '#3B82F6', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: '14px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#2563EB'} onMouseLeave={(e) => e.currentTarget.style.background = '#3B82F6'}>
                     ⬇️ Export
                   </button>
                 </div>
