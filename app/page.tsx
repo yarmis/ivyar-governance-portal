@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { GlobalSearch } from '@/components/GlobalSearch';
-import AutopilotWidget from "@/components/AutopilotWidget";
 
 const TRANSLATIONS: Record<string, {
-  hero: { title: string; subtitle: string; origin?: string };
+  hero: { title: string; subtitle: string };
   nav: { modules: string; ai: string; about: string; portal: string };
   countries: { label: string };
   trusted: string;
@@ -19,19 +18,16 @@ const TRANSLATIONS: Record<string, {
   en: {
     hero: {
       title: 'IVYAR Governance Platform',
-      subtitle: 'Ethical, transparent, AI‑aligned infrastructure for governments and international partners.',
-      origin: '🇺🇸 Built in the United States • Inspired by Ukraine • Designed for the world',
+      subtitle: 'Institutional infrastructure for ethical, transparent, AI-aligned decision-making across governments and international partners.',
     },
     nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
     countries: { label: 'Operating with respect across:' },
-    trusted: 'Trusted by Leading Institutions',
-      updated: 'All systems operational • Updated moments ago',
-    },
-    modules: { title: 'Platform Modules', subtitle: 'Modular architecture for government operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
+    trusted: 'Trusted by leading institutions',
+    modules: { title: 'Platform Modules', subtitle: 'Modular Architecture for Government Operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
     ai: {
       badge: 'Ethical AI Steward',
-      title: 'AI Administrator',
-      desc: 'Ethical AI governance with full transparency and human oversight',
+      title: 'AI Administrator — Ethical, Transparent, Human-Aligned',
+      desc: 'The IVYAR AI Administrator assists operators with insights, summaries, and risk signals. It never replaces human authority, always explains its reasoning, and follows the IVYAR ethical charter and HBS safeguards.',
       features: [
         'Calm, respectful, and non-intrusive behavior',
         'Transparent reasoning and audit-ready logs',
@@ -39,13 +35,13 @@ const TRANSLATIONS: Record<string, {
       ],
     },
     cta: {
-      title: 'Ready to Transform Governance?',
-      subtitle: 'Join leading institutions using IVYAR',
+      title: 'Ready to modernize your governance operations?',
+      subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance.',
       demo: 'Request Demo',
       contact: 'Contact Us',
     },
     footer: {
-      tagline: 'IVYAR — Ethical AI Governance Platform',
+      tagline: 'Ethical, transparent, AI-aligned governance infrastructure.',
       platform: 'Platform',
       modules: 'Modules',
       company: 'Company',
@@ -53,24 +49,18 @@ const TRANSLATIONS: Record<string, {
       nato: 'NATO-Aligned • Multi-Region Infrastructure',
     },
     modulesList: [
-      { name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects' },
-      { name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows' },
-      { name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions' },
-      { name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations' },
-      { name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability' },
-      { name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows' },
-      { name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions' },
-      { name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage' },
-      { name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions' },
-      { name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards' },
-      { name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility' },
+      { name: 'Procurement Engine', desc: 'Transparent tender management and contract oversight' },
+      { name: 'Logistics Engine', desc: 'Route optimization and supply chain tracking' },
+      { name: 'Donor Dashboard', desc: 'Funding transparency and impact reporting' },
+      { name: 'Data Platform', desc: 'Unified data lake and document management' },
+      { name: 'HBS Module', desc: 'Humanitarian budget support and ethical governance' },
+      { name: 'AI Services', desc: 'Intelligent automation and decision support' },
     ],
   },
   uk: {
     hero: {
       title: 'Платформа управління IVYAR',
-      subtitle: 'Етична, прозора, AI-орієнтована інфраструктура для урядів та міжнародних партнерів.',
-      origin: '🇺🇸 Створено в США • Натхненні Україною • Розроблено для світу',
+      subtitle: 'Інституційна інфраструктура для етичного, прозорого, AI-орієнтованого прийняття рішень урядами та міжнародними партнерами.',
     },
     nav: { modules: 'Модулі', ai: 'AI Адміністратор', about: 'Про нас', portal: 'Увійти в портал' },
     countries: { label: 'Працюємо з повагою в:' },
@@ -101,20 +91,19 @@ const TRANSLATIONS: Record<string, {
       nato: 'NATO-сумісний • Мульти-регіональна інфраструктура',
     },
     modulesList: [
-      { name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects' },
-      { name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows' },
-      { name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions' },
-      { name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations' },
-      { name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability' },
-      { name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows' },
-      { name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions' },
-      { name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage' },
-      { name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions' },
-      { name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards' },
-      { name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility' },
+      { name: 'Модуль закупівель', desc: 'Прозоре управління тендерами та контроль контрактів' },
+      { name: 'Модуль логістики', desc: 'Оптимізація маршрутів та відстеження ланцюга постачання' },
+      { name: 'Панель донорів', desc: 'Прозорість фінансування та звітність про вплив' },
+      { name: 'Платформа даних', desc: 'Уніфіковане сховище даних та управління документами' },
+      { name: 'HBS Модуль', desc: 'Гуманітарна бюджетна підтримка та етичне управління' },
+      { name: 'AI Сервіси', desc: 'Інтелектуальна автоматизація та підтримка рішень' },
     ],
   },
   fr: {
+    hero: {
+      title: 'Plateforme de gouvernance IVYAR',
+      subtitle: 'Infrastructure institutionnelle pour une prise de décision éthique, transparente et alignée sur l\'IA entre les gouvernements et les partenaires internationaux.',
+    },
     nav: { modules: 'Modules', ai: 'Administrateur IA', about: 'À propos', portal: 'Accès au portail' },
     countries: { label: 'Opérant avec respect à travers:' },
     trusted: 'Approuvé par les institutions leaders',
@@ -144,20 +133,19 @@ const TRANSLATIONS: Record<string, {
       nato: 'Aligné OTAN • Infrastructure multi-région',
     },
     modulesList: [
-      { name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects' },
-      { name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows' },
-      { name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions' },
-      { name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations' },
-      { name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability' },
-      { name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows' },
-      { name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions' },
-      { name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage' },
-      { name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions' },
-      { name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards' },
-      { name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility' },
+      { name: 'Moteur d\'approvisionnement', desc: 'Gestion transparente des appels d\'offres' },
+      { name: 'Moteur logistique', desc: 'Optimisation des itinéraires et suivi de la chaîne' },
+      { name: 'Tableau de bord donateurs', desc: 'Transparence du financement et rapports d\'impact' },
+      { name: 'Plateforme de données', desc: 'Lac de données unifié et gestion documentaire' },
+      { name: 'Module HBS', desc: 'Soutien budgétaire humanitaire et gouvernance éthique' },
+      { name: 'Services IA', desc: 'Automatisation intelligente et support décisionnel' },
     ],
   },
   de: {
+    hero: {
+      title: 'IVYAR Governance-Plattform',
+      subtitle: 'Institutionelle Infrastruktur für ethische, transparente, KI-ausgerichtete Entscheidungsfindung für Regierungen und internationale Partner.',
+    },
     nav: { modules: 'Module', ai: 'KI-Administrator', about: 'Über uns', portal: 'Portal-Zugang' },
     countries: { label: 'Mit Respekt tätig in:' },
     trusted: 'Vertraut von führenden Institutionen',
@@ -187,17 +175,12 @@ const TRANSLATIONS: Record<string, {
       nato: 'NATO-konform • Multi-Region-Infrastruktur',
     },
     modulesList: [
-      { name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects' },
-      { name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows' },
-      { name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions' },
-      { name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations' },
-      { name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability' },
-      { name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows' },
-      { name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions' },
-      { name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage' },
-      { name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions' },
-      { name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards' },
-      { name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility' },
+      { name: 'Beschaffungs-Engine', desc: 'Transparentes Ausschreibungsmanagement' },
+      { name: 'Logistik-Engine', desc: 'Routenoptimierung und Lieferkettenverfolging' },
+      { name: 'Spender-Dashboard', desc: 'Finanzierungstransparenz und Wirkungsberichte' },
+      { name: 'Datenplattform', desc: 'Einheitlicher Data Lake und Dokumentenverwaltung' },
+      { name: 'HBS-Modul', desc: 'Humanitäre Budgetunterstützung und ethische Governance' },
+      { name: 'KI-Dienste', desc: 'Intelligente Automatisierung und Entscheidungsunterstützung' },
     ],
   },
 };
@@ -297,16 +280,6 @@ export default function LandingPage() {
                 <p className="text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
                   {t.hero.subtitle}
                 </p>
-                
-                {t.hero.origin && (
-                  <div className="flex flex-wrap gap-3 text-sm text-[#8B949E] items-center">
-                    <span>🇺🇸 Built in the United States</span>
-                    <span className="text-[#3B82F6]">•</span>
-                    <span>Inspired by Ukraine</span>
-                    <span className="text-[#3B82F6]">•</span>
-                    <span>Designed for the world</span>
-                  </div>
-                )}
               </div>
 
               <div className="flex flex-wrap gap-4">
@@ -378,33 +351,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Live Platform Status */}
-      <section className="py-[80px] lg:py-[100px] bg-[#0D1117]">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-12">
-            {t.liveStatus.title}
-          </h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {t.liveStatus.stats.map((stat, i) => (
-              <div key={i} className="bg-[#161B22] border border-[#1F242C] rounded-lg p-8 text-center hover:border-[#00A3FF] transition-colors">
-                <div className="text-3xl lg:text-4xl font-bold text-[#00A3FF] mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-[#8B949E]">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <p className="text-center text-sm text-[#8B949E]">
-            {t.liveStatus.updated}
-          </p>
-        </div>
-      </section>
-
 
       {/* Modules */}
       <section id="modules" className="py-[80px] lg:py-[120px]">
@@ -567,10 +513,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-
-      {/* AI Assistant */}
-      <AutopilotWidget module="general" />
-
 
       <style jsx global>{`
         @keyframes breathing {
