@@ -315,7 +315,7 @@ export default function DonorPortalPage() {
 
                     <div style={{ paddingTop: '12px', borderTop: '1px solid #334155', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '13px', color: '#94A3B8' }}>{d.activeProjects} active projects</span>
-                      <button style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>View Details</button>
+                      <button onClick={() => alert(`📊 ${d.name} Details\n\nType: ${d.type}\nCountry: ${d.country}\nCompliance Rating: ${d.complianceRating}%\n\nFinancials:\n• Pledged: $${(d.totalPledged / 1000000).toFixed(0)}M\n• Disbursed: $${(d.totalDisbursed / 1000000).toFixed(0)}M\n• Active Projects: ${d.activeProjects}\n\nFocus Areas: ${d.focusAreas.join(', ')}\n\nThis would open a detailed donor profile page.`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>View Details</button>
                     </div>
                   </div>
                 </div>
