@@ -686,16 +686,16 @@ export default function LocalizedLandingPage() {
             <div className="flex flex-col gap-4 sm:gap-6">
               <div className="flex flex-col gap-3 sm:gap-4">
                 <span className="text-[10px] sm:text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
-                  AI Administrator
+                  {t('ai.badge')}
                 </span>
-                <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">Ethical AI Governance</h2>
+<h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">{t('ai.title')}</h2>
                 <p className="text-sm sm:text-base text-[#8B949E] leading-relaxed">
-                  AI-powered decision support with full transparency and human oversight.
+                  {t('ai.subtitle')}
                 </p>
               </div>
 
               <div className="flex flex-col gap-3 sm:gap-4 mt-2 sm:mt-4">
-                {['Human-in-the-loop approval', 'Full audit trail', 'Explainable decisions'].map((feature, i) => (
+                {[t('ai.feature1'), t('ai.feature2'), t('ai.feature3')].map((feature, i) => (
                   <div key={i} className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-[#00A3FF]/5 ${isRTL ? 'border-r-2' : 'border-l-2'} border-[#00A3FF]`}>
                     <span className="text-[#00A3FF] font-bold">✓</span>
                     <span className="text-sm sm:text-[15px]">{feature}</span>
@@ -709,19 +709,19 @@ export default function LocalizedLandingPage() {
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-[#00A3FF]/20 flex items-center justify-center">🤖</div>
                   <div>
-                    <p className="font-medium">AI Administrator</p>
-                    <p className="text-xs text-[#6E7681]">Ethical Governance Assistant</p>
+                    <p className="font-medium">{t('ai.assistant.title')}</p>
+                    <p className="text-xs text-[#6E7681]">{t('ai.assistant.subtitle')}</p>
                   </div>
                 </div>
                 <div className="space-y-4 font-mono text-sm">
                   <div className="p-3 bg-[#161B22] border border-[#1F242C]">
-                    <p className="text-[#8B949E]">Analysis complete. 3 recommendations ready.</p>
+                    <p className="text-[#8B949E]">{t('ai.assistant.analysis')}</p>
                   </div>
                   <div className="p-3 bg-[#3CCB7F]/10 border border-[#3CCB7F]/30">
-                    <p className="text-[#3CCB7F]">✓ All actions require human approval</p>
+                    <p className="text-[#3CCB7F]">{t('ai.assistant.approval')}</p>
                   </div>
                   <div className="p-3 bg-[#00A3FF]/10 border border-[#00A3FF]/30">
-                    <p className="text-[#00A3FF]">ℹ Reasoning logs available for audit</p>
+                    <p className="text-[#00A3FF]">{t('ai.assistant.logs')}</p>
                   </div>
                 </div>
               </div>
