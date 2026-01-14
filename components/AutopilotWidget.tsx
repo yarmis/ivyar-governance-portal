@@ -1,422 +1,260 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { X, MessageCircle, Send, Loader2, Sparkles } from 'lucide-react';
-import { getModuleScenario, type IvyarModule } from '@/lib/autopilot/ivyar-autopilot-scenarios';
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
+import { useState, useEffect, useRef } from 'react';
 
 interface AutopilotWidgetProps {
-  module?: IvyarModule;
-  position?: 'bottom-right' | 'bottom-left' | 'sidebar';
-  className?: string;
+  module?: string;
+  position?: 'bottom-right' | 'bottom-left';
 }
 
-export default function AutopilotWidget({
-  module,
-  position = 'bottom-right',
-  className = '',
+export default function AutopilotWidget({ 
+  module = 'general', 
+  position = 'bottom-right' 
 }: AutopilotWidgetProps) {
-  const pathname = usePathname();
-  
-  // Auto-detect module from URL path
-  const detectModuleFromPath = (): IvyarModule => {
-    if (!pathname) return 'general';
-    
-    const pathSegments = pathname.split('/').filter(Boolean);
-    if (pathSegments.length === 0) return 'general';
-    
-    const pathModule = pathSegments[0];
-    
-    // Map URL paths to module names
-    const moduleMap: Record<string, IvyarModule> = {
-      'materials': 'materials',
-      'zoning': 'zoning',
-      'violations': 'violations',
-      'donors': 'donors',
-      'us-construction': 'us_construction',
-      'geo': 'geo_utilities',
-      'procurement': 'procurement',
-      'aviation-tickets': 'aviation_tickets',
-      'uscis-intelligence': 'uscis_family',
-      'uscis-family': 'uscis_family',
-      'uscis-n400': 'uscis_n400',
-      'uscis-employment': 'uscis_employment',
-      'uscis-nonimmigrant': 'uscis_nonimmigrant',
-      'uscis-humanitarian': 'uscis_humanitarian',
-    };
-    
-    return moduleMap[pathModule] || 'general';
-  };
-
-  console.log("🤖 AutopilotWidget mounting, module:", module, "position:", position);
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [currentModule, setCurrentModule] = useState<IvyarModule>(
-    module || detectModuleFromPath()
-  );
-  
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const recognitionRef = useRef<any>(null);
+  const synthRef = useRef<SpeechSynthesis | null>(null);
 
-  // Detect dark mode
   useEffect(() => {
-    const checkDark = () => {
-      setIsDark(document.documentElement.classList.contains('dark'));
-    };
-    checkDark();
-    const observer = new MutationObserver(checkDark);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
-  }, []);
+    console.log('🤖 AutopilotWidget mounting, module:', module, 'position:', position);
+    
+    // Ініціалізація Speech Recognition
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = true;
+        recognitionRef.current.lang = 'en-US';
 
-  // Update module if prop changes or pathname changes
-  useEffect(() => {
-    if (module) {
-      setCurrentModule(module);
-    } else {
-      setCurrentModule(detectModuleFromPath());
-    }
-  }, [module, pathname]);
-
-  const scenario = getModuleScenario(currentModule);
-  // Auto-scroll to bottom
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  // Welcome message on open
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      setMessages([
-        {
-          role: 'assistant',
-          content: `Hi! I'm your ${scenario.name}. ${scenario.description}\n\nHow can I help you today?`,
-          timestamp: new Date(),
-        },
-      ]);
-      inputRef.current?.focus();
-    }
-  }, [isOpen, scenario, messages.length]);
-
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      role: 'user',
-      content: inputValue,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue('');
-    setIsLoading(true);
-
-    const aiMessageId = Date.now().toString();
-    const aiMessage: Message = {
-      role: 'assistant',
-      content: '',
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, aiMessage]);
-
-    try {
-      const response = await fetch('https://ivyar-autopilot-v8.ivyar-gov.workers.dev/autopilot/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userMessage: inputValue,
-          module: currentModule,
-        }),
-      });
-
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      if (!reader) throw new Error('No response body');
-
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const eventMessages = buffer.split('\n\n');
-        buffer = eventMessages.pop() || '';
-
-        for (const message of eventMessages) {
-          if (!message.trim()) continue;
-
-          const lines = message.split('\n');
-          let eventType = '';
-          let data = '';
-
-          for (const line of lines) {
-            if (line.startsWith('event: ')) {
-              eventType = line.substring(7).trim();
-            } else if (line.startsWith('data: ')) {
-              data = line.substring(6).trim();
-            }
+        recognitionRef.current.onresult = (event: any) => {
+          const current = event.resultIndex;
+          const transcriptText = event.results[current][0].transcript;
+          setTranscript(transcriptText);
+          
+          if (event.results[current].isFinal) {
+            setMessage(transcriptText);
+            setIsListening(false);
           }
+        };
 
-          if (eventType === 'text' && data) {
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.text) {
-                setMessages((prev) =>
-                  prev.map((msg, idx) =>
-                    idx === prev.length - 1
-                      ? { ...msg, content: msg.content + parsed.text }
-                      : msg
-                  )
-                );
-              }
-            } catch (e) {
-              console.error('Failed to parse text event:', e);
-            }
-          }
-        }
+        recognitionRef.current.onerror = () => {
+          setIsListening(false);
+        };
+
+        recognitionRef.current.onend = () => {
+          setIsListening(false);
+        };
       }
-    } catch (error) {
-      console.error('Error calling autopilot:', error);
-      setMessages((prev) =>
-        prev.map((msg, idx) =>
-          idx === prev.length - 1
-            ? {
-                ...msg,
-                content: 'Sorry, I encountered an error. Please try again.',
-              }
-            : msg
-        )
-      );
-    } finally {
-      setIsLoading(false);
+
+      synthRef.current = window.speechSynthesis;
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
+    };
+  }, [module, position]);
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      setTranscript('');
+      recognitionRef.current?.start();
+      setIsListening(true);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
+  const speak = (text: string) => {
+    if (synthRef.current) {
+      synthRef.current.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      
+      synthRef.current.speak(utterance);
     }
   };
 
-  const positionClasses = {
-    'bottom-right': 'bottom-6 right-6',
-    'bottom-left': 'bottom-6 left-6',
-    'sidebar': 'top-0 right-0 h-screen',
+  const stopSpeaking = () => {
+    if (synthRef.current) {
+      synthRef.current.cancel();
+      setIsSpeaking(false);
+    }
   };
 
-  const bgColor = isDark ? 'bg-gray-900' : 'bg-white';
-  const textColor = isDark ? 'text-gray-100' : 'text-gray-900';
-  const borderColor = isDark ? 'border-gray-700' : 'border-gray-200';
-  const inputBg = isDark ? 'bg-gray-800' : 'bg-gray-50';
+  const handleSubmit = () => {
+    if (!message.trim()) return;
+    
+    // Симуляція відповіді AI
+    const response = `I understand you're asking about ${message}. Let me help you with that in the ${module} module.`;
+    
+    // Говоримо відповідь
+    speak(response);
+    
+    setMessage('');
+    setTranscript('');
+  };
 
-  if (position === 'sidebar') {
-    return (
-      <div className={`${bgColor} ${textColor} ${borderColor} border-l flex flex-col h-full ${className}`}>
-        {/* Header */}
-        <div className={`p-4 ${borderColor} border-b flex items-center justify-between`}>
-          <div className="flex items-center gap-3">
-            <Sparkles className="w-5 h-5 text-blue-500" />
-            <div>
-              <h3 className="font-semibold">{scenario.name}</h3>
-              <p className="text-xs opacity-70">{scenario.description}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((msg, idx) => (
-            <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                  msg.role === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : isDark
-                    ? 'bg-gray-800 text-gray-100'
-                    : 'bg-gray-100 text-gray-900'
-                }`}
-              >
-                <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                <p className="text-xs opacity-70 mt-1">
-                  {msg.timestamp.toLocaleTimeString()}
-                </p>
-              </div>
-            </div>
-          ))}
-          {isLoading && (
-            <div className={`${isDark ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg px-4 py-2`}>
-              <Loader2 className="w-4 h-4 animate-spin" />
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Suggested Questions */}
-        {messages.length === 1 && !isLoading && (
-          <div className={`p-4 ${borderColor} border-t space-y-2`}>
-            <p className="text-xs font-medium opacity-70">Suggested questions:</p>
-            {scenario.suggestedQuestions.slice(0, 3).map((q, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setInputValue(q);
-                  inputRef.current?.focus();
-                }}
-                className={`text-xs ${
-                  isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'
-                } rounded px-2 py-1 w-full text-left transition-colors`}
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Input */}
-        <div className={`p-4 ${borderColor} border-t`}>
-          <div className="flex gap-2">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask me anything..."
-              className={`flex-1 px-4 py-2 ${inputBg} ${borderColor} border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              disabled={isLoading}
-            />
-            <button
-              onClick={handleSend}
-              disabled={!inputValue.trim() || isLoading}
-              className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const positionClasses = position === 'bottom-right' 
+    ? 'bottom-6 right-6' 
+    : 'bottom-6 left-6';
 
   return (
-    <div className={`fixed ${positionClasses[position]} z-50 ${className}`}>
-      {/* Floating Button */}
+    <div className={`fixed ${positionClasses} z-50`}>
+      {/* Main Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-blue-500 text-white rounded-full p-4 shadow-lg hover:bg-blue-600 transition-all hover:scale-110"
+          className="w-14 h-14 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110"
           aria-label="Open AI Assistant"
         >
-          <MessageCircle className="w-6 h-6" />
+          <span className="text-2xl">🤖</span>
         </button>
       )}
 
-      {/* Chat Window */}
+      {/* Chat Panel */}
       {isOpen && (
-        <div
-          className={`${bgColor} ${textColor} rounded-lg shadow-2xl w-96 h-[600px] flex flex-col ${borderColor} border`}
-        >
+        <div className="bg-[#0D1117] border border-[#30363D] rounded-lg shadow-2xl w-[380px] overflow-hidden">
           {/* Header */}
-          <div className="bg-blue-500 text-white p-4 rounded-t-lg flex items-center justify-between">
+          <div className="bg-gradient-to-r from-[#00A3FF] to-[#0077CC] p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5" />
+              <span className="text-2xl">🤖</span>
               <div>
-                <h3 className="font-semibold">{scenario.name}</h3>
-                <p className="text-xs opacity-70">{scenario.description}</p>
+                <div className="font-semibold text-white text-sm">AI Assistant</div>
+                <div className="text-xs text-white/80 capitalize">{module} Module</div>
               </div>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
-              className="hover:bg-blue-600 rounded p-1 transition-colors"
-              aria-label="Close"
+              onClick={() => {
+                setIsOpen(false);
+                stopSpeaking();
+                if (isListening) toggleListening();
+              }}
+              className="text-white/80 hover:text-white transition-colors"
             >
-              <X className="w-5 h-5" />
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                    msg.role === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : isDark
-                      ? 'bg-gray-800 text-gray-100'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {msg.timestamp.toLocaleTimeString()}
+          {/* Messages Area */}
+          <div className="p-4 h-[300px] overflow-y-auto space-y-3">
+            <div className="flex gap-3">
+              <div className="w-8 h-8 bg-[#00A3FF]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                🤖
+              </div>
+              <div className="flex-1">
+                <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-3 text-sm">
+                  <p className="text-[#E6EDF3]">
+                    👋 Hello! I'm your AI assistant for the <span className="text-[#00A3FF] font-medium capitalize">{module}</span> module.
+                  </p>
+                  <p className="text-[#8B949E] mt-2">
+                    🎤 You can type or use voice input. How can I help you today?
                   </p>
                 </div>
               </div>
-            ))}
-            {isLoading && (
-              <div className={`${isDark ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg px-4 py-2 flex items-center gap-2`}>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm opacity-70">Thinking...</span>
+            </div>
+
+            {/* Voice Status */}
+            {isListening && (
+              <div className="flex justify-center">
+                <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-red-400 text-sm">Listening... {transcript && `"${transcript}"`}</span>
+                </div>
               </div>
             )}
-            <div ref={messagesEndRef} />
+
+            {isSpeaking && (
+              <div className="flex justify-center">
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg px-4 py-2 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-blue-400 text-sm">Speaking...</span>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Suggested Questions */}
-          {messages.length === 1 && !isLoading && (
-            <div className={`p-4 ${borderColor} border-t space-y-2`}>
-              <p className="text-xs font-medium opacity-70">Suggested questions:</p>
-              {scenario.suggestedQuestions.slice(0, 3).map((q, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setInputValue(q);
-                    inputRef.current?.focus();
-                  }}
-                  className={`text-xs ${
-                    isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'
-                  } rounded px-2 py-1 w-full text-left transition-colors`}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Input */}
-          <div className={`p-4 ${borderColor} border-t`}>
+          {/* Input Area */}
+          <div className="border-t border-[#30363D] p-4">
             <div className="flex gap-2">
               <input
-                ref={inputRef}
                 type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask me anything..."
-                className={`flex-1 px-4 py-2 ${inputBg} ${borderColor} border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                disabled={isLoading}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+                placeholder="Type or speak your message..."
+                className="flex-1 bg-[#0D1117] border border-[#30363D] rounded-lg px-4 py-2 text-sm text-[#E6EDF3] placeholder-[#6E7681] focus:outline-none focus:border-[#00A3FF]"
               />
+              
+              {/* Voice Button */}
               <button
-                onClick={handleSend}
-                disabled={!inputValue.trim() || isLoading}
-                className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                onClick={toggleListening}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
+                  isListening 
+                    ? 'bg-red-500 hover:bg-red-600' 
+                    : 'bg-[#30363D] hover:bg-[#3D444D]'
+                }`}
+                title={isListening ? 'Stop listening' : 'Start voice input'}
               >
-                <Send className="w-4 h-4" />
+                {isListening ? (
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <rect x="6" y="6" width="8" height="8" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-[#E6EDF3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                )}
               </button>
+
+              {/* Send Button */}
+              <button
+                onClick={handleSubmit}
+                disabled={!message.trim()}
+                className="w-10 h-10 bg-[#00A3FF] hover:bg-[#33B5FF] rounded-lg flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+
+              {/* Stop Speaking Button */}
+              {isSpeaking && (
+                <button
+                  onClick={stopSpeaking}
+                  className="w-10 h-10 bg-orange-500 hover:bg-orange-600 rounded-lg flex items-center justify-center transition-all"
+                  title="Stop speaking"
+                >
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              )}
+            </div>
+
+            {/* Voice Support Info */}
+            <div className="mt-2 text-xs text-[#6E7681] flex items-center gap-2">
+              <span>🎤</span>
+              <span>Voice input & text-to-speech enabled</span>
             </div>
           </div>
         </div>
