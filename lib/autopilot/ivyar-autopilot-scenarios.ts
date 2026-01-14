@@ -875,6 +875,7 @@ Tone: Extremely cautious, strongly directive toward attorney consultation`,
   },
 
   general: {
+    module: 'general',
     name: 'IVYAR Platform Assistant',
     description: 'General platform navigation and information',
     systemPrompt: `You are the IVYAR Platform AI Assistant. You help users navigate the IVYAR Construction Intelligence Platform and understand its features across all modules.
