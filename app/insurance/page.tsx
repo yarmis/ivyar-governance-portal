@@ -1338,7 +1338,6 @@ function ClaimsCenterPage({
   policies: Policy[];
   onViewClaim: (claim: Claim) => void;
 }) {
-  const [showNewClaimForm, setShowNewClaimForm] = useState(false);
 
   return (
     <div className="max-w-[1440px] mx-auto px-8 py-12">
@@ -1348,7 +1347,7 @@ function ClaimsCenterPage({
           <p className="text-[#8B949E]">File and track your insurance claims</p>
         </div>
         <button
-          onClick={() => setShowNewClaimForm(true)}
+          onClick={() => alert("📋 File New Claim\n\nThis would open a claim submission form with:\n• Incident details\n• Policy selection\n• Evidence upload\n• Damage assessment")}
           className="bg-[#3CCB7F] text-[#0D1117] px-4 py-2 rounded-lg font-semibold"
         >
           + File New Claim
