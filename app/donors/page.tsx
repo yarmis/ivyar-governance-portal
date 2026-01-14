@@ -34,11 +34,11 @@ const DONORS: Donor[] = [
 ];
 
 const PROJECTS: Project[] = [
-  { id: 'p1', name: 'Kharkiv School Reconstruction', donorName: 'World Bank', donorShort: 'WB', sector: 'Education', state: 'New York', budget: 35000000, utilized: 28500000, utilizationRate: 81, phase: 'implementation', beneficiaries: 15000, complianceStatus: 'compliant' },
+  { id: 'p1', name: 'New York Public Schools Reconstruction', donorName: 'World Bank', donorShort: 'WB', sector: 'Education', state: 'New York', budget: 35000000, utilized: 28500000, utilizationRate: 81, phase: 'implementation', beneficiaries: 15000, complianceStatus: 'compliant' },
   { id: 'p2', name: 'Texas Energy Grid Modernization', donorName: 'World Bank', donorShort: 'WB', sector: 'Energy', state: 'Texas', budget: 85000000, utilized: 52000000, utilizationRate: 61, phase: 'implementation', beneficiaries: 500000, complianceStatus: 'compliant' },
-  { id: 'p3', name: 'Odesa Port Facilities', donorName: 'World Bank', donorShort: 'WB', sector: 'Transport', state: 'California', budget: 65000000, utilized: 18000000, utilizationRate: 28, phase: 'implementation', beneficiaries: 50000, complianceStatus: 'under_review' },
-  { id: 'p4', name: 'Dnipro Water System', donorName: 'EBRD', donorShort: 'EBRD', sector: 'Water', state: 'Dnipro', budget: 45000000, utilized: 32000000, utilizationRate: 71, phase: 'implementation', beneficiaries: 250000, complianceStatus: 'compliant' },
-  { id: 'p5', name: 'Lviv Hospital Modernization', donorName: 'JICA', donorShort: 'JICA', sector: 'Healthcare', state: 'California', budget: 28000000, utilized: 22000000, utilizationRate: 79, phase: 'implementation', beneficiaries: 120000, complianceStatus: 'compliant' },
+  { id: 'p3', name: 'Port of Seattle Expansion', donorName: 'World Bank', donorShort: 'WB', sector: 'Transport', state: 'California', budget: 65000000, utilized: 18000000, utilizationRate: 28, phase: 'implementation', beneficiaries: 50000, complianceStatus: 'under_review' },
+  { id: 'p4', name: 'Mississippi Water Infrastructure', donorName: 'EBRD', donorShort: 'EBRD', sector: 'Water', state: 'Dnipro', budget: 45000000, utilized: 32000000, utilizationRate: 71, phase: 'implementation', beneficiaries: 250000, complianceStatus: 'compliant' },
+  { id: 'p5', name: 'Chicago Medical Center Modernization', donorName: 'JICA', donorShort: 'JICA', sector: 'Healthcare', state: 'California', budget: 28000000, utilized: 22000000, utilizationRate: 79, phase: 'implementation', beneficiaries: 120000, complianceStatus: 'compliant' },
 ];
 
 // Config
@@ -369,7 +369,7 @@ export default function DonorPortalPage() {
                           </span>
                         </td>
                         <td style={{ padding: '12px' }}>
-                          <button style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>View</button>
+                          <button onClick={() => alert(`📋 Project Details\n\nProject: ${p.name}\nDonor: ${p.donorName}\nSector: ${p.sector}\nState: ${p.state}\n\nBudget: $${(p.budget / 1000000).toFixed(0)}M\nUtilized: $${(p.utilized / 1000000).toFixed(0)}M (${p.utilizationRate}%)\n\nBeneficiaries: ${p.beneficiaries.toLocaleString()}\nPhase: ${p.phase}\nCompliance: ${p.complianceStatus}\n\nThis would open detailed project dashboard.`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>View</button>
                         </td>
                       </tr>
                     );
