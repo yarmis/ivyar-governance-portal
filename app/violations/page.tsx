@@ -115,10 +115,10 @@ export default function ViolationsPage() {
             </div>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button style={{ padding: '8px 16px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer' }}>
+            <button onClick={() => { const data = `Violations Report\nGenerated: ${new Date().toLocaleString()}\n\nTotal Violations: 156\nEscalated: 3\nUnder Review: 12\n\nThis is a demo export.`; const blob = new Blob([data], {type: 'text/plain'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'violations-report.txt'; a.click(); }} style={{ padding: '8px 16px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer' }}>
               📊 Export Report
             </button>
-            <button style={{ padding: '8px 16px', background: '#DC2626', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 500 }}>
+            <button onClick={() => alert('📝 Report New Violation\n\nThis would open a form to:\n• Report violation details\n• Upload evidence (photos, documents)\n• Specify location\n• Assign severity\n• Submit to authorities\n\nDemo feature - full form coming soon.')} style={{ padding: '8px 16px', background: '#DC2626', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 500 }}>
               + Report Violation
             </button>
           </div>
