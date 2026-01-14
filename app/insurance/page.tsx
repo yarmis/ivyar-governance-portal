@@ -1147,7 +1147,7 @@ function CustomerPortalPage({
               <div className="text-sm text-[#8B949E]">{expiringSoon[0].productName} expires on {expiringSoon[0].endDate}</div>
             </div>
           </div>
-          <button onClick={() => setShowRenewalModal(true)} className="bg-[#F59E0B] text-[#0D1117] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#FBBF24] transition-colors">
+          <button onClick={() => alert('🔄 Policy renewal coming soon!\n\nThis feature will allow you to:\n• Auto-renew your policy\n• Modify coverage\n• Get new quotes')} className="bg-[#F59E0B] text-[#0D1117] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#FBBF24] transition-colors">
             Renew Now
           </button>
         </div>
