@@ -454,185 +454,21 @@ export default function DonorPortalPage() {
             </div>
           </>
         )}
+
+      {/* Submit Report Modal */}
       </main>
 
-      {/* Footer */}
-      <footer style={{ background: '#1E293B', borderTop: '1px solid #334155', padding: '16px 24px', marginTop: '48px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#64748B' }}>
-          <span>IVYAR Donor Portal v1.0</span>
-          <span>Construction Governance Hub • Transparency & Accountability</span>
+      {showSubmitModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={() => setShowSubmitModal(false)}>
+          <div style={{ background: '#1E293B', borderRadius: '12px', padding: '2rem', maxWidth: '500px', width: '90%', border: '1px solid #334155' }} onClick={(e) => e.stopPropagation()}>
+            <h2 style={{ fontSize: '24px', marginBottom: '1.5rem', color: '#E2E8F0' }}>📄 Submit Compliance Report</h2>
+            <button type="button" onClick={() => setShowSubmitModal(false)} style={{ padding: '0.75rem 1.5rem', background: '#10B981', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 600 }}>Close & Submit Demo</button>
+          </div>
         </div>
-     </footer>
+      )}
 
       {/* AI Assistant */}
       <AutopilotWidget module="donors" />
     </div>
   );
-
-      {/* Submit Report Modal */}
-      {showSubmitModal && (
-        <div style={{ 
-          position: 'fixed', 
-          inset: 0, 
-          background: 'rgba(0,0,0,0.7)', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          zIndex: 1000
-        }} onClick={() => setShowSubmitModal(false)}>
-          <div style={{ 
-            background: '#1E293B', 
-            borderRadius: '12px', 
-            padding: '2rem', 
-            maxWidth: '500px', 
-            width: '90%',
-            border: '1px solid #334155'
-          }} onClick={(e) => e.stopPropagation()}>
-            
-            <h2 style={{ fontSize: '24px', marginBottom: '1.5rem', color: '#E2E8F0' }}>
-              📄 Submit Compliance Report
-            </h2>
-            
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              alert('✅ Report submitted successfully!\n\nYour compliance report has been sent to the selected donor.\nTracking ID: ' + Math.random().toString(36).substr(2, 9).toUpperCase());
-              setShowSubmitModal(false);
-            }} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              
-              {/* Donor Selection */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#CBD5E1', fontSize: '14px', fontWeight: 500 }}>
-                  Select Donor *
-                </label>
-                <select required style={{ 
-                  width: '100%', 
-                  padding: '0.75rem', 
-                  background: '#0F172A', 
-                  border: '1px solid #334155',
-                  borderRadius: '6px',
-                  color: '#E2E8F0',
-                  fontSize: '14px'
-                }}>
-                  <option value="">Choose a donor...</option>
-                  <option value="wb">World Bank</option>
-                  <option value="ebrd">EBRD</option>
-                  <option value="eib">European Investment Bank</option>
-                  <option value="usaid">USAID</option>
-                  <option value="jica">JICA</option>
-                  <option value="kfw">KfW</option>
-                </select>
-              </div>
-              
-              {/* Report Type */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#CBD5E1', fontSize: '14px', fontWeight: 500 }}>
-                  Report Type *
-                </label>
-                <select required style={{ 
-                  width: '100%', 
-                  padding: '0.75rem', 
-                  background: '#0F172A', 
-                  border: '1px solid #334155',
-                  borderRadius: '6px',
-                  color: '#E2E8F0',
-                  fontSize: '14px'
-                }}>
-                  <option value="">Select report type...</option>
-                  <option value="quarterly">Quarterly Progress Report</option>
-                  <option value="financial">Financial Statement</option>
-                  <option value="compliance">Compliance Audit</option>
-                  <option value="impact">Impact Assessment</option>
-                  <option value="annual">Annual Report</option>
-                </select>
-              </div>
-              
-              {/* Reporting Period */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#CBD5E1', fontSize: '14px', fontWeight: 500 }}>
-                  Reporting Period *
-                </label>
-                <input type="text" required placeholder="e.g., Q4 2025" style={{ 
-                  width: '100%', 
-                  padding: '0.75rem', 
-                  background: '#0F172A', 
-                  border: '1px solid #334155',
-                  borderRadius: '6px',
-                  color: '#E2E8F0',
-                  fontSize: '14px'
-                }} />
-              </div>
-              
-              {/* File Upload */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#CBD5E1', fontSize: '14px', fontWeight: 500 }}>
-                  Upload Documents
-                </label>
-                <input type="file" multiple accept=".pdf,.doc,.docx,.xlsx" style={{ 
-                  width: '100%', 
-                  padding: '0.75rem', 
-                  background: '#0F172A', 
-                  border: '1px solid #334155',
-                  borderRadius: '6px',
-                  color: '#94A3B8',
-                  fontSize: '14px'
-                }} />
-                <p style={{ fontSize: '12px', color: '#64748B', marginTop: '0.5rem', margin: '0.5rem 0 0' }}>
-                  Accepted formats: PDF, DOC, DOCX, XLSX
-                </p>
-              </div>
-              
-              {/* Notes */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#CBD5E1', fontSize: '14px', fontWeight: 500 }}>
-                  Additional Notes
-                </label>
-                <textarea placeholder="Any additional information..." rows={3} style={{ 
-                  width: '100%', 
-                  padding: '0.75rem', 
-                  background: '#0F172A', 
-                  border: '1px solid #334155',
-                  borderRadius: '6px',
-                  color: '#E2E8F0',
-                  fontSize: '14px',
-                  resize: 'vertical',
-                  fontFamily: 'inherit'
-                }} />
-              </div>
-              
-              {/* Buttons */}
-              <div style={{ display: 'flex', gap: '12px', marginTop: '0.5rem' }}>
-                <button type="button" onClick={() => setShowSubmitModal(false)} style={{ 
-                  flex: 1,
-                  padding: '0.75rem', 
-                  background: '#334155', 
-                  border: 'none',
-                  borderRadius: '6px',
-                  color: '#E2E8F0',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 500
-                }}>
-                  Cancel
-                </button>
-                <button type="submit" style={{ 
-                  flex: 1,
-                  padding: '0.75rem', 
-                  background: '#10B981', 
-                  border: 'none',
-                  borderRadius: '6px',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 600
-                }}>
-                  Submit Report
-                </button>
-              </div>
-              
-            </form>
-          </div>
-        </div>
-      )}
-
-
 }
