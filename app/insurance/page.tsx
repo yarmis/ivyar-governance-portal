@@ -1684,7 +1684,6 @@ function AdminPortalPage({
             </div>
           </div>
         </div>
-      )}
     
       {/* Renewal Modal */}
       {showRenewalModal && expiringSoon.length > 0 && (
