@@ -1684,8 +1684,8 @@ function AdminPortalPage({
             </div>
           </div>
         </div>
-        </div>
       )}
+      </div>
   );
 }
 // Clean build
