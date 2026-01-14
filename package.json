@@ -14,7 +14,7 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "postinstall": "echo \"Skipping Prisma - temporary\"",
+    "postinstall": "echo \"Skipping Prisma - will fix before production\"",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npx wrangler pages dev",
     "deploy": "npm run pages:build && npx wrangler pages deploy"
