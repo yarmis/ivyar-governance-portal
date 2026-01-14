@@ -444,7 +444,7 @@ export default function DonorPortalPage() {
                   { label: 'Procurement Records', icon: '📋', count: 45 },
                   { label: 'Project Documents', icon: '📄', count: 128 },
                 ].map((d, i) => (
-                  <button key={i} style={{ padding: '12px 20px', background: '#0F172A', border: '1px solid #334155', borderRadius: '8px', color: '#E2E8F0', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button key={i} onClick={() => alert(`📂 ${d.label}\n\nTotal documents: ${d.count}\n\nThis demo shows document categories. In production, this would open a document browser with filters and download options.`)} style={{ padding: '12px 20px', background: '#0F172A', border: '1px solid #334155', borderRadius: '8px', color: '#E2E8F0', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#1E293B'} onMouseLeave={(e) => e.currentTarget.style.background = '#0F172A'}>
                     <span style={{ fontSize: '20px' }}>{d.icon}</span>
                     <span>{d.label}</span>
                     <span style={{ background: '#334155', padding: '2px 8px', borderRadius: '10px', fontSize: '12px' }}>{d.count}</span>

@@ -406,7 +406,7 @@ export default function ViolationsPage() {
                           <div style={{ fontSize: '13px', color: '#94A3B8' }}>
                             <strong>Escalated to:</strong> Ministry of Environment • <strong>Status:</strong> In Review
                           </div>
-                          <button style={{ padding: '8px 16px', background: '#DC2626', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 500 }}>
+                          <button onClick={() => alert('📋 Full Case Details\n\nViolation ID: VIO-2025-0002\nStatus: Escalated - National Level\nCompany: Industrial Holdings JSC\n\nThis would open a detailed case file with:\n• Full documentation\n• Evidence photos\n• Legal proceedings\n• Communication history\n• Payment status')} style={{ padding: '8px 16px', background: '#DC2626', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer', fontWeight: 500 }}>
                             View Full Case
                           </button>
                         </div>
