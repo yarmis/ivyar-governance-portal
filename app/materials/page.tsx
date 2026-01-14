@@ -377,7 +377,7 @@ export default function MaterialsPage() {
                   const count = MATERIALS.filter(m => m.category === key).length;
                   if (count === 0) return null;
                   return (
-                    <div key={key} style={{
+                    <div key={key} onClick={() => alert(`${config.icon} ${config.name}\n\nTotal materials: ${count}\n\nThis would filter materials by this category.`)} style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
@@ -385,7 +385,9 @@ export default function MaterialsPage() {
                       background: '#0F172A',
                       borderRadius: '8px',
                       border: '1px solid #334155',
-                    }}>
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                    }} onMouseEnter={(e) => { e.currentTarget.style.background = '#1E293B'; e.currentTarget.style.borderColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.background = '#0F172A'; e.currentTarget.style.borderColor = '#334155'; }}>
                       <span style={{ fontSize: '20px' }}>{config.icon}</span>
                       <div>
                         <p style={{ margin: 0, fontSize: '14px', fontWeight: 500 }}>{config.name}</p>
