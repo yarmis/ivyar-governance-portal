@@ -1684,6 +1684,7 @@ function AdminPortalPage({
             </div>
           </div>
         </div>
+        </div>
       )}
   );
 }
