@@ -25,6 +25,16 @@ const TRANSLATIONS: Record<string, {
     nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
     countries: { label: 'Operating with respect across:' },
     trusted: 'Trusted by Leading Institutions',
+    liveStatus: {
+      title: 'Live Platform Status',
+      stats: [
+        { value: '$10.2B', label: 'Under Management' },
+        { value: '99.99%', label: 'Uptime SLA' },
+        { value: '12', label: 'Active Modules' },
+        { value: '25+', label: 'Regions' },
+      ],
+      updated: 'All systems operational • Updated moments ago',
+    },
     modules: { title: 'Platform Modules', subtitle: 'Modular architecture for government operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
     ai: {
       badge: 'Ethical AI Steward',
@@ -363,6 +373,33 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Live Platform Status */}
+      <section className="py-[80px] lg:py-[100px] bg-[#0D1117]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-12">
+            {t.liveStatus.title}
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {t.liveStatus.stats.map((stat, i) => (
+              <div key={i} className="bg-[#161B22] border border-[#1F242C] rounded-lg p-8 text-center hover:border-[#00A3FF] transition-colors">
+                <div className="text-3xl lg:text-4xl font-bold text-[#00A3FF] mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-[#8B949E]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <p className="text-center text-sm text-[#8B949E]">
+            {t.liveStatus.updated}
+          </p>
+        </div>
+      </section>
+
 
       {/* Modules */}
       <section id="modules" className="py-[80px] lg:py-[120px]">
