@@ -150,8 +150,8 @@ export default function ViolationsPage() {
                 { label: 'Active Cases', value: metrics.active, icon: '🔍', color: '#F59E0B' },
                 { label: 'Escalated', value: metrics.escalated, icon: '🚨', color: metrics.escalated > 0 ? '#DC2626' : '#10B981' },
                 { label: 'Critical', value: metrics.critical, icon: '⛔', color: metrics.critical > 0 ? '#DC2626' : '#10B981' },
-                { label: 'Total Fines', value: `₴${(metrics.totalFines / 1000000).toFixed(2)}M`, icon: '💰', color: '#F97316' },
-                { label: 'Collected', value: `₴${(metrics.collectedFines / 1000000).toFixed(2)}M`, icon: '✅', color: '#10B981' },
+                { label: 'Total Fines', value: `UAH ${(metrics.totalFines / 1000000).toFixed(2)}M`, icon: '💰', color: '#F97316' },
+                { label: 'Collected', value: `UAH ${(metrics.collectedFines / 1000000).toFixed(2)}M`, icon: '✅', color: '#10B981' },
                 { label: 'Collection Rate', value: `${collectionRate}%`, icon: '📈', color: collectionRate >= 70 ? '#10B981' : '#F59E0B' },
               ].map((m, i) => (
                 <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155' }}>
@@ -198,7 +198,7 @@ export default function ViolationsPage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
                           <p style={{ margin: 0, fontWeight: 500 }}>{v.name}</p>
-                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{v.violations} violation(s) • ₴{v.totalFines.toLocaleString()}</p>
+                          <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>{v.violations} violation(s) • UAH {v.totalFines.toLocaleString()}</p>
                         </div>
                         <span style={{
                           padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 500,
@@ -234,7 +234,7 @@ export default function ViolationsPage() {
                       </div>
                       <div style={{ textAlign: 'right' }}>
                         <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
-                        {v.fineAmount > 0 && <p style={{ margin: '8px 0 0', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>₴{v.fineAmount.toLocaleString()}</p>}
+                        {v.fineAmount > 0 && <p style={{ margin: '8px 0 0', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</p>}
                       </div>
                     </div>
                   );
@@ -296,7 +296,7 @@ export default function ViolationsPage() {
                           <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
                         </td>
                         <td style={{ padding: '12px', fontSize: '13px', fontWeight: 500 }}>
-                          {v.fineAmount > 0 ? `₴${v.fineAmount.toLocaleString()}` : '-'}
+                          {v.fineAmount > 0 ? `UAH ${v.fineAmount.toLocaleString()}` : '-'}
                         </td>
                         <td style={{ padding: '12px' }}>
                           <span style={{
@@ -323,9 +323,9 @@ export default function ViolationsPage() {
             {/* Summary Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
               {[
-                { label: 'Total Issued', value: `₴${(metrics.totalFines / 1000000).toFixed(2)}M`, color: '#3B82F6' },
-                { label: 'Collected', value: `₴${(metrics.collectedFines / 1000000).toFixed(2)}M`, color: '#10B981' },
-                { label: 'Outstanding', value: `₴${((metrics.totalFines - metrics.collectedFines) / 1000000).toFixed(2)}M`, color: '#F59E0B' },
+                { label: 'Total Issued', value: `UAH ${(metrics.totalFines / 1000000).toFixed(2)}M`, color: '#3B82F6' },
+                { label: 'Collected', value: `UAH ${(metrics.collectedFines / 1000000).toFixed(2)}M`, color: '#10B981' },
+                { label: 'Outstanding', value: `UAH ${((metrics.totalFines - metrics.collectedFines) / 1000000).toFixed(2)}M`, color: '#F59E0B' },
                 { label: 'Collection Rate', value: `${collectionRate}%`, color: collectionRate >= 70 ? '#10B981' : '#EF4444' },
               ].map((m, i) => (
                 <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', border: '1px solid #334155', textAlign: 'center' }}>
@@ -352,14 +352,17 @@ export default function ViolationsPage() {
                       <tr key={v.id} style={{ borderTop: '1px solid #334155', background: i % 2 === 0 ? 'transparent' : '#0F172A20' }}>
                         <td style={{ padding: '12px', fontWeight: 500, fontSize: '13px' }}>{v.caseNumber}</td>
                         <td style={{ padding: '12px', fontSize: '13px' }}>{v.violatorName}</td>
-                        <td style={{ padding: '12px', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>₴{v.fineAmount.toLocaleString()}</td>
+                        <td style={{ padding: '12px', fontSize: '14px', fontWeight: 600, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</td>
                         <td style={{ padding: '12px' }}>
                           <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', background: fineCfg.bg, color: fineCfg.color }}>{fineCfg.label}</span>
                         </td>
                         <td style={{ padding: '12px', fontSize: '13px', color: '#94A3B8' }}>{v.reportedDate}</td>
                         <td style={{ padding: '12px', fontSize: '13px', color: '#94A3B8' }}>{v.deadlineDate || '-'}</td>
                         <td style={{ padding: '12px' }}>
-                          <button style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>Details</button>
+                          <button onClick={(e) => alert(`Details for ${v.caseNumber}
+
+Company: ${v.violatorName}
+Fine: ${v.fineAmount.toLocaleString()} UAH`)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#475569'} onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}>Details</button>
                         </td>
                       </tr>
                     );
@@ -398,7 +401,7 @@ export default function ViolationsPage() {
                             </p>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <p style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#F59E0B' }}>₴{v.fineAmount.toLocaleString()}</p>
+                            <p style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#F59E0B' }}>UAH {v.fineAmount.toLocaleString()}</p>
                             <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#94A3B8' }}>Fine {v.fineStatus}</p>
                           </div>
                         </div>
