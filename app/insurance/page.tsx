@@ -541,6 +541,7 @@ function LandingPage({ onGetQuote }: { onGetQuote: () => void }) {
             {INSURANCE_PRODUCTS.map((product) => (
               <div 
                 key={product.id}
+                onClick={() => alert(`${product.icon} ${product.name}\n\nStarting from $${product.baseRate}/month\n\n${product.shortDescription}\n\nFeatures:\n${product.features.slice(0, 3).join('\n')}\n\nClick to get instant AI-powered quote!`)}
                 className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6 text-center hover:border-[#3CCB7F]/50 transition-all cursor-pointer"
               >
                 <span className="text-4xl">{product.icon}</span>
