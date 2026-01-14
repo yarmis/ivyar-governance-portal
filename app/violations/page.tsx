@@ -306,7 +306,7 @@ export default function ViolationsPage() {
                           }}>{v.aiRiskScore}%</span>
                         </td>
                         <td style={{ padding: '12px' }}>
-                          <button style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>View</button>
+                          <button onClick={() => alert('View Violation: ' + v.caseNumber)} style={{ padding: '6px 12px', background: '#334155', border: 'none', borderRadius: '6px', color: '#E2E8F0', cursor: 'pointer', fontSize: '12px' }}>View</button>
                         </td>
                       </tr>
                     );
