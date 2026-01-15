@@ -1,5 +1,7 @@
 'use client';
 
+
+
 import Link from 'next/link';
 
 export default function CitizenFeedback() {
@@ -319,6 +321,7 @@ export default function CitizenFeedback() {
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
         </div>
       </footer>
+    </div>
     </div>
   );
 }

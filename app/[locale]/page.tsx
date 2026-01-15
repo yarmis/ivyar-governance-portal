@@ -16,12 +16,12 @@ const MODULE_META = [
   { icon: '🤖', status: 'beta', apis: 5, key: 'ai', href: '/modules/ai-services' },
   { icon: '🏪', status: 'live', apis: 12, key: 'trade', href: '/modules/trade' },
   { icon: '🛡️', status: 'live', apis: 10, key: 'insurance', href: '/modules/insurance' },
-  { icon: '💳', status: 'live', apis: 8, key: 'payments', href: '/modules/payments' },
+  { icon: '💳', status: 'live', apis: 10, key: 'payments', href: '/modules/payments' },
   { icon: '🏗️', status: 'pilot', apis: 14, key: 'reconstruction', href: '/modules/reconstruction' },
   { icon: '🚛', status: 'live', apis: 10, key: 'freight', href: '/modules/freight' },
   { icon: '👁️', status: 'live', apis: 16, key: 'transparency', href: '/modules/transparency', badge: 'CIVIC CORE' },
   { icon: '💬', status: 'live', apis: 12, key: 'feedback', href: '/modules/feedback', badge: 'CIVIC CORE' },
-  { icon: '📚', status: 'live', apis: 8, key: 'knowledge', href: '/modules/knowledge', badge: 'CIVIC CORE' },
+  { icon: '📚', status: 'live', apis: 10, key: 'knowledge', href: '/modules/knowledge', badge: 'CIVIC CORE' },
   { icon: '🤖', status: 'beta', apis: 10, key: 'ai-monitor', href: '/modules/ai-monitor', badge: 'CIVIC CORE' },
 ];
 

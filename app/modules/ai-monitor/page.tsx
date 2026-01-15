@@ -1,5 +1,7 @@
 'use client';
 
+
+
 import Link from 'next/link';
 
 export default function AIIntegrityMonitor() {
@@ -320,6 +322,7 @@ export default function AIIntegrityMonitor() {
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
         </div>
       </footer>
+    </div>
     </div>
   );
 }
