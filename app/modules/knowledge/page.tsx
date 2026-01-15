@@ -323,6 +323,5 @@ export default function KnowledgeBase() {
         </div>
       </footer>
     </div>
-    </div>
   );
 }

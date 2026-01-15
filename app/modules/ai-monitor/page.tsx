@@ -323,6 +323,5 @@ export default function AIIntegrityMonitor() {
         </div>
       </footer>
     </div>
-    </div>
   );
 }

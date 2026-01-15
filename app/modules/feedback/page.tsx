@@ -322,6 +322,5 @@ export default function CitizenFeedback() {
         </div>
       </footer>
     </div>
-    </div>
   );
 }
