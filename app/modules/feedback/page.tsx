@@ -315,7 +315,26 @@ export default function CitizenFeedback() {
 
       </main>
 
-      {/* Footer */}
+
+        {/* Actions */}
+        <section className="border-t border-[#1F242C] bg-[#0D1117] px-6 py-12">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mb-6 text-2xl font-bold text-[#E6EDF3]">🔗 ACTIONS</h2>
+            <div className="flex flex-wrap gap-4">
+              <button className="rounded-lg border border-[#00A3FF] bg-[#00A3FF]/10 px-6 py-3 font-medium text-[#00A3FF] transition-colors hover:bg-[#00A3FF]/20">
+                OPEN MODULE →
+              </button>
+              <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+                VIEW API →
+              </button>
+              <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+                RUN DEMO →
+              </button>
+            </div>
+          </div>
+        </section>
+
+      {/* Footer *}}
       <footer className="mt-16 border-t border-[#1F242C] bg-[#161B22] px-6 py-8">
         <div className="mx-auto max-w-6xl text-center text-sm text-[#6E7681]">
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
