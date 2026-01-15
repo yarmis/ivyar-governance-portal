@@ -322,6 +322,5 @@ export default function TransparencyHub() {
         </div>
       </footer>
     </div>
-    </div>
   );
 }
