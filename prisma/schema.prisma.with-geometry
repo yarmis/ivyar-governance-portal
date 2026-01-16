@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  extensions = [postgis]
+  url        = env("DATABASE_URL")
 }
 
 model User {
@@ -194,6 +196,7 @@ model Asset {
   status      AssetStatus
 
   location Json
+  geometry Unsupported("geometry(GEOMETRY, 4326)")
 
   ownerId    String
   operatorId String?
@@ -426,6 +429,7 @@ model Route {
 
   origin      Json
   destination Json
+  geometry    Unsupported("geometry(LINESTRING, 4326)")
 
   legs              Json
   totalDistance     Json

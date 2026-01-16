@@ -485,6 +485,38 @@ async function main() {
 
   console.log('✅ Created 2 risk scores');
 
+  // Create timeline events
+  await prisma.timelineEvent.create({
+    data: {
+      type: 'project.started',
+      entityType: 'project',
+      entityId: bridgeProject.id,
+      title: 'Bridge Reconstruction Project Started',
+      description: 'USAID-funded reconstruction of Pivnichnyi Bridge commenced',
+      actor: 'ministry-infrastructure-ua',
+      metadata: {
+        budget: 18000000,
+        duration: '18 months',
+      },
+    },
+  });
+
+  await prisma.timelineEvent.create({
+    data: {
+      type: 'shipment.in-transit',
+      entityType: 'shipment',
+      entityId: activeShipment.id,
+      title: 'Construction Materials En Route to Kyiv',
+      description: '150 tons of steel beams currently in Lviv, heading to bridge site',
+      actor: 'polish-transport',
+      metadata: {
+        currentLocation: 'Lviv',
+        eta: '2025-01-12',
+      },
+    },
+  });
+
+  console.log('✅ Created 2 timeline events');
 
   console.log('');
   console.log('🎉 Seeding complete!');
