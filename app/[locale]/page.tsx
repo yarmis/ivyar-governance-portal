@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useTranslation } from '@/i18n';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { GlobalSearch } from '@/components/GlobalSearch';
+import StatsDemo from '../components/StatsDemo';
+
 
 const MODULE_META = [
   { icon: '📋', status: 'live', apis: 18, key: 'procurement', href: '/modules/procurement' },
