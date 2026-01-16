@@ -299,6 +299,9 @@ export default function KnowledgeBase() {
             >
               OPEN MODULE →
             </button>
+            <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+              VIEW API →
+            </button>
             <button
               onClick={() => alert('Browsing available documentation and learning paths...')}
               className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]"
