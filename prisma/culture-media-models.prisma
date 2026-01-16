@@ -1,0 +1,120 @@
+// ============================================================================
+// CULTURE & MEDIA HARMONY - PRISMA MODELS
+// 
+// IMPORTANT: Manually merge into prisma/schema.prisma
+// ============================================================================
+
+model MediaItem {
+  id          String      @id @default(uuid())
+  type        MediaType
+  title       String
+  description String      @db.Text
+  contentUrl  String
+  thumbnailUrl String?
+  
+  tags        String[]
+  categories  String[]
+  
+  authorId    String
+  publishedAt DateTime?
+  
+  moderationStatus ModerationStatus
+  ethicsScore      Float @default(0)
+  
+  views       Int @default(0)
+  likes       Int @default(0)
+  
+  visibility  ContentVisibility @default(PUBLIC)
+  
+  createdAt   DateTime @default(now())
+  createdBy   String
+  updatedAt   DateTime @updatedAt
+  updatedBy   String
+  deletedAt   DateTime?
+  
+  @@index([type])
+  @@index([moderationStatus])
+  @@map("media_items")
+}
+
+enum MediaType {
+  VIDEO
+  AUDIO
+  ARTICLE
+  PODCAST
+  PHOTO_ESSAY
+}
+
+enum ContentVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+  UNDER_REVIEW
+}
+
+model TalentProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  displayName String
+  bio         String?  @db.Text
+  avatar      String?
+  
+  skills      String[]
+  verified    Boolean  @default(false)
+  availableForWork Boolean @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  
+  @@map("talent_profiles")
+}
+
+model CulturalEvent {
+  id          String   @id @default(uuid())
+  title       String
+  description String   @db.Text
+  category    EventCategory
+  
+  startTime   DateTime
+  endTime     DateTime
+  type        EventType
+  
+  capacity    Int?
+  attendees   Int @default(0)
+  
+  moderationStatus ModerationStatus
+  
+  createdAt   DateTime @default(now())
+  createdBy   String
+  updatedAt   DateTime @updatedAt
+  updatedBy   String
+  deletedAt   DateTime?
+  
+  @@index([category])
+  @@index([startTime])
+  @@map("cultural_events")
+}
+
+enum EventCategory {
+  CONCERT
+  EXHIBITION
+  THEATER
+  WORKSHOP
+  FESTIVAL
+  COMMUNITY
+  OTHER
+}
+
+enum EventType {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
