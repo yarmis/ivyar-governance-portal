@@ -52,6 +52,21 @@ export default function HealthcareCoordinationPage() {
             ))}
           </div>
         </section>
+
+        <section>
+          <h2 className="text-2xl font-bold mb-4">🔗 ACTIONS</h2>
+          <div className="flex flex-wrap gap-4">
+            <Link href="/modules/healthcare/content" className="inline-block rounded-lg border border-[#00A3FF] bg-[#00A3FF]/10 px-6 py-3 font-medium text-[#00A3FF] transition-colors hover:bg-[#00A3FF]/20">
+              OPEN MODULE →
+            </Link>
+            <Link href="/modules/healthcare/api" className="inline-block rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+              VIEW API →
+            </Link>
+            <Link href="/modules/healthcare/demo" className="inline-block rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+              RUN DEMO →
+            </Link>
+          </div>
+        </section>
       </div>
       <footer className="mt-16 border-t border-[#1F242C] bg-[#161B22] px-6 py-8">
         <div className="max-w-[1200px] mx-auto text-center text-sm text-[#6E7681]">🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world</div>
