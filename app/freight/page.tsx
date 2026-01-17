@@ -674,7 +674,19 @@ function LandingPage({ onGetStarted, onPostLoad }: { onGetStarted: () => void; o
               { icon: '🧠', title: 'AI Fair Rates', desc: 'Market-based pricing, no manipulation.' },
               { icon: '🛡️', title: 'Full Insurance', desc: 'Cargo, liability, and health coverage built-in.' },
             ].map((item, i) => (
-              <div key={i} className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6">
+              <div
+                key={i}
+                className="bg-[#161B22] border border-[#1F242C] rounded-xl p-6 cursor-pointer transition-all"
+                onClick={() => alert(`${item.title}\n\n${item.desc}\n\nClick "Learn More" for detailed information.`)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#3CCB7F';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#1F242C';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
                 <span className="text-3xl">{item.icon}</span>
                 <div className="font-semibold mt-3">{item.title}</div>
                 <div className="text-sm text-[#8B949E] mt-1">{item.desc}</div>
