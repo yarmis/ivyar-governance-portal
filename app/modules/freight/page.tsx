@@ -33,7 +33,7 @@ export default function FreightModulePage() {
             </div>
             <div>
               <div className="text-xs text-[#8B949E] mb-1">VERSION</div>
-              <div className="text-sm font-medium">2.7</div>
+              <div className="text-sm font-medium">3.1</div>
             </div>
             <div>
               <div className="text-xs text-[#8B949E] mb-1">API ENDPOINTS</div>
