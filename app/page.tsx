@@ -323,7 +323,7 @@ export default function LandingPage() {
                 <div className="absolute top-12 left-4 right-4 font-mono text-sm">
                   <p className="text-[#6E7681]">$ ivyar initialize --platform gov-cloud</p>
                   <p className="text-[#3CCB7F] mt-2">✓ IVYAR GOVERNANCE PLATFORM v3.1</p>
-                  <p className="text-[#8B949E] mt-1">✓ 16 modules loaded</p>
+                  <p className="text-[#8B949E] mt-1">✓ 19 modules loaded</p>
                   <p className="text-[#8B949E]">✓ 5 regions active</p>
                   <p className="text-[#8B949E]">✓ AI Administrator online</p>
                   <p className="text-[#00A3FF] mt-4 animate-pulse">Ready for operations_</p>
