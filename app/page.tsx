@@ -194,20 +194,37 @@ const COUNTRIES = [
 ];
 
 const MODULE_META = [
-  { icon: '📋', status: 'live', apis: 18, href: '/modules/procurement' },
+  // Civic Core (4 modules)
+  { icon: '📊', status: 'live', apis: 8, href: '/modules/transparency' },
+  { icon: '💬', status: 'live', apis: 6, href: '/modules/feedback' },
+  { icon: '📚', status: 'live', apis: 6, href: '/modules/knowledge' },
+  { icon: '🤖', status: 'live', apis: 8, href: '/modules/ai-monitor' },
+  
+  // Infrastructure & Logistics (5 modules)
+  { icon: '🏗️', status: 'live', apis: 12, href: '/modules/infrastructure' },
   { icon: '🚚', status: 'pilot', apis: 14, href: '/modules/logistics' },
-  { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
-  { icon: '🗄️', status: 'dev', apis: 10, href: '/modules/data-platform' },
-  { icon: '🏛️', status: 'core', apis: 8, href: '/us/hbs' },
-  { icon: '🤖', status: 'beta', apis: 5, href: '/modules/ai-services' },
+  { icon: '🎭', status: 'live', apis: 10, href: '/modules/culture' },
+  { icon: '🏛️', status: 'pilot', apis: 14, href: '/modules/reconstruction' },
+  { icon: '📋', status: 'live', apis: 18, href: '/modules/procurement' },
+  
+  // Finance & Trade (3 modules)
   { icon: '🏪', status: 'live', apis: 12, href: '/modules/trade' },
   { icon: '🛡️', status: 'live', apis: 10, href: '/modules/insurance' },
   { icon: '💳', status: 'live', apis: 8, href: '/modules/payments' },
-  { icon: '🏗️', status: 'pilot', apis: 14, href: '/modules/reconstruction' },
+  
+  // Transport (1 module)
   { icon: '🚛', status: 'live', apis: 10, href: '/modules/freight' },
+  
+  // Donor Relations (1 module)
+  { icon: '🤝', status: 'design', apis: 12, href: '/modules/donor-dashboard' },
+  
+  // US Global Models (3 modules)
   { icon: '🎖️', status: 'live', apis: 12, href: '/modules/veterans' },
   { icon: '🚑', status: 'live', apis: 12, href: '/modules/emergency' },
   { icon: '🏥', status: 'live', apis: 12, href: '/modules/healthcare' },
+  
+  // HBS Autopilot
+  { icon: '🏛️', status: 'core', apis: 8, href: '/us/hbs' },
 ];
 
 
