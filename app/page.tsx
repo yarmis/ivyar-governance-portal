@@ -427,13 +427,13 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="space-y-4 font-mono text-sm">
-                  <div className="p-3 bg-[#161B22] border border-[#1F242C]">
+                  <div className="p-3 bg-[#161B22] border border-[#1F242C] cursor-pointer hover:border-[#3CCB7F] transition-colors" onClick={() => alert("AI Analysis\n\n3 recommendations identified:\n1. Budget reallocation suggestion\n2. Process optimization opportunity\n3. Compliance improvement\n\nClick to review in detail.")}>
                     <p className="text-[#8B949E]">Analysis complete. 3 recommendations ready.</p>
                   </div>
-                  <div className="p-3 bg-[#3CCB7F]/10 border border-[#3CCB7F]/30">
+                  <div className="p-3 bg-[#3CCB7F]/10 border border-[#3CCB7F]/30 cursor-pointer hover:bg-[#3CCB7F]/20 transition-colors" onClick={() => alert("Human-in-the-Loop\n\nAll AI recommendations require explicit human approval before execution.\n\n• Zero autonomous actions\n• Full transparency\n• Complete control")}>
                     <p className="text-[#3CCB7F]">✓ All actions require human approval</p>
                   </div>
-                  <div className="p-3 bg-[#00A3FF]/10 border border-[#00A3FF]/30">
+                  <div className="p-3 bg-[#00A3FF]/10 border border-[#00A3FF]/30 cursor-pointer hover:bg-[#00A3FF]/20 transition-colors" onClick={() => alert("Audit Trail\n\nComplete reasoning logs available:\n• Decision factors analyzed\n• Data sources consulted\n• Confidence scores\n• Alternative options considered\n\nFull explainability for all recommendations.")}>
                     <p className="text-[#00A3FF]">ℹ Reasoning logs available for audit</p>
                   </div>
                 </div>
