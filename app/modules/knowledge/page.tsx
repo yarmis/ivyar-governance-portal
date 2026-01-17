@@ -143,27 +143,27 @@ export default function KnowledgeBase() {
             <span>KEY CAPABILITIES</span>
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">📖</div>
               <div className="font-medium">Comprehensive module documentation</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🗺️</div>
               <div className="font-medium">Visual learning paths and workflows</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">❓</div>
               <div className="font-medium">Interactive FAQs and troubleshooting</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🎓</div>
               <div className="font-medium">Role-based training materials</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🔍</div>
               <div className="font-medium">Semantic search across all content</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Knowledge Base Feature\n\nDetailed documentation and interactive learning coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">📹</div>
               <div className="font-medium">Video tutorials and case studies</div>
             </div>
