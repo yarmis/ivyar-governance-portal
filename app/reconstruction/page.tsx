@@ -755,7 +755,7 @@ function LandingPage({ onExplore, stats }: { onExplore: () => void; stats: typeo
               >
                 Explore Projects →
               </button>
-              <button className="bg-[#161B22] border border-[#1F242C] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-[#1F242C] transition-all">
+              <button onClick={() => alert("Donate to Ukraine Reconstruction\n\nSupport verified rebuilding projects with full transparency.\n\nDonation portal coming soon!")} className="bg-[#161B22] border border-[#1F242C] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-[#1F242C] transition-all cursor-pointer">
                 Donate Now
               </button>
             </div>
@@ -1443,7 +1443,7 @@ function DonatePage() {
           </select>
         </div>
 
-        <button className="w-full bg-gradient-to-r from-[#005BBB] to-[#FFD500] text-white py-4 rounded-xl font-bold text-lg">
+        <button onClick={() => alert("Donate to Ukraine 🇺🇦\n\nYour donation supports verified reconstruction projects with full blockchain transparency.\n\nSecure donation portal launching soon!")} className="w-full bg-gradient-to-r from-[#005BBB] to-[#FFD500] text-white py-4 rounded-xl font-bold text-lg cursor-pointer">
           Donate Now 🇺🇦
         </button>
 
