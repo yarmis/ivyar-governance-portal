@@ -3,6 +3,7 @@
 
 
 import Link from 'next/link';
+import AIAssistant from '@/app/components/AIAssistant';
 
 export default function AIIntegrityMonitor() {
   return (
@@ -299,9 +300,9 @@ export default function AIIntegrityMonitor() {
             >
               OPEN MODULE →
             </button>
-            <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+            <Link href="/modules/ai-monitor/api" className="inline-block rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
               VIEW API →
-            </button>
+            </Link>
             <button
               onClick={() => alert('Loading current AI audit reports and bias assessments...')}
               className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]"
@@ -325,6 +326,8 @@ export default function AIIntegrityMonitor() {
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
         </div>
       </footer>
+      {/* AI Assistant */}
+      <AIAssistant module="ai-monitor" />
     </div>
   );
 }

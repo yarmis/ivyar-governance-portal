@@ -3,6 +3,7 @@
 
 
 import Link from 'next/link';
+import AIAssistant from '@/app/components/AIAssistant';
 
 export default function KnowledgeBase() {
   return (
@@ -325,6 +326,8 @@ export default function KnowledgeBase() {
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
         </div>
       </footer>
+      {/* AI Assistant */}
+      <AIAssistant module="knowledge" />
     </div>
   );
 }

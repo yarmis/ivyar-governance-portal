@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import AIAssistant from '@/app/components/AIAssistant';
 
 export default function FeedbackPage() {
   return (
@@ -121,6 +122,8 @@ export default function FeedbackPage() {
           🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world
         </div>
       </footer>
+      {/* AI Assistant */}
+      <AIAssistant module="feedback" />
     </div>
   );
 }
