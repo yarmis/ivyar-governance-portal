@@ -211,19 +211,19 @@ export default function HBSPage() {
               <h2 className="text-xl font-light tracking-wide text-blue-400">AI GOVERNANCE</h2>
             </div>
             <ul className="space-y-3 text-gray-400 font-light">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("AI Governance Feature\n\nDetailed information coming soon.")}>
                 <span className="text-blue-500 mt-1">▸</span>
                 <span>Human-in-the-loop approval</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("AI Governance Feature\n\nDetailed information coming soon.")}>
                 <span className="text-blue-500 mt-1">▸</span>
                 <span>Explainable decisions</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("AI Governance Feature\n\nDetailed information coming soon.")}>
                 <span className="text-blue-500 mt-1">▸</span>
                 <span>Risk scoring & assessment</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("AI Governance Feature\n\nDetailed information coming soon.")}>
                 <span className="text-blue-500 mt-1">▸</span>
                 <span>Complete audit logs</span>
               </li>
