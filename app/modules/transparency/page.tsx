@@ -185,23 +185,23 @@ export default function TransparencyHub() {
               <div>
                 <h3 className="mb-3 font-medium text-[#E6EDF3]">Partners can supply:</h3>
                 <ul className="space-y-2 text-sm text-[#8B949E]">
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Treasury and financial management data</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Project execution and monitoring systems</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Procurement and contract records</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Donor funding and disbursement tracking</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Audit and compliance documentation</span>
                   </li>
@@ -211,23 +211,23 @@ export default function TransparencyHub() {
               <div>
                 <h3 className="mb-3 font-medium text-[#E6EDF3]">IVYAR provides:</h3>
                 <ul className="space-y-2 text-sm text-[#8B949E]">
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Unified public-facing transparency platform</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>AI-powered anomaly detection and insights</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Real-time dashboards and visualizations</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>Multi-stakeholder access controls</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex items-start gap-2 cursor-pointer hover:text-[#3CCB7F] transition-colors" onClick={() => alert("Integration Feature\n\nDetailed integration documentation coming soon.")}>
                     <span>*</span>
                     <span>International standards compliance (IATI, OECD DAC)</span>
                   </li>
