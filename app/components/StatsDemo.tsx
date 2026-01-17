@@ -13,7 +13,7 @@ interface Stat {
 
 const STATS: Stat[] = [
   { label: 'Production Modules', value: 15, icon: '📦' },
-  { label: 'API Endpoints', value: 174, icon: '🔌' },
+  { label: 'API Endpoints', value: 193, icon: '🔌' },
   { label: 'Languages Supported', value: 6, icon: '🌍' },
   { label: 'Uptime SLA', value: 99.9, suffix: '%', decimals: 1, icon: '⚡' },
   { label: 'Response Time', value: 200, prefix: '<', suffix: 'ms', icon: '🚀' },
