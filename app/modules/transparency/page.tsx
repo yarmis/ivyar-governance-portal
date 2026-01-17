@@ -142,27 +142,27 @@ export default function TransparencyHub() {
             <span>KEY CAPABILITIES</span>
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">💰</div>
               <div className="font-medium">Financial flow visualization</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">📊</div>
               <div className="font-medium">Project progress tracking</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🎯</div>
               <div className="font-medium">Impact measurement and reporting</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🔍</div>
               <div className="font-medium">Decision transparency and audit trails</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">📱</div>
               <div className="font-medium">Personalized citizen dashboards</div>
             </div>
-            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4">
+            <div className="rounded-lg border border-[#1F242C] bg-[#161B22] p-4 cursor-pointer transition-all" onClick={() => alert("Transparency Feature\n\nDetailed insights and visualizations coming soon.")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <div className="mb-2 text-2xl">🔔</div>
               <div className="font-medium">Intelligent alerts and notifications</div>
             </div>
