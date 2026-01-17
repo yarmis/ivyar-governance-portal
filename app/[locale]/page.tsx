@@ -1,213 +1,333 @@
-// app/[locale]/page.tsx
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useTranslation } from '@/i18n';
-import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import { GlobalSearch } from '@/components/GlobalSearch';
-import StatsDemo from '../components/StatsDemo';
 
+// ============================================
+// TRANSLATIONS
+// ============================================
+const TRANSLATIONS: Record<string, {
+  hero: { title: string; subtitle: string };
+  nav: { modules: string; ai: string; about: string; portal: string };
+  countries: { label: string };
+  trusted: string;
+  modules: { title: string; subtitle: string; learnMore: string; endpoints: string };
+  ai: { badge: string; title: string; desc: string; features: string[] };
+  cta: { title: string; subtitle: string; demo: string; contact: string };
+  footer: { tagline: string; platform: string; modules: string; company: string; copyright: string; nato: string };
+  modulesList: { name: string; desc: string }[];
+}> = {
+  en: {
+    hero: {
+      title: 'IVYAR Governance Platform',
+      subtitle: 'Institutional infrastructure for ethical, transparent, AI-aligned decision-making across governments and international partners.',
+    },
+    nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
+    countries: { label: 'Operating with respect across:' },
+    trusted: 'Trusted by leading institutions',
+    modules: { title: 'Platform Modules', subtitle: 'Modular Architecture for Government Operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
+    ai: {
+      badge: 'Ethical AI Steward',
+      title: 'AI Administrator — Ethical, Transparent, Human-Aligned',
+      desc: 'The IVYAR AI Administrator assists operators with insights, summaries, and risk signals. It never replaces human authority, always explains its reasoning, and follows the IVYAR ethical charter and HBS safeguards.',
+      features: [
+        'Calm, respectful, and non-intrusive behavior',
+        'Transparent reasoning and audit-ready logs',
+        'Human-first decision support, never autonomous control',
+      ],
+    },
+    cta: {
+      title: 'Ready to modernize your governance operations?',
+      subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance.',
+      demo: 'Request Demo',
+      contact: 'Contact Us',
+    },
+    footer: {
+      tagline: 'Ethical, transparent, AI-aligned governance infrastructure.',
+      platform: 'Platform',
+      modules: 'Modules',
+      company: 'Company',
+      copyright: '© 2024-2026 IVYAR Platform',
+      nato: 'NATO-Aligned • Multi-Region Infrastructure',
+    },
+    modulesList: [
+      { name: 'Procurement Engine', desc: 'Transparent tender management and contract oversight' },
+      { name: 'Logistics Engine', desc: 'Route optimization and supply chain tracking' },
+      { name: 'Donor Dashboard', desc: 'Funding transparency and impact reporting' },
+      { name: 'Data Platform', desc: 'Unified data lake and document management' },
+      { name: 'HBS Module', desc: 'Humanitarian budget support and ethical governance' },
+      { name: 'AI Services', desc: 'Intelligent automation and decision support' },
+    ],
+  },
+  uk: {
+    hero: {
+      title: 'Платформа управління IVYAR',
+      subtitle: 'Інституційна інфраструктура для етичного, прозорого, AI-орієнтованого прийняття рішень урядами та міжнародними партнерами.',
+    },
+    nav: { modules: 'Модулі', ai: 'AI Адміністратор', about: 'Про нас', portal: 'Увійти в портал' },
+    countries: { label: 'Працюємо з повагою в:' },
+    trusted: 'Нам довіряють провідні інституції',
+    modules: { title: 'Модулі платформи', subtitle: 'Модульна архітектура для державних операцій', learnMore: 'Детальніше', endpoints: 'API точок' },
+    ai: {
+      badge: 'Етичний AI Стюард',
+      title: 'AI Адміністратор — Етичний, Прозорий, Людиноцентричний',
+      desc: 'AI Адміністратор IVYAR допомагає операторам з аналітикою, резюме та сигналами ризику. Він ніколи не замінює людський авторитет, завжди пояснює своє міркування та дотримується етичної хартії IVYAR.',
+      features: [
+        'Спокійна, шанобліва та ненав\'язлива поведінка',
+        'Прозоре міркування та готові до аудиту логи',
+        'Підтримка рішень людиною, ніколи автономний контроль',
+      ],
+    },
+    cta: {
+      title: 'Готові модернізувати ваші операції управління?',
+      subtitle: 'Приєднуйтесь до провідних інституцій, які використовують IVYAR для безпечного, відповідного та етичного цифрового управління.',
+      demo: 'Запросити демо',
+      contact: 'Зв\'язатися',
+    },
+    footer: {
+      tagline: 'Етична, прозора, AI-орієнтована інфраструктура управління.',
+      platform: 'Платформа',
+      modules: 'Модулі',
+      company: 'Компанія',
+      copyright: '© 2024-2026 IVYAR Platform',
+      nato: 'NATO-сумісний • Мульти-регіональна інфраструктура',
+    },
+    modulesList: [
+      { name: 'Модуль закупівель', desc: 'Прозоре управління тендерами та контроль контрактів' },
+      { name: 'Модуль логістики', desc: 'Оптимізація маршрутів та відстеження ланцюга постачання' },
+      { name: 'Панель донорів', desc: 'Прозорість фінансування та звітність про вплив' },
+      { name: 'Платформа даних', desc: 'Уніфіковане сховище даних та управління документами' },
+      { name: 'HBS Модуль', desc: 'Гуманітарна бюджетна підтримка та етичне управління' },
+      { name: 'AI Сервіси', desc: 'Інтелектуальна автоматизація та підтримка рішень' },
+    ],
+  },
+  fr: {
+    hero: {
+      title: 'Plateforme de gouvernance IVYAR',
+      subtitle: 'Infrastructure institutionnelle pour une prise de décision éthique, transparente et alignée sur l\'IA entre les gouvernements et les partenaires internationaux.',
+    },
+    nav: { modules: 'Modules', ai: 'Administrateur IA', about: 'À propos', portal: 'Accès au portail' },
+    countries: { label: 'Opérant avec respect à travers:' },
+    trusted: 'Approuvé par les institutions leaders',
+    modules: { title: 'Modules de la plateforme', subtitle: 'Architecture modulaire pour les opérations gouvernementales', learnMore: 'En savoir plus', endpoints: 'points API' },
+    ai: {
+      badge: 'Intendant IA éthique',
+      title: 'Administrateur IA — Éthique, Transparent, Aligné sur l\'humain',
+      desc: 'L\'administrateur IA IVYAR aide les opérateurs avec des insights, des résumés et des signaux de risque. Il ne remplace jamais l\'autorité humaine et suit la charte éthique IVYAR.',
+      features: [
+        'Comportement calme, respectueux et non intrusif',
+        'Raisonnement transparent et journaux prêts pour l\'audit',
+        'Support décisionnel humain, jamais de contrôle autonome',
+      ],
+    },
+    cta: {
+      title: 'Prêt à moderniser vos opérations de gouvernance?',
+      subtitle: 'Rejoignez les institutions leaders utilisant IVYAR pour une gouvernance numérique sécurisée, conforme et éthique.',
+      demo: 'Demander une démo',
+      contact: 'Nous contacter',
+    },
+    footer: {
+      tagline: 'Infrastructure de gouvernance éthique, transparente et alignée sur l\'IA.',
+      platform: 'Plateforme',
+      modules: 'Modules',
+      company: 'Entreprise',
+      copyright: '© 2024-2026 IVYAR Platform',
+      nato: 'Aligné OTAN • Infrastructure multi-région',
+    },
+    modulesList: [
+      { name: 'Moteur d\'approvisionnement', desc: 'Gestion transparente des appels d\'offres' },
+      { name: 'Moteur logistique', desc: 'Optimisation des itinéraires et suivi de la chaîne' },
+      { name: 'Tableau de bord donateurs', desc: 'Transparence du financement et rapports d\'impact' },
+      { name: 'Plateforme de données', desc: 'Lac de données unifié et gestion documentaire' },
+      { name: 'Module HBS', desc: 'Soutien budgétaire humanitaire et gouvernance éthique' },
+      { name: 'Services IA', desc: 'Automatisation intelligente et support décisionnel' },
+    ],
+  },
+  de: {
+    hero: {
+      title: 'IVYAR Governance-Plattform',
+      subtitle: 'Institutionelle Infrastruktur für ethische, transparente, KI-ausgerichtete Entscheidungsfindung für Regierungen und internationale Partner.',
+    },
+    nav: { modules: 'Module', ai: 'KI-Administrator', about: 'Über uns', portal: 'Portal-Zugang' },
+    countries: { label: 'Respektvoll tätig in:' },
+    trusted: 'Vertraut von führenden Institutionen',
+    modules: { title: 'Plattform-Module', subtitle: 'Modulare Architektur für Regierungsoperationen', learnMore: 'Mehr erfahren', endpoints: 'API-Endpunkte' },
+    ai: {
+      badge: 'Ethischer KI-Verwalter',
+      title: 'KI-Administrator — Ethisch, Transparent, Menschenorientiert',
+      desc: 'Der IVYAR KI-Administrator unterstützt Operatoren mit Einblicken, Zusammenfassungen und Risikohinweisen. Er ersetzt niemals menschliche Autorität und folgt der ethischen Charta von IVYAR.',
+      features: [
+        'Ruhiges, respektvolles und unaufdringliches Verhalten',
+        'Transparente Begründung und prüfbare Protokolle',
+        'Menschliche Entscheidungsunterstützung, niemals autonome Kontrolle',
+      ],
+    },
+    cta: {
+      title: 'Bereit, Ihre Governance-Operationen zu modernisieren?',
+      subtitle: 'Schließen Sie sich führenden Institutionen an, die IVYAR für sichere, konforme und ethische digitale Governance nutzen.',
+      demo: 'Demo anfordern',
+      contact: 'Kontakt',
+    },
+    footer: {
+      tagline: 'Ethische, transparente, KI-ausgerichtete Governance-Infrastruktur.',
+      platform: 'Plattform',
+      modules: 'Module',
+      company: 'Unternehmen',
+      copyright: '© 2024-2026 IVYAR Platform',
+      nato: 'NATO-konform • Multi-Regions-Infrastruktur',
+    },
+    modulesList: [
+      { name: 'Beschaffungsmodul', desc: 'Transparente Ausschreibungsverwaltung' },
+      { name: 'Logistikmodul', desc: 'Routenoptimierung und Lieferkettenverfolgung' },
+      { name: 'Spender-Dashboard', desc: 'Finanzierungstransparenz und Wirkungsberichte' },
+      { name: 'Datenplattform', desc: 'Einheitlicher Datensee und Dokumentenverwaltung' },
+      { name: 'HBS-Modul', desc: 'Humanitäre Haushaltsunterstützung und ethische Governance' },
+      { name: 'KI-Dienste', desc: 'Intelligente Automatisierung und Entscheidungsunterstützung' },
+    ],
+  },
+};
 
-const MODULE_META = [
-  { icon: '📋', status: 'live', apis: 18, key: 'procurement', href: '/modules/procurement' },
-  { icon: '🚚', status: 'pilot', apis: 14, key: 'logistics', href: '/modules/logistics' },
-  { icon: '🤝', status: 'design', apis: 12, key: 'donor', href: '/modules/donor-dashboard' },
-  { icon: '🗄️', status: 'dev', apis: 10, key: 'data', href: '/modules/data-platform' },
-  { icon: '🏛️', status: 'core', apis: 10, key: 'hbs', href: '/hbs' },
-  { icon: '🤖', status: 'beta', apis: 10, key: 'ai', href: '/modules/ai-services' },
-  { icon: '🏪', status: 'live', apis: 12, key: 'trade', href: '/modules/trade' },
-  { icon: '🛡️', status: 'live', apis: 10, key: 'insurance', href: '/modules/insurance' },
-  { icon: '💳', status: 'live', apis: 10, key: 'payments', href: '/modules/payments' },
-  { icon: '🏗️', status: 'pilot', apis: 14, key: 'reconstruction', href: '/modules/reconstruction' },
-  { icon: '🚛', status: 'live', apis: 10, key: 'freight', href: '/modules/freight' },
-  { icon: '👁️', status: 'live', apis: 16, key: 'transparency', href: '/modules/transparency', badge: 'CIVIC CORE' },
-  { icon: '💬', status: 'live', apis: 12, key: 'feedback', href: '/modules/feedback', badge: 'CIVIC CORE' },
-  { icon: '📚', status: 'live', apis: 10, key: 'knowledge', href: '/modules/knowledge', badge: 'CIVIC CORE' },
-  { icon: '🤖', status: 'beta', apis: 10, key: 'ai-monitor', href: '/modules/ai-monitor', badge: 'CIVIC CORE' },
+// ============================================
+// MODULE DATA - 18 MODULES
+// ============================================
+const MODULES = [
+  { icon: '📋', name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects', apis: 18, status: 'LIVE' },
+  { icon: '🚚', name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows', apis: 14, status: 'PILOT' },
+  { icon: '🤝', name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions', apis: 12, status: 'DESIGN' },
+  { icon: '🗄️', name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations', apis: 10, status: 'DEV' },
+  { icon: '🏛️', name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability', apis: 10, status: 'CORE' },
+  { icon: '🤖', name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows', apis: 10, status: 'BETA' },
+  { icon: '🏪', name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions', apis: 12, status: 'LIVE' },
+  { icon: '🛡️', name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage', apis: 10, status: 'LIVE' },
+  { icon: '💳', name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions', apis: 10, status: 'LIVE' },
+  { icon: '🏗️', name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards', apis: 14, status: 'PILOT' },
+  { icon: '🚛', name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility', apis: 10, status: 'LIVE' },
+  { icon: '👁️', name: 'Transparency Hub', desc: 'Real-time visibility into all government decisions, budgets, and actions with full audit trails', apis: 16, status: 'LIVE' },
+  { icon: '💬', name: 'Citizen Feedback', desc: 'Direct channel for citizens to report issues, suggest improvements, and track resolution status', apis: 12, status: 'LIVE' },
+  { icon: '📚', name: 'Knowledge Base', desc: 'Searchable repository of policies, procedures, and best practices with AI-powered assistance', apis: 10, status: 'LIVE' },
+  { icon: '🤖', name: 'AI Integrity Monitor', desc: 'Real-time oversight of AI decisions with explainability, bias detection, and human review', apis: 10, status: 'BETA' },
+  { icon: '🎖️', name: 'Veterans Services', desc: 'Comprehensive support for service members with benefits tracking, healthcare coordination, and transition assistance', apis: 12, status: 'LIVE' },
+  { icon: '🚑', name: 'Emergency Services', desc: 'Rapid response coordination and crisis management with real-time resource allocation and incident tracking', apis: 12, status: 'LIVE' },
+  { icon: '🏥', name: 'Healthcare Services', desc: 'Medical services coordination with patient records, appointment scheduling, and provider network management', apis: 12, status: 'LIVE' },
 ];
 
-const PARTNERS = ['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'];
+const TOTAL_APIS = MODULES.reduce((sum, m) => sum + m.apis, 0);
 
-export default function LocalizedLandingPage() {
-  const { t, locale, isRTL } = useTranslation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function HomePage() {
+  const [locale, setLocale] = useState<'en' | 'uk' | 'fr' | 'de'>('en');
+  const t = TRANSLATIONS[locale];
+
+  const modules = MODULES.map(m => ({
+    icon: m.icon,
+    name: m.name,
+    desc: m.desc,
+    apis: m.apis,
+    status: m.status.toLowerCase()
+  }));
 
   return (
-    <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={locale.dir}>
+    <div className="min-h-screen bg-[#0D1117] text-[#E6EDF3] font-sans">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-[#0D1117]/95 backdrop-blur-xl border-b border-[#1F242C] z-50">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-[72px] flex items-center justify-between">
-          {/* Logo */}
-          <Link href={`/${locale.code}`} className="flex items-center gap-2 sm:gap-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-sm sm:text-base">
-              IV
+      <nav className="sticky top-0 z-50 bg-[#161B22]/95 backdrop-blur-sm border-b border-[#1F242C]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between">
+          <div className="flex items-center gap-12">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-lg">IV</div>
+              <span className="text-xl font-semibold">IVYAR</span>
+            </Link>
+            <div className="hidden lg:flex items-center gap-8">
+              <a href="#modules" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.modules}</a>
+              <a href="#ai" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.ai}</a>
+              <a href="#about" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.about}</a>
             </div>
-            <span className="text-base sm:text-lg font-semibold">IVYAR</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            <Link href="#modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">
-              {t('nav.modules')}
-            </Link>
-            <Link href="#ai" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">
-              {t('nav.ai')}
-            </Link>
-            <Link href="#about" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">
-              {t('nav.about')}
-            </Link>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            <GlobalSearch />
-            <LocaleSwitcher />
-            
-            <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#3CCB7F]/10">
-              <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse" />
-              <span className="text-xs font-medium text-[#3CCB7F]">{t('common.status.operational')}</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-3 px-4 h-[40px] bg-[#161B22] border border-[#1F242C]">
+              <span className="text-xs">Search...</span>
+              <div className="flex items-center gap-1 text-[10px] text-[#6E7681]">
+                <span>⌘</span>
+                <span>K</span>
+              </div>
             </div>
-            
-            <Link 
-              href={`/${locale.code}/demo`}
-              className="h-10 lg:h-11 px-4 lg:px-5 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm flex items-center gap-2 hover:from-[#33B5FF] hover:to-[#0088DD] transition-all"
-            >
-              {t('nav.demo')}
-              <svg className="w-4 h-4 hidden lg:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRTL ? "M11 17l-5-5m0 0l5-5m-5 5h12" : "M13 7l5 5m0 0l-5 5m5-5H6"} />
-              </svg>
+
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  const locales: ('en' | 'uk' | 'fr' | 'de')[] = ['en', 'uk', 'fr', 'de'];
+                  const current = locales.indexOf(locale);
+                  const next = (current + 1) % locales.length;
+                  setLocale(locales[next]);
+                }}
+                className="flex items-center gap-2 px-3 h-[40px] bg-[#161B22] border border-[#1F242C] hover:border-[#00A3FF] transition-colors text-sm font-medium"
+              >
+                <span>🇺🇸</span>
+                <span className="hidden sm:inline">
+                  {locale === 'en' ? 'US' : locale === 'uk' ? 'UA' : locale === 'fr' ? 'FR' : 'DE'}
+                </span>
+              </button>
+            </div>
+
+            <span className="hidden md:flex items-center gap-2 text-xs font-medium text-[#3CCB7F] bg-[#3CCB7F]/10 px-3 h-[40px] border border-[#3CCB7F]/30">
+              <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse"></span>
+              Operational
+            </span>
+
+            <Link href="#demo" className="hidden lg:flex items-center h-[40px] px-6 bg-[#00A3FF]/10 text-[#00A3FF] border border-[#00A3FF]/30 font-medium text-sm hover:bg-[#00A3FF]/20 transition-colors">
+              Request Demo
             </Link>
-            
-            <Link 
-              href={`/${locale.code}/hbs`}
-              className="h-10 lg:h-11 px-4 lg:px-5 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center hover:bg-[#2D333B] transition-colors"
-            >
-              {t('nav.portal')}
+
+            <Link href="/dashboard" className="flex items-center h-[40px] px-6 bg-[#00A3FF] text-[#0D1117] font-medium text-sm hover:bg-[#33B5FF] transition-colors">
+              {t.nav.portal}
             </Link>
-          </div>
-
-          {/* Mobile Actions */}
-          <div className="flex md:hidden items-center gap-2">
-            <LocaleSwitcher />
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-[#8B949E] hover:text-white hover:bg-[#1F242C] rounded-lg transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
-          <div className="px-4 py-4 space-y-2 bg-[#0D1117] border-t border-[#1F242C]">
-            <GlobalSearch />
-            
-            <div className="pt-2 space-y-1">
-              <Link 
-                href="#modules" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
-              >
-                {t('nav.modules')}
-              </Link>
-              <Link 
-                href="#ai" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
-              >
-                {t('nav.ai')}
-              </Link>
-              <Link 
-                href="#about" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C] rounded-lg"
-              >
-                {t('nav.about')}
-              </Link>
-            </div>
-
-            <div className="pt-4 space-y-2 border-t border-[#1F242C]">
-              <Link 
-                href={`/${locale.code}/demo`}
-                className="w-full h-12 px-4 bg-gradient-to-r from-[#00A3FF] to-[#0077CC] text-white font-medium text-sm flex items-center justify-center gap-2"
-              >
-                {t('nav.demo')}
-              </Link>
-              <Link 
-                href={`/${locale.code}/hbs`}
-                className="w-full h-12 px-4 bg-[#1F242C] border border-[#3D444D] text-[#E6EDF3] font-medium text-sm flex items-center justify-center"
-              >
-                {t('nav.portal')}
-              </Link>
-            </div>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-[160px] lg:pb-[120px]">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div className="flex flex-col gap-6 sm:gap-8">
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl sm:text-2xl">{locale.flag}</span>
-                  <span className="text-xs sm:text-sm text-[#8B949E]">{locale.name}</span>
-                </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-[56px] font-semibold leading-[1.1] tracking-[-0.02em]">
-                  {t('hero.title')}
-                </h1>
-                <p className="text-sm sm:text-base lg:text-lg text-[#8B949E] leading-relaxed max-w-xl">
-                  {t('hero.subtitle')}
-                </p>
-                
-                <div className="flex flex-wrap gap-3 text-xs sm:text-sm text-[#8B949E] items-center">
-                  {t('hero.origin')}
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <Link 
-                  href={`/${locale.code}/hbs`}
-                  className="h-12 sm:h-[52px] px-6 sm:px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors"
-                >
-                  {t('hero.cta.portal')}
-                </Link>
-                <Link 
-                  href="#modules" 
-                  className="h-12 sm:h-[52px] px-6 sm:px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors"
-                >
-                  {t('hero.cta.modules')}
-                </Link>
-              </div>
+      <section className="py-[80px] lg:py-[120px]">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="flex flex-col items-center text-center gap-8">
+            <div className="inline-flex items-center gap-2 px-4 h-[32px] bg-[#00A3FF]/10 border border-[#00A3FF]/30 text-[#00A3FF] text-xs font-medium">
+              <span>🇺🇸</span>
+              <span>{locale === 'en' ? 'United States' : locale === 'uk' ? 'Україна' : locale === 'fr' ? 'France' : 'Deutschland'}</span>
             </div>
 
-            <div className="hidden lg:flex items-center justify-center">
-              <div className="w-full h-[400px] bg-[#161B22] border border-[#1F242C] relative overflow-hidden">
-                <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} flex gap-2`}>
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                  <div className="w-3 h-3 rounded-full bg-[#27CA40]" />
-                </div>
-                <div className={`absolute top-12 ${isRTL ? 'right-4 left-4 text-right' : 'left-4 right-4'} font-mono text-sm`}>
-                  <p className="text-[#6E7681]">$ ivyar initialize --platform gov-cloud</p>
-                  <p className="text-[#3CCB7F] mt-2">✓ IVYAR GOVERNANCE PLATFORM v3.1</p>
-                  <p className="text-[#8B949E] mt-1">✓ 19 modules loaded</p>
-                  <p className="text-[#8B949E]">✓ 25 regions active</p>
-                  <p className="text-[#8B949E]">✓ AI Administrator online</p>
-                  <p className="text-[#00A3FF] mt-4 animate-pulse">Ready for operations_</p>
-                </div>
+            <h1 className="text-4xl lg:text-6xl font-semibold max-w-[900px] leading-tight">
+              {t.hero.title}
+            </h1>
+
+            <p className="text-lg lg:text-xl text-[#8B949E] max-w-[800px] leading-relaxed">
+              {t.hero.subtitle}
+            </p>
+
+            <div className="flex items-center gap-2 text-sm text-[#6E7681] flex-wrap justify-center">
+              <span>🇺🇸 Built in the United States</span>
+              <span className="text-[#1F242C]">•</span>
+              <span>Inspired by Ukraine</span>
+              <span className="text-[#1F242C]">•</span>
+              <span>Designed for the world</span>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+              <Link href="/dashboard" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">
+                Access Portal
+              </Link>
+              <Link href="#modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">
+                View Modules
+              </Link>
+            </div>
+
+            <div className="w-full max-w-[900px] mt-12 bg-[#161B22] border border-[#1F242C] p-6 font-mono text-sm">
+              <div className="text-[#8B949E]">
+                <span className="text-[#3CCB7F]">$</span> ivyar initialize --platform gov-cloud
+              </div>
+              <div className="mt-4 space-y-2 text-[#6E7681]">
+                <div><span className="text-[#3CCB7F]">✓</span> IVYAR GOVERNANCE PLATFORM v3.1</div>
+                <div><span className="text-[#3CCB7F]">✓</span> {MODULES.length} modules loaded</div>
+                <div><span className="text-[#3CCB7F]">✓</span> 25 regions active</div>
+                <div><span className="text-[#3CCB7F]">✓</span> AI Administrator online</div>
+                <div className="pt-2">Ready for operations<span className="animate-pulse">_</span></div>
               </div>
             </div>
           </div>
@@ -215,496 +335,104 @@ export default function LocalizedLandingPage() {
       </section>
 
       {/* Trusted By */}
-      <section className="py-8 sm:py-12 bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="flex flex-col items-center gap-4 sm:gap-6">
-            <span className="text-[10px] sm:text-xs font-medium text-[#6E7681] uppercase tracking-wider">
-              {t('trusted.label')}
-            </span>
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 lg:gap-12">
-              {PARTNERS.map((partner, i) => (
-                <span key={i} className="text-[#6E7681] text-xs sm:text-sm font-medium opacity-60 hover:opacity-100 transition-opacity">
-                  {partner}
-                </span>
-              ))}
-            </div>
+      <section className="py-[60px] border-y border-[#1F242C] bg-[#161B22]">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <p className="text-center text-sm text-[#6E7681] mb-8 uppercase tracking-wider">{t.trusted}</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
+            {['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'].map((org, i) => (
+              <div key={i} className="text-[#6E7681] font-semibold text-sm">{org}</div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Modules */}
-
-      {/* ========================================== */}
-      {/* METRICS SECTION - Live Platform Status    */}
-      {/* ========================================== */}
-      <section className="py-16 bg-[#0D1117] border-y border-[#1F242C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full mb-4">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs font-mono text-green-400 uppercase tracking-wider">Live Platform Status</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold">Real-Time Operations</h2>
+      {/* Stats */}
+      <section className="py-[80px] lg:py-[100px]">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="flex flex-col gap-6 mb-12">
+            <h2 className="text-3xl lg:text-4xl font-semibold text-center">LIVE PLATFORM STATUS</h2>
+            <p className="text-center text-[#8B949E]">Real-Time Operations</p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-[#00A3FF] mb-2">$10.2B</div>
-              <div className="text-sm text-gray-400">Under Management</div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
+              <div className="text-3xl font-bold text-[#00A3FF]">$10.2B</div>
+              <div className="text-sm text-[#8B949E]">Under Management</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-green-400 mb-2">99.99%</div>
-              <div className="text-sm text-gray-400">Uptime SLA</div>
+            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
+              <div className="text-3xl font-bold text-[#3CCB7F]">99.99%</div>
+              <div className="text-sm text-[#8B949E]">Uptime SLA</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-2">19</div>
-              <div className="text-sm text-gray-400">Active Modules</div>
+            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
+              <div className="text-3xl font-bold text-[#FFB84D]">{MODULES.length}</div>
+              <div className="text-sm text-[#8B949E]">Active Modules</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">25+</div>
-              <div className="text-sm text-gray-400">Regions</div>
+            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
+              <div className="text-3xl font-bold text-[#F778BA]">25+</div>
+              <div className="text-sm text-[#8B949E]">Regions</div>
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-2 text-sm text-gray-400">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+          <div className="mt-6 text-center">
+            <div className="inline-flex items-center gap-3 px-4 h-[36px] bg-[#3CCB7F]/10 border border-[#3CCB7F]/30 text-[#3CCB7F] text-sm">
+              <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse"></span>
               <span>All modules operational • Last updated: 2 seconds ago</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="modules" className="py-16 sm:py-20 lg:py-[120px]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="flex flex-col gap-8 sm:gap-12">
-            <div className="flex flex-col gap-3 sm:gap-4 text-center max-w-2xl mx-auto">
-              <span className="text-[10px] sm:text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
-                {t('modules.title')}
-              </span>
-              <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">{t('modules.subtitle')}</h2>
+      {/* Modules */}
+      <section id="modules" className="py-[80px] lg:py-[120px] bg-[#0D1117]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-4 text-center">
+              <h2 className="text-3xl lg:text-5xl font-semibold">{t.modules.title}</h2>
+              <p className="text-lg text-[#8B949E]">{t.modules.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {MODULE_META.map((mod, i) => (
-                <a href={mod.href} key={i} className="bg-[#161B22] border border-[#1F242C] p-4 sm:p-6 flex flex-col gap-3 sm:gap-4 hover:border-[#00A3FF] transition-colors group">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {modules.map((mod, i) => (
+                <div key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
                   <div className="flex items-start justify-between">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00A3FF]/10 flex items-center justify-center text-xl sm:text-2xl">{mod.icon}</div>
-                    <span className={`text-[10px] sm:text-[11px] font-semibold uppercase px-2 h-5 sm:h-[22px] flex items-center ${
+                    <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
+                    <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
                       mod.status === 'live' || mod.status === 'core' ? 'bg-[#3CCB7F]/15 text-[#3CCB7F]' :
                       mod.status === 'pilot' || mod.status === 'beta' ? 'bg-[#FFB84D]/15 text-[#FFB84D]' :
                       mod.status === 'dev' ? 'bg-[#00A3FF]/15 text-[#00A3FF]' : 'bg-[#8B949E]/15 text-[#8B949E]'
-                    }`}>
-                      {t(`common.status.${mod.status}` as any) || mod.status}
-                    </span>
+                    }`}>{mod.status}</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold">
-                    {t(`modules.${mod.key}` as any)}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#8B949E] flex-1 line-clamp-2">
-                    {t(`modules.${mod.key}.desc` as any)}
-                  </p>
+                  <h3 className="text-lg font-semibold">{mod.name}</h3>
+                  <p className="text-sm text-[#8B949E] flex-1">{mod.desc}</p>
                   <div className="flex items-center justify-between pt-2 border-t border-[#1F242C]">
-                    <span className="text-[10px] sm:text-xs text-[#6E7681]">{mod.apis} {t('modules.endpoints')}</span>
-                    <span className="text-xs sm:text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">
-                      {t('modules.learnMore')} →
-                    </span>
+                    <span className="text-xs text-[#6E7681]">{mod.apis} {t.modules.endpoints}</span>
+                    <span className="text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">{t.modules.learnMore} →</span>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-
-      {/* ========================================== */}
-      {/* ARCHITECTURE SECTION                       */}
-      {/* ========================================== */}
-      <section className="py-24 bg-[#0D1117]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">System Architecture</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Four-layer modular architecture designed for government operations at any scale
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            {/* Layer 1 */}
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-[#00A3FF]/10 rounded-lg flex items-center justify-center">
-                  <span className="text-xl font-bold text-[#00A3FF]">1</span>
-                </div>
-                <h3 className="text-2xl font-semibold">Core Governance Layer</h3>
-                <span className="ml-auto text-sm text-gray-400">4 modules</span>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
-                  <div className="text-2xl mb-2">🏛️</div>
-                  <div className="text-sm font-semibold">HBS Module</div>
-                  <div className="text-xs text-gray-500">Humanitarian Budget</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
-                  <div className="text-2xl mb-2">🤖</div>
-                  <div className="text-sm font-semibold">AI Admin</div>
-                  <div className="text-xs text-gray-500">Operations Center</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
-                  <div className="text-2xl mb-2">💳</div>
-                  <div className="text-sm font-semibold">Payments Hub</div>
-                  <div className="text-xs text-gray-500">National Treasury</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
-                  <div className="text-2xl mb-2">🗄️</div>
-                  <div className="text-sm font-semibold">Data Platform</div>
-                  <div className="text-xs text-gray-500">Unified Data Lake</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Layer 2 */}
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                  <span className="text-xl font-bold text-green-400">2</span>
-                </div>
-                <h3 className="text-2xl font-semibold">Operational Engines</h3>
-                <span className="ml-auto text-sm text-gray-400">5 modules</span>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
-                  <div className="text-2xl mb-2">📋</div>
-                  <div className="text-sm font-semibold">Procurement</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/trade"}>
-                  <div className="text-2xl mb-2">🏪</div>
-                  <div className="text-sm font-semibold">Trade</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/insurance"}>
-                  <div className="text-2xl mb-2">🛡️</div>
-                  <div className="text-sm font-semibold">Insurance</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/freight"}>
-                  <div className="text-2xl mb-2">🚛</div>
-                  <div className="text-sm font-semibold">Freight</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/logistics"}>
-                  <div className="text-2xl mb-2">🚚</div>
-                  <div className="text-sm font-semibold">Logistics</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Layer 3 */}
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                  <span className="text-xl font-bold text-purple-400">3</span>
-                </div>
-                <h3 className="text-2xl font-semibold">Reconstruction & Development</h3>
-                <span className="ml-auto text-sm text-gray-400">2 modules</span>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/reconstruction"}>
-                  <div className="text-2xl mb-2">🏗️</div>
-                  <div className="text-sm font-semibold">Reconstruction</div>
-                  <div className="text-xs text-gray-500">Post-War Rebuilding</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/donor-dashboard"}>
-                  <div className="text-2xl mb-2">🤝</div>
-                  <div className="text-sm font-semibold">Donor Dashboard</div>
-                  <div className="text-xs text-gray-500">Funding Transparency</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Layer 4 */}
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                  <span className="text-xl font-bold text-orange-400">4</span>
-                </div>
-                <h3 className="text-2xl font-semibold">National Extensions</h3>
-                <span className="ml-auto text-sm text-gray-400">Customizable</span>
-              </div>
-              <div className="bg-[#0D1117] border border-[#30363D] rounded p-6 text-center">
-                <p className="text-gray-400">Regional and sector-specific modules tailored to national requirements</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Integration Note */}
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg">
-              <svg className="w-5 h-5 text-[#00A3FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span className="text-sm text-gray-400">All layers communicate through unified Data Platform and API Gateway</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ========================================== */}
-      {/* PROMETHEUS OBSERVABILITY PLATFORM v9.0     */}
-      {/* ========================================== */}
-      <section id="prometheus" className="py-24 bg-gradient-to-b from-[#0D1117] via-[#1a0e0e] to-[#0D1117]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-full mb-4">
-              <svg className="w-3 h-3 text-orange-400 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-              </svg>
-              <span className="text-xs font-mono text-orange-400 uppercase tracking-wider">
-                Prometheus v9.0
-              </span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 via-red-400 to-orange-400 bg-clip-text text-transparent">
-              Platform Observability
-            </h2>
-            
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Real-time monitoring, distributed tracing, and log aggregation powered by industry-standard tools
-            </p>
-          </div>
-
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            
-            {/* Prometheus Metrics */}
-            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">Prometheus Metrics</h3>
-                  <p className="text-sm text-gray-500">Time-series monitoring</p>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-400">API Response Time</span>
-                    <span className="text-sm font-mono text-green-400">42ms</span>
-                  </div>
-                  <div className="w-full bg-[#161B22] rounded-full h-2">
-                    <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: '15%'}}></div>
-                  </div>
-                </div>
-                
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-400">CPU Usage</span>
-                    <span className="text-sm font-mono text-yellow-400">34%</span>
-                  </div>
-                  <div className="w-full bg-[#161B22] rounded-full h-2">
-                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-2 rounded-full" style={{width: '34%'}}></div>
-                  </div>
-                </div>
-                
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-400">Memory Usage</span>
-                    <span className="text-sm font-mono text-orange-400">58%</span>
-                  </div>
-                  <div className="w-full bg-[#161B22] rounded-full h-2">
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-400 h-2 rounded-full" style={{width: '58%'}}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-[#30363D]">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-500">Scrape interval: 15s</span>
-                  <span className="text-green-400 flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    Active
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Grafana Dashboards */}
-            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">Grafana Dashboards</h3>
-                  <p className="text-sm text-gray-500">Visual analytics</p>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
-                  <div className="text-3xl font-bold text-[#00A3FF] mb-1">12</div>
-                  <div className="text-xs text-gray-500">Active Dashboards</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-1">847</div>
-                  <div className="text-xs text-gray-500">Metrics Tracked</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
-                  <div className="text-3xl font-bold text-purple-400 mb-1">3</div>
-                  <div className="text-xs text-gray-500">Alert Rules</div>
-                </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
-                  <div className="text-3xl font-bold text-orange-400 mb-1">24/7</div>
-                  <div className="text-xs text-gray-500">Monitoring</div>
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <div className="text-sm text-gray-400 mb-2">Popular Dashboards:</div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <div className="w-2 h-2 bg-[#00A3FF] rounded-full"></div>
-                    <span>API Gateway Performance</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span>Database Metrics</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                    <span>Module Health Status</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Loki Logs */}
-            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">Loki Log Aggregation</h3>
-                  <p className="text-sm text-gray-500">Centralized logging</p>
-                </div>
-              </div>
-              
-              <div className="bg-[#0D1117] border border-[#30363D] rounded font-mono text-xs p-4 space-y-1 overflow-hidden">
-                <div className="text-gray-500">[2026-01-12 01:15:32] <span className="text-green-400">INFO</span> API request completed in 42ms</div>
-                <div className="text-gray-500">[2026-01-12 01:15:33] <span className="text-blue-400">DEBUG</span> Cache hit for module:procurement</div>
-                <div className="text-gray-500">[2026-01-12 01:15:34] <span className="text-yellow-400">WARN</span> High memory usage: 58%</div>
-                <div className="text-gray-500">[2026-01-12 01:15:35] <span className="text-green-400">INFO</span> Database query executed: 18ms</div>
-              </div>
-              
-              <div className="mt-4 flex items-center gap-4 text-xs">
-                <span className="text-gray-400">15.2K logs/min</span>
-                <span className="text-gray-400">•</span>
-                <span className="text-green-400">Retention: 30 days</span>
-              </div>
-            </div>
-
-            {/* Distributed Tracing */}
-            <div className="bg-[#161B22] border border-orange-500/20 rounded-lg p-8 hover:border-orange-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">Distributed Tracing</h3>
-                  <p className="text-sm text-gray-500">Jaeger integration</p>
-                </div>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                    <span className="text-sm font-semibold">Trace ID: 7f3a9c2d</span>
-                    <span className="ml-auto text-xs text-gray-500">124ms</span>
-                  </div>
-                  <div className="space-y-1 ml-4 text-xs text-gray-400">
-                    <div>→ API Gateway <span className="text-gray-600">(8ms)</span></div>
-                    <div className="ml-3">→ Auth Service <span className="text-gray-600">(12ms)</span></div>
-                    <div className="ml-3">→ Procurement Module <span className="text-gray-600">(98ms)</span></div>
-                    <div className="ml-6">→ Database Query <span className="text-gray-600">(82ms)</span></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-6 grid grid-cols-3 gap-3 text-center text-xs">
-                <div>
-                  <div className="text-lg font-bold text-blue-400">2.4K</div>
-                  <div className="text-gray-500">Traces/hour</div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-green-400">98.2%</div>
-                  <div className="text-gray-500">Success rate</div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-orange-400">67ms</div>
-                  <div className="text-gray-500">Avg latency</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-lg">
-              <svg className="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-              </svg>
-              <span className="text-sm text-gray-400">
-                Powered by <span className="font-semibold text-orange-400">Prometheus</span>, 
-                <span className="font-semibold text-orange-400"> Grafana</span>, 
-                <span className="font-semibold text-purple-400"> Loki</span>, and 
-                <span className="font-semibold text-blue-400"> Jaeger</span>
-              </span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
       {/* AI Administrator */}
-      <section id="ai" className="py-16 sm:py-20 lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div className="flex flex-col gap-4 sm:gap-6">
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <span className="text-[10px] sm:text-xs font-medium text-[#00A3FF] uppercase tracking-wider">
-                  {t('ai.badge')}
-                </span>
-<h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">{t('ai.title')}</h2>
-                <p className="text-sm sm:text-base text-[#8B949E] leading-relaxed">
-                  {t('ai.subtitle')}
+      <section id="ai" className="py-[80px] lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4">
+                <span className="text-xs font-medium text-[#00A3FF] uppercase tracking-wider">{t.ai.badge}</span>
+                <h2 className="text-2xl lg:text-4xl font-semibold">{t.ai.title}</h2>
+                <p className="text-[#8B949E] leading-relaxed">
+                  {t.ai.desc}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 sm:gap-4 mt-2 sm:mt-4">
-                {[t('ai.feature1'), t('ai.feature2'), t('ai.feature3')].map((feature, i) => (
-                  <div key={i} className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-[#00A3FF]/5 ${isRTL ? 'border-r-2' : 'border-l-2'} border-[#00A3FF]`}>
+              <div className="flex flex-col gap-4 mt-4">
+                {t.ai.features.map((feature, i) => (
+                  <div key={i} className="flex items-start gap-4 p-4 bg-[#00A3FF]/5 border-l-2 border-[#00A3FF]">
                     <span className="text-[#00A3FF] font-bold">✓</span>
-                    <span className="text-sm sm:text-[15px]">{feature}</span>
+                    <span className="text-[15px]">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -715,596 +443,99 @@ export default function LocalizedLandingPage() {
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-[#00A3FF]/20 flex items-center justify-center">🤖</div>
                   <div>
-                    <p className="font-medium">{t('ai.assistant.title')}</p>
-                    <p className="text-xs text-[#6E7681]">{t('ai.assistant.subtitle')}</p>
+                    <p className="font-medium">AI Administrator</p>
+                    <p className="text-xs text-[#6E7681]">Ethical Governance Assistant</p>
                   </div>
                 </div>
                 <div className="space-y-4 font-mono text-sm">
                   <div className="p-3 bg-[#161B22] border border-[#1F242C]">
-                    <p className="text-[#8B949E]">{t('ai.assistant.analysis')}</p>
+                    <p className="text-[#8B949E]">Analysis complete. 3 recommendations ready.</p>
                   </div>
                   <div className="p-3 bg-[#3CCB7F]/10 border border-[#3CCB7F]/30">
-                    <p className="text-[#3CCB7F]">{t('ai.assistant.approval')}</p>
+                    <p className="text-[#3CCB7F]">✓ All actions require human approval</p>
                   </div>
                   <div className="p-3 bg-[#00A3FF]/10 border border-[#00A3FF]/30">
-                    <p className="text-[#00A3FF]">{t('ai.assistant.logs')}</p>
+                    <p className="text-[#00A3FF]">ℹ Reasoning logs available for audit</p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ========================================== */}
-      {/* TEAM OS SECTION - Internal Operations      */}
-      {/* ========================================== */}
-      <section id="team-os" className="py-24 bg-[#0D1117]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 border border-orange-500/30 rounded-full mb-4">
-              <svg className="w-3 h-3 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-              <span className="text-xs font-mono text-orange-400 uppercase tracking-wider">Internal Operations</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Team Operating System</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">Operational foundation and cultural principles for world-class execution</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <div onClick={() => alert("Leadership Principles\n\n7 core principles:\n1. Customer Obsession\n2. Ownership\n3. Think Big\n4. Bias for Action\n5. Earn Trust\n6. Dive Deep\n7. Have Backbone\n\nFull documentation coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">🧭</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Leadership Principles</h3>
-              <p className="text-sm text-gray-400 mb-4">7 principles that define how we work</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <div onClick={() => alert("DRI Handbook\n\nDirectly Responsible Individual model for clear ownership and accountability.\n\nFull handbook coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">👤</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">DRI Handbook</h3>
-              <p className="text-sm text-gray-400 mb-4">Ownership model and responsibilities</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <div onClick={() => alert("Operational Rhythm\n\nDaily standups, weekly planning, sprint reviews.\n\nFull schedule coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">🕐</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Operational Rhythm</h3>
-              <p className="text-sm text-gray-400 mb-4">Daily and weekly cadence</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <div onClick={() => alert("Kickoff Script\n\n30-minute meeting template for project kickoffs.\n\nFull template coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">▶️</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Kickoff Script</h3>
-              <p className="text-sm text-gray-400 mb-4">30-minute meeting template</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <div onClick={() => alert("Team Charter\n\nMission, values, and standards.\n\nFull charter coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">📜</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Team Charter</h3>
-              <p className="text-sm text-gray-400 mb-4">Mission, values, and standards</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <div onClick={() => alert("Team Dashboard\n\nMonitor critical path and red flags.\n\nLive dashboard coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
-              <div className="text-4xl mb-4">📊</div>
-              <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Dashboard</h3>
-              <p className="text-sm text-gray-400 mb-4">Critical Path and Red Flags monitoring</p>
-              <div className="flex items-center text-sm text-gray-500 group-hover:text-[#00A3FF] transition-colors">
-                <span>Learn more</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div className="text-center">
-            <a href="/team-os" className="inline-flex items-center gap-2 text-[#00A3FF] hover:underline text-lg font-medium">
-              <span>View Full Team Operating System</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ========================================== */}
-      {/* QUANTUM SECURITY SECTION                   */}
-      {/* ========================================== */}
-      <section id="quantum-security" className="py-24 bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4">
-              <svg className="w-3 h-3 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-              </svg>
-              <span className="text-xs font-mono text-purple-400 uppercase tracking-wider">
-                Post-Quantum Cryptography
-              </span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Quantum-Resistant Security
-            </h2>
-            
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Future-proof protection using NIST-approved algorithms resistant to quantum computing attacks
-            </p>
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            
-            {/* CRYSTALS-Kyber */}
-            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-semibold">CRYSTALS-Kyber</h3>
-              </div>
-              <p className="text-gray-400 mb-4">
-                NIST-standardized key encapsulation mechanism for secure key exchange
-              </p>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Protects API authentication between nations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Secures sensitive financial data at rest</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Hybrid mode with classical encryption</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* CRYSTALS-Dilithium */}
-            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-semibold">CRYSTALS-Dilithium</h3>
-              </div>
-              <p className="text-gray-400 mb-4">
-                NIST-standardized digital signature scheme for long-term document integrity
-              </p>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Signs contracts and tenders (50+ year validity)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Ensures immutability of audit trails</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Verifiable by any party without trust</span>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-
-          {/* Why It Matters */}
-          <div className="bg-[#0D1117] border border-purple-500/30 rounded-lg p-8">
-            <h3 className="text-2xl font-semibold mb-4 flex items-center gap-3">
-              <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-              Why Quantum-Resistant Cryptography Matters for Governance
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-400">
-              <div>
-                <h4 className="font-semibold text-white mb-2">⏳ "Harvest Now, Decrypt Later" Threat</h4>
-                <p className="text-sm">
-                  Adversaries are already capturing encrypted government data today, waiting for quantum computers powerful enough to break current encryption in 10-15 years.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">📜 Long-Term Document Validity</h4>
-                <p className="text-sm">
-                  Contracts, treaties, and procurement records must remain legally valid and tamper-proof for 50+ years, outlasting classical cryptography's security guarantees.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">🌍 Cross-Border Trust</h4>
-                <p className="text-sm">
-                  International cooperation requires cryptographic standards that all nations trust will remain secure against emerging quantum threats.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-2">✅ NIST Standardization (2024)</h4>
-                <p className="text-sm">
-                  CRYSTALS-Kyber and CRYSTALS-Dilithium are officially standardized by NIST, ensuring global interoperability and regulatory compliance.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* SECURITY & COMPLIANCE SECTION              */}
-      {/* ========================================== */}
-      <section className="py-24 bg-[#0D1117]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full mb-4">
-              <svg className="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="text-xs font-mono text-blue-400 uppercase tracking-wider">Enterprise Security</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Security & Compliance</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Built to the highest security standards with continuous monitoring and third-party audits
-            </p>
-          </div>
-
-          {/* Certifications Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
-              <div className="text-3xl mb-3">🛡️</div>
-              <div className="text-sm font-semibold mb-1">ISO 27001</div>
-              <div className="text-xs text-gray-500">Certified</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
-              <div className="text-3xl mb-3">🛡️</div>
-              <div className="text-sm font-semibold mb-1">SOC 2 Type II</div>
-              <div className="text-xs text-gray-500">Certified</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
-              <div className="text-3xl mb-3">🛡️</div>
-              <div className="text-sm font-semibold mb-1">GDPR</div>
-              <div className="text-xs text-gray-500">Compliant</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
-              <div className="text-3xl mb-3">🛡️</div>
-              <div className="text-sm font-semibold mb-1">NATO CIS</div>
-              <div className="text-xs text-gray-500">Certified</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors">
-              <div className="text-3xl mb-3">🛡️</div>
-              <div className="text-sm font-semibold mb-1">IRAP</div>
-              <div className="text-xs text-gray-500">Australia</div>
-            </div>
-          </div>
-
-          {/* Security Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
-              <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">99.99% Uptime SLA</h3>
-              <p className="text-sm text-gray-400 mb-4">
-                Multi-region redundancy with automated failover and &lt;4 hour disaster recovery
-              </p>
-              <ul className="space-y-2 text-xs text-gray-500">
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  3 geographic regions
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Real-time replication
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  24/7 monitoring
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Zero-Trust Architecture</h3>
-              <p className="text-sm text-gray-400 mb-4">
-                End-to-end encryption with multi-factor authentication and role-based access control
-              </p>
-              <ul className="space-y-2 text-xs text-gray-500">
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  AES-256 encryption
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Hardware security modules
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Biometric authentication
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-8">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Quarterly Penetration Testing</h3>
-              <p className="text-sm text-gray-400 mb-4">
-                Independent security audits and vulnerability assessments by certified ethical hackers
-              </p>
-              <ul className="space-y-2 text-xs text-gray-500">
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  OWASP Top 10 coverage
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  CVE monitoring
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Bug bounty program
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-      {/* ========================================== */}
-      {/* TESTIMONIALS SECTION                       */}
-      {/* ========================================== */}
-      <section className="py-24 bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Trusted by Leading Institutions</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Governments and international organizations rely on IVYAR for transparent, ethical operations
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Testimonial 1 - World Bank */}
-            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
-                  🏦
-                </div>
-                <div>
-                  <div className="font-semibold">Dr. Sarah Chen</div>
-                  <div className="text-sm text-gray-500">Senior Operations Officer</div>
-                  <div className="text-xs text-gray-600">World Bank</div>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                "IVYAR transformed how we manage $2.1B in humanitarian aid. The AI Administrator flags anomalies before they become issues, and the audit trail gives our donors complete confidence."
-              </p>
-              <div className="flex gap-1">
-                {[1,2,3,4,5].map(i => (
-                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-
-            {/* Testimonial 2 - NATO */}
-            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
-                  🛡️
-                </div>
-                <div>
-                  <div className="font-semibold">Col. Marcus Weber</div>
-                  <div className="text-sm text-gray-500">Chief Technology Officer</div>
-                  <div className="text-xs text-gray-600">NATO DIANA</div>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                "The quantum-resistant cryptography and zero-trust architecture meet our strictest security requirements. IVYAR is the only platform we trust for cross-border defense procurement."
-              </p>
-              <div className="flex gap-1">
-                {[1,2,3,4,5].map(i => (
-                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-
-            {/* Testimonial 3 - USAID */}
-            <div className="bg-[#0D1117] border border-[#30363D] rounded-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
-                  🇺🇸
-                </div>
-                <div>
-                  <div className="font-semibold">Jennifer Rodriguez</div>
-                  <div className="text-sm text-gray-500">Program Director</div>
-                  <div className="text-xs text-gray-600">USAID</div>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                "We reduced procurement cycle times by 60% while improving transparency. The real-time dashboard gives our oversight committees instant visibility into every dollar spent."
-              </p>
-              <div className="flex gap-1">
-                {[1,2,3,4,5].map(i => (
-                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div className="text-3xl font-bold text-[#00A3FF] mb-2">98%</div>
-              <div className="text-sm text-gray-400">Customer Satisfaction</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-400 mb-2">25+</div>
-              <div className="text-sm text-gray-400">Countries Deployed</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-400 mb-2">$10.2B</div>
-              <div className="text-sm text-gray-400">Transactions Processed</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-orange-400 mb-2">99.99%</div>
-              <div className="text-sm text-gray-400">Uptime Achieved</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 sm:py-20 lg:py-[120px]">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 text-center">
-          <div className="flex flex-col items-center gap-4 sm:gap-6">
-            <h2 className="text-xl sm:text-2xl lg:text-4xl font-semibold">Ready to Transform Governance?</h2>
-            <p className="text-sm sm:text-base lg:text-lg text-[#8B949E]">Join leading institutions using IVYAR</p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 sm:mt-4 w-full sm:w-auto">
-              <Link 
-                href={`/${locale.code}/demo`}
-                className="h-12 sm:h-[52px] px-6 sm:px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors"
-              >
-                Request Demo
-              </Link>
-              <Link 
-                href="#contact" 
-                className="h-12 sm:h-[52px] px-6 sm:px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors"
-              >
-                Contact Sales
-              </Link>
+      <section className="py-[80px] lg:py-[120px]">
+        <div className="max-w-[800px] mx-auto px-6 text-center">
+          <div className="flex flex-col items-center gap-6">
+            <h2 className="text-2xl lg:text-4xl font-semibold">{t.cta.title}</h2>
+            <p className="text-[#8B949E] text-lg">{t.cta.subtitle}</p>
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+              <Link href="#contact" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
+              <Link href="#contact" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">{t.cta.contact}</Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#161B22] border-t border-[#1F242C] pt-12 sm:pt-16 pb-6">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 pb-8 sm:pb-12 border-b border-[#1F242C]">
-            <div className="col-span-2 sm:col-span-1 flex flex-col gap-4">
+      <footer className="bg-[#161B22] border-t border-[#1F242C] pt-16 pb-6">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-[#1F242C]">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-sm sm:text-base">IV</div>
-                <span className="text-base sm:text-lg font-semibold">IVYAR</span>
+                <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
+                <span className="text-lg font-semibold">IVYAR</span>
               </div>
-              <p className="text-xs sm:text-sm text-[#8B949E]">Ethical AI Governance Platform</p>
+              <p className="text-sm text-[#8B949E]">{t.footer.tagline}</p>
               <div className="flex flex-wrap gap-2 mt-2">
-                {['ISO 27001', 'SOC 2', 'GDPR', 'PQC Ready'].map((cert, i) => (
-                  <span key={i} className="text-[9px] sm:text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
+                {['ISO 27001', 'SOC 2', 'GDPR', 'IRAP'].map((cert, i) => (
+                  <span key={i} className="text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <h4 className="text-xs sm:text-sm font-semibold">Platform</h4>
-              <div className="flex flex-col gap-2 sm:gap-3">
-                {['Dashboard', 'AI Operations', 'Documentation'].map((link, i) => (
-                  <Link key={i} href={`/${locale.code}/hbs`} className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-4">
+              <h4 className="text-sm font-semibold">{t.footer.platform}</h4>
+              <div className="flex flex-col gap-3">
+                {['Dashboard', 'AI Operations', 'Documentation', 'API Reference'].map((link, i) => (
+                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <h4 className="text-xs sm:text-sm font-semibold">Modules</h4>
-              <div className="flex flex-col gap-2 sm:gap-3">
-                {['Procurement', 'Logistics', 'HBS Module'].map((link, i) => (
-                  <Link key={i} href={`/${locale.code}/hbs`} className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-4">
+              <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
+              <div className="flex flex-col gap-3">
+                {['Procurement', 'Logistics', 'Donor Dashboard', 'HBS Module'].map((link, i) => (
+                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <h4 className="text-xs sm:text-sm font-semibold">Company</h4>
-              <div className="flex flex-col gap-2 sm:gap-3">
-                {['About', 'Contact', 'Careers'].map((link, i) => (
-                  <Link key={i} href="#" className="text-xs sm:text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
+            <div className="flex flex-col gap-4">
+              <h4 className="text-sm font-semibold">{t.footer.company}</h4>
+              <div className="flex flex-col gap-3">
+                {['About IVYAR', 'Contact', 'Careers', 'Press'].map((link, i) => (
+                  <Link key={i} href="#" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
-            <span className="text-xs sm:text-sm text-[#6E7681]">© 2024-2026 IVYAR. All rights reserved.</span>
-            <span className="text-xs sm:text-sm text-[#6E7681]">NATO DIANA Approved</span>
+          <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <span className="text-sm text-[#6E7681]">{t.footer.copyright}</span>
+            <span className="text-sm text-[#6E7681]">{t.footer.nato}</span>
           </div>
         </div>
       </footer>
+
+      <style jsx global>{`
+        @keyframes breathing {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(0, 163, 255, 0.15); }
+          50% { box-shadow: 0 0 12px 0 rgba(0, 163, 255, 0.35); }
+        }
+      `}</style>
     </div>
   );
 }
