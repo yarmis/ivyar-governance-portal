@@ -205,6 +205,9 @@ const MODULE_META = [
   { icon: '💳', status: 'live', apis: 8, href: '/modules/payments' },
   { icon: '🏗️', status: 'pilot', apis: 14, href: '/modules/reconstruction' },
   { icon: '🚛', status: 'live', apis: 10, href: '/modules/freight' },
+  { icon: '🎖️', status: 'live', apis: 12, href: '/modules/veterans' },
+  { icon: '🚑', status: 'live', apis: 12, href: '/modules/emergency' },
+  { icon: '🏥', status: 'live', apis: 12, href: '/modules/healthcare' },
 ];
 
 
