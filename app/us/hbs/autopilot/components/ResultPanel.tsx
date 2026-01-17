@@ -12,6 +12,11 @@ export default function ResultPanel({ decision }: Props) {
     decision.status === "approve" ? "#1a7f37" : 
     decision.status === "review" ? "#b38600" : "#b00020";
   
+  // Convert 0-1 score to 0-100 for display
+  const scoreDisplay = typeof decision.score === "number" 
+    ? Math.round(decision.score * 100) 
+    : 0;
+  
   return (
     <section style={{ border: "1px solid #475569", borderRadius: "8px", padding: "1.5rem", background: "#1e293b" }}>
       <h3 style={{ marginBottom: "1rem", color: "#fff" }}>Decision Result</h3>
@@ -34,13 +39,13 @@ export default function ResultPanel({ decision }: Props) {
         <div style={{ marginBottom: "1.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
             <span style={{ fontWeight: "600", color: "#fff" }}>Confidence Score</span>
-            <span style={{ fontWeight: "600", color: "#fff" }}>{decision.score}/100</span>
+            <span style={{ fontWeight: "600", color: "#fff" }}>{scoreDisplay}/100</span>
           </div>
           <div style={{ width: "100%", height: "24px", background: "#eee", borderRadius: "12px", overflow: "hidden" }}>
             <div style={{
-              width: decision.score + "%",
+              width: scoreDisplay + "%",
               height: "100%",
-              background: decision.score >= 80 ? "#28a745" : decision.score >= 50 ? "#ffc107" : "#dc3545"
+              background: scoreDisplay >= 80 ? "#28a745" : scoreDisplay >= 50 ? "#ffc107" : "#dc3545"
             }} />
           </div>
         </div>

@@ -13,6 +13,7 @@ export default function JsonModal({ decision }: Props) {
   if (!open) {
     return (
       <button
+        type="button"
         onClick={() => setOpen(true)}
         style={{
           padding: "0.5rem 1rem",
@@ -58,6 +59,7 @@ export default function JsonModal({ decision }: Props) {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h3 style={{ margin: 0, color: "#fff" }}>Autopilot Decision (JSON)</h3>
           <button
+            type="button"
             onClick={() => setOpen(false)}
             style={{
               padding: "0.5rem 1rem",
