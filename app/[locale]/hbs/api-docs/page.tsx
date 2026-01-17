@@ -25,7 +25,7 @@ export default function HbsApiDocs() {
             <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded text-xs font-bold border border-blue-500/30">POST</span>
             <span className="text-cyan-400 font-mono">/api/hbs/autopilot/decide</span>
           </div>
-          <p className="text-gray-400 text-sm">Make a decision using v7 or v8</p>
+          <p className="text-gray-400 text-sm">Make a decision using v12</p>
         </div>
 
         <div className="bg-slate-900 border border-cyan-900/30 rounded-lg p-6">
@@ -33,7 +33,7 @@ export default function HbsApiDocs() {
             <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded text-xs font-bold border border-blue-500/30">POST</span>
             <span className="text-cyan-400 font-mono">/api/hbs/autopilot/compare</span>
           </div>
-          <p className="text-gray-400 text-sm">Compare v7 vs v8 decisions</p>
+          <p className="text-gray-400 text-sm">Compare v12 decision versions</p>
         </div>
 
         <div className="bg-slate-900 border border-cyan-900/30 rounded-lg p-6">
@@ -41,7 +41,7 @@ export default function HbsApiDocs() {
             <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded text-xs font-bold border border-blue-500/30">POST</span>
             <span className="text-cyan-400 font-mono">/api/hbs/autopilot/flags/enable</span>
           </div>
-          <p className="text-gray-400 text-sm">Enable v8 with percentage rollout</p>
+          <p className="text-gray-400 text-sm">Enable v12 with percentage rollout</p>
         </div>
 
         <div className="bg-slate-900 border border-cyan-900/30 rounded-lg p-6">
@@ -49,7 +49,7 @@ export default function HbsApiDocs() {
             <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded text-xs font-bold border border-blue-500/30">POST</span>
             <span className="text-cyan-400 font-mono">/api/hbs/autopilot/flags/disable</span>
           </div>
-          <p className="text-gray-400 text-sm">Disable v8 feature flags</p>
+          <p className="text-gray-400 text-sm">Disable v12 feature flags</p>
         </div>
       </div>
     </div>
