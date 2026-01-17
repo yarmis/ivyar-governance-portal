@@ -89,7 +89,7 @@ export async function autopilotRequest(payload: AutopilotRequestPayload): Promis
       decisionId: `demo-${Date.now()}`,
       scenarioId: payload.scenarioId,
       status: 'review',
-      score: 0.85,
+      score: 85,
       explanation: `Demo mode: This is a ${scenario?.name || 'scenario'} assistant. In production, this would analyze your request using AI and provide detailed recommendations.`,
       references: ['Demo Mode - Connect to production API for full functionality'],
       createdAt: new Date().toISOString()
