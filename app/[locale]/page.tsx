@@ -341,22 +341,22 @@ export default function LocalizedLandingPage() {
                 <span className="ml-auto text-sm text-gray-400">4 modules</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
                   <div className="text-2xl mb-2">🏛️</div>
                   <div className="text-sm font-semibold">HBS Module</div>
                   <div className="text-xs text-gray-500">Humanitarian Budget</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
                   <div className="text-2xl mb-2">🤖</div>
                   <div className="text-sm font-semibold">AI Admin</div>
                   <div className="text-xs text-gray-500">Operations Center</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
                   <div className="text-2xl mb-2">💳</div>
                   <div className="text-sm font-semibold">Payments Hub</div>
                   <div className="text-xs text-gray-500">National Treasury</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
                   <div className="text-2xl mb-2">🗄️</div>
                   <div className="text-sm font-semibold">Data Platform</div>
                   <div className="text-xs text-gray-500">Unified Data Lake</div>
@@ -374,23 +374,23 @@ export default function LocalizedLandingPage() {
                 <span className="ml-auto text-sm text-gray-400">5 modules</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/procurement"}>
                   <div className="text-2xl mb-2">📋</div>
                   <div className="text-sm font-semibold">Procurement</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/trade"}>
                   <div className="text-2xl mb-2">🏪</div>
                   <div className="text-sm font-semibold">Trade</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/insurance"}>
                   <div className="text-2xl mb-2">🛡️</div>
                   <div className="text-sm font-semibold">Insurance</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/freight"}>
                   <div className="text-2xl mb-2">🚛</div>
                   <div className="text-sm font-semibold">Freight</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/logistics"}>
                   <div className="text-2xl mb-2">🚚</div>
                   <div className="text-sm font-semibold">Logistics</div>
                 </div>
@@ -407,12 +407,12 @@ export default function LocalizedLandingPage() {
                 <span className="ml-auto text-sm text-gray-400">2 modules</span>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/reconstruction"}>
                   <div className="text-2xl mb-2">🏗️</div>
                   <div className="text-sm font-semibold">Reconstruction</div>
                   <div className="text-xs text-gray-500">Post-War Rebuilding</div>
                 </div>
-                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center">
+                <div className="bg-[#0D1117] border border-[#30363D] rounded p-4 text-center cursor-pointer hover:border-[#00A3FF] transition-all" onClick={() => window.location.href="/modules/donor-dashboard"}>
                   <div className="text-2xl mb-2">🤝</div>
                   <div className="text-sm font-semibold">Donor Dashboard</div>
                   <div className="text-xs text-gray-500">Funding Transparency</div>
