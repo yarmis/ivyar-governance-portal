@@ -95,23 +95,23 @@ export default function FreightModulePage() {
             <h2 className="text-2xl font-bold">KEY CAPABILITIES</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div key={0} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={0} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">🚛</span>
               <span className="text-sm text-[#8B949E]">Direct freight booking</span>
             </div>
-            <div key={1} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={1} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">📦</span>
               <span className="text-sm text-[#8B949E]">Real-time shipment tracking</span>
             </div>
-            <div key={2} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={2} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">📊</span>
               <span className="text-sm text-[#8B949E]">AI rate optimization</span>
             </div>
-            <div key={3} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={3} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">📁</span>
               <span className="text-sm text-[#8B949E]">Carrier verification and rating</span>
             </div>
-            <div key={4} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={4} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">⚡</span>
               <span className="text-sm text-[#8B949E]">Instant quote generation</span>
             </div>
@@ -211,9 +211,9 @@ export default function FreightModulePage() {
             <Link href="/freight" className="px-6 py-3 bg-[#00A3FF] text-white font-semibold rounded hover:bg-[#33B5FF] transition-colors">
               OPEN MODULE →
             </Link>
-            <Link href="#" className="px-6 py-3 bg-[#161B22] border border-[#1F242C] font-semibold rounded hover:border-[#00A3FF] transition-colors">
+            <button onClick={() => alert("API Documentation\n\nREST API endpoints for freight booking, tracking, and rate optimization.\n\nFull documentation coming soon.")} className="px-6 py-3 bg-[#161B22] border border-[#1F242C] font-semibold rounded hover:border-[#00A3FF] transition-colors cursor-pointer">
               VIEW API →
-            </Link>
+            </button>
             <Link href="/freight" className="px-6 py-3 bg-[#161B22] border border-[#1F242C] font-semibold rounded hover:border-[#00A3FF] transition-colors">
               RUN DEMO →
             </Link>
