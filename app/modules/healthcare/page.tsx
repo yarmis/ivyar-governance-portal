@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import AIAssistant from '@/app/components/AIAssistant';
 
 export default function HealthcareCoordinationPage() {
   return (
@@ -55,6 +56,7 @@ export default function HealthcareCoordinationPage() {
       <footer className="mt-16 border-t border-[#1F242C] bg-[#161B22] px-6 py-8">
         <div className="max-w-[1200px] mx-auto text-center text-sm text-[#6E7681]">🇺🇸 Built in the United States • 💙💛 Inspired by Ukraine • 🌍 Designed for the world</div>
       </footer>
+      <AIAssistant module="healthcare" />
     </div>
   );
 }
