@@ -95,27 +95,27 @@ export default function ReconstructionModulePage() {
             <h2 className="text-2xl font-bold">KEY CAPABILITIES</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div key={0} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={0} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">🏗️</span>
               <span className="text-sm text-[#8B949E]">Project planning and prioritization</span>
             </div>
-            <div key={1} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={1} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">📊</span>
               <span className="text-sm text-[#8B949E]">Real-time progress tracking</span>
             </div>
-            <div key={2} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={2} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">🌍</span>
               <span className="text-sm text-[#8B949E]">Regional impact assessment</span>
             </div>
-            <div key={3} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={3} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">📁</span>
               <span className="text-sm text-[#8B949E]">Compliance and audit reporting</span>
             </div>
-            <div key={4} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={4} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">💰</span>
               <span className="text-sm text-[#8B949E]">Budget allocation and disbursement</span>
             </div>
-            <div key={5} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded">
+            <div key={5} className="flex items-start gap-3 p-4 bg-[#161B22] border border-[#1F242C] rounded cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1F242C"}>
               <span className="text-xl">🧩</span>
               <span className="text-sm text-[#8B949E]">Integration with Donor Dashboard & Procurement</span>
             </div>
