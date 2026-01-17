@@ -753,7 +753,7 @@ export default function LocalizedLandingPage() {
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">Operational foundation and cultural principles for world-class execution</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <a href="/team-os/leadership-principles" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            <div onClick={() => alert("Leadership Principles\n\n7 core principles:\n1. Customer Obsession\n2. Ownership\n3. Think Big\n4. Bias for Action\n5. Earn Trust\n6. Dive Deep\n7. Have Backbone\n\nFull documentation coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">🧭</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Leadership Principles</h3>
               <p className="text-sm text-gray-400 mb-4">7 principles that define how we work</p>
@@ -763,8 +763,8 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
-            <a href="/team-os/dri-handbook" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            </div>
+            <div onClick={() => alert("DRI Handbook\n\nDirectly Responsible Individual model for clear ownership and accountability.\n\nFull handbook coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">👤</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">DRI Handbook</h3>
               <p className="text-sm text-gray-400 mb-4">Ownership model and responsibilities</p>
@@ -774,8 +774,8 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
-            <a href="/team-os/operational-rhythm" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            </div>
+            <div onClick={() => alert("Operational Rhythm\n\nDaily standups, weekly planning, sprint reviews.\n\nFull schedule coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">🕐</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Operational Rhythm</h3>
               <p className="text-sm text-gray-400 mb-4">Daily and weekly cadence</p>
@@ -785,8 +785,8 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
-            <a href="/team-os/kickoff-script" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            </div>
+            <div onClick={() => alert("Kickoff Script\n\n30-minute meeting template for project kickoffs.\n\nFull template coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">▶️</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Kickoff Script</h3>
               <p className="text-sm text-gray-400 mb-4">30-minute meeting template</p>
@@ -796,8 +796,8 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
-            <a href="/team-os/team-charter" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            </div>
+            <div onClick={() => alert("Team Charter\n\nMission, values, and standards.\n\nFull charter coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">📜</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Team Charter</h3>
               <p className="text-sm text-gray-400 mb-4">Mission, values, and standards</p>
@@ -807,8 +807,8 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
-            <a href="/team-os/dashboard" className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
+            </div>
+            <div onClick={() => alert("Team Dashboard\n\nMonitor critical path and red flags.\n\nLive dashboard coming soon.")} className="group bg-[#161B22] border border-[#30363D] rounded-lg p-6 hover:border-[#00A3FF] transition-all cursor-pointer">
               <div className="text-4xl mb-4">📊</div>
               <h3 className="text-xl font-semibold group-hover:text-[#00A3FF] transition-colors mb-2">Dashboard</h3>
               <p className="text-sm text-gray-400 mb-4">Critical Path and Red Flags monitoring</p>
@@ -818,7 +818,7 @@ export default function LocalizedLandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
+            </div>
           </div>
           <div className="text-center">
             <a href="/team-os" className="inline-flex items-center gap-2 text-[#00A3FF] hover:underline text-lg font-medium">
