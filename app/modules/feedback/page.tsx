@@ -70,27 +70,27 @@ export default function FeedbackPage() {
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-6 text-2xl font-bold text-[#E6EDF3]">🔑 KEY CAPABILITIES</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">📝</div>
               <div className="font-medium text-[#E6EDF3]">Multi-channel feedback collection</div>
             </div>
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">🔄</div>
               <div className="font-medium text-[#E6EDF3]">"You Said, We Did" transparency</div>
             </div>
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">📊</div>
               <div className="font-medium text-[#E6EDF3]">Trend analysis and reporting</div>
             </div>
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">🔔</div>
               <div className="font-medium text-[#E6EDF3]">Response tracking and notifications</div>
             </div>
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">🌍</div>
               <div className="font-medium text-[#E6EDF3]">Multi-language support (24+ languages)</div>
             </div>
-            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4">
+            <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-4 cursor-pointer transition-all" onClick={() => alert("Coming soon")} onMouseEnter={(e) => e.currentTarget.style.borderColor = "#3CCB7F"} onMouseLeave={(e) => e.currentTarget.style.borderColor = "#30363D"}>
               <div className="mb-2 text-2xl">🛡️</div>
               <div className="font-medium text-[#E6EDF3]">Anonymous and authenticated modes</div>
             </div>
@@ -103,13 +103,13 @@ export default function FeedbackPage() {
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-6 text-2xl font-bold text-[#E6EDF3]">🔗 ACTIONS</h2>
           <div className="flex flex-wrap gap-4">
-            <button className="rounded-lg border border-[#00A3FF] bg-[#00A3FF]/10 px-6 py-3 font-medium text-[#00A3FF] transition-colors hover:bg-[#00A3FF]/20">
+            <button onClick={() => alert("Feedback Module\n\nComming soon - Interactive feedback collection platform launching Q2 2026.")} className="rounded-lg border border-[#00A3FF] bg-[#00A3FF]/10 px-6 py-3 font-medium text-[#00A3FF] transition-colors hover:bg-[#00A3FF]/20 cursor-pointer">
               OPEN MODULE →
             </button>
-            <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+            <button onClick={() => alert("API Documentation\n\nREST API endpoints for feedback submission, retrieval, and analytics.\n\nFull API docs coming soon.")} className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C] cursor-pointer">
               VIEW API →
             </button>
-            <button className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C]">
+            <button onClick={() => alert("Coming soon")} className="rounded-lg border border-[#334155] bg-[#161B22] px-6 py-3 font-medium text-[#E6EDF3] transition-colors hover:bg-[#1F242C] cursor-pointer">
               RUN DEMO →
             </button>
           </div>
