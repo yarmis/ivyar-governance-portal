@@ -1,0 +1,14 @@
+# Binary files
+*.pptx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+
+# Source code
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.sol text eol=lf
+*.md text eol=lf

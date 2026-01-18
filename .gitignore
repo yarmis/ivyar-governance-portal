@@ -44,3 +44,22 @@ node_modules/
 .env.local
 .env.local
 *.backup
+
+# IVYAR additions
+ivyar-mobile-app/node_modules/
+ivyar-smart-contracts/node_modules/
+ivyar-smart-contracts/cache/
+ivyar-smart-contracts/artifacts/
+*.log
+
+# Next.js build files
+.next/
+.vercel/
+
+# IVYAR modules
+ivyar-ddr-module/.next/
+ivyar-ddr-module/node_modules/
+ivyar-mobile-app/node_modules/
+ivyar-smart-contracts/node_modules/
+ivyar-smart-contracts/cache/
+ivyar-smart-contracts/artifacts/
