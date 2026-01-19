@@ -112,7 +112,7 @@ model ApplicationComment {
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
   
-  comment     String   @db.Text
+  comment     Text
   isInternal  Boolean  @default(false) // visible only to operators/commission
   
   createdAt   DateTime @default(now())

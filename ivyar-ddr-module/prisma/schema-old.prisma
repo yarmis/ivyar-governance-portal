@@ -1,0 +1,551 @@
+// ============================================================================
+// IVYAR GOVERNANCE PORTAL - UNIFIED SCHEMA
+// ============================================================================
+// DDR Module + Land Registry Module (Integrated)
+// Version: 2.0.0
+// Date: January 18, 2026
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// SHARED ENUMS
+// ============================================================================
+
+enum ParticipantStatus {
+  REGISTERED
+  ACTIVE
+  REINTEGRATED
+  EXITED
+  SUSPENDED
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+enum BenefitType {
+  CASH_GRANT
+  BUSINESS_LOAN
+  VOCATIONAL_TRAINING
+  EDUCATION_SUPPORT
+  HOUSING_ASSISTANCE
+  AGRICULTURAL_SUPPORT
+}
+
+enum DisbursementStatus {
+  PENDING
+  APPROVED
+  DISBURSED
+  FAILED
+  REVERSED
+}
+
+enum WeaponStatus {
+  ACTIVE
+  SURRENDERED
+  DESTROYED
+  TRANSFERRED
+  LOST
+}
+
+// ============================================================================
+// LAND REGISTRY ENUMS (NEW)
+// ============================================================================
+
+enum LandParcelStatus {
+  AVAILABLE
+  ALLOCATED
+  GRANTED
+  SOLD
+  LEASED
+  DISPUTED
+  CONFISCATED
+  RESERVED
+}
+
+enum LandUseType {
+  AGRICULTURAL
+  RESIDENTIAL
+  COMMERCIAL
+  FOREST
+  WATER
+  PROTECTED
+  MIXED
+}
+
+enum OwnershipType {
+  PRIVATE_INDIVIDUAL
+  PRIVATE_ENTITY
+  STATE
+  MUNICIPAL
+  COLLECTIVE
+  VETERAN_GRANT
+  IDP_COMPENSATION
+}
+
+enum VeteranPriorityLevel {
+  COMBAT_VETERAN
+  DISABLED_VETERAN
+  LONG_SERVICE
+  DEMOBILIZED
+  STANDARD
+}
+
+enum TransactionStatus {
+  PENDING
+  BLOCKCHAIN_PENDING
+  COMPLETED
+  REJECTED
+  DISPUTED
+  CANCELLED
+}
+
+enum HumanReviewStatus {
+  PENDING
+  REVIEWED
+  ESCALATED
+  CLEARED
+  FALSE_POSITIVE
+}
+
+// ============================================================================
+// CORE MULTI-TENANCY
+// ============================================================================
+
+model Tenant {
+  id                  String                  @id @default(cuid())
+  name                String                  @unique @db.VarChar(200)
+  countryCode         String                  @db.VarChar(3)
+  active              Boolean                 @default(true)
+  settings            Json?
+  metadata            Json?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  
+  participants        Participant[]
+  benefitApplications BenefitApplication[]
+  weapons             Weapon[]
+  landParcels         LandParcel[]
+  veteranLandGrants   VeteranLandGrant[]
+  idpCompensations    IDPLandCompensation[]
+  landPilotPrograms   LandPilotProgram[]
+  
+  @@index([countryCode])
+  @@index([active])
+}
+
+// ============================================================================
+// MODULE 1: DDR CORE (PARTICIPANTS)
+// ============================================================================
+
+model Participant {
+  id               String                     @id @default(cuid())
+  tenantId         String
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id])
+  
+  nameHash         String                     @db.VarChar(64)
+  nationalIdHash   String?                    @db.VarChar(64)
+  dateOfBirth      DateTime?
+  
+  status           ParticipantStatus          @default(REGISTERED)
+  registrationDate DateTime                   @default(now())
+  
+  gender           String?                    @db.VarChar(20)
+  householdSize    Int?
+  dependents       Int?
+  
+  skills           String[]
+  education        String?                    @db.VarChar(50)
+  
+  veteranServiceLink String?
+  
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
+  createdBy        String                     @db.VarChar(100)
+  
+  applications     BenefitApplication[]
+  weapons          Weapon[]
+  statusHistory    ParticipantStatusHistory[]
+  landOwnerships   LandOwnership[]
+  veteranLandGrant VeteranLandGrant?
+  idpCompensation  IDPLandCompensation?
+  
+  @@index([tenantId, status])
+  @@index([nameHash])
+  @@index([status])
+}
+
+model ParticipantStatusHistory {
+  id            String            @id @default(cuid())
+  participantId String
+  participant   Participant       @relation(fields: [participantId], references: [id])
+  fromStatus    ParticipantStatus
+  toStatus      ParticipantStatus
+  reason        String?           @db.Text
+  changedBy     String            @db.VarChar(100)
+  changedAt     DateTime          @default(now())
+  
+  @@index([participantId])
+}
+
+// ============================================================================
+// MODULE 2: ECONOMIC REINTEGRATION (BENEFITS)
+// ============================================================================
+
+model BenefitApplication {
+  id              String              @id @default(cuid())
+  tenantId        String
+  tenant          Tenant              @relation(fields: [tenantId], references: [id])
+  participantId   String
+  participant     Participant         @relation(fields: [participantId], references: [id])
+  
+  benefitType     BenefitType
+  amount          Decimal             @db.Decimal(12, 2)
+  currency        String              @db.VarChar(3)
+  status          ApplicationStatus   @default(PENDING)
+  
+  businessPlanId  String?
+  courseId        String?
+  
+  submittedAt     DateTime            @default(now())
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  decisionReason  String?             @db.Text
+  
+  trancheTotal    Int?
+  trancheSchedule Json?
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  disbursements   Disbursement[]
+  
+  @@index([tenantId, participantId])
+  @@index([benefitType])
+  @@index([status])
+}
+
+model Disbursement {
+  id              String              @id @default(cuid())
+  applicationId   String
+  application     BenefitApplication  @relation(fields: [applicationId], references: [id])
+  
+  donorId         String              @db.VarChar(50)
+  earmarkCode     String              @db.VarChar(100)
+  
+  amount          Decimal             @db.Decimal(12, 2)
+  currency        String              @db.VarChar(3)
+  trancheNumber   Int
+  status          DisbursementStatus  @default(PENDING)
+  
+  transactionId   String?
+  disbursedAt     DateTime?
+  
+  auditTrail      Json
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([applicationId])
+  @@index([donorId])
+  @@index([earmarkCode])
+}
+
+// ============================================================================
+// MODULE 3: WEAPONS REGISTRY
+// ============================================================================
+
+model Weapon {
+  id                String        @id @default(cuid())
+  tenantId          String
+  tenant            Tenant        @relation(fields: [tenantId], references: [id])
+  participantId     String?
+  participant       Participant?  @relation(fields: [participantId], references: [id])
+  
+  type              String        @db.VarChar(100)
+  serialNumber      String        @db.VarChar(100)
+  make              String?       @db.VarChar(100)
+  
+  qrCode            String        @unique @db.VarChar(100)
+  
+  status            WeaponStatus  @default(ACTIVE)
+  surrenderDate     DateTime?
+  destroyedAt       DateTime?
+  
+  chainOfCustody    Json
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  @@unique([tenantId, serialNumber])
+  @@index([status])
+}
+
+// ============================================================================
+// MODULE 4: ANALYTICS & TRACKING
+// ============================================================================
+
+model KPI {
+  id                  String    @id @default(cuid())
+  tenantId            String
+  timePeriod          String    @db.VarChar(50)
+  
+  participantsTotal   Int       @default(0)
+  employmentRate      Decimal   @db.Decimal(5, 2)
+  weaponsSurrendered  Int       @default(0)
+  businessesStarted   Int       @default(0)
+  
+  calculatedAt        DateTime  @default(now())
+  
+  @@unique([tenantId, timePeriod])
+  @@index([tenantId])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  tenantId    String?
+  action      String   @db.VarChar(100)
+  entityType  String   @db.VarChar(50)
+  entityId    String   @db.VarChar(100)
+  actorId     String   @db.VarChar(100)
+  before      Json?
+  after       Json?
+  timestamp   DateTime @default(now())
+  
+  @@index([tenantId, timestamp])
+  @@index([entityType, entityId])
+}
+
+// ============================================================================
+// LAND REGISTRY MODULE - LAND PARCELS (NEW)
+// ============================================================================
+
+model LandParcel {
+  id                String                  @id @default(cuid())
+  tenantId          String
+  tenant            Tenant                  @relation(fields: [tenantId], references: [id])
+  
+  cadastralNumber   String                  @unique @db.VarChar(50)
+  oblast            String                  @db.VarChar(100)
+  raion             String                  @db.VarChar(100)
+  hromada           String                  @db.VarChar(100)
+  settlement        String?                 @db.VarChar(100)
+  
+  coordinates       Json
+  area              Decimal                 @db.Decimal(12, 4)
+  soilQuality       Decimal?                @db.Decimal(3, 1)
+  
+  landUseType       LandUseType
+  status            LandParcelStatus        @default(AVAILABLE)
+  ownershipType     OwnershipType
+  
+  marketValue       Decimal?                @db.Decimal(15, 2)
+  assessedValue     Decimal?                @db.Decimal(15, 2)
+  lastValuationDate DateTime?
+  
+  blockchainTxHash  String?                 @unique @db.VarChar(100)
+  blockchainNetwork String?                 @db.VarChar(50)
+  nftTokenId        String?                 @unique
+  
+  metadata          Json?
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  
+  ownerships        LandOwnership[]
+  transactions      LandTransaction[]
+  veteranGrants     VeteranLandGrant[]
+  idpCompensations  IDPLandCompensation[]
+  
+  @@index([tenantId, oblast, raion])
+  @@index([status])
+  @@index([blockchainTxHash])
+}
+
+model LandOwnership {
+  id              String          @id @default(cuid())
+  parcelId        String
+  parcel          LandParcel      @relation(fields: [parcelId], references: [id])
+  
+  ownerType       String          @db.VarChar(50)
+  ownerIdHash     String          @db.VarChar(64)
+  ownerNameHash   String          @db.VarChar(64)
+  
+  ownershipShare  Decimal         @db.Decimal(5, 4)
+  ownershipType   OwnershipType
+  
+  participantId   String?
+  participant     Participant?    @relation(fields: [participantId], references: [id])
+  
+  validFrom       DateTime        @default(now())
+  validUntil      DateTime?
+  
+  blockchainTxHash String?        @db.VarChar(100)
+  
+  metadata        Json?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([parcelId])
+  @@index([ownerIdHash])
+  @@index([participantId])
+}
+
+model VeteranLandGrant {
+  id                String                  @id @default(cuid())
+  tenantId          String
+  tenant            Tenant                  @relation(fields: [tenantId], references: [id])
+  participantId     String                  @unique
+  participant       Participant             @relation(fields: [participantId], references: [id])
+  
+  applicationDate   DateTime                @default(now())
+  priorityLevel     VeteranPriorityLevel
+  priorityScore     Decimal                 @db.Decimal(5, 2)
+  
+  combatDays        Int?
+  serviceYears      Int?
+  disabilityLevel   Int?
+  awards            String[]
+  
+  preferredOblast   String?                 @db.VarChar(100)
+  preferredAreaMin  Decimal?                @db.Decimal(8, 2)
+  preferredAreaMax  Decimal?                @db.Decimal(8, 2)
+  preferredLandUse  LandUseType?
+  
+  status            ApplicationStatus
+  
+  parcelId          String?
+  parcel            LandParcel?             @relation(fields: [parcelId], references: [id])
+  allocatedDate     DateTime?
+  
+  conditions        Json?
+  conditionsMet     Json?
+  
+  lotteryDrawDate   DateTime?
+  lotteryNumber     Int?
+  
+  blockchainTxHash  String?                 @db.VarChar(100)
+  
+  metadata          Json?
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  
+  @@index([tenantId, participantId])
+  @@index([status])
+  @@index([priorityLevel])
+}
+
+model LandTransaction {
+  id                String              @id @default(cuid())
+  parcelId          String
+  parcel            LandParcel          @relation(fields: [parcelId], references: [id])
+  
+  fromOwnerIdHash   String?             @db.VarChar(64)
+  toOwnerIdHash     String              @db.VarChar(64)
+  
+  transactionType   String              @db.VarChar(50)
+  transactionValue  Decimal?            @db.Decimal(15, 2)
+  currency          String?             @db.VarChar(3)
+  
+  status            TransactionStatus   @default(PENDING)
+  approvedBy        String?             @db.VarChar(100)
+  approvedAt        DateTime?
+  
+  blockchainTxHash  String?             @unique @db.VarChar(100)
+  blockchainNetwork String?             @db.VarChar(50)
+  
+  anomalyScore      Decimal?            @db.Decimal(5, 4)
+  humanReviewStatus HumanReviewStatus   @default(PENDING)
+  reviewedBy        String?             @db.VarChar(100)
+  
+  auditTrail        Json
+  metadata          Json?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  @@index([parcelId])
+  @@index([status])
+  @@index([blockchainTxHash])
+}
+
+model IDPLandCompensation {
+  id                        String              @id @default(cuid())
+  tenantId                  String
+  tenant                    Tenant              @relation(fields: [tenantId], references: [id])
+  
+  idpIdHash                 String              @db.VarChar(64)
+  idpNameHash               String              @db.VarChar(64)
+  
+  participantId             String?             @unique
+  participant               Participant?        @relation(fields: [participantId], references: [id])
+  
+  lostParcelCadastralNumber String?             @db.VarChar(50)
+  lostParcelOblast          String              @db.VarChar(100)
+  lostParcelArea            Decimal             @db.Decimal(12, 4)
+  lostPropertyValue         Decimal             @db.Decimal(15, 2)
+  
+  compensationType          String              @db.VarChar(50)
+  
+  newParcelId               String?
+  newParcel                 LandParcel?         @relation(fields: [newParcelId], references: [id])
+  
+  financialAmount           Decimal?            @db.Decimal(15, 2)
+  
+  status                    ApplicationStatus
+  
+  blockchainTxHash          String?             @db.VarChar(100)
+  
+  metadata                  Json?
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @updatedAt
+  
+  @@index([tenantId])
+  @@index([participantId])
+  @@index([newParcelId])
+}
+
+model LandPilotProgram {
+  id                String              @id @default(cuid())
+  tenantId          String
+  tenant            Tenant              @relation(fields: [tenantId], references: [id])
+  
+  programName       String              @db.VarChar(200)
+  oblast            String              @db.VarChar(100)
+  startDate         DateTime
+  endDate           DateTime?
+  
+  targetHectares    Decimal             @db.Decimal(12, 2)
+  targetVeterans    Int
+  targetIDPs        Int?
+  
+  allocatedHectares Decimal             @db.Decimal(12, 2) @default(0)
+  veteransServed    Int                 @default(0)
+  idpsServed        Int                 @default(0)
+  
+  budgetUAH         Decimal             @db.Decimal(15, 2)
+  spentUAH          Decimal             @db.Decimal(15, 2) @default(0)
+  donorFunding      Json?
+  
+  satisfactionScore Decimal?            @db.Decimal(3, 2)
+  corruptionIncidents Int               @default(0)
+  
+  status            String              @db.VarChar(50)
+  
+  metadata          Json?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  @@index([tenantId, oblast])
+}  
