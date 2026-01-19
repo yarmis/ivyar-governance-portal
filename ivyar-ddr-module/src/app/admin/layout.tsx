@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#1A1A1A' }}>
@@ -18,58 +20,58 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           🇺🇦 IVYAR ADMIN
         </h2>
 
-        <nav>
-          <a href="/admin/dashboard" style={{ 
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <Link href="/admin/dashboard" style={{ 
             display: 'block', 
             padding: '15px 20px', 
             color: '#fff', 
             textDecoration: 'none',
             background: '#005BBB',
             borderRadius: '8px',
-            marginBottom: '10px',
-            fontSize: '14px'
+            fontSize: '14px',
+            transition: 'all 0.2s'
           }}>
             📊 Дашборд
-          </a>
+          </Link>
 
-          <a href="/admin/applications" style={{ 
+          <Link href="/admin/applications" style={{ 
             display: 'block', 
             padding: '15px 20px', 
             color: '#fff', 
             textDecoration: 'none',
             background: '#444',
             borderRadius: '8px',
-            marginBottom: '10px',
-            fontSize: '14px'
+            fontSize: '14px',
+            transition: 'all 0.2s'
           }}>
             📋 Заявки
-          </a>
+          </Link>
 
-          <a href="/admin/veterans" style={{ 
+          <Link href="/admin/veterans" style={{ 
             display: 'block', 
             padding: '15px 20px', 
             color: '#fff', 
             textDecoration: 'none',
             background: '#444',
             borderRadius: '8px',
-            marginBottom: '10px',
-            fontSize: '14px'
+            fontSize: '14px',
+            transition: 'all 0.2s'
           }}>
             🎖️ Ветерани
-          </a>
+          </Link>
 
-          <a href="/admin/audit" style={{ 
+          <Link href="/admin/audit" style={{ 
             display: 'block', 
             padding: '15px 20px', 
             color: '#fff', 
             textDecoration: 'none',
             background: '#444',
             borderRadius: '8px',
-            marginBottom: '10px',
-            fontSize: '14px'
+            fontSize: '14px',
+            transition: 'all 0.2s'
           }}>
             📜 Аудит
-          </a>
+          </Link>
         </nav>
 
         <div style={{ 
