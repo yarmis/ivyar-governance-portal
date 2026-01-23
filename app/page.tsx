@@ -257,9 +257,9 @@ export default function LandingPage() {
           </Link>
           
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.modules}</Link>
-            <Link href="#ai" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.ai}</Link>
-            <Link href="#about" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.about}</Link>
+            <Link href="/modules" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.modules}</Link>
+            <Link href="/ai-administrator" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.ai}</Link>
+            <Link href="/about" className="text-sm font-medium text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{t.nav.about}</Link>
           </div>
 
           <div className="flex items-center gap-3">
@@ -306,7 +306,7 @@ export default function LandingPage() {
                 <Link href="/hbs" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center justify-center hover:bg-[#33B5FF] transition-colors">
                   {t.nav.portal}
                 </Link>
-                <Link href="#modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors">
+                <Link href="/modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center justify-center hover:bg-[#00A3FF]/10 transition-colors">
                   {t.nav.modules}
                 </Link>
               </div>
