@@ -1,541 +1,298 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
 
-// ============================================
-// TRANSLATIONS
-// ============================================
-const TRANSLATIONS: Record<string, {
-  hero: { title: string; subtitle: string };
-  nav: { modules: string; ai: string; about: string; portal: string };
-  countries: { label: string };
-  trusted: string;
-  modules: { title: string; subtitle: string; learnMore: string; endpoints: string };
-  ai: { badge: string; title: string; desc: string; features: string[] };
-  cta: { title: string; subtitle: string; demo: string; contact: string };
-  footer: { tagline: string; platform: string; modules: string; company: string; copyright: string; nato: string };
-  modulesList: { name: string; desc: string }[];
-}> = {
-  en: {
-    hero: {
-      title: 'IVYAR Governance Platform',
-      subtitle: 'Institutional infrastructure for ethical, transparent, AI-aligned decision-making across governments and international partners.',
-    },
-    nav: { modules: 'Modules', ai: 'AI Administrator', about: 'About', portal: 'Access Portal' },
-    countries: { label: 'Operating with respect across:' },
-    trusted: 'Trusted by leading institutions',
-    modules: { title: 'Platform Modules', subtitle: 'Modular Architecture for Government Operations', learnMore: 'Learn more', endpoints: 'API endpoints' },
-    ai: {
-      badge: 'Ethical AI Steward',
-      title: 'AI Administrator — Ethical, Transparent, Human-Aligned',
-      desc: 'The IVYAR AI Administrator assists operators with insights, summaries, and risk signals. It never replaces human authority, always explains its reasoning, and follows the IVYAR ethical charter and HBS safeguards.',
-      features: [
-        'Calm, respectful, and non-intrusive behavior',
-        'Transparent reasoning and audit-ready logs',
-        'Human-first decision support, never autonomous control',
-      ],
-    },
-    cta: {
-      title: 'Ready to modernize your governance operations?',
-      subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance.',
-      demo: 'Request Demo',
-      contact: 'Contact Us',
-    },
-    footer: {
-      tagline: 'Ethical, transparent, AI-aligned governance infrastructure.',
-      platform: 'Platform',
-      modules: 'Modules',
-      company: 'Company',
-      copyright: '© 2024-2026 IVYAR Platform',
-      nato: 'NATO-Aligned • Multi-Region Infrastructure',
-    },
-    modulesList: [
-      { name: 'Procurement Engine', desc: 'Transparent tender management and contract oversight' },
-      { name: 'Logistics Engine', desc: 'Route optimization and supply chain tracking' },
-      { name: 'Donor Dashboard', desc: 'Funding transparency and impact reporting' },
-      { name: 'Data Platform', desc: 'Unified data lake and document management' },
-      { name: 'HBS Module', desc: 'Humanitarian budget support and ethical governance' },
-      { name: 'AI Services', desc: 'Intelligent automation and decision support' },
+const MODULES_TRANSLATIONS = {
+  us: {
+    governance: [
+      { title: 'Governance Core', desc: 'Authority, roles, delegation, institutional control', cat: 'governance' },
+      { title: 'Program Registry', desc: 'Programs, contracts, ceilings, obligations tracking', cat: 'governance' },
+      { title: 'Decision Ledger', desc: 'Immutable approvals, justifications, timestamped actions', cat: 'governance' },
+      { title: 'Audit Engine', desc: 'Evidence trails, compliance mapping, OIG-ready exports', cat: 'governance' },
+      { title: 'Risk & Safeguards', desc: 'Risk registry, misuse detection, human override', cat: 'governance' },
+      { title: 'Transparency Hub', desc: 'Real-time visibility, cross-ministry dashboards', cat: 'governance' },
     ],
+    donor: [
+      { title: 'HBS Module', desc: 'Human-in-the-loop oversight, decision authorization', cat: 'donor' },
+      { title: 'Donor Dashboard', desc: 'Real-time program visibility, KPI tracking, IATI compliance', cat: 'donor' },
+      { title: 'MEL & Evidence', desc: 'Indicators, evidence linkage, outcome verification', cat: 'donor' },
+      { title: 'Reconstruction', desc: 'Post-conflict recovery, infrastructure rebuild', cat: 'donor' },
+    ],
+    intelligence: [
+      { title: 'AI Administrator', desc: 'Ethical AI assistant — human authority enforced', cat: 'intelligence' },
+      { title: 'Platform Status', desc: '99.97% uptime, real-time monitoring', cat: 'intelligence' },
+    ],
+    categories: { governance: 'Governance & Control', donor: 'Donor Oversight', intelligence: 'Intelligence' },
+    search: { placeholder: 'Search modules...', results: 'results', noResults: 'No results found' }
   },
-  uk: {
-    hero: {
-      title: 'Платформа управління IVYAR',
-      subtitle: 'Інституційна інфраструктура для етичного, прозорого, AI-орієнтованого прийняття рішень урядами та міжнародними партнерами.',
-    },
-    nav: { modules: 'Модулі', ai: 'AI Адміністратор', about: 'Про нас', portal: 'Увійти в портал' },
-    countries: { label: 'Працюємо з повагою в:' },
-    trusted: 'Нам довіряють провідні інституції',
-    modules: { title: 'Модулі платформи', subtitle: 'Модульна архітектура для державних операцій', learnMore: 'Детальніше', endpoints: 'API точок' },
-    ai: {
-      badge: 'Етичний AI Стюард',
-      title: 'AI Адміністратор — Етичний, Прозорий, Людиноцентричний',
-      desc: 'AI Адміністратор IVYAR допомагає операторам з аналітикою, резюме та сигналами ризику. Він ніколи не замінює людський авторитет, завжди пояснює своє міркування та дотримується етичної хартії IVYAR.',
-      features: [
-        'Спокійна, шанобліва та ненав\'язлива поведінка',
-        'Прозоре міркування та готові до аудиту логи',
-        'Підтримка рішень людиною, ніколи автономний контроль',
-      ],
-    },
-    cta: {
-      title: 'Готові модернізувати ваші операції управління?',
-      subtitle: 'Приєднуйтесь до провідних інституцій, які використовують IVYAR для безпечного, відповідного та етичного цифрового управління.',
-      demo: 'Запросити демо',
-      contact: 'Зв\'язатися',
-    },
-    footer: {
-      tagline: 'Етична, прозора, AI-орієнтована інфраструктура управління.',
-      platform: 'Платформа',
-      modules: 'Модулі',
-      company: 'Компанія',
-      copyright: '© 2024-2026 IVYAR Platform',
-      nato: 'NATO-сумісний • Мульти-регіональна інфраструктура',
-    },
-    modulesList: [
-      { name: 'Модуль закупівель', desc: 'Прозоре управління тендерами та контроль контрактів' },
-      { name: 'Модуль логістики', desc: 'Оптимізація маршрутів та відстеження ланцюга постачання' },
-      { name: 'Панель донорів', desc: 'Прозорість фінансування та звітність про вплив' },
-      { name: 'Платформа даних', desc: 'Уніфіковане сховище даних та управління документами' },
-      { name: 'HBS Модуль', desc: 'Гуманітарна бюджетна підтримка та етичне управління' },
-      { name: 'AI Сервіси', desc: 'Інтелектуальна автоматизація та підтримка рішень' },
+  ua: {
+    governance: [
+      { title: 'Ядро управління', desc: 'Повноваження, ролі, делегування, інституційний контроль', cat: 'governance' },
+      { title: 'Реєстр програм', desc: 'Програми, контракти, ліміти, відстеження зобов\'язань', cat: 'governance' },
+      { title: 'Реєстр рішень', desc: 'Незмінні затвердження, обґрунтування, дії з позначкою часу', cat: 'governance' },
+      { title: 'Модуль аудиту', desc: 'Сліди доказів, відповідність, експорт для OIG', cat: 'governance' },
+      { title: 'Ризики та захист', desc: 'Реєстр ризиків, виявлення зловживань, контроль', cat: 'governance' },
+      { title: 'Центр прозорості', desc: 'Видимість в реальному часі, міжміністерські панелі', cat: 'governance' },
     ],
-  },
-  fr: {
-    hero: {
-      title: 'Plateforme de gouvernance IVYAR',
-      subtitle: 'Infrastructure institutionnelle pour une prise de décision éthique, transparente et alignée sur l\'IA entre les gouvernements et les partenaires internationaux.',
-    },
-    nav: { modules: 'Modules', ai: 'Administrateur IA', about: 'À propos', portal: 'Accès au portail' },
-    countries: { label: 'Opérant avec respect à travers:' },
-    trusted: 'Approuvé par les institutions leaders',
-    modules: { title: 'Modules de la plateforme', subtitle: 'Architecture modulaire pour les opérations gouvernementales', learnMore: 'En savoir plus', endpoints: 'points API' },
-    ai: {
-      badge: 'Intendant IA éthique',
-      title: 'Administrateur IA — Éthique, Transparent, Aligné sur l\'humain',
-      desc: 'L\'administrateur IA IVYAR aide les opérateurs avec des insights, des résumés et des signaux de risque. Il ne remplace jamais l\'autorité humaine et suit la charte éthique IVYAR.',
-      features: [
-        'Comportement calme, respectueux et non intrusif',
-        'Raisonnement transparent et journaux prêts pour l\'audit',
-        'Support décisionnel humain, jamais de contrôle autonome',
-      ],
-    },
-    cta: {
-      title: 'Prêt à moderniser vos opérations de gouvernance?',
-      subtitle: 'Rejoignez les institutions leaders utilisant IVYAR pour une gouvernance numérique sécurisée, conforme et éthique.',
-      demo: 'Demander une démo',
-      contact: 'Nous contacter',
-    },
-    footer: {
-      tagline: 'Infrastructure de gouvernance éthique, transparente et alignée sur l\'IA.',
-      platform: 'Plateforme',
-      modules: 'Modules',
-      company: 'Entreprise',
-      copyright: '© 2024-2026 IVYAR Platform',
-      nato: 'Aligné OTAN • Infrastructure multi-région',
-    },
-    modulesList: [
-      { name: 'Moteur d\'approvisionnement', desc: 'Gestion transparente des appels d\'offres' },
-      { name: 'Moteur logistique', desc: 'Optimisation des itinéraires et suivi de la chaîne' },
-      { name: 'Tableau de bord donateurs', desc: 'Transparence du financement et rapports d\'impact' },
-      { name: 'Plateforme de données', desc: 'Lac de données unifié et gestion documentaire' },
-      { name: 'Module HBS', desc: 'Soutien budgétaire humanitaire et gouvernance éthique' },
-      { name: 'Services IA', desc: 'Automatisation intelligente et support décisionnel' },
+    donor: [
+      { title: 'Модуль HBS', desc: 'Нагляд з людиною в циклі, авторизація рішень', cat: 'donor' },
+      { title: 'Панель донорів', desc: 'Видимість програм, відстеження KPI, відповідність IATI', cat: 'donor' },
+      { title: 'MEL та докази', desc: 'Індикатори, зв\'язок доказів, перевірка результатів', cat: 'donor' },
+      { title: 'Реконструкція', desc: 'Відновлення після конфлікту, відбудова інфраструктури', cat: 'donor' },
     ],
+    intelligence: [
+      { title: 'AI Адміністратор', desc: 'Етичний AI асистент — людський контроль забезпечено', cat: 'intelligence' },
+      { title: 'Статус платформи', desc: '99.97% uptime, моніторинг в реальному часі', cat: 'intelligence' },
+    ],
+    categories: { governance: 'Управління та контроль', donor: 'Донорський нагляд', intelligence: 'Інтелект' },
+    search: { placeholder: 'Пошук модулів...', results: 'результатів', noResults: 'Нічого не знайдено' }
   },
   de: {
-    hero: {
-      title: 'IVYAR Governance-Plattform',
-      subtitle: 'Institutionelle Infrastruktur für ethische, transparente, KI-ausgerichtete Entscheidungsfindung für Regierungen und internationale Partner.',
-    },
-    nav: { modules: 'Module', ai: 'KI-Administrator', about: 'Über uns', portal: 'Portal-Zugang' },
-    countries: { label: 'Respektvoll tätig in:' },
-    trusted: 'Vertraut von führenden Institutionen',
-    modules: { title: 'Plattform-Module', subtitle: 'Modulare Architektur für Regierungsoperationen', learnMore: 'Mehr erfahren', endpoints: 'API-Endpunkte' },
-    ai: {
-      badge: 'Ethischer KI-Verwalter',
-      title: 'KI-Administrator — Ethisch, Transparent, Menschenorientiert',
-      desc: 'Der IVYAR KI-Administrator unterstützt Operatoren mit Einblicken, Zusammenfassungen und Risikohinweisen. Er ersetzt niemals menschliche Autorität und folgt der ethischen Charta von IVYAR.',
-      features: [
-        'Ruhiges, respektvolles und unaufdringliches Verhalten',
-        'Transparente Begründung und prüfbare Protokolle',
-        'Menschliche Entscheidungsunterstützung, niemals autonome Kontrolle',
-      ],
-    },
-    cta: {
-      title: 'Bereit, Ihre Governance-Operationen zu modernisieren?',
-      subtitle: 'Schließen Sie sich führenden Institutionen an, die IVYAR für sichere, konforme und ethische digitale Governance nutzen.',
-      demo: 'Demo anfordern',
-      contact: 'Kontakt',
-    },
-    footer: {
-      tagline: 'Ethische, transparente, KI-ausgerichtete Governance-Infrastruktur.',
-      platform: 'Plattform',
-      modules: 'Module',
-      company: 'Unternehmen',
-      copyright: '© 2024-2026 IVYAR Platform',
-      nato: 'NATO-konform • Multi-Regions-Infrastruktur',
-    },
-    modulesList: [
-      { name: 'Beschaffungsmodul', desc: 'Transparente Ausschreibungsverwaltung' },
-      { name: 'Logistikmodul', desc: 'Routenoptimierung und Lieferkettenverfolgung' },
-      { name: 'Spender-Dashboard', desc: 'Finanzierungstransparenz und Wirkungsberichte' },
-      { name: 'Datenplattform', desc: 'Einheitlicher Datensee und Dokumentenverwaltung' },
-      { name: 'HBS-Modul', desc: 'Humanitäre Haushaltsunterstützung und ethische Governance' },
-      { name: 'KI-Dienste', desc: 'Intelligente Automatisierung und Entscheidungsunterstützung' },
+    governance: [
+      { title: 'Governance-Kern', desc: 'Befugnisse, Rollen, Delegierung', cat: 'governance' },
+      { title: 'Programmregister', desc: 'Programme, Verträge, Verfolgung', cat: 'governance' },
+      { title: 'Entscheidungsregister', desc: 'Unveränderliche Genehmigungen', cat: 'governance' },
+      { title: 'Audit-Engine', desc: 'Beweispfade, Compliance-Mapping', cat: 'governance' },
+      { title: 'Risiko & Schutz', desc: 'Risikoregister, Missbrauchserkennung', cat: 'governance' },
+      { title: 'Transparenz-Hub', desc: 'Echtzeit-Sichtbarkeit', cat: 'governance' },
     ],
+    donor: [
+      { title: 'HBS-Modul', desc: 'Menschliche Aufsicht', cat: 'donor' },
+      { title: 'Geber-Dashboard', desc: 'Programmsichtbarkeit, KPI-Tracking', cat: 'donor' },
+      { title: 'MEL & Beweise', desc: 'Indikatoren, Ergebnisverifizierung', cat: 'donor' },
+      { title: 'Wiederaufbau', desc: 'Nachkonflikt-Wiederherstellung', cat: 'donor' },
+    ],
+    intelligence: [
+      { title: 'KI-Administrator', desc: 'Ethischer KI-Assistent', cat: 'intelligence' },
+      { title: 'Plattform-Status', desc: '99.97% Verfügbarkeit', cat: 'intelligence' },
+    ],
+    categories: { governance: 'Governance & Kontrolle', donor: 'Geberaufsicht', intelligence: 'Intelligenz' },
+    search: { placeholder: 'Suchen...', results: 'Ergebnisse', noResults: 'Keine Ergebnisse' }
+  },
+  fr: {
+    governance: [
+      { title: 'Noyau de gouvernance', desc: 'Autorité, rôles, délégation', cat: 'governance' },
+      { title: 'Registre des programmes', desc: 'Programmes, contrats, suivi', cat: 'governance' },
+      { title: 'Registre des décisions', desc: 'Approbations immuables', cat: 'governance' },
+      { title: 'Moteur d\'audit', desc: 'Pistes de preuve, conformité', cat: 'governance' },
+      { title: 'Risques et protections', desc: 'Registre des risques, détection', cat: 'governance' },
+      { title: 'Hub de transparence', desc: 'Visibilité en temps réel', cat: 'governance' },
+    ],
+    donor: [
+      { title: 'Module HBS', desc: 'Surveillance humaine', cat: 'donor' },
+      { title: 'Tableau des donateurs', desc: 'Visibilité des programmes, KPI', cat: 'donor' },
+      { title: 'MEL et preuves', desc: 'Indicateurs, vérification', cat: 'donor' },
+      { title: 'Reconstruction', desc: 'Récupération post-conflit', cat: 'donor' },
+    ],
+    intelligence: [
+      { title: 'Administrateur IA', desc: 'Assistant IA éthique', cat: 'intelligence' },
+      { title: 'État de la plateforme', desc: '99.97% disponibilité', cat: 'intelligence' },
+    ],
+    categories: { governance: 'Gouvernance et contrôle', donor: 'Supervision des donateurs', intelligence: 'Intelligence' },
+    search: { placeholder: 'Rechercher...', results: 'résultats', noResults: 'Aucun résultat' }
   },
 };
 
-// ============================================
-// MODULE DATA - 18 MODULES
-// ============================================
-const MODULES = [
-  { icon: '📋', name: 'Procurement Engine', desc: 'Transparent, auditable tender management and contract lifecycle oversight for public and donor‑funded projects', apis: 18, status: 'LIVE' },
-  { icon: '🚚', name: 'Logistics Engine', desc: 'End‑to‑end visibility, route optimization, and supply chain tracking for critical infrastructure and humanitarian flows', apis: 14, status: 'PILOT' },
-  { icon: '🤝', name: 'Donor Dashboard', desc: 'Unified view of funding flows, disbursements, and impact metrics across donors, programs, and regions', apis: 12, status: 'DESIGN' },
-  { icon: '🗄️', name: 'Data Platform', desc: 'Secure, unified data lake and document management layer for all IVYAR modules and integrations', apis: 10, status: 'DEV' },
-  { icon: '🏛️', name: 'HBS Module', desc: 'Institutional‑grade governance for humanitarian budgets with full transparency, AI‑aligned oversight, and auditability', apis: 10, status: 'CORE' },
-  { icon: '🤖', name: 'AI Services', desc: 'Intelligent automation, anomaly detection, and decision support embedded across all governance and operational workflows', apis: 10, status: 'BETA' },
-  { icon: '🏪', name: 'Trade Module', desc: 'Verified B2B marketplace for compliant, traceable transactions between trusted suppliers, buyers, and institutions', apis: 12, status: 'LIVE' },
-  { icon: '🛡️', name: 'Insurance Module', desc: 'AI‑assisted risk assessment and claims management for cargo, liability, and operational coverage', apis: 10, status: 'LIVE' },
-  { icon: '💳', name: 'Payments Module', desc: 'Secure, compliant, cross‑border settlements with full traceability for public, donor, and institutional transactions', apis: 10, status: 'LIVE' },
-  { icon: '🏗️', name: 'Reconstruction Module', desc: 'Transparent, AI‑assisted planning and monitoring of post‑war reconstruction with anti‑corruption safeguards', apis: 14, status: 'PILOT' },
-  { icon: '🚛', name: 'Direct Freight', desc: 'Broker‑free freight coordination with AI‑optimized rates, verified carriers, and real‑time shipment visibility', apis: 10, status: 'LIVE' },
-  { icon: '👁️', name: 'Transparency Hub', desc: 'Real-time visibility into all government decisions, budgets, and actions with full audit trails', apis: 16, status: 'LIVE' },
-  { icon: '💬', name: 'Citizen Feedback', desc: 'Direct channel for citizens to report issues, suggest improvements, and track resolution status', apis: 12, status: 'LIVE' },
-  { icon: '📚', name: 'Knowledge Base', desc: 'Searchable repository of policies, procedures, and best practices with AI-powered assistance', apis: 10, status: 'LIVE' },
-  { icon: '🤖', name: 'AI Integrity Monitor', desc: 'Real-time oversight of AI decisions with explainability, bias detection, and human review', apis: 10, status: 'BETA' },
-  { icon: '🎖️', name: 'Veterans Services', desc: 'Comprehensive support for service members with benefits tracking, healthcare coordination, and transition assistance', apis: 12, status: 'LIVE' },
-  { icon: '🚑', name: 'Emergency Services', desc: 'Rapid response coordination and crisis management with real-time resource allocation and incident tracking', apis: 12, status: 'LIVE' },
-  { icon: '🏥', name: 'Healthcare Services', desc: 'Medical services coordination with patient records, appointment scheduling, and provider network management', apis: 12, status: 'LIVE' },
+const TRANSLATIONS = {
+  us: { hero: { title: 'IVYAR Governance Platform', subtitle: 'Institutional governance infrastructure', origin: 'Built in USA • Inspired by Ukraine' }, nav: { search: 'Search' }, badge: 'NATO-Aligned • World Bank Ready', modules: { title: 'Institutional Infrastructure' }, note: { title: 'Advanced capabilities', desc: 'Procurement, logistics, emergency services' } },
+  ua: { hero: { title: 'Платформа IVYAR', subtitle: 'Інституційна інфраструктура', origin: 'Створено в США • Натхненно Україною' }, nav: { search: 'Пошук' }, badge: 'NATO-сумісний • World Bank', modules: { title: 'Інфраструктура' }, note: { title: 'Розширені можливості', desc: 'Закупівлі, логістика, екстрені служби' } },
+  de: { hero: { title: 'IVYAR Governance-Plattform', subtitle: 'Institutionelle Governance-Infrastruktur', origin: 'Gebaut in den USA • Inspiriert von der Ukraine' }, nav: { search: 'Suchen' }, badge: 'NATO-konform • World Bank bereit', modules: { title: 'Institutionelle Infrastruktur' }, note: { title: 'Erweiterte Fähigkeiten', desc: 'Beschaffung, Logistik, Notdienste' } },
+  fr: { hero: { title: 'Plateforme IVYAR', subtitle: 'Infrastructure de gouvernance institutionnelle', origin: 'Construit aux USA • Inspiré par l\'Ukraine' }, nav: { search: 'Rechercher' }, badge: 'Conforme OTAN • Prêt Banque mondiale', modules: { title: 'Infrastructure institutionnelle' }, note: { title: 'Capacités avancées', desc: 'Achats, logistique, services d\'urgence' } },
+};
+
+const languages = [
+  { code: 'ua', flag: '🇺🇦', name: 'Українська' }, 
+  { code: 'us', flag: '🇺🇸', name: 'English' },
+  { code: 'de', flag: '🇩🇪', name: 'Deutsch' },
+  { code: 'fr', flag: '🇫🇷', name: 'Français' },
 ];
 
-const TOTAL_APIS = MODULES.reduce((sum, m) => sum + m.apis, 0);
+const highlightText = (text: string, query: string) => {
+  if (!query.trim()) return text;
+  const parts = text.split(new RegExp(`(${query})`, 'gi'));
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase()
+      ? `<mark class="bg-[#3A8DFF]/30 text-[#3A8DFF] rounded px-1">${part}</mark>`
+      : part
+  ).join('');
+};
+
+const catColors = {
+  governance: { bg: 'from-[#3A8DFF]/10 to-[#3A8DFF]/5', badge: 'bg-[#3A8DFF]/20 text-[#3A8DFF]' },
+  donor: { bg: 'from-[#4CD3C2]/10 to-[#4CD3C2]/5', badge: 'bg-[#4CD3C2]/20 text-[#4CD3C2]' },
+  intelligence: { bg: 'from-[#3CCB7F]/10 to-[#3CCB7F]/5', badge: 'bg-[#3CCB7F]/20 text-[#3CCB7F]' },
+};
 
 export default function HomePage() {
-  const [locale, setLocale] = useState<'en' | 'uk' | 'fr' | 'de'>('en');
-  const t = TRANSLATIONS[locale];
+  const params = useParams();
+  const locale = (params?.locale as string) || 'ua';
+  
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedModule, setSelectedModule] = useState<any>(null);
+  const langRef = useRef<HTMLDivElement>(null);
+  
+  const t = TRANSLATIONS[locale as keyof typeof TRANSLATIONS] || TRANSLATIONS.us;
+  const tm = MODULES_TRANSLATIONS[locale as keyof typeof MODULES_TRANSLATIONS] || MODULES_TRANSLATIONS.us;
 
-  const modules = MODULES.map(m => ({
-    icon: m.icon,
-    name: m.name,
-    desc: m.desc,
-    apis: m.apis,
-    status: m.status.toLowerCase()
-  }));
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { 
+        e.preventDefault(); 
+        setSearchOpen(true);
+      }
+      if (e.key === 'Escape') { 
+        setSearchOpen(false); 
+        setLangOpen(false); 
+        setSelectedModule(null);
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const allModules = [...tm.governance, ...tm.donor, ...tm.intelligence];
+  const searchResults = searchQuery.trim()
+    ? allModules.filter(m => 
+        m.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        m.desc.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : allModules;
+
+  const currentLang = languages.find(l => l.code === locale) || languages[0];
+
+  const handleModuleClick = (module: any) => {
+    setSelectedModule(module);
+    setSearchOpen(false);
+    setSearchQuery('');
+  };
 
   return (
-    <div className="min-h-screen bg-[#0D1117] text-[#E6EDF3] font-sans">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-[#161B22]/95 backdrop-blur-sm border-b border-[#1F242C]">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117] text-lg">IV</div>
-              <span className="text-xl font-semibold">IVYAR</span>
-            </Link>
-            <div className="hidden lg:flex items-center gap-8">
-              <a href="#modules" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.modules}</a>
-              <a href="#ai" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.ai}</a>
-              <a href="#about" className="text-sm font-medium hover:text-[#00A3FF] transition-colors">{t.nav.about}</a>
-            </div>
-          </div>
-
+    <div className="min-h-screen bg-[#0B0D0E] text-white">
+      <nav className="sticky top-0 z-40 bg-[#0B0D0E]/95 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href={`/${locale}`} className="flex items-center gap-3 hover:opacity-80 transition-all">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#3A8DFF] to-[#4CD3C2] flex items-center justify-center font-bold">IV</div>
+            <span className="font-bold text-xl">IVYAR</span>
+          </a>
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-3 px-4 h-[40px] bg-[#161B22] border border-[#1F242C]">
-              <span className="text-xs">Search...</span>
-              <div className="flex items-center gap-1 text-[10px] text-[#6E7681]">
-                <span>⌘</span>
-                <span>K</span>
-              </div>
-            </div>
-
-            <div className="relative">
-              <button 
-                onClick={() => {
-                  const locales: ('en' | 'uk' | 'fr' | 'de')[] = ['en', 'uk', 'fr', 'de'];
-                  const current = locales.indexOf(locale);
-                  const next = (current + 1) % locales.length;
-                  setLocale(locales[next]);
-                }}
-                className="flex items-center gap-2 px-3 h-[40px] bg-[#161B22] border border-[#1F242C] hover:border-[#00A3FF] transition-colors text-sm font-medium"
-              >
-                <span>🇺🇸</span>
-                <span className="hidden sm:inline">
-                  {locale === 'en' ? 'US' : locale === 'uk' ? 'UA' : locale === 'fr' ? 'FR' : 'DE'}
-                </span>
+            <button onClick={() => setSearchOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10">
+              <span>🔍</span><span className="hidden md:inline">{t.nav.search}</span><span className="text-xs text-white/40">⌘K</span>
+            </button>
+            <div className="relative" ref={langRef}>
+              <button onClick={() => setLangOpen(!langOpen)} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10">
+                {currentLang.flag} {locale.toUpperCase()} ▼
               </button>
+              {langOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-[#1A1D1F] border border-white/10 rounded-lg p-2 min-w-[200px] z-50">
+                  {languages.map(lang => (
+                    <a 
+                      key={lang.code} 
+                      href={`/${lang.code}`} 
+                      className={`flex items-center gap-3 w-full px-3 py-2 rounded-md hover:bg-white/10 text-left transition-all ${locale === lang.code ? 'bg-[#3A8DFF]/20 text-[#3A8DFF]' : ''}`}
+                      onClick={() => setLangOpen(false)}
+                    >
+                      <span>{lang.flag}</span><span>{lang.name}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-
-            <span className="hidden md:flex items-center gap-2 text-xs font-medium text-[#3CCB7F] bg-[#3CCB7F]/10 px-3 h-[40px] border border-[#3CCB7F]/30">
-              <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse"></span>
-              Operational
-            </span>
-
-            <Link href="#demo" className="hidden lg:flex items-center h-[40px] px-6 bg-[#00A3FF]/10 text-[#00A3FF] border border-[#00A3FF]/30 font-medium text-sm hover:bg-[#00A3FF]/20 transition-colors">
-              Request Demo
-            </Link>
-
-            <Link href="/dashboard" className="flex items-center h-[40px] px-6 bg-[#00A3FF] text-[#0D1117] font-medium text-sm hover:bg-[#33B5FF] transition-colors">
-              {t.nav.portal}
-            </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="py-[80px] lg:py-[120px]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="flex flex-col items-center text-center gap-8">
-            <div className="inline-flex items-center gap-2 px-4 h-[32px] bg-[#00A3FF]/10 border border-[#00A3FF]/30 text-[#00A3FF] text-xs font-medium">
-              <span>🇺🇸</span>
-              <span>{locale === 'en' ? 'United States' : locale === 'uk' ? 'Україна' : locale === 'fr' ? 'France' : 'Deutschland'}</span>
-            </div>
+      <section className="max-w-7xl mx-auto px-6 py-24 text-center">
+        <div className="inline-block px-4 py-2 bg-[#3A8DFF]/10 border border-[#3A8DFF]/30 rounded-full text-[#4CD3C2] text-sm font-semibold mb-6">{t.badge}</div>
+        <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-[#3A8DFF] bg-clip-text text-transparent">{t.hero.title}</h1>
+        <p className="text-xl text-white/60 mb-4">{t.hero.subtitle}</p>
+        <p className="text-sm text-white/40 mb-12">{t.hero.origin}</p>
+      </section>
 
-            <h1 className="text-4xl lg:text-6xl font-semibold max-w-[900px] leading-tight">
-              {t.hero.title}
-            </h1>
-
-            <p className="text-lg lg:text-xl text-[#8B949E] max-w-[800px] leading-relaxed">
-              {t.hero.subtitle}
-            </p>
-
-            <div className="flex items-center gap-2 text-sm text-[#6E7681] flex-wrap justify-center">
-              <span>🇺🇸 Built in the United States</span>
-              <span className="text-[#1F242C]">•</span>
-              <span>Inspired by Ukraine</span>
-              <span className="text-[#1F242C]">•</span>
-              <span>Designed for the world</span>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <Link href="/dashboard" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">
-                Access Portal
-              </Link>
-              <Link href="#modules" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">
-                View Modules
-              </Link>
-            </div>
-
-            <div className="w-full max-w-[900px] mt-12 bg-[#161B22] border border-[#1F242C] p-6 font-mono text-sm">
-              <div className="text-[#8B949E]">
-                <span className="text-[#3CCB7F]">$</span> ivyar initialize --platform gov-cloud
-              </div>
-              <div className="mt-4 space-y-2 text-[#6E7681]">
-                <div><span className="text-[#3CCB7F]">✓</span> IVYAR GOVERNANCE PLATFORM v3.1</div>
-                <div><span className="text-[#3CCB7F]">✓</span> {MODULES.length} modules loaded</div>
-                <div><span className="text-[#3CCB7F]">✓</span> 25 regions active</div>
-                <div><span className="text-[#3CCB7F]">✓</span> AI Administrator online</div>
-                <div className="pt-2">Ready for operations<span className="animate-pulse">_</span></div>
-              </div>
-            </div>
-          </div>
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">{t.modules.title}</h2>
+        </div>
+        <div className="grid md:grid-cols-2 gap-4 mb-12">
+          {allModules.slice(0, 6).map((m, i) => (
+            <button 
+              key={i} 
+              onClick={() => handleModuleClick(m)}
+              className={`p-6 bg-gradient-to-br ${catColors[m.cat as keyof typeof catColors].bg} border border-white/10 rounded-xl hover:border-white/20 transition-all text-left w-full cursor-pointer`}
+            >
+              <h4 className="font-semibold text-lg mb-2">{m.title}</h4>
+              <p className="text-white/60 text-sm">{m.desc}</p>
+            </button>
+          ))}
+        </div>
+        <div className="text-center p-6 bg-white/5 border border-white/10 rounded-xl">
+          <p className="text-white/80"><strong>{t.note.title}</strong></p>
+          <p className="text-white/40 text-sm">{t.note.desc}</p>
         </div>
       </section>
 
-      {/* Trusted By */}
-      <section className="py-[60px] border-y border-[#1F242C] bg-[#161B22]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <p className="text-center text-sm text-[#6E7681] mb-8 uppercase tracking-wider">{t.trusted}</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
-            {['NATO', 'World Bank', 'USAID', 'European Commission', 'Government of Canada'].map((org, i) => (
-              <div key={i} className="text-[#6E7681] font-semibold text-sm">{org}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-[80px] lg:py-[100px]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="flex flex-col gap-6 mb-12">
-            <h2 className="text-3xl lg:text-4xl font-semibold text-center">LIVE PLATFORM STATUS</h2>
-            <p className="text-center text-[#8B949E]">Real-Time Operations</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
-              <div className="text-3xl font-bold text-[#00A3FF]">$10.2B</div>
-              <div className="text-sm text-[#8B949E]">Under Management</div>
+      {searchOpen && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-start justify-center pt-32" onClick={() => setSearchOpen(false)}>
+          <div className="bg-[#1A1D1F] border border-white/10 rounded-xl w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 border-b border-white/10 flex items-center gap-3">
+              <span>🔍</span>
+              <input 
+                type="text" 
+                placeholder={tm.search.placeholder} 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)} 
+                className="flex-1 bg-transparent text-white outline-none" 
+                autoFocus 
+              />
+              {searchQuery && <button onClick={() => setSearchQuery('')} className="text-white/40 hover:text-white">✕</button>}
             </div>
-            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
-              <div className="text-3xl font-bold text-[#3CCB7F]">99.99%</div>
-              <div className="text-sm text-[#8B949E]">Uptime SLA</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
-              <div className="text-3xl font-bold text-[#FFB84D]">{MODULES.length}</div>
-              <div className="text-sm text-[#8B949E]">Active Modules</div>
-            </div>
-            <div className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-3">
-              <div className="text-3xl font-bold text-[#F778BA]">25+</div>
-              <div className="text-sm text-[#8B949E]">Regions</div>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center">
-            <div className="inline-flex items-center gap-3 px-4 h-[36px] bg-[#3CCB7F]/10 border border-[#3CCB7F]/30 text-[#3CCB7F] text-sm">
-              <span className="w-2 h-2 bg-[#3CCB7F] rounded-full animate-pulse"></span>
-              <span>All modules operational • Last updated: 2 seconds ago</span>
+            {searchQuery && <div className="px-6 py-2 text-sm text-white/40 border-b border-white/10">{searchResults.length} {tm.search.results}</div>}
+            <div className="max-h-96 overflow-y-auto p-2">
+              {searchResults.length === 0 && searchQuery ? (
+                <div className="p-8 text-center text-white/40">{tm.search.noResults}</div>
+              ) : (
+                searchResults.map((m, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleModuleClick(m)}
+                    className="w-full text-left p-4 hover:bg-white/5 rounded-lg cursor-pointer transition-all"
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="font-semibold" dangerouslySetInnerHTML={{ __html: highlightText(m.title, searchQuery) }} />
+                      <span className={`px-2 py-1 text-xs rounded-full ${catColors[m.cat as keyof typeof catColors].badge}`}>
+                        {tm.categories[m.cat as keyof typeof tm.categories]}
+                      </span>
+                    </div>
+                    <div className="text-sm text-white/60" dangerouslySetInnerHTML={{ __html: highlightText(m.desc, searchQuery) }} />
+                  </button>
+                ))
+              )}
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Modules */}
-      <section id="modules" className="py-[80px] lg:py-[120px] bg-[#0D1117]">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col gap-12">
-            <div className="flex flex-col gap-4 text-center">
-              <h2 className="text-3xl lg:text-5xl font-semibold">{t.modules.title}</h2>
-              <p className="text-lg text-[#8B949E]">{t.modules.subtitle}</p>
+      {selectedModule && (
+        <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-6" onClick={() => setSelectedModule(null)}>
+          <div className={`bg-gradient-to-br ${catColors[selectedModule.cat as keyof typeof catColors].bg} border-2 border-white/20 rounded-2xl max-w-2xl w-full p-8`} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <span className={`inline-block px-3 py-1 text-xs rounded-full ${catColors[selectedModule.cat as keyof typeof catColors].badge} mb-3`}>
+                  {tm.categories[selectedModule.cat as keyof typeof tm.categories]}
+                </span>
+                <h2 className="text-3xl font-bold">{selectedModule.title}</h2>
+              </div>
+              <button onClick={() => setSelectedModule(null)} className="text-white/40 hover:text-white text-2xl">✕</button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {modules.map((mod, i) => (
-                <div key={i} className="bg-[#161B22] border border-[#1F242C] p-6 flex flex-col gap-4 hover:border-[#00A3FF] transition-colors group">
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 bg-[#00A3FF]/10 flex items-center justify-center text-2xl">{mod.icon}</div>
-                    <span className={`text-[11px] font-semibold uppercase px-2 h-[22px] flex items-center ${
-                      mod.status === 'live' || mod.status === 'core' ? 'bg-[#3CCB7F]/15 text-[#3CCB7F]' :
-                      mod.status === 'pilot' || mod.status === 'beta' ? 'bg-[#FFB84D]/15 text-[#FFB84D]' :
-                      mod.status === 'dev' ? 'bg-[#00A3FF]/15 text-[#00A3FF]' : 'bg-[#8B949E]/15 text-[#8B949E]'
-                    }`}>{mod.status}</span>
-                  </div>
-                  <h3 className="text-lg font-semibold">{mod.name}</h3>
-                  <p className="text-sm text-[#8B949E] flex-1">{mod.desc}</p>
-                  <div className="flex items-center justify-between pt-2 border-t border-[#1F242C]">
-                    <span className="text-xs text-[#6E7681]">{mod.apis} {t.modules.endpoints}</span>
-                    <span className="text-sm font-medium text-[#00A3FF] group-hover:translate-x-1 transition-transform">{t.modules.learnMore} →</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className="text-white/80 text-lg mb-6">{selectedModule.desc}</p>
+            <button onClick={() => setSelectedModule(null)} className="px-6 py-3 bg-[#3A8DFF] rounded-lg hover:bg-[#2E7FED] transition-all">
+              Close
+            </button>
           </div>
         </div>
-      </section>
-
-      {/* AI Administrator */}
-      <section id="ai" className="py-[80px] lg:py-[120px] bg-[#161B22] border-y border-[#1F242C]">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-4">
-                <span className="text-xs font-medium text-[#00A3FF] uppercase tracking-wider">{t.ai.badge}</span>
-                <h2 className="text-2xl lg:text-4xl font-semibold">{t.ai.title}</h2>
-                <p className="text-[#8B949E] leading-relaxed">
-                  {t.ai.desc}
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-4 mt-4">
-                {t.ai.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 bg-[#00A3FF]/5 border-l-2 border-[#00A3FF]">
-                    <span className="text-[#00A3FF] font-bold">✓</span>
-                    <span className="text-[15px]">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hidden lg:block">
-              <div className="bg-[#0D1117] border border-[#1F242C] p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-[#00A3FF]/20 flex items-center justify-center">🤖</div>
-                  <div>
-                    <p className="font-medium">AI Administrator</p>
-                    <p className="text-xs text-[#6E7681]">Ethical Governance Assistant</p>
-                  </div>
-                </div>
-                <div className="space-y-4 font-mono text-sm">
-                  <div className="p-3 bg-[#161B22] border border-[#1F242C]">
-                    <p className="text-[#8B949E]">Analysis complete. 3 recommendations ready.</p>
-                  </div>
-                  <div className="p-3 bg-[#3CCB7F]/10 border border-[#3CCB7F]/30">
-                    <p className="text-[#3CCB7F]">✓ All actions require human approval</p>
-                  </div>
-                  <div className="p-3 bg-[#00A3FF]/10 border border-[#00A3FF]/30">
-                    <p className="text-[#00A3FF]">ℹ Reasoning logs available for audit</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-[80px] lg:py-[120px]">
-        <div className="max-w-[800px] mx-auto px-6 text-center">
-          <div className="flex flex-col items-center gap-6">
-            <h2 className="text-2xl lg:text-4xl font-semibold">{t.cta.title}</h2>
-            <p className="text-[#8B949E] text-lg">{t.cta.subtitle}</p>
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <Link href="#contact" className="h-[52px] px-8 bg-[#00A3FF] text-[#0D1117] font-medium flex items-center hover:bg-[#33B5FF] transition-colors">{t.cta.demo}</Link>
-              <Link href="#contact" className="h-[52px] px-8 border border-[#00A3FF] text-[#00A3FF] font-medium flex items-center hover:bg-[#00A3FF]/10 transition-colors">{t.cta.contact}</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#161B22] border-t border-[#1F242C] pt-16 pb-6">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-[#1F242C]">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center font-bold text-[#0D1117]">IV</div>
-                <span className="text-lg font-semibold">IVYAR</span>
-              </div>
-              <p className="text-sm text-[#8B949E]">{t.footer.tagline}</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {['ISO 27001', 'SOC 2', 'GDPR', 'IRAP'].map((cert, i) => (
-                  <span key={i} className="text-[10px] font-semibold text-[#00A3FF] bg-[#00A3FF]/10 px-2 py-1">{cert}</span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t.footer.platform}</h4>
-              <div className="flex flex-col gap-3">
-                {['Dashboard', 'AI Operations', 'Documentation', 'API Reference'].map((link, i) => (
-                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t.footer.modules}</h4>
-              <div className="flex flex-col gap-3">
-                {['Procurement', 'Logistics', 'Donor Dashboard', 'HBS Module'].map((link, i) => (
-                  <Link key={i} href="/dashboard" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <h4 className="text-sm font-semibold">{t.footer.company}</h4>
-              <div className="flex flex-col gap-3">
-                {['About IVYAR', 'Contact', 'Careers', 'Press'].map((link, i) => (
-                  <Link key={i} href="#" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors">{link}</Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <span className="text-sm text-[#6E7681]">{t.footer.copyright}</span>
-            <span className="text-sm text-[#6E7681]">{t.footer.nato}</span>
-          </div>
-        </div>
-      </footer>
-
-      <style jsx global>{`
-        @keyframes breathing {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(0, 163, 255, 0.15); }
-          50% { box-shadow: 0 0 12px 0 rgba(0, 163, 255, 0.35); }
-        }
-      `}</style>
+      )}
     </div>
   );
 }
