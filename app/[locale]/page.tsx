@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
+import { locales } from '@/i18n/config';
 
 const MODULES_TRANSLATIONS = {
   us: {
@@ -49,64 +50,38 @@ const MODULES_TRANSLATIONS = {
     search: { placeholder: 'Пошук модулів...', results: 'результатів', noResults: 'Нічого не знайдено' }
   },
   de: {
-    governance: [
-      { title: 'Governance-Kern', desc: 'Befugnisse, Rollen, Delegierung', cat: 'governance' },
-      { title: 'Programmregister', desc: 'Programme, Verträge, Verfolgung', cat: 'governance' },
-      { title: 'Entscheidungsregister', desc: 'Unveränderliche Genehmigungen', cat: 'governance' },
-      { title: 'Audit-Engine', desc: 'Beweispfade, Compliance-Mapping', cat: 'governance' },
-      { title: 'Risiko & Schutz', desc: 'Risikoregister, Missbrauchserkennung', cat: 'governance' },
-      { title: 'Transparenz-Hub', desc: 'Echtzeit-Sichtbarkeit', cat: 'governance' },
-    ],
-    donor: [
-      { title: 'HBS-Modul', desc: 'Menschliche Aufsicht', cat: 'donor' },
-      { title: 'Geber-Dashboard', desc: 'Programmsichtbarkeit, KPI-Tracking', cat: 'donor' },
-      { title: 'MEL & Beweise', desc: 'Indikatoren, Ergebnisverifizierung', cat: 'donor' },
-      { title: 'Wiederaufbau', desc: 'Nachkonflikt-Wiederherstellung', cat: 'donor' },
-    ],
-    intelligence: [
-      { title: 'KI-Administrator', desc: 'Ethischer KI-Assistent', cat: 'intelligence' },
-      { title: 'Plattform-Status', desc: '99.97% Verfügbarkeit', cat: 'intelligence' },
-    ],
-    categories: { governance: 'Governance & Kontrolle', donor: 'Geberaufsicht', intelligence: 'Intelligenz' },
-    search: { placeholder: 'Suchen...', results: 'Ergebnisse', noResults: 'Keine Ergebnisse' }
+    governance: [{ title: 'Governance-Kern', desc: 'Befugnisse, Rollen, Delegierung', cat: 'governance' }, { title: 'Programmregister', desc: 'Programme, Verträge', cat: 'governance' }, { title: 'Entscheidungsregister', desc: 'Genehmigungen', cat: 'governance' }, { title: 'Audit-Engine', desc: 'Beweispfade', cat: 'governance' }, { title: 'Risiko & Schutz', desc: 'Risikoregister', cat: 'governance' }, { title: 'Transparenz-Hub', desc: 'Sichtbarkeit', cat: 'governance' }],
+    donor: [{ title: 'HBS-Modul', desc: 'Aufsicht', cat: 'donor' }, { title: 'Geber-Dashboard', desc: 'Sichtbarkeit', cat: 'donor' }, { title: 'MEL & Beweise', desc: 'Indikatoren', cat: 'donor' }, { title: 'Wiederaufbau', desc: 'Wiederherstellung', cat: 'donor' }],
+    intelligence: [{ title: 'KI-Administrator', desc: 'Assistent', cat: 'intelligence' }, { title: 'Status', desc: '99.97%', cat: 'intelligence' }],
+    categories: { governance: 'Governance', donor: 'Geber', intelligence: 'Intelligenz' },
+    search: { placeholder: 'Suchen...', results: 'Ergebnisse', noResults: 'Keine' }
   },
   fr: {
-    governance: [
-      { title: 'Noyau de gouvernance', desc: 'Autorité, rôles, délégation', cat: 'governance' },
-      { title: 'Registre des programmes', desc: 'Programmes, contrats, suivi', cat: 'governance' },
-      { title: 'Registre des décisions', desc: 'Approbations immuables', cat: 'governance' },
-      { title: 'Moteur d\'audit', desc: 'Pistes de preuve, conformité', cat: 'governance' },
-      { title: 'Risques et protections', desc: 'Registre des risques, détection', cat: 'governance' },
-      { title: 'Hub de transparence', desc: 'Visibilité en temps réel', cat: 'governance' },
-    ],
-    donor: [
-      { title: 'Module HBS', desc: 'Surveillance humaine', cat: 'donor' },
-      { title: 'Tableau des donateurs', desc: 'Visibilité des programmes, KPI', cat: 'donor' },
-      { title: 'MEL et preuves', desc: 'Indicateurs, vérification', cat: 'donor' },
-      { title: 'Reconstruction', desc: 'Récupération post-conflit', cat: 'donor' },
-    ],
-    intelligence: [
-      { title: 'Administrateur IA', desc: 'Assistant IA éthique', cat: 'intelligence' },
-      { title: 'État de la plateforme', desc: '99.97% disponibilité', cat: 'intelligence' },
-    ],
-    categories: { governance: 'Gouvernance et contrôle', donor: 'Supervision des donateurs', intelligence: 'Intelligence' },
-    search: { placeholder: 'Rechercher...', results: 'résultats', noResults: 'Aucun résultat' }
+    governance: [{ title: 'Noyau', desc: 'Autorité, rôles', cat: 'governance' }, { title: 'Registre', desc: 'Programmes', cat: 'governance' }, { title: 'Décisions', desc: 'Approbations', cat: 'governance' }, { title: 'Audit', desc: 'Pistes', cat: 'governance' }, { title: 'Risques', desc: 'Registre', cat: 'governance' }, { title: 'Transparence', desc: 'Visibilité', cat: 'governance' }],
+    donor: [{ title: 'HBS', desc: 'Surveillance', cat: 'donor' }, { title: 'Donateurs', desc: 'Visibilité', cat: 'donor' }, { title: 'MEL', desc: 'Indicateurs', cat: 'donor' }, { title: 'Reconstruction', desc: 'Récupération', cat: 'donor' }],
+    intelligence: [{ title: 'IA', desc: 'Assistant', cat: 'intelligence' }, { title: 'État', desc: '99.97%', cat: 'intelligence' }],
+    categories: { governance: 'Gouvernance', donor: 'Donateurs', intelligence: 'Intelligence' },
+    search: { placeholder: 'Rechercher...', results: 'résultats', noResults: 'Aucun' }
   },
+  es: { governance: [{ title: 'Núcleo', desc: 'Autoridad', cat: 'governance' }, { title: 'Registro', desc: 'Programas', cat: 'governance' }, { title: 'Decisiones', desc: 'Aprobaciones', cat: 'governance' }, { title: 'Auditoría', desc: 'Rastros', cat: 'governance' }, { title: 'Riesgos', desc: 'Registro', cat: 'governance' }, { title: 'Transparencia', desc: 'Visibilidad', cat: 'governance' }], donor: [{ title: 'HBS', desc: 'Supervisión', cat: 'donor' }, { title: 'Donantes', desc: 'Visibilidad', cat: 'donor' }, { title: 'MEL', desc: 'Indicadores', cat: 'donor' }, { title: 'Reconstrucción', desc: 'Recuperación', cat: 'donor' }], intelligence: [{ title: 'IA', desc: 'Asistente', cat: 'intelligence' }, { title: 'Estado', desc: '99.97%', cat: 'intelligence' }], categories: { governance: 'Gobernanza', donor: 'Donantes', intelligence: 'Inteligencia' }, search: { placeholder: 'Buscar...', results: 'resultados', noResults: 'Sin' } },
+  it: { governance: [{ title: 'Nucleo', desc: 'Autorità', cat: 'governance' }, { title: 'Registro', desc: 'Programmi', cat: 'governance' }, { title: 'Decisioni', desc: 'Approvazioni', cat: 'governance' }, { title: 'Audit', desc: 'Tracce', cat: 'governance' }, { title: 'Rischi', desc: 'Registro', cat: 'governance' }, { title: 'Trasparenza', desc: 'Visibilità', cat: 'governance' }], donor: [{ title: 'HBS', desc: 'Supervisione', cat: 'donor' }, { title: 'Donatori', desc: 'Visibilità', cat: 'donor' }, { title: 'MEL', desc: 'Indicatori', cat: 'donor' }, { title: 'Ricostruzione', desc: 'Recupero', cat: 'donor' }], intelligence: [{ title: 'IA', desc: 'Assistente', cat: 'intelligence' }, { title: 'Stato', desc: '99.97%', cat: 'intelligence' }], categories: { governance: 'Governance', donor: 'Donatori', intelligence: 'Intelligenza' }, search: { placeholder: 'Cerca...', results: 'risultati', noResults: 'Nessun' } },
+  pl: { governance: [{ title: 'Rdzeń', desc: 'Uprawnienia', cat: 'governance' }, { title: 'Rejestr', desc: 'Programy', cat: 'governance' }, { title: 'Decyzje', desc: 'Zatwierdzenia', cat: 'governance' }, { title: 'Audyt', desc: 'Ślady', cat: 'governance' }, { title: 'Ryzyko', desc: 'Rejestr', cat: 'governance' }, { title: 'Przejrzystość', desc: 'Widoczność', cat: 'governance' }], donor: [{ title: 'HBS', desc: 'Nadzór', cat: 'donor' }, { title: 'Darczyńcy', desc: 'Widoczność', cat: 'donor' }, { title: 'MEL', desc: 'Wskaźniki', cat: 'donor' }, { title: 'Odbudowa', desc: 'Odzyskiwanie', cat: 'donor' }], intelligence: [{ title: 'AI', desc: 'Asystent', cat: 'intelligence' }, { title: 'Status', desc: '99.97%', cat: 'intelligence' }], categories: { governance: 'Zarządzanie', donor: 'Darczyńcy', intelligence: 'Inteligencja' }, search: { placeholder: 'Szukaj...', results: 'wyników', noResults: 'Brak' } },
 };
 
-const TRANSLATIONS = {
-  us: { hero: { title: 'IVYAR Governance Platform', subtitle: 'Institutional governance infrastructure', origin: 'Built in USA • Inspired by Ukraine' }, nav: { search: 'Search' }, badge: 'NATO-Aligned • World Bank Ready', modules: { title: 'Institutional Infrastructure' }, note: { title: 'Advanced capabilities', desc: 'Procurement, logistics, emergency services' } },
-  ua: { hero: { title: 'Платформа IVYAR', subtitle: 'Інституційна інфраструктура', origin: 'Створено в США • Натхненно Україною' }, nav: { search: 'Пошук' }, badge: 'NATO-сумісний • World Bank', modules: { title: 'Інфраструктура' }, note: { title: 'Розширені можливості', desc: 'Закупівлі, логістика, екстрені служби' } },
-  de: { hero: { title: 'IVYAR Governance-Plattform', subtitle: 'Institutionelle Governance-Infrastruktur', origin: 'Gebaut in den USA • Inspiriert von der Ukraine' }, nav: { search: 'Suchen' }, badge: 'NATO-konform • World Bank bereit', modules: { title: 'Institutionelle Infrastruktur' }, note: { title: 'Erweiterte Fähigkeiten', desc: 'Beschaffung, Logistik, Notdienste' } },
-  fr: { hero: { title: 'Plateforme IVYAR', subtitle: 'Infrastructure de gouvernance institutionnelle', origin: 'Construit aux USA • Inspiré par l\'Ukraine' }, nav: { search: 'Rechercher' }, badge: 'Conforme OTAN • Prêt Banque mondiale', modules: { title: 'Infrastructure institutionnelle' }, note: { title: 'Capacités avancées', desc: 'Achats, logistique, services d\'urgence' } },
-};
+// Базовий hero translation
+const baseHero = { hero: { title: 'IVYAR Governance Platform', subtitle: 'Institutional governance infrastructure', origin: 'Built in USA • Inspired by Ukraine' }, nav: { search: 'Search' }, badge: 'NATO-Aligned • World Bank Ready', modules: { title: 'Institutional Infrastructure' }, note: { title: 'Advanced capabilities', desc: 'Procurement, logistics' } };
 
-const languages = [
-  { code: 'ua', flag: '🇺🇦', name: 'Українська' }, 
-  { code: 'us', flag: '🇺🇸', name: 'English' },
-  { code: 'de', flag: '🇩🇪', name: 'Deutsch' },
-  { code: 'fr', flag: '🇫🇷', name: 'Français' },
-];
+const TRANSLATIONS: Record<string, any> = {
+  us: baseHero,
+  gb: baseHero,
+  eu: baseHero,
+  ua: { hero: { title: 'Платформа IVYAR', subtitle: 'Інституційна інфраструктура', origin: 'Створено в США • Натхненно Україною' }, nav: { search: 'Пошук' }, badge: 'NATO-сумісний • World Bank', modules: { title: 'Інфраструктура' }, note: { title: 'Розширені можливості', desc: 'Закупівлі, логістика' } },
+  de: { hero: { title: 'IVYAR Plattform', subtitle: 'Governance-Infrastruktur', origin: 'USA • Ukraine' }, nav: { search: 'Suchen' }, badge: 'NATO-konform', modules: { title: 'Infrastruktur' }, note: { title: 'Fähigkeiten', desc: 'Beschaffung' } },
+  fr: { hero: { title: 'Plateforme IVYAR', subtitle: 'Infrastructure', origin: 'USA • Ukraine' }, nav: { search: 'Rechercher' }, badge: 'OTAN', modules: { title: 'Infrastructure' }, note: { title: 'Capacités', desc: 'Achats' } },
+  es: { hero: { title: 'Plataforma IVYAR', subtitle: 'Infraestructura', origin: 'EE.UU.' }, nav: { search: 'Buscar' }, badge: 'OTAN', modules: { title: 'Infraestructura' }, note: { title: 'Capacidades', desc: 'Compras' } },
+  it: { hero: { title: 'Piattaforma IVYAR', subtitle: 'Infrastruttura', origin: 'USA' }, nav: { search: 'Cerca' }, badge: 'NATO', modules: { title: 'Infrastruttura' }, note: { title: 'Capacità', desc: 'Appalti' } },
+  pl: { hero: { title: 'Platforma IVYAR', subtitle: 'Infrastruktura', origin: 'USA' }, nav: { search: 'Szukaj' }, badge: 'NATO', modules: { title: 'Infrastruktura' }, note: { title: 'Możliwości', desc: 'Zakupy' } },
+};
 
 const highlightText = (text: string, query: string) => {
   if (!query.trim()) return text;
@@ -126,7 +101,7 @@ const catColors = {
 
 export default function HomePage() {
   const params = useParams();
-  const locale = (params?.locale as string) || 'ua';
+  const locale = (params?.locale as string) || 'us';
   
   const [searchOpen, setSearchOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -134,7 +109,7 @@ export default function HomePage() {
   const [selectedModule, setSelectedModule] = useState<any>(null);
   const langRef = useRef<HTMLDivElement>(null);
   
-  const t = TRANSLATIONS[locale as keyof typeof TRANSLATIONS] || TRANSLATIONS.us;
+  const t = TRANSLATIONS[locale] || baseHero;
   const tm = MODULES_TRANSLATIONS[locale as keyof typeof MODULES_TRANSLATIONS] || MODULES_TRANSLATIONS.us;
 
   useEffect(() => {
@@ -161,7 +136,11 @@ export default function HomePage() {
       )
     : allModules;
 
-  const currentLang = languages.find(l => l.code === locale) || languages[0];
+  const availableLocales = locales.filter(l => 
+    TRANSLATIONS[l.code] || MODULES_TRANSLATIONS[l.code as keyof typeof MODULES_TRANSLATIONS]
+  );
+
+  const currentLang = availableLocales.find(l => l.code === locale) || availableLocales[0];
 
   const handleModuleClick = (module: any) => {
     setSelectedModule(module);
@@ -186,15 +165,15 @@ export default function HomePage() {
                 {currentLang.flag} {locale.toUpperCase()} ▼
               </button>
               {langOpen && (
-                <div className="absolute right-0 top-full mt-2 bg-[#1A1D1F] border border-white/10 rounded-lg p-2 min-w-[200px] z-50">
-                  {languages.map(lang => (
+                <div className="absolute right-0 top-full mt-2 bg-[#1A1D1F] border border-white/10 rounded-lg p-2 min-w-[200px] max-h-[400px] overflow-y-auto z-50 shadow-2xl">
+                  {availableLocales.slice(0, 10).map(lang => (
                     <a 
                       key={lang.code} 
                       href={`/${lang.code}`} 
                       className={`flex items-center gap-3 w-full px-3 py-2 rounded-md hover:bg-white/10 text-left transition-all ${locale === lang.code ? 'bg-[#3A8DFF]/20 text-[#3A8DFF]' : ''}`}
-                      onClick={() => setLangOpen(false)}
                     >
-                      <span>{lang.flag}</span><span>{lang.name}</span>
+                      <span>{lang.flag}</span>
+                      <span className="text-sm">{lang.name}</span>
                     </a>
                   ))}
                 </div>
