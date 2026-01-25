@@ -148,6 +148,7 @@ const catColors = {
 
 export default function HomePage() {
   const params = useParams();
+  // Use params.locale directly - it updates on navigation
   const locale = (params?.locale as string) || 'us';
   
   const [searchOpen, setSearchOpen] = useState(false);
@@ -157,6 +158,7 @@ export default function HomePage() {
   const [selectedModule, setSelectedModule] = useState<any>(null);
   const langRef = useRef<HTMLDivElement>(null);
   
+  // Get translations based on current locale from URL
   const t = TRANSLATIONS[locale] || baseHero;
   const tm = MODULES_TRANSLATIONS[locale as keyof typeof MODULES_TRANSLATIONS] || MODULES_TRANSLATIONS.us;
 
@@ -198,7 +200,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0D0E] text-white">
+    <div className="min-h-screen bg-[#0B0D0E] text-white" key={locale}>
       {/* Navigation */}
       <nav className="sticky top-0 z-40 bg-[#0B0D0E]/95 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
@@ -276,7 +278,7 @@ export default function HomePage() {
         <p className="text-xs sm:text-sm text-white/40 mb-8 sm:mb-12 px-4">{t.hero.origin}</p>
       </section>
 
-      {/* Stats - Responsive Grid */}
+      {/* Stats */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <h3 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-12 px-4">{t.stats.title}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -290,7 +292,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Modules - Responsive Grid */}
+      {/* Modules */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 px-4">{t.modules.title}</h2>
@@ -313,7 +315,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section - Mobile Optimized */}
+      {/* CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="bg-gradient-to-r from-[#3A8DFF]/10 to-[#4CD3C2]/10 border border-white/10 rounded-2xl p-8 sm:p-12 text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 px-4">{t.cta.title}</h2>
@@ -329,7 +331,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer - Mobile Optimized */}
+      {/* Footer */}
       <footer className="border-t border-white/10 mt-12 sm:mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -395,7 +397,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Module Detail Modal - Mobile Optimized */}
+      {/* Module Detail Modal */}
       {selectedModule && (
         <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4 sm:p-6" onClick={() => setSelectedModule(null)}>
           <div className={`bg-gradient-to-br ${catColors[selectedModule.cat as keyof typeof catColors].bg} border-2 border-white/20 rounded-2xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto`} onClick={(e) => e.stopPropagation()}>
