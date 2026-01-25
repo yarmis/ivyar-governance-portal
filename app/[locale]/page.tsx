@@ -70,7 +70,7 @@ const MODULES_TRANSLATIONS = {
 
 const baseHero = { 
   hero: { title: 'IVYAR Governance Platform', subtitle: 'Institutional governance infrastructure trusted by leading development institutions', origin: 'Built in the United States • Inspired by Ukraine • Designed for the world' }, 
-  nav: { search: 'Search' }, 
+  nav: { search: 'Search', menu: 'Menu' }, 
   badge: 'NATO-Aligned • World Bank Ready • USAID Compatible', 
   modules: { title: 'Institutional Infrastructure' }, 
   note: { title: 'Advanced operational capabilities available on request', desc: 'Procurement, logistics, emergency services — demonstrated in live pilot sessions' },
@@ -100,34 +100,34 @@ const TRANSLATIONS: Record<string, any> = {
   eu: baseHero,
   ua: { 
     hero: { title: 'Платформа IVYAR', subtitle: 'Інституційна інфраструктура управління, якій довіряють провідні інституції', origin: 'Створено в США • Натхненно Україною • Призначено для світу' }, 
-    nav: { search: 'Пошук' }, 
+    nav: { search: 'Пошук', menu: 'Меню' }, 
     badge: 'NATO-сумісний • World Bank готовий • USAID сумісний', 
     modules: { title: 'Інституційна інфраструктура' }, 
     note: { title: 'Розширені операційні можливості за запитом', desc: 'Закупівлі, логістика, екстрені служби — демонструються в пілотних сесіях' },
     stats: {
       title: 'Довіра провідних інституцій',
       uptime: { value: '99.97%', label: 'Час роботи', sublabel: 'NATO-рівень надійності' },
-      value: { value: '$115.8M', label: 'Вартість проектів', sublabel: '6 активних проектів реконструкції' },
+      value: { value: '$115.8M', label: 'Вартість проектів', sublabel: '6 активних проектів' },
       jobs: { value: '1,247', label: 'Створено робочих місць', sublabel: 'Включно 121 ветеран' },
       served: { value: '450K', label: 'Людей обслуговано', sublabel: 'Відновленими закладами' }
     },
     cta: {
       title: 'Готові модернізувати управління?',
-      subtitle: 'Приєднуйтесь до провідних інституцій, які використовують IVYAR',
+      subtitle: 'Приєднуйтесь до провідних інституцій',
       demo: 'Запит демо',
-      contact: 'Записатись на дзвінок'
+      contact: 'Записатись'
     },
     footer: {
-      tagline: 'Цифрова публічна інфраструктура для прозорого управління',
+      tagline: 'Цифрова інфраструктура для прозорого управління',
       links: { demo: 'Демо', docs: 'Документація', contact: 'Контакти', privacy: 'Конфіденційність' },
       copyright: '© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA'
     }
   },
-  de: { hero: { title: 'IVYAR Plattform', subtitle: 'Governance-Infrastruktur', origin: 'USA • Ukraine' }, nav: { search: 'Suchen' }, badge: 'NATO-konform', modules: { title: 'Infrastruktur' }, note: { title: 'Erweiterte Fähigkeiten', desc: 'Beschaffung, Logistik' }, stats: { title: 'Vertrauenswürdig', uptime: { value: '99.97%', label: 'Verfügbarkeit', sublabel: 'NATO-Grad' }, value: { value: '$115.8M', label: 'Projektwert', sublabel: '6 Projekte' }, jobs: { value: '1,247', label: 'Arbeitsplätze', sublabel: '121 Veteranen' }, served: { value: '450K', label: 'Menschen', sublabel: 'Bedient' } }, cta: { title: 'Modernisierung?', subtitle: 'Führende Institutionen nutzen IVYAR', demo: 'Demo anfordern', contact: 'Anruf vereinbaren' }, footer: { tagline: 'Digitale Infrastruktur', links: { demo: 'Demo', docs: 'Dokumentation', contact: 'Kontakt', privacy: 'Datenschutz' }, copyright: '© 2024-2026 IVYAR LLC' } },
-  fr: { hero: { title: 'Plateforme IVYAR', subtitle: 'Infrastructure', origin: 'USA • Ukraine' }, nav: { search: 'Rechercher' }, badge: 'OTAN', modules: { title: 'Infrastructure' }, note: { title: 'Capacités avancées', desc: 'Achats, logistique' }, stats: { title: 'De confiance', uptime: { value: '99.97%', label: 'Disponibilité', sublabel: 'Niveau OTAN' }, value: { value: '$115.8M', label: 'Valeur', sublabel: '6 projets' }, jobs: { value: '1,247', label: 'Emplois', sublabel: '121 vétérans' }, served: { value: '450K', label: 'Personnes', sublabel: 'Servies' } }, cta: { title: 'Moderniser?', subtitle: 'Institutions de premier plan utilisent IVYAR', demo: 'Demander une démo', contact: 'Planifier un appel' }, footer: { tagline: 'Infrastructure numérique', links: { demo: 'Démo', docs: 'Documentation', contact: 'Contact', privacy: 'Confidentialité' }, copyright: '© 2024-2026 IVYAR LLC' } },
-  es: { hero: { title: 'Plataforma IVYAR', subtitle: 'Infraestructura', origin: 'EE.UU.' }, nav: { search: 'Buscar' }, badge: 'OTAN', modules: { title: 'Infraestructura' }, note: { title: 'Capacidades', desc: 'Compras' }, stats: { title: 'Confiable', uptime: { value: '99.97%', label: 'Disponibilidad', sublabel: 'Nivel OTAN' }, value: { value: '$115.8M', label: 'Valor', sublabel: '6 proyectos' }, jobs: { value: '1,247', label: 'Empleos', sublabel: '121 veteranos' }, served: { value: '450K', label: 'Personas', sublabel: 'Servidas' } }, cta: { title: '¿Modernizar?', subtitle: 'Instituciones líderes usan IVYAR', demo: 'Solicitar demo', contact: 'Programar llamada' }, footer: { tagline: 'Infraestructura digital', links: { demo: 'Demo', docs: 'Documentación', contact: 'Contacto', privacy: 'Privacidad' }, copyright: '© 2024-2026 IVYAR LLC' } },
-  it: { hero: { title: 'Piattaforma IVYAR', subtitle: 'Infrastruttura', origin: 'USA' }, nav: { search: 'Cerca' }, badge: 'NATO', modules: { title: 'Infrastruttura' }, note: { title: 'Capacità', desc: 'Appalti' }, stats: { title: 'Affidabile', uptime: { value: '99.97%', label: 'Disponibilità', sublabel: 'Livello NATO' }, value: { value: '$115.8M', label: 'Valore', sublabel: '6 progetti' }, jobs: { value: '1,247', label: 'Lavori', sublabel: '121 veterani' }, served: { value: '450K', label: 'Persone', sublabel: 'Servite' } }, cta: { title: 'Modernizzare?', subtitle: 'Istituzioni leader usano IVYAR', demo: 'Richiedi demo', contact: 'Programma chiamata' }, footer: { tagline: 'Infrastruttura digitale', links: { demo: 'Demo', docs: 'Documentazione', contact: 'Contatto', privacy: 'Privacy' }, copyright: '© 2024-2026 IVYAR LLC' } },
-  pl: { hero: { title: 'Platforma IVYAR', subtitle: 'Infrastruktura', origin: 'USA' }, nav: { search: 'Szukaj' }, badge: 'NATO', modules: { title: 'Infrastruktura' }, note: { title: 'Możliwości', desc: 'Zakupy' }, stats: { title: 'Zaufany', uptime: { value: '99.97%', label: 'Dostępność', sublabel: 'Poziom NATO' }, value: { value: '$115.8M', label: 'Wartość', sublabel: '6 projektów' }, jobs: { value: '1,247', label: 'Miejsca pracy', sublabel: '121 weteranów' }, served: { value: '450K', label: 'Ludzie', sublabel: 'Obsłużeni' } }, cta: { title: 'Modernizacja?', subtitle: 'Wiodące instytucje używają IVYAR', demo: 'Poproś o demo', contact: 'Zaplanuj rozmowę' }, footer: { tagline: 'Infrastruktura cyfrowa', links: { demo: 'Demo', docs: 'Dokumentacja', contact: 'Kontakt', privacy: 'Prywatność' }, copyright: '© 2024-2026 IVYAR LLC' } },
+  de: { hero: { title: 'IVYAR Plattform', subtitle: 'Governance-Infrastruktur', origin: 'USA' }, nav: { search: 'Suchen', menu: 'Menü' }, badge: 'NATO', modules: { title: 'Infrastruktur' }, note: { title: 'Fähigkeiten', desc: 'Beschaffung' }, stats: { title: 'Vertrauenswürdig', uptime: { value: '99.97%', label: 'Verfügbarkeit', sublabel: 'NATO-Grad' }, value: { value: '$115.8M', label: 'Wert', sublabel: '6 Projekte' }, jobs: { value: '1,247', label: 'Arbeitsplätze', sublabel: '121 Veteranen' }, served: { value: '450K', label: 'Menschen', sublabel: 'Bedient' } }, cta: { title: 'Modernisierung?', subtitle: 'Institutionen nutzen IVYAR', demo: 'Demo', contact: 'Anruf' }, footer: { tagline: 'Digitale Infrastruktur', links: { demo: 'Demo', docs: 'Dokumentation', contact: 'Kontakt', privacy: 'Datenschutz' }, copyright: '© 2024-2026 IVYAR LLC' } },
+  fr: { hero: { title: 'Plateforme IVYAR', subtitle: 'Infrastructure', origin: 'USA' }, nav: { search: 'Rechercher', menu: 'Menu' }, badge: 'OTAN', modules: { title: 'Infrastructure' }, note: { title: 'Capacités', desc: 'Achats' }, stats: { title: 'De confiance', uptime: { value: '99.97%', label: 'Disponibilité', sublabel: 'OTAN' }, value: { value: '$115.8M', label: 'Valeur', sublabel: '6 projets' }, jobs: { value: '1,247', label: 'Emplois', sublabel: '121 vétérans' }, served: { value: '450K', label: 'Personnes', sublabel: 'Servies' } }, cta: { title: 'Moderniser?', subtitle: 'Institutions utilisent IVYAR', demo: 'Démo', contact: 'Appel' }, footer: { tagline: 'Infrastructure numérique', links: { demo: 'Démo', docs: 'Documentation', contact: 'Contact', privacy: 'Confidentialité' }, copyright: '© 2024-2026 IVYAR LLC' } },
+  es: { hero: { title: 'Plataforma IVYAR', subtitle: 'Infraestructura', origin: 'EE.UU.' }, nav: { search: 'Buscar', menu: 'Menú' }, badge: 'OTAN', modules: { title: 'Infraestructura' }, note: { title: 'Capacidades', desc: 'Compras' }, stats: { title: 'Confiable', uptime: { value: '99.97%', label: 'Disponibilidad', sublabel: 'OTAN' }, value: { value: '$115.8M', label: 'Valor', sublabel: '6' }, jobs: { value: '1,247', label: 'Empleos', sublabel: '121' }, served: { value: '450K', label: 'Personas', sublabel: 'Servidas' } }, cta: { title: '¿Modernizar?', subtitle: 'Instituciones usan IVYAR', demo: 'Demo', contact: 'Llamada' }, footer: { tagline: 'Infraestructura digital', links: { demo: 'Demo', docs: 'Documentación', contact: 'Contacto', privacy: 'Privacidad' }, copyright: '© 2024-2026 IVYAR LLC' } },
+  it: { hero: { title: 'Piattaforma IVYAR', subtitle: 'Infrastruttura', origin: 'USA' }, nav: { search: 'Cerca', menu: 'Menu' }, badge: 'NATO', modules: { title: 'Infrastruttura' }, note: { title: 'Capacità', desc: 'Appalti' }, stats: { title: 'Affidabile', uptime: { value: '99.97%', label: 'Disponibilità', sublabel: 'NATO' }, value: { value: '$115.8M', label: 'Valore', sublabel: '6' }, jobs: { value: '1,247', label: 'Lavori', sublabel: '121' }, served: { value: '450K', label: 'Persone', sublabel: 'Servite' } }, cta: { title: 'Modernizzare?', subtitle: 'Istituzioni usano IVYAR', demo: 'Demo', contact: 'Chiamata' }, footer: { tagline: 'Infrastruttura digitale', links: { demo: 'Demo', docs: 'Documentazione', contact: 'Contatto', privacy: 'Privacy' }, copyright: '© 2024-2026 IVYAR LLC' } },
+  pl: { hero: { title: 'Platforma IVYAR', subtitle: 'Infrastruktura', origin: 'USA' }, nav: { search: 'Szukaj', menu: 'Menu' }, badge: 'NATO', modules: { title: 'Infrastruktura' }, note: { title: 'Możliwości', desc: 'Zakupy' }, stats: { title: 'Zaufany', uptime: { value: '99.97%', label: 'Dostępność', sublabel: 'NATO' }, value: { value: '$115.8M', label: 'Wartość', sublabel: '6' }, jobs: { value: '1,247', label: 'Prace', sublabel: '121' }, served: { value: '450K', label: 'Ludzie', sublabel: 'Obsłużeni' } }, cta: { title: 'Modernizacja?', subtitle: 'Instytucje używają IVYAR', demo: 'Demo', contact: 'Rozmowa' }, footer: { tagline: 'Infrastruktura cyfrowa', links: { demo: 'Demo', docs: 'Dokumentacja', contact: 'Kontakt', privacy: 'Prywatność' }, copyright: '© 2024-2026 IVYAR LLC' } },
 };
 
 const highlightText = (text: string, query: string) => {
@@ -152,6 +152,7 @@ export default function HomePage() {
   
   const [searchOpen, setSearchOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModule, setSelectedModule] = useState<any>(null);
   const langRef = useRef<HTMLDivElement>(null);
@@ -169,6 +170,7 @@ export default function HomePage() {
         setSearchOpen(false); 
         setLangOpen(false); 
         setSelectedModule(null);
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener('keydown', handleKey);
@@ -199,17 +201,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#0B0D0E] text-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-40 bg-[#0B0D0E]/95 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href={`/${locale}`} className="flex items-center gap-3 hover:opacity-80 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#3A8DFF] to-[#4CD3C2] flex items-center justify-center font-bold">IV</div>
-            <span className="font-bold text-xl">IVYAR</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <a href={`/${locale}`} className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-[#3A8DFF] to-[#4CD3C2] flex items-center justify-center font-bold text-sm sm:text-base">IV</div>
+            <span className="font-bold text-lg sm:text-xl">IVYAR</span>
           </a>
-          <div className="flex items-center gap-4">
-            <button onClick={() => setSearchOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10">
-              <span>🔍</span><span className="hidden md:inline">{t.nav.search}</span><span className="text-xs text-white/40">⌘K</span>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-4">
+            <button onClick={() => setSearchOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
+              <span>🔍</span><span>{t.nav.search}</span><span className="text-xs text-white/40">⌘K</span>
             </button>
             <div className="relative" ref={langRef}>
-              <button onClick={() => setLangOpen(!langOpen)} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10">
+              <button onClick={() => setLangOpen(!langOpen)} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
                 {currentLang.flag} {locale.toUpperCase()} ▼
               </button>
               {langOpen && (
@@ -228,89 +232,122 @@ export default function HomePage() {
               )}
             </div>
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex md:hidden items-center gap-2">
+            <button onClick={() => setSearchOpen(true)} className="p-2 hover:bg-white/10 rounded-lg transition-all">
+              <span className="text-xl">🔍</span>
+            </button>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 hover:bg-white/10 rounded-lg transition-all">
+              <div className="w-6 h-5 flex flex-col justify-between">
+                <span className={`w-full h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                <span className={`w-full h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`w-full h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+              </div>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-white/10 bg-[#0B0D0E]">
+            <div className="px-4 py-4 space-y-2">
+              <div className="text-xs text-white/40 mb-2">{t.nav.menu}</div>
+              {availableLocales.slice(0, 7).map(lang => (
+                <a 
+                  key={lang.code} 
+                  href={`/${lang.code}`} 
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all ${locale === lang.code ? 'bg-[#3A8DFF]/20 text-[#3A8DFF]' : ''}`}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div className="inline-block px-4 py-2 bg-[#3A8DFF]/10 border border-[#3A8DFF]/30 rounded-full text-[#4CD3C2] text-sm font-semibold mb-6">{t.badge}</div>
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-[#3A8DFF] bg-clip-text text-transparent">{t.hero.title}</h1>
-        <p className="text-xl text-white/60 mb-4 max-w-3xl mx-auto">{t.hero.subtitle}</p>
-        <p className="text-sm text-white/40 mb-12">{t.hero.origin}</p>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
+        <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-[#3A8DFF]/10 border border-[#3A8DFF]/30 rounded-full text-[#4CD3C2] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">{t.badge}</div>
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white to-[#3A8DFF] bg-clip-text text-transparent px-4">{t.hero.title}</h1>
+        <p className="text-base sm:text-xl text-white/60 mb-3 sm:mb-4 max-w-3xl mx-auto px-4">{t.hero.subtitle}</p>
+        <p className="text-xs sm:text-sm text-white/40 mb-8 sm:mb-12 px-4">{t.hero.origin}</p>
       </section>
 
-      {/* Stats Section */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <h3 className="text-2xl font-bold text-center mb-12">{t.stats.title}</h3>
-        <div className="grid md:grid-cols-4 gap-6">
+      {/* Stats - Responsive Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <h3 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-12 px-4">{t.stats.title}</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[t.stats.uptime, t.stats.value, t.stats.jobs, t.stats.served].map((stat, i) => (
-            <div key={i} className="p-6 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl text-center">
-              <div className="text-4xl font-bold bg-gradient-to-r from-[#3A8DFF] to-[#4CD3C2] bg-clip-text text-transparent mb-2">{stat.value}</div>
-              <div className="font-semibold text-white/90 mb-1">{stat.label}</div>
-              <div className="text-sm text-white/50">{stat.sublabel}</div>
+            <div key={i} className="p-5 sm:p-6 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl text-center">
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#3A8DFF] to-[#4CD3C2] bg-clip-text text-transparent mb-2">{stat.value}</div>
+              <div className="font-semibold text-white/90 mb-1 text-sm sm:text-base">{stat.label}</div>
+              <div className="text-xs sm:text-sm text-white/50">{stat.sublabel}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Modules */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">{t.modules.title}</h2>
+      {/* Modules - Responsive Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 px-4">{t.modules.title}</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-4 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-8 sm:mb-12">
           {allModules.slice(0, 6).map((m, i) => (
             <button 
               key={i} 
               onClick={() => handleModuleClick(m)}
-              className={`p-6 bg-gradient-to-br ${catColors[m.cat as keyof typeof catColors].bg} border border-white/10 rounded-xl hover:border-white/20 transition-all text-left w-full cursor-pointer`}
+              className={`p-5 sm:p-6 bg-gradient-to-br ${catColors[m.cat as keyof typeof catColors].bg} border border-white/10 rounded-xl hover:border-white/20 transition-all text-left w-full cursor-pointer active:scale-[0.98]`}
             >
-              <h4 className="font-semibold text-lg mb-2">{m.title}</h4>
+              <h4 className="font-semibold text-base sm:text-lg mb-2">{m.title}</h4>
               <p className="text-white/60 text-sm">{m.desc}</p>
             </button>
           ))}
         </div>
-        <div className="text-center p-6 bg-white/5 border border-white/10 rounded-xl">
-          <p className="text-white/80"><strong>{t.note.title}</strong></p>
-          <p className="text-white/40 text-sm">{t.note.desc}</p>
+        <div className="text-center p-5 sm:p-6 bg-white/5 border border-white/10 rounded-xl">
+          <p className="text-white/80 text-sm sm:text-base"><strong>{t.note.title}</strong></p>
+          <p className="text-white/40 text-xs sm:text-sm mt-1">{t.note.desc}</p>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="bg-gradient-to-r from-[#3A8DFF]/10 to-[#4CD3C2]/10 border border-white/10 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.cta.title}</h2>
-          <p className="text-xl text-white/60 mb-8 max-w-2xl mx-auto">{t.cta.subtitle}</p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a href="/demo" className="px-8 py-4 bg-[#3A8DFF] rounded-lg hover:bg-[#2E7FED] transition-all font-semibold shadow-lg">
+      {/* CTA Section - Mobile Optimized */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="bg-gradient-to-r from-[#3A8DFF]/10 to-[#4CD3C2]/10 border border-white/10 rounded-2xl p-8 sm:p-12 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 px-4">{t.cta.title}</h2>
+          <p className="text-base sm:text-xl text-white/60 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">{t.cta.subtitle}</p>
+          <div className="flex gap-3 sm:gap-4 justify-center flex-col sm:flex-row px-4">
+            <a href="/demo" className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-[#3A8DFF] rounded-lg hover:bg-[#2E7FED] transition-all font-semibold shadow-lg text-center active:scale-[0.98]">
               {t.cta.demo} →
             </a>
-            <a href="/contact" className="px-8 py-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all font-semibold">
+            <a href="/contact" className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all font-semibold text-center active:scale-[0.98]">
               {t.cta.contact}
             </a>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 mt-16">
-        <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* Footer - Mobile Optimized */}
+      <footer className="border-t border-white/10 mt-12 sm:mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#3A8DFF] to-[#4CD3C2] flex items-center justify-center font-bold">IV</div>
-              <div>
-                <div className="font-bold">IVYAR</div>
-                <div className="text-sm text-white/40">{t.footer.tagline}</div>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-[#3A8DFF] to-[#4CD3C2] flex items-center justify-center font-bold text-sm sm:text-base">IV</div>
+              <div className="text-center md:text-left">
+                <div className="font-bold text-sm sm:text-base">IVYAR</div>
+                <div className="text-xs sm:text-sm text-white/40">{t.footer.tagline}</div>
               </div>
             </div>
-            <div className="flex gap-6 text-sm text-white/60">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/60">
               <a href="/demo" className="hover:text-white transition-all">{t.footer.links.demo}</a>
               <a href="/docs" className="hover:text-white transition-all">{t.footer.links.docs}</a>
               <a href="/contact" className="hover:text-white transition-all">{t.footer.links.contact}</a>
               <a href="/privacy" className="hover:text-white transition-all">{t.footer.links.privacy}</a>
             </div>
           </div>
-          <div className="text-center text-sm text-white/40 mt-8 pt-8 border-t border-white/5">
+          <div className="text-center text-xs sm:text-sm text-white/40 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-white/5">
             {t.footer.copyright}
           </div>
         </div>
@@ -318,38 +355,38 @@ export default function HomePage() {
 
       {/* Search Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-start justify-center pt-32" onClick={() => setSearchOpen(false)}>
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-start justify-center pt-20 sm:pt-32 px-4" onClick={() => setSearchOpen(false)}>
           <div className="bg-[#1A1D1F] border border-white/10 rounded-xl w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="p-6 border-b border-white/10 flex items-center gap-3">
+            <div className="p-4 sm:p-6 border-b border-white/10 flex items-center gap-3">
               <span>🔍</span>
               <input 
                 type="text" 
                 placeholder={tm.search.placeholder} 
                 value={searchQuery} 
                 onChange={(e) => setSearchQuery(e.target.value)} 
-                className="flex-1 bg-transparent text-white outline-none" 
+                className="flex-1 bg-transparent text-white outline-none text-sm sm:text-base" 
                 autoFocus 
               />
               {searchQuery && <button onClick={() => setSearchQuery('')} className="text-white/40 hover:text-white">✕</button>}
             </div>
-            {searchQuery && <div className="px-6 py-2 text-sm text-white/40 border-b border-white/10">{searchResults.length} {tm.search.results}</div>}
-            <div className="max-h-96 overflow-y-auto p-2">
+            {searchQuery && <div className="px-4 sm:px-6 py-2 text-xs sm:text-sm text-white/40 border-b border-white/10">{searchResults.length} {tm.search.results}</div>}
+            <div className="max-h-[60vh] sm:max-h-96 overflow-y-auto p-2">
               {searchResults.length === 0 && searchQuery ? (
-                <div className="p-8 text-center text-white/40">{tm.search.noResults}</div>
+                <div className="p-6 sm:p-8 text-center text-white/40 text-sm">{tm.search.noResults}</div>
               ) : (
                 searchResults.map((m, i) => (
                   <button
                     key={i}
                     onClick={() => handleModuleClick(m)}
-                    className="w-full text-left p-4 hover:bg-white/5 rounded-lg cursor-pointer transition-all"
+                    className="w-full text-left p-3 sm:p-4 hover:bg-white/5 rounded-lg cursor-pointer transition-all active:scale-[0.98]"
                   >
-                    <div className="flex items-start justify-between mb-1">
-                      <div className="font-semibold" dangerouslySetInnerHTML={{ __html: highlightText(m.title, searchQuery) }} />
-                      <span className={`px-2 py-1 text-xs rounded-full ${catColors[m.cat as keyof typeof catColors].badge}`}>
+                    <div className="flex items-start justify-between mb-1 gap-2">
+                      <div className="font-semibold text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: highlightText(m.title, searchQuery) }} />
+                      <span className={`px-2 py-1 text-xs rounded-full whitespace-nowrap ${catColors[m.cat as keyof typeof catColors].badge}`}>
                         {tm.categories[m.cat as keyof typeof tm.categories]}
                       </span>
                     </div>
-                    <div className="text-sm text-white/60" dangerouslySetInnerHTML={{ __html: highlightText(m.desc, searchQuery) }} />
+                    <div className="text-xs sm:text-sm text-white/60" dangerouslySetInnerHTML={{ __html: highlightText(m.desc, searchQuery) }} />
                   </button>
                 ))
               )}
@@ -358,21 +395,21 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Module Detail Modal */}
+      {/* Module Detail Modal - Mobile Optimized */}
       {selectedModule && (
-        <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-6" onClick={() => setSelectedModule(null)}>
-          <div className={`bg-gradient-to-br ${catColors[selectedModule.cat as keyof typeof catColors].bg} border-2 border-white/20 rounded-2xl max-w-2xl w-full p-8`} onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-start justify-between mb-6">
+        <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4 sm:p-6" onClick={() => setSelectedModule(null)}>
+          <div className={`bg-gradient-to-br ${catColors[selectedModule.cat as keyof typeof catColors].bg} border-2 border-white/20 rounded-2xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto`} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
               <div>
                 <span className={`inline-block px-3 py-1 text-xs rounded-full ${catColors[selectedModule.cat as keyof typeof catColors].badge} mb-3`}>
                   {tm.categories[selectedModule.cat as keyof typeof tm.categories]}
                 </span>
-                <h2 className="text-3xl font-bold">{selectedModule.title}</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold">{selectedModule.title}</h2>
               </div>
-              <button onClick={() => setSelectedModule(null)} className="text-white/40 hover:text-white text-2xl">✕</button>
+              <button onClick={() => setSelectedModule(null)} className="text-white/40 hover:text-white text-2xl shrink-0">✕</button>
             </div>
-            <p className="text-white/80 text-lg mb-6">{selectedModule.desc}</p>
-            <button onClick={() => setSelectedModule(null)} className="px-6 py-3 bg-[#3A8DFF] rounded-lg hover:bg-[#2E7FED] transition-all">
+            <p className="text-white/80 text-base sm:text-lg mb-6">{selectedModule.desc}</p>
+            <button onClick={() => setSelectedModule(null)} className="w-full sm:w-auto px-6 py-3 bg-[#3A8DFF] rounded-lg hover:bg-[#2E7FED] transition-all active:scale-[0.98]">
               Close
             </button>
           </div>
