@@ -18,16 +18,13 @@ interface Decision {
 export function LiveSimulation() {
   const [isRunning, setIsRunning] = useState(false);
   const [decisions, setDecisions] = useState<Decision[]>([]);
-  const [speed, setSpeed] = useState<number>(3000); // milliseconds
+  const [speed, setSpeed] = useState<number>(3000);
 
   useEffect(() => {
     if (!isRunning) return;
-
     const interval = setInterval(() => {
-      // Pick random module
       const randomModule = autopilotModules[Math.floor(Math.random() * autopilotModules.length)];
       const mockDecision = generateMockDecision(randomModule.id);
-      
       const decision: Decision = {
         id: mockDecision.id,
         timestamp: mockDecision.timestamp,
@@ -37,21 +34,13 @@ export function LiveSimulation() {
         confidence: mockDecision.confidence,
         status: mockDecision.status as 'approved' | 'pending',
       };
-
-      setDecisions((prev) => [decision, ...prev].slice(0, 20)); // Keep last 20
+      setDecisions((prev) => [decision, ...prev].slice(0, 20));
     }, speed);
-
     return () => clearInterval(interval);
   }, [isRunning, speed]);
 
-  const reset = () => {
-    setDecisions([]);
-    setIsRunning(false);
-  };
-
   return (
     <div className="bg-bg-obsidian border border-accent-cyan/40 rounded-card overflow-hidden">
-      {/* Header with Controls */}
       <div className="border-b border-border-subtle p-6 bg-gradient-to-r from-accent-cyan/5 to-accent-teal/5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -60,57 +49,61 @@ export function LiveSimulation() {
             </div>
             <div>
               <h3 className="text-heading-m text-text-primary">Live Decision Simulation</h3>
-              <p className="text-body-s text-text-secondary">
-                Real-time AI decision-making demonstration
-              </p>
+              <p className="text-body-s text-text-secondary">Real-time AI decision-making demonstration</p>
             </div>
           </div>
-
-          <div className="flex items-center gap-2">
-            {isRunning && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/30">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-xs text-green-400 font-medium">LIVE</span>
-              </div>
-            )}
-          </div>
+          {isRunning && (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/30">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs text-green-400 font-medium">LIVE</span>
+            </div>
+          )}
         </div>
 
-        {/* Controls */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setIsRunning(!isRunning)}
-            className={`
-              px-6 py-3 rounded-card font-semibold flex items-center gap-2
-              transition-all duration-200 shadow-lg
-              ${isRunning
-                ? 'bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30'
-                : 'bg-accent-cyan text-bg-obsidian hover:bg-accent-teal'
-              }
-            `}
+            onClick={() => {
+              console.log('START CLICKED!');
+              setIsRunning(true);
+            }}
+            disabled={isRunning}
+            type="button"
+            className={`px-6 py-3 rounded-card font-semibold flex items-center gap-2 transition-all ${
+              isRunning ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed' : 'bg-accent-cyan text-bg-obsidian hover:bg-accent-teal cursor-pointer'
+            }`}
           >
-            {isRunning ? (
-              <>
-                <Pause className="w-5 h-5" />
-                Pause
-              </>
-            ) : (
-              <>
-                <Play className="w-5 h-5" />
-                Start
-              </>
-            )}
+            <Play className="w-5 h-5" />
+            Start
           </button>
 
           <button
-            onClick={reset}
+            onClick={() => {
+              console.log('PAUSE CLICKED!');
+              setIsRunning(false);
+            }}
+            disabled={!isRunning}
+            type="button"
+            className={`px-6 py-3 rounded-card font-semibold flex items-center gap-2 transition-all ${
+              !isRunning ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed' : 'bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 cursor-pointer'
+            }`}
+          >
+            <Pause className="w-5 h-5" />
+            Pause
+          </button>
+
+          <button
+            onClick={() => {
+              console.log('RESET CLICKED!');
+              setDecisions([]);
+              setIsRunning(false);
+            }}
+            type="button"
             className="px-6 py-3 rounded-card border border-border-subtle text-text-secondary hover:border-accent-cyan/40 hover:text-text-primary transition-all flex items-center gap-2"
           >
             <RotateCcw className="w-5 h-5" />
             Reset
           </button>
 
-          {/* Speed Control */}
           <div className="flex items-center gap-3 ml-auto">
             <span className="text-body-s text-text-secondary">Speed:</span>
             <select
@@ -126,97 +119,48 @@ export function LiveSimulation() {
         </div>
       </div>
 
-      {/* Decision Feed */}
       <div className="p-6 space-y-3 max-h-[600px] overflow-y-auto">
         {decisions.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 rounded-full bg-bg-surface border border-border-subtle flex items-center justify-center mx-auto mb-4">
               <Play className="w-8 h-8 text-text-secondary" />
             </div>
-            <p className="text-body-m text-text-secondary">
-              Press Start to begin live simulation
-            </p>
+            <p className="text-body-m text-text-secondary">Press Start to begin live simulation</p>
           </div>
         ) : (
-          decisions.map((decision, idx) => (
-            <div
-              key={decision.id}
-              className={`
-                bg-bg-surface border border-border-subtle rounded-lg p-4
-                hover:border-accent-cyan/40 transition-all duration-300
-                animate-in slide-in-from-top
-              `}
-              style={{ animationDelay: `${idx * 50}ms` }}
-            >
+          decisions.map((decision) => (
+            <div key={decision.id} className="bg-bg-surface border border-border-subtle rounded-lg p-4 hover:border-accent-cyan/40 transition-all duration-300">
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className={`
-                    w-2 h-2 rounded-full
-                    ${decision.status === 'approved' ? 'bg-green-500' : 'bg-yellow-500'}
-                  `} />
-                  <span className="text-body-s font-medium text-accent-cyan">
-                    {decision.moduleName}
-                  </span>
+                  <div className={`w-2 h-2 rounded-full ${decision.status === 'approved' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-body-s font-medium text-accent-cyan">{decision.moduleName}</span>
                 </div>
-                <span className="text-xs text-text-secondary">
-                  {formatTimestamp(decision.timestamp)}
-                </span>
+                <span className="text-xs text-text-secondary">{formatTimestamp(decision.timestamp)}</span>
               </div>
-
-              <p className="text-body-m text-text-primary mb-3">
-                {decision.action}
-              </p>
-
+              <p className="text-body-m text-text-primary mb-3">{decision.action}</p>
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className={`
-                    text-xs font-medium
-                    ${decision.status === 'approved' ? 'text-green-400' : 'text-yellow-400'}
-                  `}>
-                    {decision.status === 'approved' ? '✓ APPROVED' : '⏳ PENDING'}
-                  </span>
-                </div>
-
+                <span className={`text-xs font-medium ${decision.status === 'approved' ? 'text-green-400' : 'text-yellow-400'}`}>
+                  {decision.status === 'approved' ? '✓ APPROVED' : '⏳ PENDING'}
+                </span>
                 <div className="flex items-center gap-2">
                   <div className="flex-1 bg-bg-obsidian rounded-full h-1.5 w-24">
-                    <div
-                      className="bg-gradient-to-r from-accent-cyan to-accent-teal h-1.5 rounded-full transition-all duration-500"
-                      style={{ width: `${decision.confidence}%` }}
-                    />
+                    <div className="bg-gradient-to-r from-accent-cyan to-accent-teal h-1.5 rounded-full" style={{ width: `${decision.confidence}%` }} />
                   </div>
-                  <span className="text-xs text-text-secondary">
-                    {decision.confidence.toFixed(1)}%
-                  </span>
+                  <span className="text-xs text-text-secondary">{decision.confidence.toFixed(1)}%</span>
                 </div>
-
-                <span className="text-xs text-text-secondary ml-auto">
-                  ID: {decision.id.slice(-6)}
-                </span>
+                <span className="text-xs text-text-secondary ml-auto">ID: {decision.id.slice(-6)}</span>
               </div>
             </div>
           ))
         )}
       </div>
 
-      {/* Footer Stats */}
       {decisions.length > 0 && (
         <div className="border-t border-border-subtle p-4 bg-bg-surface/50">
           <div className="flex items-center justify-between text-body-s">
-            <span className="text-text-secondary">
-              Total Decisions: <span className="text-accent-cyan font-medium">{decisions.length}</span>
-            </span>
-            <span className="text-text-secondary">
-              Avg Confidence:{' '}
-              <span className="text-green-400 font-medium">
-                {(decisions.reduce((sum, d) => sum + d.confidence, 0) / decisions.length).toFixed(1)}%
-              </span>
-            </span>
-            <span className="text-text-secondary">
-              Approved:{' '}
-              <span className="text-green-400 font-medium">
-                {decisions.filter(d => d.status === 'approved').length}
-              </span>
-            </span>
+            <span className="text-text-secondary">Total: <span className="text-accent-cyan font-medium">{decisions.length}</span></span>
+            <span className="text-text-secondary">Avg: <span className="text-green-400 font-medium">{(decisions.reduce((sum, d) => sum + d.confidence, 0) / decisions.length).toFixed(1)}%</span></span>
+            <span className="text-text-secondary">Approved: <span className="text-green-400 font-medium">{decisions.filter(d => d.status === 'approved').length}</span></span>
           </div>
         </div>
       )}
