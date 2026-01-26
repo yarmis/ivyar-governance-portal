@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "search": "Search",
+    "modules": "Modules",
+    "demo": "Demo",
+    "docs": "Documentation"
+  },
+  "hero": {
+    "title": "IVYAR Governance Platform",
+    "subtitle": "Institutional governance infrastructure trusted by leading development institutions",
+    "origin": "Built in the United States • Inspired by Ukraine • Designed for the world"
+  },
+  "stats": {
+    "uptime": {
+      "label": "Platform Uptime",
+      "value": "99.97%",
+      "sublabel": "NATO-grade reliability"
+    },
+    "value": {
+      "label": "Total Project Value",
+      "value": "$115.8M",
+      "sublabel": "6 active reconstruction projects"
+    },
+    "jobs": {
+      "label": "Jobs Created",
+      "value": "1,247",
+      "sublabel": "Including 121 veterans employed"
+    },
+    "served": {
+      "label": "People Served",
+      "value": "450K",
+      "sublabel": "By restored facilities"
+    }
+  },
+  "cta": {
+    "title": "Ready to Modernize Governance Operations?",
+    "subtitle": "Join leading institutions using IVYAR for secure, compliant, and ethical digital governance",
+    "demo": "Request Demo",
+    "contact": "Schedule Call"
+  },
+  "footer": {
+    "tagline": "Digital Public Infrastructure for Transparent Governance",
+    "links": {
+      "demo": "Demo",
+      "docs": "Documentation",
+      "contact": "Contact",
+      "privacy": "Privacy"
+    },
+    "copyright": "© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA"
+  }
+}
