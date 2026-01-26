@@ -1,31 +1,53 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { IBM_Plex_Sans, IBM_Plex_Mono, Work_Sans } from 'next/font/google';
+import './globals.css';
+import { Providers } from '@/components/Providers';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// Institutional typography - avoiding generic Inter/Roboto
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600'],
+  variable: '--font-ibm-plex',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-ibm-mono',
+  display: 'swap',
+});
+
+const workSans = Work_Sans({
+  subsets: ['latin'],
+  weight: ['600'],
+  variable: '--font-work-sans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "IVYAR Governance Platform",
-  description: "Institutional infrastructure for ethical, transparent, AI-aligned decision-making",
+  title: 'IVYAR Governance Platform',
+  description: 'Institutional governance infrastructure trusted by leading development institutions',
+  keywords: ['governance', 'transparency', 'NATO', 'World Bank', 'USAID', 'digital infrastructure'],
+  authors: [{ name: 'IVYAR LLC' }],
+  openGraph: {
+    title: 'IVYAR Governance Platform',
+    description: 'Institutional governance infrastructure trusted by leading development institutions',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+    <html lang="en" className="scrollbar-dark">
+      <body className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} ${workSans.variable} font-sans antialiased`}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
