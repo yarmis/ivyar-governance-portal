@@ -1,41 +1,60 @@
-// i18n/useTranslation.ts
 'use client';
 
 import { useParams } from 'next/navigation';
-import { translations, t as translate, TranslationKey } from './translations';
 import { getLocaleByCode, locales, LocaleCode } from './config';
+import { CORE_TRANSLATIONS } from './translations-core';
+import { CORE_MODULES } from './modules-core';
+import { useState, useEffect } from 'react';
+import { loadTranslation, loadModules } from './dynamic-loader';
 
 export function useTranslation() {
   const params = useParams();
-  const localeCode = (params?.locale as string) || 'us';
-  const locale = getLocaleByCode(localeCode);
-  const lang = locale.lang;
+  const locale = (params?.locale as LocaleCode) || 'us';
+  const [translations, setTranslations] = useState(CORE_TRANSLATIONS.us);
+  const [modules, setModules] = useState(CORE_MODULES.us);
+  const [loading, setLoading] = useState(false);
 
-  const t = (key: TranslationKey): string => {
-    return translate(lang, key);
-  };
+  useEffect(() => {
+    async function loadLocaleData() {
+      // Core languages
+      if (locale === 'us' || locale === 'gb' || locale === 'eu') {
+        setTranslations(CORE_TRANSLATIONS.us);
+        setModules(CORE_MODULES.us);
+        return;
+      }
+      
+      if (locale === 'ua') {
+        setTranslations(CORE_TRANSLATIONS.ua);
+        setModules(CORE_MODULES.ua);
+        return;
+      }
+      
+      if (locale === 'es') {
+        setTranslations(CORE_TRANSLATIONS.es);
+        setModules(CORE_MODULES.es);
+        return;
+      }
+      
+      // Dynamic languages
+      setLoading(true);
+      const [translation, moduleData] = await Promise.all([
+        loadTranslation(locale),
+        loadModules(locale)
+      ]);
+      
+      setTranslations(translation || CORE_TRANSLATIONS.us);
+      setModules(moduleData || CORE_MODULES.us);
+      setLoading(false);
+    }
+    
+    loadLocaleData();
+  }, [locale]);
 
   return {
-    t,
+    t: translations,
+    tm: modules,
     locale,
-    localeCode,
-    lang,
-    dir: locale.dir,
-    isRTL: locale.dir === 'rtl',
-  };
-}
-
-// Hook for locale switcher
-export function useLocales() {
-  const { localeCode } = useTranslation();
-  
-  return {
-    locales,
-    currentLocale: localeCode,
-    getLocalePath: (targetLocale: LocaleCode, currentPath: string) => {
-      // Remove current locale from path and add new one
-      const pathWithoutLocale = currentPath.replace(/^\/[a-z]{2}/, '');
-      return `/${targetLocale}${pathWithoutLocale || ''}`;
-    },
+    loading,
+    localeInfo: getLocaleByCode(locale)
   };
 }

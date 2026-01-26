@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "title": "IVYAR Plattform",
+    "subtitle": "Institutionelle Governance-Infrastruktur, der führende Entwicklungsinstitutionen vertrauen",
+    "origin": "Gebaut in den USA • Inspiriert von der Ukraine • Entworfen für die Welt"
+  },
+  "nav": {
+    "search": "Suchen",
+    "menu": "Menü"
+  },
+  "badge": "NATO-konform • Weltbank-bereit • USAID-kompatibel",
+  "modules": {
+    "title": "Institutionelle Infrastruktur"
+  },
+  "note": {
+    "title": "Erweiterte operative Fähigkeiten auf Anfrage verfügbar",
+    "desc": "Beschaffung, Logistik, Notfalldienste — in Live-Pilotsitzungen demonstriert"
+  },
+  "stats": {
+    "title": "Vertrauenswürdig bei führenden Institutionen",
+    "uptime": {
+      "value": "99.97%",
+      "label": "Plattform-Verfügbarkeit",
+      "sublabel": "NATO-Grad Zuverlässigkeit"
+    },
+    "value": {
+      "value": "$115.8M",
+      "label": "Gesamtprojektwert",
+      "sublabel": "6 aktive Wiederaufbauprojekte"
+    },
+    "jobs": {
+      "value": "1,247",
+      "label": "Geschaffene Arbeitsplätze",
+      "sublabel": "Einschließlich 121 beschäftigter Veteranen"
+    },
+    "served": {
+      "value": "450K",
+      "label": "Betreute Menschen",
+      "sublabel": "Durch restaurierte Einrichtungen"
+    }
+  },
+  "cta": {
+    "title": "Bereit, Governance-Operationen zu modernisieren?",
+    "subtitle": "Schließen Sie sich führenden Institutionen an, die IVYAR nutzen",
+    "demo": "Demo anfordern",
+    "contact": "Anruf vereinbaren"
+  },
+  "footer": {
+    "tagline": "Digitale öffentliche Infrastruktur für transparente Governance",
+    "links": {
+      "demo": "Demo",
+      "docs": "Dokumentation",
+      "contact": "Kontakt",
+      "privacy": "Datenschutz"
+    },
+    "copyright": "© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA"
+  }
+}

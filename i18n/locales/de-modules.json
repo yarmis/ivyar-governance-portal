@@ -1,0 +1,78 @@
+{
+  "governance": [
+    {
+      "title": "Governance-Kern",
+      "desc": "Befugnisse, Rollen, Delegierung, institutionelle Kontrolle",
+      "cat": "governance"
+    },
+    {
+      "title": "Programmregister",
+      "desc": "Programme, Verträge, Obergrenzen, Verpflichtungsverfolgung",
+      "cat": "governance"
+    },
+    {
+      "title": "Entscheidungsregister",
+      "desc": "Unveränderliche Genehmigungen, Begründungen, zeitgestempelte Aktionen",
+      "cat": "governance"
+    },
+    {
+      "title": "Audit-Engine",
+      "desc": "Beweispfade, Compliance-Mapping, OIG-bereite Exporte",
+      "cat": "governance"
+    },
+    {
+      "title": "Risiko & Schutz",
+      "desc": "Risikoregister, Missbrauchserkennung, menschliche Überschreibung",
+      "cat": "governance"
+    },
+    {
+      "title": "Transparenz-Hub",
+      "desc": "Echtzeit-Sichtbarkeit, ministerienübergreifende Dashboards",
+      "cat": "governance"
+    }
+  ],
+  "donor": [
+    {
+      "title": "HBS-Modul",
+      "desc": "Aufsicht mit Mensch in der Schleife, Entscheidungsautorisierung",
+      "cat": "donor"
+    },
+    {
+      "title": "Geber-Dashboard",
+      "desc": "Echtzeit-Programmsichtbarkeit, KPI-Tracking, IATI-Konformität",
+      "cat": "donor"
+    },
+    {
+      "title": "MEL & Beweise",
+      "desc": "Indikatoren, Beweisverknüpfung, Ergebnisüberprüfung",
+      "cat": "donor"
+    },
+    {
+      "title": "Wiederaufbau",
+      "desc": "Nachkonflikt-Wiederherstellung, Infrastrukturaufbau",
+      "cat": "donor"
+    }
+  ],
+  "intelligence": [
+    {
+      "title": "KI-Administrator",
+      "desc": "Ethischer KI-Assistent — menschliche Autorität durchgesetzt",
+      "cat": "intelligence"
+    },
+    {
+      "title": "Plattformstatus",
+      "desc": "99.97% Verfügbarkeit, Echtzeit-Überwachung",
+      "cat": "intelligence"
+    }
+  ],
+  "categories": {
+    "governance": "Governance & Kontrolle",
+    "donor": "Geber-Aufsicht",
+    "intelligence": "Intelligenz"
+  },
+  "search": {
+    "placeholder": "Module suchen...",
+    "results": "Ergebnisse",
+    "noResults": "Keine Ergebnisse gefunden"
+  }
+}

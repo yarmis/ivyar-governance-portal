@@ -1,103 +1,46 @@
-// components/LocaleSwitcher.tsx
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslation, useLocales } from '@/i18n';
+import { locales } from '@/i18n/config';
 
 export function LocaleSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const { locale, isRTL } = useTranslation();
-  const { locales, getLocalePath } = useLocales();
   const pathname = usePathname();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Group locales by region
-  const regions = {
-    'English': locales.filter(l => l.lang === 'en'),
-    'Western Europe': locales.filter(l => ['de', 'fr', 'es', 'it'].includes(l.lang)),
-    'Eastern Europe': locales.filter(l => ['pl', 'uk', 'cs', 'bg', 'sr', 'sq'].includes(l.lang)),
-    'Baltic': locales.filter(l => ['lv', 'lt', 'et'].includes(l.lang)),
-    'Caucasus & Central Asia': locales.filter(l => ['ka', 'hy', 'kk', 'tr'].includes(l.lang)),
-    'Middle East': locales.filter(l => ['he', 'ar'].includes(l.lang)),
-    'Asia': locales.filter(l => ['ja', 'ko', 'zh'].includes(l.lang)),
-  };
+  
+  // Extract current locale from pathname
+  const currentLocale = pathname?.split('/')[1] || 'us';
+  const currentLang = locales.find(l => l.code === currentLocale) || locales[0];
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-[#161B22] border border-[#1F242C] hover:border-[#3D444D] rounded-lg transition-colors"
-        aria-expanded={isOpen}
-        aria-haspopup="listbox"
+        className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all"
       >
-        <span className="text-lg">{locale.flag}</span>
-        <span className="text-sm font-medium text-[#E6EDF3] hidden sm:inline">{locale.code.toUpperCase()}</span>
-        <svg
-          className={`w-4 h-4 text-[#8B949E] transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <span>{currentLang.flag}</span>
+        <span>{currentLang.code.toUpperCase()}</span>
+        <span className="text-xs">▼</span>
       </button>
-
+      
       {isOpen && (
-        <div
-          className={`absolute top-full mt-2 ${isRTL ? 'left-0' : 'right-0'} w-[320px] max-h-[70vh] overflow-y-auto bg-[#161B22] border border-[#1F242C] rounded-xl shadow-2xl z-50`}
-          role="listbox"
-        >
-          <div className="p-3 border-b border-[#1F242C]">
-            <p className="text-xs font-medium text-[#6E7681] uppercase tracking-wider">Select Region</p>
-          </div>
-
-          <div className="p-2">
-            {Object.entries(regions).map(([regionName, regionLocales]) => (
-              regionLocales.length > 0 && (
-                <div key={regionName} className="mb-3">
-                  <p className="px-2 py-1 text-[10px] font-semibold text-[#6E7681] uppercase tracking-wider">
-                    {regionName}
-                  </p>
-                  <div className="grid grid-cols-2 gap-1">
-                    {regionLocales.map((l) => (
-                      <Link
-                        key={l.code}
-                        href={getLocalePath(l.code, pathname)}
-                        onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                          locale.code === l.code
-                            ? 'bg-[#00A3FF]/10 text-[#00A3FF]'
-                            : 'text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#1F242C]'
-                        }`}
-                        role="option"
-                        aria-selected={locale.code === l.code}
-                      >
-                        <span className="text-base">{l.flag}</span>
-                        <span className="text-sm font-medium truncate">{l.name}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )
-            ))}
-          </div>
+        <div className="absolute right-0 top-full mt-2 bg-[#1A1D1F] border border-white/10 rounded-lg p-2 min-w-[200px] max-h-[400px] overflow-y-auto z-50 shadow-2xl">
+          {locales.slice(0, 3).map(lang => (
+            <Link
+              key={lang.code}
+              href={`/${lang.code}`}
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center gap-3 w-full px-3 py-2 rounded-md hover:bg-white/10 text-left transition-all ${
+                currentLocale === lang.code ? 'bg-[#3A8DFF]/20 text-[#3A8DFF]' : ''
+              }`}
+            >
+              <span>{lang.flag}</span>
+              <span className="text-sm">{lang.name}</span>
+            </Link>
+          ))}
         </div>
       )}
     </div>
   );
 }
-
-export default LocaleSwitcher;
