@@ -23,7 +23,7 @@ const categories = [
 ];
 
 export default function AutopilotPage() {
-  const toast = useToast?.();
+  const toast = useToast ? useToast() : null;
   
   // State management
   const [searchQuery, setSearchQuery] = useState('');
@@ -88,7 +88,7 @@ export default function AutopilotPage() {
     };
     
     downloadJSON(exportData, `autopilot-modules-${Date.now()}.json`);
-    toast?.showToast('success', 'Report exported successfully!');
+    if (toast) toast.showToast('success', 'Report exported successfully!');
   };
 
   // Share functionality

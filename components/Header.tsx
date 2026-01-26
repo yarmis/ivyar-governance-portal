@@ -122,12 +122,32 @@ export function Header({ className = '' }: HeaderProps) {
 
         {/* Right: Search + Language + CTA */}
         <div className="flex items-center gap-3">
-          {/* Global Search */}
-          <GlobalSearch className="hidden sm:flex" />
+          {/* Navigation Buttons */}
+<div className="flex items-center gap-2">     
+  <a href="/us" className="px-3 py-1.5 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">     
+    Platform     
+  </a>     
+  <a href="/us/autopilot" className="px-3 py-1.5 text-sm font-medium bg-accent-cyan/10 text-accent-cyan hover:bg-accent-cyan/20 rounded-lg transition-colors">     
+    Autopilot AI     
+  </a>     
+</div>
+
+{/* Global Search */}
+<GlobalSearch className="hidden sm:flex" />
+
 
           {/* Language Switcher - Hidden on small screens */}
           <div className="hidden md:block">
-            <LanguageSwitcher />
+          {/* Navigation Buttons */}
+<div className="flex items-center gap-2 mr-4">
+  <a href="/us" className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
+    Platform
+  </a>
+  <a href="/us/autopilot" className="px-4 py-2 text-sm font-medium bg-accent-cyan/10 text-accent-cyan hover:bg-accent-cyan/20 rounded-lg transition-colors">
+    Autopilot AI
+  </a>
+</div>
+<LanguageSwitcher />
           </div>
 
           {/* Request Demo CTA */}
