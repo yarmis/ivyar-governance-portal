@@ -1,30 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const LANGUAGES = [
-  { code: 'en', label: 'EN' },
-  { code: 'uk', label: 'UA' },
+  { code: 'us', label: 'EN', flag: '🇺🇸' },
+  { code: 'ua', label: 'UA', flag: '🇺🇦' },
+  { code: 'es', label: 'ES', flag: '🇪🇸' },
 ];
 
 export function LanguageSwitcher() {
-  const [lang, setLang] = useState('en');
+  const pathname = usePathname();
+  const currentLocale = pathname?.split('/')[1] || 'us';
 
   return (
-    <div className="flex items-center gap-1">
-      {LANGUAGES.map((l) => (
-        <button
-          key={l.code}
-          onClick={() => setLang(l.code)}
-          className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
-            lang === l.code
-              ? 'bg-[#00A3FF]/20 text-[#00A3FF]'
-              : 'text-[#8B949E] hover:text-[#E6EDF3]'
-          }`}
-        >
-          {l.label}
-        </button>
-      ))}
+    <div className="flex items-center gap-1 border border-border-subtle rounded-lg p-1">
+      {LANGUAGES.map((lang) => {
+        const segments = pathname?.split('/') || [];
+        segments[1] = lang.code;
+        const newPath = segments.join('/');
+        
+        return (
+          <Link
+            key={lang.code}
+            href={newPath}
+            className={`
+              px-3 py-1.5 text-xs font-medium rounded transition-colors
+              flex items-center gap-1.5
+              ${
+                currentLocale === lang.code
+                  ? 'bg-accent-cyan/20 text-accent-cyan'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-bg-surface'
+              }
+            `}
+          >
+            <span>{lang.flag}</span>
+            <span>{lang.label}</span>
+          </Link>
+        );
+      })}
     </div>
   );
 }
