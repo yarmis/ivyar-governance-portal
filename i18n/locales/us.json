@@ -32,6 +32,85 @@
       "sublabel": "By restored facilities"
     }
   },
+  "autopilot": {
+    "hero": {
+      "badge": "AUTOPILOT API v12",
+      "title": "AI-Powered Governance",
+      "subtitle": "10 specialized AI decision engines operating 24/7 across governance, logistics, and finance. Human-aligned, explainable, and fully auditable.",
+      "exploreModules": "Explore Modules",
+      "watchDemo": "Watch Live Demo",
+      "exportReport": "Export Report",
+      "share": "Share",
+      "operational": "All systems operational",
+      "decisionsToday": "decisions today"
+    },
+    "metrics": {
+      "activeModules": "Active Modules",
+      "allOperational": "All systems operational",
+      "avgAccuracy": "Average Accuracy",
+      "upFromLastMonth": "Up from last month",
+      "decisionsToday": "Decisions Today",
+      "aboveDailyAvg": "Above daily average",
+      "humanOverrides": "Human Overrides",
+      "ofTotalDecisions": "of total decisions",
+      "accuracyTrend": "Accuracy Trend",
+      "decisionVolume": "Decision Volume",
+      "avgResponseTime": "Avg Response Time",
+      "processing": "Processing",
+      "queue": "Queue",
+      "completed": "Completed"
+    },
+    "modules": {
+      "title": "Autopilot AI Modules",
+      "subtitle": "10 specialized decision engines for transparent governance",
+      "filter": "Filter",
+      "sort": "Sort",
+      "showing": "Showing",
+      "of": "of",
+      "viewDetails": "View Details",
+      "noModulesFound": "No modules found",
+      "tryAdjusting": "Try adjusting your search or filters"
+    },
+    "liveSimulation": {
+      "title": "Live Decision Simulation",
+      "subtitle": "Real-time AI decision-making demonstration",
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "speed": "Speed",
+      "fast": "Fast (1s)",
+      "normal": "Normal (3s)",
+      "slow": "Slow (5s)",
+      "live": "LIVE",
+      "pressStart": "Press Start to begin live simulation",
+      "approved": "APPROVED",
+      "pending": "PENDING",
+      "total": "Total",
+      "avg": "Avg",
+      "totalDecisions": "Total Decisions"
+    },
+    "architecture": {
+      "title": "Technical Architecture",
+      "subtitle": "Built on proven AI governance principles",
+      "explainableAI": {
+        "title": "Explainable AI",
+        "description": "Every decision includes full reasoning chain and confidence scoring. Human auditors can trace logic and override when needed."
+      },
+      "auditTrail": {
+        "title": "Immutable Audit Trail",
+        "description": "All decisions logged to blockchain. Tamper-proof evidence for compliance, investigations, and institutional oversight."
+      },
+      "humanAlignment": {
+        "title": "Human Alignment",
+        "description": "AI recommendations require human approval for high-stakes decisions. Ethical guidelines embedded in all modules."
+      }
+    },
+    "cta": {
+      "title": "Ready to deploy AI governance?",
+      "subtitle": "Schedule a demo to see Autopilot AI in action across your governance workflows.",
+      "requestDemo": "Request Demo"
+    }
+  },
   "cta": {
     "title": "Ready to Modernize Governance Operations?",
     "subtitle": "Join leading institutions using IVYAR for secure, compliant, and ethical digital governance",

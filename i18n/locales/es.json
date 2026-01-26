@@ -6,18 +6,18 @@
     "docs": "Documentación"
   },
   "hero": {
-    "title": "Plataforma de Gobernanza IVYAR",
-    "subtitle": "Infraestructura institucional de gobernanza confiada por las principales instituciones de desarrollo",
+    "title": "Plataforma IVYAR",
+    "subtitle": "Infraestructura de gobernanza institucional confiada por las principales instituciones de desarrollo",
     "origin": "Construido en Estados Unidos • Inspirado en Ucrania • Diseñado para el mundo"
   },
   "stats": {
     "uptime": {
-      "label": "Disponibilidad de la plataforma",
+      "label": "Tiempo de actividad",
       "value": "99.97%",
-      "sublabel": "Fiabilidad de nivel OTAN"
+      "sublabel": "Fiabilidad de grado NATO"
     },
     "value": {
-      "label": "Valor total de proyectos",
+      "label": "Valor total del proyecto",
       "value": "$115.8M",
       "sublabel": "6 proyectos de reconstrucción activos"
     },
@@ -27,25 +27,104 @@
       "sublabel": "Incluyendo 121 veteranos empleados"
     },
     "served": {
-      "label": "Personas atendidas",
+      "label": "Personas servidas",
       "value": "450K",
       "sublabel": "Por instalaciones restauradas"
     }
   },
+  "autopilot": {
+    "hero": {
+      "badge": "AUTOPILOT API v12",
+      "title": "Gobernanza impulsada por IA",
+      "subtitle": "10 motores de decisión de IA especializados que operan 24/7 en gobernanza, logística y finanzas. Alineados con humanos, explicables y completamente auditables.",
+      "exploreModules": "Explorar módulos",
+      "watchDemo": "Ver demostración",
+      "exportReport": "Exportar informe",
+      "share": "Compartir",
+      "operational": "Todos los sistemas operativos",
+      "decisionsToday": "decisiones hoy"
+    },
+    "metrics": {
+      "activeModules": "Módulos activos",
+      "allOperational": "Todos los sistemas operativos",
+      "avgAccuracy": "Precisión promedio",
+      "upFromLastMonth": "Aumento desde el mes pasado",
+      "decisionsToday": "Decisiones hoy",
+      "aboveDailyAvg": "Por encima del promedio diario",
+      "humanOverrides": "Intervenciones humanas",
+      "ofTotalDecisions": "del total de decisiones",
+      "accuracyTrend": "Tendencia de precisión",
+      "decisionVolume": "Volumen de decisiones",
+      "avgResponseTime": "Tiempo de respuesta promedio",
+      "processing": "Procesando",
+      "queue": "Cola",
+      "completed": "Completado"
+    },
+    "modules": {
+      "title": "Módulos Autopilot AI",
+      "subtitle": "10 motores de decisión especializados para gobernanza transparente",
+      "filter": "Filtrar",
+      "sort": "Ordenar",
+      "showing": "Mostrando",
+      "of": "de",
+      "viewDetails": "Ver detalles",
+      "noModulesFound": "No se encontraron módulos",
+      "tryAdjusting": "Intente ajustar su búsqueda o filtros"
+    },
+    "liveSimulation": {
+      "title": "Simulación de decisiones en vivo",
+      "subtitle": "Demostración de toma de decisiones de IA en tiempo real",
+      "start": "Iniciar",
+      "pause": "Pausar",
+      "reset": "Reiniciar",
+      "speed": "Velocidad",
+      "fast": "Rápido (1s)",
+      "normal": "Normal (3s)",
+      "slow": "Lento (5s)",
+      "live": "EN VIVO",
+      "pressStart": "Presione Iniciar para comenzar la simulación en vivo",
+      "approved": "APROBADO",
+      "pending": "PENDIENTE",
+      "total": "Total",
+      "avg": "Prom.",
+      "totalDecisions": "Decisiones totales"
+    },
+    "architecture": {
+      "title": "Arquitectura técnica",
+      "subtitle": "Construido sobre principios probados de gobernanza de IA",
+      "explainableAI": {
+        "title": "IA explicable",
+        "description": "Cada decisión incluye una cadena de razonamiento completa y puntuación de confianza. Los auditores humanos pueden rastrear la lógica y anular cuando sea necesario."
+      },
+      "auditTrail": {
+        "title": "Registro de auditoría inmutable",
+        "description": "Todas las decisiones registradas en blockchain. Evidencia a prueba de manipulaciones para cumplimiento, investigaciones y supervisión institucional."
+      },
+      "humanAlignment": {
+        "title": "Alineación humana",
+        "description": "Las recomendaciones de IA requieren aprobación humana para decisiones de alto riesgo. Directrices éticas integradas en todos los módulos."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para implementar gobernanza de IA?",
+      "subtitle": "Programe una demostración para ver Autopilot AI en acción en sus flujos de trabajo de gobernanza.",
+      "requestDemo": "Solicitar demostración"
+    }
+  },
   "cta": {
-    "title": "¿Listos para modernizar las operaciones de gobernanza?",
-    "subtitle": "Únase a las instituciones líderes que utilizan IVYAR para una gobernanza digital segura, conforme y ética",
-    "demo": "Solicitar demo",
-    "contact": "Agendar llamada"
+    "title": "¿Listo para modernizar las operaciones de gobernanza?",
+    "subtitle": "Únase a las instituciones líderes que utilizan IVYAR",
+    "demo": "Solicitar demostración",
+    "contact": "Programar llamada"
   },
   "footer": {
-    "tagline": "Infraestructura Pública Digital para Gobernanza Transparente",
+    "tagline": "Infraestructura pública digital para gobernanza transparente",
     "links": {
       "demo": "Demo",
       "docs": "Documentación",
       "contact": "Contacto",
       "privacy": "Privacidad"
     },
-    "copyright": "© 2024-2026 IVYAR LLC • Lake Stevens, Washington, EE.UU."
+    "copyright": "© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA"
   }
 }
