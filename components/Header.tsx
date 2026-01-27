@@ -12,7 +12,6 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Platform', href: '/platform' },
   { label: 'HBS', href: '/hbs' },
   { label: 'Modules', href: '/modules' },
   { label: 'Documentation', href: '/docs' },
@@ -117,20 +116,7 @@ export function Header({ className = '' }: HeaderProps) {
                 )}
               </Link>
             ))}
-          </div>
-        </div>
-
-        {/* Right: Search + Language + CTA */}
-        <div className="flex items-center gap-3">
-          {/* Navigation Buttons */}
-<div className="flex items-center gap-2">     
-  <a href="/us" className="px-3 py-1.5 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">     
-    Platform     
-  </a>     
-  <a href="/us/autopilot" className="px-3 py-1.5 text-sm font-medium bg-accent-cyan/10 text-accent-cyan hover:bg-accent-cyan/20 rounded-lg transition-colors">     
-    Autopilot AI     
-  </a>     
-</div>
+          </div>     
 
 {/* Global Search */}
 <GlobalSearch className="hidden sm:flex" />
