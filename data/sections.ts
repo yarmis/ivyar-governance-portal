@@ -4,6 +4,7 @@ export interface SectionDefinition {
   id: string;
   title: string;
   subtitle: string;
+  description?: string;
 }
 
 export const sections: SectionDefinition[] = [

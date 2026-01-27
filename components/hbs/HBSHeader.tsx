@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
-import LanguageSwitcher from './LanguageSwitcher';
 
 export default function HBSHeader() {
   const { t } = useLanguage();
@@ -26,7 +25,7 @@ export default function HBSHeader() {
           <Link href="/" className="text-sm text-indigo-200 hover:text-white transition-colors">
             {t('header.backToIvyar')}
           </Link>
-          <LanguageSwitcher />
+          
         </div>
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-3">

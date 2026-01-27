@@ -138,7 +138,7 @@ export default function WizardContainer() {
   };
 
   if (initialLoading) {
-    return <LoadingState message={t.hbsAutopilot?.loading?.scenarios} />;
+    return <LoadingState message="scenarios" />;
   }
 
   if (!scenarios || scenarios.length === 0) {
@@ -223,7 +223,7 @@ export default function WizardContainer() {
           />
         )}
 
-        {loading && <LoadingState message={t.hbsAutopilot?.loading?.analyzing} />}
+        {loading && <LoadingState message="analyzing" />}
         {error && <ErrorState message={error} />}
       </div>
 

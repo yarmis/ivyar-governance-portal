@@ -7,6 +7,14 @@ export interface AutopilotScenario {
   version: string;
   enabled: boolean;
   inputSchema?: any;
+  fields?: Array<{
+    id: string;
+    label: string;
+    type: string;
+    required?: boolean;
+    options?: string[];
+    placeholder?: string;
+  }>;
 }
 
 export interface AutopilotDecision {

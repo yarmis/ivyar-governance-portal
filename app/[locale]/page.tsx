@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 export default function HomePage() {
   const params = useParams();
   const locale = (params?.locale as string) || 'us';
-  const { t } = useTranslation(locale);
+  const { t } = useTranslation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -159,10 +159,10 @@ export default function HomePage() {
         </p>
         <div className="flex gap-4">
           <a href="/demo" className="px-6 py-3 bg-[#10B9B9] text-white rounded font-medium hover:bg-[#0EA3A3] transition no-underline">
-            {t?.hero?.cta || 'Request Demo'}
+            'Request Demo'
           </a>
           <a href={`/${locale}/hbs`} className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded hover:bg-white/10 transition no-underline">
-            {t?.hero?.explore || 'Explore Portal'}
+            'Explore Portal'
           </a>
           <a href={`/${locale}/hbs/autopilot`} className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded hover:bg-white/10 transition no-underline">
             🤖 Autopilot
