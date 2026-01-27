@@ -1,0 +1,129 @@
+{
+  "version": "1.1",
+  "contexts": [
+    {
+      "id": "ua_humanitarian_logistics",
+      "label": "Ukraine – Humanitarian Logistics",
+      "description": "Managing humanitarian aid delivery in active conflict zones",
+      "delegated_authority": [
+        "prioritize_non_lethal_aid_routes",
+        "optimize_warehouse_allocation",
+        "propose_delivery_sequences",
+        "flag_blocked_or_risky_routes"
+      ],
+      "non_permitted_actions": [
+        "authorize_lethal_force",
+        "reroute_aid_for_political_pressure",
+        "suppress_delivery_to_opposition_regions",
+        "override_humanitarian_principles"
+      ],
+      "escalation_triggers": [
+        "crossing_active_frontline",
+        "civilian_harm_risk",
+        "entry_into_contested_territory",
+        "conflict_with_ihc_guidelines"
+      ],
+      "examples": {
+        "admissible": "Prioritize generator delivery to communities with lowest energy access",
+        "escalation": "Propose route through active combat zone",
+        "inadmissible": "Redirect humanitarian aid for political advantage"
+      }
+    },
+    {
+      "id": "ua_reconstruction_finance",
+      "label": "Ukraine – Reconstruction Finance",
+      "description": "Managing reconstruction project funding and disbursement",
+      "delegated_authority": [
+        "rank_projects_by_approved_criteria",
+        "flag_high_risk_disbursements",
+        "propose_tranche_schedules",
+        "identify_underfunded_critical_infrastructure"
+      ],
+      "non_permitted_actions": [
+        "approve_funding_unilaterally",
+        "change_eligibility_criteria",
+        "reallocate_funds_for_political_gain",
+        "override_anti_corruption_rules"
+      ],
+      "escalation_triggers": [
+        "sanctions_exposure",
+        "politically_exposed_beneficiaries",
+        "large_single_beneficiary_concentration",
+        "conflict_with_donor_mandate"
+      ],
+      "examples": {
+        "admissible": "Sort reconstruction projects by approved priority criteria",
+        "escalation": "Recommend funding for project with sanctions risk exposure",
+        "inadmissible": "Change project selection criteria to include new category"
+      }
+    },
+    {
+      "id": "ua_social_support_payments",
+      "label": "Ukraine – Social Support Payments",
+      "description": "Managing social assistance eligibility and payment distribution",
+      "delegated_authority": [
+        "validate_eligibility_against_defined_rules",
+        "flag_potential_duplicate_beneficiaries",
+        "prioritize_cases_by_vulnerability_score",
+        "propose_payment_batches"
+      ],
+      "non_permitted_actions": [
+        "deny_benefits_outside_defined_rules",
+        "modify_legal_eligibility_definitions",
+        "exclude_groups_on_non_legal_criteria",
+        "retroactively_cancel_approved_rights"
+      ],
+      "escalation_triggers": [
+        "mass_exclusion_pattern_detected",
+        "conflict_with_constitutional_rights",
+        "systemic_bias_signals",
+        "large_scale_rule_change_request"
+      ],
+      "examples": {
+        "admissible": "Verify applicant meets current assistance criteria",
+        "escalation": "Detected mass exclusion of single demographic group",
+        "inadmissible": "Deny benefits based on informal or non-legal criteria"
+      }
+    }
+  ],
+  "global_non_permitted_actions": [
+    "alter_historical_records",
+    "fabricate_evidence",
+    "impersonate_human_authority",
+    "override_constitutional_or_human_rights"
+  ],
+  "mandatory_refusals": [
+    {
+      "id": "no_lethal_decisions",
+      "description": "System must refuse any request to authorize, optimize, or legitimize lethal force.",
+      "applies_to": ["*"]
+    },
+    {
+      "id": "no_policy_changes",
+      "description": "System must refuse to change legal, constitutional, or policy rules.",
+      "applies_to": ["*"]
+    },
+    {
+      "id": "no_rights_restriction",
+      "description": "System must refuse any action that restricts fundamental rights beyond legal mandate.",
+      "applies_to": ["ua_social_support_payments", "ua_reconstruction_finance"]
+    }
+  ],
+  "authority_chain": [
+    {
+      "level": "system",
+      "can": ["evaluate", "flag", "propose"],
+      "cannot": ["approve", "override_human", "change_rules"]
+    },
+    {
+      "level": "human_officer",
+      "can": ["approve", "reject", "escalate"],
+      "cannot": ["delegate_beyond_mandate", "ignore_constitutional_flags"]
+    },
+    {
+      "level": "institutional_body",
+      "can": ["change_mandate", "update_rules"],
+      "cannot": ["retroactively_legitimize_unlawful_actions"]
+    }
+  ]
+}

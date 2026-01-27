@@ -1,67 +1,51 @@
-// CORE TRANSLATIONS - завжди в bundle (US, UA, ES)
+// IVYAR Governance Platform - Core Translations
+// Complete multilingual support: US (English), UA (Ukrainian), ES (Spanish)
+
 export const CORE_TRANSLATIONS = {
   us: {
-    hero: { 
-      title: 'IVYAR Governance Platform', 
-      subtitle: 'Institutional governance infrastructure trusted by leading development institutions', 
-      origin: 'Built in the United States • Inspired by Ukraine • Designed for the world' 
+    hero: {
+      title: 'IVYAR Governance Platform',
+      subtitle: 'Institutional governance infrastructure trusted by leading development institutions',
+      description: 'Empowering public institutions through intelligent automation, secure workflows, and AI-driven institutional transparency'
     },
-    nav: { search: 'Search', menu: 'Menu' },
-    badge: 'NATO-Aligned • World Bank Ready • USAID Compatible',
-    modules: { title: 'Institutional Infrastructure' },
-    note: { 
-      title: 'Advanced operational capabilities available on request', 
-      desc: 'Procurement, logistics, emergency services — demonstrated in live pilot sessions' 
+    nav: {
+      platform: 'Platform',
+      autopilot: 'Autopilot',
+      solutions: 'Solutions',
+      about: 'About'
+    },
+    badge: {
+      trusted: 'Trusted by',
+      worldBank: 'World Bank',
+      usaid: 'USAID',
+      natoDiana: 'NATO DIANA'
+    },
+    modules: {
+      title: 'Governance Modules',
+      subtitle: 'Comprehensive AI-powered solutions for institutional operations'
     },
     stats: {
-      title: 'Trusted by Leading Institutions',
-      uptime: { value: '99.97%', label: 'Platform Uptime', sublabel: 'NATO-grade reliability' },
-      value: { value: '$115.8M', label: 'Total Project Value', sublabel: '6 active reconstruction projects' },
-      jobs: { value: '1,247', label: 'Jobs Created', sublabel: 'Including 121 veterans employed' },
-      served: { value: '450K', label: 'People Served', sublabel: 'By restored facilities' }
+      accuracy: 'Accuracy',
+      decisions: 'Decisions/Day',
+      compliance: 'Compliance Rate',
+      uptime: 'Uptime'
     },
     autopilot: {
       hero: {
-        badge: 'AUTOPILOT API v12',
-        title: 'AI-Powered Governance',
-        subtitle: '10 specialized AI decision engines operating 24/7 across governance, logistics, and finance. Human-aligned, explainable, and fully auditable.',
-        exploreModules: 'Explore Modules',
-        watchDemo: 'Watch Live Demo',
+        badge: 'v12 AUTOPILOT',
+        title: 'AI Autopilot Platform',
+        subtitle: '10 autonomous modules for institutional governance',
+        filterAll: 'All Modules',
+        filterGovernance: 'Governance',
+        filterOperations: 'Operations',
+        filterFinance: 'Finance',
+        sortBy: 'Sort by',
+        sortAccuracy: 'Accuracy',
+        sortDecisions: 'Decisions',
+        sortName: 'Name',
+        search: 'Search modules...',
         exportReport: 'Export Report',
-        share: 'Share',
-        operational: 'All systems operational',
-        decisionsToday: 'decisions today'
-      },
-      modules: {
-        title: 'Autopilot AI Modules',
-        subtitle: '10 specialized decision engines for transparent governance',
-        noModulesFound: 'No modules found',
-        tryAdjusting: 'Try adjusting your search or filters'
-      },
-      liveSimulation: {
-        title: 'Live Decision Simulation',
-        subtitle: 'Real-time AI decision-making demonstration'
-      },
-      architecture: {
-        title: 'Technical Architecture',
-        subtitle: 'Built on proven AI governance principles',
-        explainableAI: {
-          title: 'Explainable AI',
-          description: 'Every decision includes full reasoning chain and confidence scoring. Human auditors can trace logic and override when needed.'
-        },
-        auditTrail: {
-          title: 'Immutable Audit Trail',
-          description: 'All decisions logged to blockchain. Tamper-proof evidence for compliance, investigations, and institutional oversight.'
-        },
-        humanAlignment: {
-          title: 'Human Alignment',
-          description: 'AI recommendations require human approval for high-stakes decisions. Ethical guidelines embedded in all modules.'
-        }
-      },
-      cta: {
-        title: 'Ready to deploy AI governance?',
-        subtitle: 'Schedule a demo to see Autopilot AI in action across your governance workflows.',
-        requestDemo: 'Request Demo'
+        shareReport: 'Share'
       }
     },
     hbsAutopilot: {
@@ -96,9 +80,10 @@ export const CORE_TRANSLATIONS = {
         howItWorksText: 'Select a scenario above to begin. Our AI will guide you through the evaluation process, providing explainable decisions with confidence scores and detailed reasoning. All decisions are logged for institutional audit compliance.'
       },
       form: {
-        required: 'required',
-        runEngine: 'Run AI Decision Engine',
-        processing: 'Processing Decision...'
+        submit: 'Run AI Decision Engine',
+        submitting: 'Processing...',
+        required: 'Required field',
+        invalidFormat: 'Invalid format'
       },
       results: {
         decisionResult: 'Decision Result',
@@ -139,8 +124,8 @@ export const CORE_TRANSLATIONS = {
       },
       history: {
         title: 'Decision History',
-        decisions: 'decisions',
         decision: 'decision',
+        decisions: 'decisions',
         recorded: 'recorded',
         searchPlaceholder: 'Search by scenario or status...',
         noHistory: 'No decisions yet',
@@ -158,276 +143,373 @@ export const CORE_TRANSLATIONS = {
       },
       loading: {
         default: 'Loading...',
-        scenarios: 'Loading decision scenarios...',
-        analyzing: 'AI is analyzing your scenario...'
+        scenarios: 'Loading scenarios...',
+        analyzing: 'Analyzing with AI...'
       },
       errors: {
         somethingWrong: 'Something went wrong',
-        noScenarios: 'No scenarios available. Please contact support.'
+        noScenarios: 'No scenarios available'
       },
       empty: {
         title: 'Select a scenario to begin',
         subtitle: 'Choose a decision scenario from above to start the AI evaluation process'
       }
     },
+    governanceAutopilot: {
+      hero: {
+        badge: 'GOVERNANCE AUTOPILOT',
+        title: 'Constitutional Layer for AI Authority & Boundaries',
+        intro1: 'AI systems are becoming more capable, adaptive, and autonomous. But in public-sector and high-risk environments, capability alone is not enough.',
+        intro2: 'Authority must be defined. Boundaries must be enforced. And decisions must remain legitimate under uncertainty.',
+        intro3: 'Governance Autopilot provides the constitutional layer of the platform — the mechanisms that determine what the system is allowed to do, what it must refuse, and how delegated authority is preserved at runtime.',
+        layerType: 'Constitutional',
+        enforcement: 'Runtime Active',
+        transparency: 'Audit Ready'
+      },
+      purpose: {
+        title: 'Why This Layer Exists',
+        delegatedAuthority: { title: 'Delegated Authority', desc: 'Who gives power to the system and what that power includes' },
+        admissibility: { title: 'Admissibility', desc: 'Which decisions the system is allowed to make' },
+        runtimeBoundaries: { title: 'Runtime Boundaries', desc: 'What the system must never cross during operation' },
+        refusalLogic: { title: 'Refusal Logic', desc: 'When the system must say "no" regardless of request' },
+        intentPreservation: { title: 'Intent Preservation', desc: 'How institutional intent is kept under uncertainty' },
+        constitutionalFoundation: { title: 'Constitutional Foundation', desc: 'Immutable principles that ensure trustworthy AI' }
+      },
+      governanceModel: {
+        title: 'Governance Model',
+        subtitle: '10 constitutional mechanisms that define AI authority and boundaries'
+      },
+      boundaryTest: {
+        title: 'Test a Boundary',
+        subtitle: 'See how the constitutional layer evaluates a proposed action',
+        context: 'Context',
+        describeAction: 'Describe the Action',
+        evaluate: 'Evaluate',
+        status: 'Status',
+        reason: 'Reason',
+        ruleReference: 'Rule Reference',
+        authorityLevel: 'Authority Level',
+        viewJson: 'View JSON Response',
+        hideJson: 'Hide JSON Response',
+        admissible: 'ADMISSIBLE',
+        escalationRequired: 'ESCALATION REQUIRED',
+        inadmissible: 'INADMISSIBLE'
+      },
+      audit: {
+        title: 'Audit & Compliance View',
+        subtitle: 'Constitutional rules, refusal logic, and traceability',
+        governanceRules: 'Governance Rules',
+        version: 'Version',
+        viewFullJson: 'View Full JSON',
+        hideFullJson: 'Hide Full JSON',
+        refusalLogic: 'Refusal Logic',
+        authorityChain: 'Authority Chain',
+        level: 'Level',
+        can: 'Can',
+        cannot: 'Cannot'
+      },
+      integration: {
+        title: 'How This Layer Fits',
+        visitLayer: 'Visit layer',
+        current: 'Current'
+      },
+      footer: {
+        title: 'The Constitutional Foundation of Trustworthy AI',
+        text: 'Governance Autopilot does not replace the decision engine. It defines the boundaries within which the decision engine must operate.'
+      }
+    },
     cta: {
       title: 'Ready to Modernize Governance Operations?',
-      subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance',
-      demo: 'Request Demo',
-      contact: 'Schedule Call'
+      subtitle: 'Join leading institutions leveraging AI for transparent, efficient governance',
+      primaryButton: 'Request Demo',
+      secondaryButton: 'View Documentation'
     },
     footer: {
-      tagline: 'Digital Public Infrastructure for Transparent Governance',
-      links: { demo: 'Demo', docs: 'Documentation', contact: 'Contact', privacy: 'Privacy' },
-      copyright: '© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA'
+      platform: 'Platform',
+      solutions: 'Solutions',
+      resources: 'Resources',
+      company: 'Company',
+      copyright: '2024 IVYAR LLC. All rights reserved.',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Service'
     }
   },
-  
   ua: {
-    hero: { 
-      title: 'Платформа IVYAR', 
-      subtitle: 'Інституційна інфраструктура управління, якій довіряють провідні інституції розвитку', 
-      origin: 'Створено в США • Натхненно Україною • Призначено для світу' 
+    hero: {
+      title: 'Платформа IVYAR для управління',
+      subtitle: 'Інфраструктура інституційного управління якій довіряють провідні організації розвитку',
+      description: 'Розширення можливостей державних установ через інтелектуальну автоматизацію, безпечні робочі процеси та інституційну прозорість на основі AI'
     },
-    nav: { search: 'Пошук', menu: 'Меню' },
-    badge: 'NATO-сумісний • Готовий для Світового банку • Сумісний з USAID',
-    modules: { title: 'Інституційна інфраструктура' },
-    note: { 
-      title: 'Розширені операційні можливості доступні за запитом', 
-      desc: 'Закупівлі, логістика, екстрені служби — демонструються в пілотних сесіях наживо' 
+    nav: {
+      platform: 'Платформа',
+      autopilot: 'Автопілот',
+      solutions: 'Рішення',
+      about: 'Про нас'
+    },
+    badge: {
+      trusted: 'Нам довіряють',
+      worldBank: 'Світовий Банк',
+      usaid: 'USAID',
+      natoDiana: 'NATO DIANA'
+    },
+    modules: {
+      title: 'Модулі управління',
+      subtitle: 'Комплексні рішення на основі AI для інституційних операцій'
     },
     stats: {
-      title: 'Довіра провідних інституцій',
-      uptime: { value: '99.97%', label: 'Час роботи платформи', sublabel: 'Надійність рівня NATO' },
-      value: { value: '$115.8M', label: 'Загальна вартість проектів', sublabel: '6 активних проектів реконструкції' },
-      jobs: { value: '1,247', label: 'Створено робочих місць', sublabel: 'Включно з 121 працевлаштованим ветераном' },
-      served: { value: '450K', label: 'Обслуговано людей', sublabel: 'Відновленими об\'єктами' }
+      accuracy: 'Точність',
+      decisions: 'Рішень/день',
+      compliance: 'Рівень відповідності',
+      uptime: 'Час роботи'
     },
     autopilot: {
       hero: {
-        badge: 'АВТОПІЛОТ API v12',
-        title: 'Управління на основі AI',
-        subtitle: '10 спеціалізованих AI-модулів прийняття рішень, що працюють 24/7 у сферах управління, логістики та фінансів. Орієнтовані на людину, пояснювані та повністю піддаються аудиту.',
-        exploreModules: 'Переглянути модулі',
-        watchDemo: 'Дивитись демо',
+        badge: 'v12 АВТОПІЛОТ',
+        title: 'AI Платформа Автопілот',
+        subtitle: '10 автономних модулів для інституційного управління',
+        filterAll: 'Всі модулі',
+        filterGovernance: 'Управління',
+        filterOperations: 'Операції',
+        filterFinance: 'Фінанси',
+        sortBy: 'Сортувати за',
+        sortAccuracy: 'Точність',
+        sortDecisions: 'Рішення',
+        sortName: 'Назва',
+        search: 'Пошук модулів...',
         exportReport: 'Експортувати звіт',
-        share: 'Поділитися',
-        operational: 'Всі системи працюють',
-        decisionsToday: 'рішень сьогодні'
-      },
-      modules: {
-        title: 'Модулі Автопілот AI',
-        subtitle: '10 спеціалізованих модулів прийняття рішень для прозорого управління',
-        noModulesFound: 'Модулі не знайдено',
-        tryAdjusting: 'Спробуйте налаштувати пошук або фільтри'
-      },
-      liveSimulation: {
-        title: 'Симуляція рішень в реальному часі',
-        subtitle: 'Демонстрація прийняття рішень AI в реальному часі'
-      },
-      architecture: {
-        title: 'Технічна архітектура',
-        subtitle: 'Побудовано на перевірених принципах AI-управління',
-        explainableAI: {
-          title: 'Пояснюваний AI',
-          description: 'Кожне рішення включає повний ланцюг обґрунтування та оцінку впевненості. Людина-аудитор може простежити логіку та втрутитися при потребі.'
-        },
-        auditTrail: {
-          title: 'Незмінний аудит-трейл',
-          description: 'Всі рішення записуються в блокчейн. Захищені від підробки докази для відповідності, розслідувань та інституційного нагляду.'
-        },
-        humanAlignment: {
-          title: 'Людиноцентричність',
-          description: 'Рекомендації AI потребують схвалення людини для критично важливих рішень. Етичні принципи вбудовані у всі модулі.'
-        }
-      },
-      cta: {
-        title: 'Готові впровадити AI-управління?',
-        subtitle: 'Запишіться на демо, щоб побачити Автопілот AI в дії у ваших робочих процесах управління.',
-        requestDemo: 'Запит демонстрації'
+        shareReport: 'Поділитися'
       }
     },
     hbsAutopilot: {
       hero: {
-        badge: 'HBS ДВИГУН АВТОПІЛОТУ',
+        badge: 'HBS ДВИГУН АВТОПІЛОТ',
         title: 'AI Двигун Рішень',
-        subtitle: 'Передова когнітивна оцінка на основі сценаріїв з підтримкою AI. Приймайте обґрунтовані рішення з оцінкою впевненості, поясненим обґрунтуванням та аудит-трейлом інституційного рівня.',
+        subtitle: 'Розширена когнітивна оцінка на основі сценаріїв з AI. Приймайте обґрунтовані рішення з оцінкою впевненості, поясненням та інституційними аудит-трейлами.',
         aiEngineActive: 'AI Двигун Активний',
-        scenariosAvailable: 'Сценаріїв Доступно',
+        scenariosAvailable: 'Доступно сценаріїв',
         explainableAI: 'Пояснюваний AI'
       },
       wizard: {
-        startOver: 'Почати Спочатку',
-        editInput: 'Редагувати Введення',
+        startOver: 'Почати спочатку',
+        editInput: 'Редагувати введення',
         history: 'Історія',
         compare: 'Порівняти',
-        clearAllHistory: 'Очистити Всю Історію'
+        clearAllHistory: 'Очистити всю історію'
       },
       steps: {
-        selectScenario: 'Вибрати Сценарій',
-        inputData: 'Ввести Дані',
-        viewDecision: 'Переглянути Рішення',
+        selectScenario: 'Обрати сценарій',
+        inputData: 'Введення даних',
+        viewDecision: 'Переглянути рішення',
         chooseScenario: 'Оберіть сценарій для оцінки',
         provideInfo: 'Надайте необхідну інформацію для AI аналізу',
         reviewDecision: 'Перегляньте AI рішення та висновки'
       },
       scenarios: {
-        title: 'Оберіть Сценарій Рішення',
-        subtitle: 'Виберіть тип оцінки, яку хочете виконати',
+        title: 'Оберіть сценарій рішення',
+        subtitle: 'Виберіть тип оцінки яку хочете виконати',
         fieldsRequired: 'полів потрібно',
-        howItWorks: 'Як Це Працює',
-        howItWorksText: 'Оберіть сценарій вище, щоб почати. Наш AI проведе вас через процес оцінки, надаючи пояснювані рішення з оцінками впевненості та детальним обґрунтуванням. Всі рішення логуються для інституційного аудиту.'
+        howItWorks: 'Як це працює',
+        howItWorksText: 'Оберіть сценарій вище щоб почати. Наш AI проведе вас через процес оцінки, надаючи пояснювані рішення з оцінками впевненості та детальним обґрунтуванням. Всі рішення логуються для інституційного аудиту.'
       },
       form: {
-        required: "обов'язково",
-        runEngine: 'Запустити AI Двигун Рішень',
-        processing: 'Обробка Рішення...'
+        submit: 'Запустити AI двигун рішень',
+        submitting: 'Обробка...',
+        required: 'Обов\'язкове поле',
+        invalidFormat: 'Невірний формат'
       },
       results: {
-        decisionResult: 'Результат Рішення',
+        decisionResult: 'Результат рішення',
         evaluated: 'Оцінено',
         approved: 'СХВАЛЕНО',
         reviewRequired: 'ПОТРІБЕН ПЕРЕГЛЯД',
         rejected: 'ВІДХИЛЕНО',
         confidence: 'Впевненість',
-        confidenceScore: 'Оцінка Впевненості',
-        highConfidence: 'Висока Впевненість',
-        mediumConfidence: 'Середня Впевненість',
-        lowConfidence: 'Низька Впевненість',
-        aiReasoning: 'AI Обґрунтування',
-        references: 'Посилання та Цитати',
-        inputSummary: 'Зведення Вхідних Даних',
-        exportDecision: 'Експортувати Рішення',
-        viewRawJSON: 'Переглянути JSON',
-        shareDecision: 'Поділитися Рішенням'
+        confidenceScore: 'Оцінка впевненості',
+        highConfidence: 'Висока впевненість',
+        mediumConfidence: 'Середня впевненість',
+        lowConfidence: 'Низька впевненість',
+        aiReasoning: 'AI обґрунтування',
+        references: 'Посилання та цитати',
+        inputSummary: 'Підсумок введених даних',
+        exportDecision: 'Експортувати рішення',
+        viewRawJSON: 'Переглянути Raw JSON',
+        shareDecision: 'Поділитися рішенням'
       },
       comparison: {
-        title: 'Порівняння Рішень',
+        title: 'Порівняння рішень',
         subtitle: 'Порівняйте поточне рішення з історичними результатами',
         compareWith: 'Порівняти з:',
-        currentDecision: 'Поточне Рішення',
-        previousDecision: 'Попереднє Рішення',
+        currentDecision: 'Поточне рішення',
+        previousDecision: 'Попереднє рішення',
         new: 'НОВЕ',
         status: 'Статус',
         explanation: 'Пояснення',
-        insights: 'Висновки Порівняння',
+        insights: 'Висновки порівняння',
         sameStatus: 'Обидва рішення мають однаковий статус',
         statusChanged: 'Статус змінився з',
         to: 'на',
         scoresIdentical: 'Оцінки впевненості ідентичні',
         confidenceImproved: 'Впевненість покращилась на',
         confidenceDecreased: 'Впевненість знизилась на',
-        points: 'балів',
+        points: 'пунктів',
         close: 'Закрити'
       },
       history: {
-        title: 'Історія Рішень',
-        decisions: 'рішень',
+        title: 'Історія рішень',
         decision: 'рішення',
+        decisions: 'рішень',
         recorded: 'записано',
         searchPlaceholder: 'Пошук за сценарієм або статусом...',
         noHistory: 'Рішень ще немає',
         noHistoryText: 'Ваша історія рішень з\'явиться тут',
-        noMatching: 'Не знайдено співпадінь',
+        noMatching: 'Немає відповідної історії',
         tryDifferent: 'Спробуйте інший пошуковий запит',
-        rerun: 'Запустити знову з тими ж даними',
+        rerun: 'Повторити з тими ж даними',
         details: 'Деталі',
         hide: 'Приховати',
         delete: 'Видалити',
         deleteConfirm: 'Видалити це рішення з історії?',
         deleteAllConfirm: 'Видалити всі',
-        inputData: 'Вхідні Дані',
-        fullExplanation: 'Повне Пояснення'
+        inputData: 'Введені дані',
+        fullExplanation: 'Повне пояснення'
       },
       loading: {
         default: 'Завантаження...',
-        scenarios: 'Завантаження сценаріїв рішень...',
-        analyzing: 'AI аналізує ваш сценарій...'
+        scenarios: 'Завантаження сценаріїв...',
+        analyzing: 'Аналіз з AI...'
       },
       errors: {
         somethingWrong: 'Щось пішло не так',
-        noScenarios: 'Сценарії недоступні. Будь ласка, зверніться до підтримки.'
+        noScenarios: 'Немає доступних сценаріїв'
       },
       empty: {
-        title: 'Оберіть сценарій для початку',
-        subtitle: 'Виберіть сценарій рішення вище, щоб почати процес AI оцінки'
+        title: 'Оберіть сценарій щоб почати',
+        subtitle: 'Виберіть сценарій рішення вище щоб розпочати процес AI оцінки'
+      }
+    },
+    governanceAutopilot: {
+      hero: {
+        badge: 'GOVERNANCE АВТОПІЛОТ',
+        title: 'Конституційний шар для AI влади та меж',
+        intro1: 'AI системи стають більш здатними, адаптивними та автономними. Але в державному секторі та середовищах високого ризику самої здатності недостатньо.',
+        intro2: 'Влада має бути визначена. Межі мають бути застосовані. А рішення мають залишатися легітимними в умовах невизначеності.',
+        intro3: 'Governance Autopilot надає конституційний шар платформи — механізми, які визначають що система може робити, що вона мусить відхилити, і як делегована влада зберігається під час виконання.',
+        layerType: 'Конституційний',
+        enforcement: 'Активне виконання',
+        transparency: 'Готово до аудиту'
+      },
+      purpose: {
+        title: 'Чому існує цей шар',
+        delegatedAuthority: { title: 'Делегована влада', desc: 'Хто надає владу системі і що ця влада включає' },
+        admissibility: { title: 'Допустимість', desc: 'Які рішення система може приймати' },
+        runtimeBoundaries: { title: 'Межі виконання', desc: 'Що система не повинна перетинати під час роботи' },
+        refusalLogic: { title: 'Логіка відмови', desc: 'Коли система повинна сказати "ні" незалежно від запиту' },
+        intentPreservation: { title: 'Збереження наміру', desc: 'Як зберігається інституційний намір в умовах невизначеності' },
+        constitutionalFoundation: { title: 'Конституційна основа', desc: 'Незмінні принципи що забезпечують надійний AI' }
+      },
+      governanceModel: {
+        title: 'Модель управління',
+        subtitle: '10 конституційних механізмів що визначають AI владу та межі'
+      },
+      boundaryTest: {
+        title: 'Тест меж',
+        subtitle: 'Подивіться як конституційний шар оцінює запропоновану дію',
+        context: 'Контекст',
+        describeAction: 'Опишіть дію',
+        evaluate: 'Оцінити',
+        status: 'Статус',
+        reason: 'Причина',
+        ruleReference: 'Посилання на правило',
+        authorityLevel: 'Рівень влади',
+        viewJson: 'Переглянути JSON відповідь',
+        hideJson: 'Приховати JSON відповідь',
+        admissible: 'ДОПУСТИМО',
+        escalationRequired: 'ПОТРІБНА ЕСКАЛАЦІЯ',
+        inadmissible: 'НЕДОПУСТИМО'
+      },
+      audit: {
+        title: 'Огляд аудиту та відповідності',
+        subtitle: 'Конституційні правила, логіка відмови та відстежуваність',
+        governanceRules: 'Правила управління',
+        version: 'Версія',
+        viewFullJson: 'Переглянути повний JSON',
+        hideFullJson: 'Приховати повний JSON',
+        refusalLogic: 'Логіка відмови',
+        authorityChain: 'Ланцюг влади',
+        level: 'Рівень',
+        can: 'Може',
+        cannot: 'Не може'
+      },
+      integration: {
+        title: 'Як цей шар вписується',
+        visitLayer: 'Відвідати шар',
+        current: 'Поточний'
+      },
+      footer: {
+        title: 'Конституційна основа надійного AI',
+        text: 'Governance Autopilot не замінює двигун рішень. Він визначає межі в яких двигун рішень має працювати.'
       }
     },
     cta: {
       title: 'Готові модернізувати операції управління?',
-      subtitle: 'Приєднуйтесь до провідних інституцій, які використовують IVYAR',
-      demo: 'Запит демонстрації',
-      contact: 'Запланувати дзвінок'
+      subtitle: 'Приєднуйтесь до провідних інституцій що використовують AI для прозорого, ефективного управління',
+      primaryButton: 'Запитати демо',
+      secondaryButton: 'Переглянути документацію'
     },
     footer: {
-      tagline: 'Цифрова публічна інфраструктура для прозорого управління',
-      links: { demo: 'Демо', docs: 'Документація', contact: 'Контакти', privacy: 'Конфіденційність' },
-      copyright: '© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA'
+      platform: 'Платформа',
+      solutions: 'Рішення',
+      resources: 'Ресурси',
+      company: 'Компанія',
+      copyright: '2024 IVYAR LLC. Всі права захищені.',
+      privacy: 'Політика конфіденційності',
+      terms: 'Умови використання'
     }
   },
-  
   es: {
-    hero: { 
-      title: 'Plataforma IVYAR', 
-      subtitle: 'Infraestructura de gobernanza institucional confiable para las principales instituciones de desarrollo', 
-      origin: 'Construido en Estados Unidos • Inspirado por Ucrania • Diseñado para el mundo' 
+    hero: {
+      title: 'Plataforma IVYAR de Gobernanza',
+      subtitle: 'Infraestructura de gobernanza institucional confiada por las principales instituciones de desarrollo',
+      description: 'Empoderando a las instituciones públicas a través de automatización inteligente, flujos de trabajo seguros y transparencia institucional impulsada por IA'
     },
-    nav: { search: 'Buscar', menu: 'Menú' },
-    badge: 'Compatible con OTAN • Listo Banco Mundial • Compatible USAID',
-    modules: { title: 'Infraestructura institucional' },
-    note: { 
-      title: 'Capacidades operativas avanzadas disponibles bajo solicitud', 
-      desc: 'Adquisiciones, logística, servicios de emergencia — demostrados en sesiones piloto en vivo' 
+    nav: {
+      platform: 'Plataforma',
+      autopilot: 'Autopilot',
+      solutions: 'Soluciones',
+      about: 'Acerca de'
+    },
+    badge: {
+      trusted: 'Confiado por',
+      worldBank: 'Banco Mundial',
+      usaid: 'USAID',
+      natoDiana: 'NATO DIANA'
+    },
+    modules: {
+      title: 'Módulos de gobernanza',
+      subtitle: 'Soluciones integrales impulsadas por IA para operaciones institucionales'
     },
     stats: {
-      title: 'Confiable por instituciones líderes',
-      uptime: { value: '99.97%', label: 'Disponibilidad de la plataforma', sublabel: 'Confiabilidad de grado OTAN' },
-      value: { value: '$115.8M', label: 'Valor total del proyecto', sublabel: '6 proyectos de reconstrucción activos' },
-      jobs: { value: '1,247', label: 'Empleos creados', sublabel: 'Incluyendo 121 veteranos empleados' },
-      served: { value: '450K', label: 'Personas atendidas', sublabel: 'Por instalaciones restauradas' }
+      accuracy: 'Precisión',
+      decisions: 'Decisiones/Día',
+      compliance: 'Tasa de cumplimiento',
+      uptime: 'Tiempo de actividad'
     },
     autopilot: {
       hero: {
-        badge: 'AUTOPILOT API v12',
-        title: 'Gobernanza impulsada por IA',
-        subtitle: '10 motores de decisión de IA especializados que operan 24/7 en gobernanza, logística y finanzas. Alineados con humanos, explicables y completamente auditables.',
-        exploreModules: 'Explorar módulos',
-        watchDemo: 'Ver demostración',
+        badge: 'v12 AUTOPILOT',
+        title: 'Plataforma AI Autopilot',
+        subtitle: '10 módulos autónomos para gobernanza institucional',
+        filterAll: 'Todos los módulos',
+        filterGovernance: 'Gobernanza',
+        filterOperations: 'Operaciones',
+        filterFinance: 'Finanzas',
+        sortBy: 'Ordenar por',
+        sortAccuracy: 'Precisión',
+        sortDecisions: 'Decisiones',
+        sortName: 'Nombre',
+        search: 'Buscar módulos...',
         exportReport: 'Exportar informe',
-        share: 'Compartir',
-        operational: 'Todos los sistemas operativos',
-        decisionsToday: 'decisiones hoy'
-      },
-      modules: {
-        title: 'Módulos Autopilot AI',
-        subtitle: '10 motores de decisión especializados para gobernanza transparente',
-        noModulesFound: 'No se encontraron módulos',
-        tryAdjusting: 'Intente ajustar su búsqueda o filtros'
-      },
-      liveSimulation: {
-        title: 'Simulación de decisiones en vivo',
-        subtitle: 'Demostración de toma de decisiones de IA en tiempo real'
-      },
-      architecture: {
-        title: 'Arquitectura técnica',
-        subtitle: 'Construido sobre principios probados de gobernanza de IA',
-        explainableAI: {
-          title: 'IA explicable',
-          description: 'Cada decisión incluye una cadena de razonamiento completa y puntuación de confianza. Los auditores humanos pueden rastrear la lógica y anular cuando sea necesario.'
-        },
-        auditTrail: {
-          title: 'Registro de auditoría inmutable',
-          description: 'Todas las decisiones registradas en blockchain. Evidencia a prueba de manipulaciones para cumplimiento, investigaciones y supervisión institucional.'
-        },
-        humanAlignment: {
-          title: 'Alineación humana',
-          description: 'Las recomendaciones de IA requieren aprobación humana para decisiones de alto riesgo. Directrices éticas integradas en todos los módulos.'
-        }
-      },
-      cta: {
-        title: '¿Listo para implementar gobernanza de IA?',
-        subtitle: 'Programe una demostración para ver Autopilot AI en acción en sus flujos de trabajo de gobernanza.',
-        requestDemo: 'Solicitar demostración'
+        shareReport: 'Compartir'
       }
     },
     hbsAutopilot: {
@@ -436,119 +518,189 @@ export const CORE_TRANSLATIONS = {
         title: 'Motor de Decisiones IA',
         subtitle: 'Evaluación cognitiva avanzada basada en escenarios impulsada por IA. Tome decisiones informadas con puntuación de confianza, razonamiento explicable y registros de auditoría de grado institucional.',
         aiEngineActive: 'Motor IA Activo',
-        scenariosAvailable: 'Escenarios Disponibles',
+        scenariosAvailable: 'Escenarios disponibles',
         explainableAI: 'IA Explicable'
       },
       wizard: {
-        startOver: 'Empezar de Nuevo',
-        editInput: 'Editar Entrada',
+        startOver: 'Empezar de nuevo',
+        editInput: 'Editar entrada',
         history: 'Historial',
         compare: 'Comparar',
-        clearAllHistory: 'Borrar Todo el Historial'
+        clearAllHistory: 'Borrar todo el historial'
       },
       steps: {
-        selectScenario: 'Seleccionar Escenario',
-        inputData: 'Ingresar Datos',
-        viewDecision: 'Ver Decisión',
+        selectScenario: 'Seleccionar escenario',
+        inputData: 'Ingresar datos',
+        viewDecision: 'Ver decisión',
         chooseScenario: 'Elija un escenario para evaluar',
         provideInfo: 'Proporcione la información necesaria para el análisis de IA',
-        reviewDecision: 'Revise la decisión de IA y los conocimientos'
+        reviewDecision: 'Revise la decisión de IA y las perspectivas'
       },
       scenarios: {
-        title: 'Seleccione un Escenario de Decisión',
+        title: 'Seleccione un escenario de decisión',
         subtitle: 'Elija el tipo de evaluación que desea realizar',
         fieldsRequired: 'campos requeridos',
-        howItWorks: 'Cómo Funciona',
+        howItWorks: 'Cómo funciona',
         howItWorksText: 'Seleccione un escenario arriba para comenzar. Nuestra IA lo guiará a través del proceso de evaluación, proporcionando decisiones explicables con puntuaciones de confianza y razonamiento detallado. Todas las decisiones se registran para el cumplimiento de auditoría institucional.'
       },
       form: {
-        required: 'requerido',
-        runEngine: 'Ejecutar Motor de Decisiones IA',
-        processing: 'Procesando Decisión...'
+        submit: 'Ejecutar motor de decisiones IA',
+        submitting: 'Procesando...',
+        required: 'Campo obligatorio',
+        invalidFormat: 'Formato inválido'
       },
       results: {
-        decisionResult: 'Resultado de Decisión',
+        decisionResult: 'Resultado de decisión',
         evaluated: 'Evaluado',
         approved: 'APROBADO',
         reviewRequired: 'REVISIÓN REQUERIDA',
         rejected: 'RECHAZADO',
         confidence: 'Confianza',
-        confidenceScore: 'Puntuación de Confianza',
-        highConfidence: 'Alta Confianza',
-        mediumConfidence: 'Confianza Media',
-        lowConfidence: 'Baja Confianza',
+        confidenceScore: 'Puntuación de confianza',
+        highConfidence: 'Alta confianza',
+        mediumConfidence: 'Confianza media',
+        lowConfidence: 'Baja confianza',
         aiReasoning: 'Razonamiento IA',
-        references: 'Referencias y Citas',
-        inputSummary: 'Resumen de Datos de Entrada',
-        exportDecision: 'Exportar Decisión',
-        viewRawJSON: 'Ver JSON Bruto',
-        shareDecision: 'Compartir Decisión'
+        references: 'Referencias y citas',
+        inputSummary: 'Resumen de datos de entrada',
+        exportDecision: 'Exportar decisión',
+        viewRawJSON: 'Ver JSON sin procesar',
+        shareDecision: 'Compartir decisión'
       },
       comparison: {
-        title: 'Comparación de Decisiones',
-        subtitle: 'Compare la decisión actual con resultados históricos',
+        title: 'Comparación de decisiones',
+        subtitle: 'Compare la decisión actual con los resultados históricos',
         compareWith: 'Comparar con:',
-        currentDecision: 'Decisión Actual',
-        previousDecision: 'Decisión Anterior',
+        currentDecision: 'Decisión actual',
+        previousDecision: 'Decisión anterior',
         new: 'NUEVA',
         status: 'Estado',
         explanation: 'Explicación',
-        insights: 'Perspectivas de Comparación',
+        insights: 'Perspectivas de comparación',
         sameStatus: 'Ambas decisiones tienen el mismo estado',
-        statusChanged: 'El estado cambió de',
+        statusChanged: 'Estado cambió de',
         to: 'a',
         scoresIdentical: 'Las puntuaciones de confianza son idénticas',
-        confidenceImproved: 'La confianza mejoró en',
-        confidenceDecreased: 'La confianza disminuyó en',
+        confidenceImproved: 'Confianza mejorada en',
+        confidenceDecreased: 'Confianza disminuida en',
         points: 'puntos',
         close: 'Cerrar'
       },
       history: {
-        title: 'Historial de Decisiones',
-        decisions: 'decisiones',
+        title: 'Historial de decisiones',
         decision: 'decisión',
+        decisions: 'decisiones',
         recorded: 'registradas',
         searchPlaceholder: 'Buscar por escenario o estado...',
         noHistory: 'Aún no hay decisiones',
         noHistoryText: 'Su historial de decisiones aparecerá aquí',
         noMatching: 'No hay historial coincidente',
-        tryDifferent: 'Pruebe con un término de búsqueda diferente',
+        tryDifferent: 'Pruebe un término de búsqueda diferente',
         rerun: 'Volver a ejecutar con las mismas entradas',
         details: 'Detalles',
         hide: 'Ocultar',
         delete: 'Eliminar',
         deleteConfirm: '¿Eliminar esta decisión del historial?',
         deleteAllConfirm: 'Eliminar todas',
-        inputData: 'Datos de Entrada',
-        fullExplanation: 'Explicación Completa'
+        inputData: 'Datos de entrada',
+        fullExplanation: 'Explicación completa'
       },
       loading: {
         default: 'Cargando...',
-        scenarios: 'Cargando escenarios de decisión...',
-        analyzing: 'IA está analizando su escenario...'
+        scenarios: 'Cargando escenarios...',
+        analyzing: 'Analizando con IA...'
       },
       errors: {
         somethingWrong: 'Algo salió mal',
-        noScenarios: 'No hay escenarios disponibles. Por favor contacte a soporte.'
+        noScenarios: 'No hay escenarios disponibles'
       },
       empty: {
         title: 'Seleccione un escenario para comenzar',
-        subtitle: 'Elija un escenario de decisión arriba para iniciar el proceso de evaluación de IA'
+        subtitle: 'Elija un escenario de decisión de arriba para iniciar el proceso de evaluación de IA'
+      }
+    },
+    governanceAutopilot: {
+      hero: {
+        badge: 'GOVERNANCE AUTOPILOT',
+        title: 'Capa constitucional para autoridad y límites de IA',
+        intro1: 'Los sistemas de IA se están volviendo más capaces, adaptativos y autónomos. Pero en entornos de alto riesgo y del sector público, la capacidad por sí sola no es suficiente.',
+        intro2: 'La autoridad debe definirse. Los límites deben aplicarse. Y las decisiones deben permanecer legítimas bajo incertidumbre.',
+        intro3: 'Governance Autopilot proporciona la capa constitucional de la plataforma: los mecanismos que determinan qué puede hacer el sistema, qué debe rechazar y cómo se preserva la autoridad delegada en tiempo de ejecución.',
+        layerType: 'Constitucional',
+        enforcement: 'Activo en tiempo real',
+        transparency: 'Listo para auditoría'
+      },
+      purpose: {
+        title: 'Por qué existe esta capa',
+        delegatedAuthority: { title: 'Autoridad delegada', desc: 'Quién otorga poder al sistema y qué incluye ese poder' },
+        admissibility: { title: 'Admisibilidad', desc: 'Qué decisiones puede tomar el sistema' },
+        runtimeBoundaries: { title: 'Límites de ejecución', desc: 'Qué nunca debe cruzar el sistema durante la operación' },
+        refusalLogic: { title: 'Lógica de rechazo', desc: 'Cuándo el sistema debe decir "no" independientemente de la solicitud' },
+        intentPreservation: { title: 'Preservación de la intención', desc: 'Cómo se mantiene la intención institucional bajo incertidumbre' },
+        constitutionalFoundation: { title: 'Fundamento constitucional', desc: 'Principios inmutables que garantizan una IA confiable' }
+      },
+      governanceModel: {
+        title: 'Modelo de gobernanza',
+        subtitle: '10 mecanismos constitucionales que definen la autoridad y límites de IA'
+      },
+      boundaryTest: {
+        title: 'Prueba de límites',
+        subtitle: 'Vea cómo la capa constitucional evalúa una acción propuesta',
+        context: 'Contexto',
+        describeAction: 'Describa la acción',
+        evaluate: 'Evaluar',
+        status: 'Estado',
+        reason: 'Razón',
+        ruleReference: 'Referencia de regla',
+        authorityLevel: 'Nivel de autoridad',
+        viewJson: 'Ver respuesta JSON',
+        hideJson: 'Ocultar respuesta JSON',
+        admissible: 'ADMISIBLE',
+        escalationRequired: 'ESCALACIÓN REQUERIDA',
+        inadmissible: 'INADMISIBLE'
+      },
+      audit: {
+        title: 'Vista de auditoría y cumplimiento',
+        subtitle: 'Reglas constitucionales, lógica de rechazo y trazabilidad',
+        governanceRules: 'Reglas de gobernanza',
+        version: 'Versión',
+        viewFullJson: 'Ver JSON completo',
+        hideFullJson: 'Ocultar JSON completo',
+        refusalLogic: 'Lógica de rechazo',
+        authorityChain: 'Cadena de autoridad',
+        level: 'Nivel',
+        can: 'Puede',
+        cannot: 'No puede'
+      },
+      integration: {
+        title: 'Cómo encaja esta capa',
+        visitLayer: 'Visitar capa',
+        current: 'Actual'
+      },
+      footer: {
+        title: 'El fundamento constitucional de una IA confiable',
+        text: 'Governance Autopilot no reemplaza el motor de decisiones. Define los límites dentro de los cuales debe operar el motor de decisiones.'
       }
     },
     cta: {
       title: '¿Listo para modernizar las operaciones de gobernanza?',
-      subtitle: 'Únase a las instituciones líderes que utilizan IVYAR',
-      demo: 'Solicitar demo',
-      contact: 'Programar llamada'
+      subtitle: 'Únase a las instituciones líderes que aprovechan la IA para una gobernanza transparente y eficiente',
+      primaryButton: 'Solicitar demostración',
+      secondaryButton: 'Ver documentación'
     },
     footer: {
-      tagline: 'Infraestructura pública digital para gobernanza transparente',
-      links: { demo: 'Demo', docs: 'Documentación', contact: 'Contacto', privacy: 'Privacidad' },
-      copyright: '© 2024-2026 IVYAR LLC • Lake Stevens, Washington, USA'
+      platform: 'Plataforma',
+      solutions: 'Soluciones',
+      resources: 'Recursos',
+      company: 'Empresa',
+      copyright: '2024 IVYAR LLC. Todos los derechos reservados.',
+      privacy: 'Política de privacidad',
+      terms: 'Términos de servicio'
     }
   }
 };
 
 export const GB_TRANSLATIONS = CORE_TRANSLATIONS.us;
 export const EU_TRANSLATIONS = CORE_TRANSLATIONS.us;
+
+export default CORE_TRANSLATIONS;
