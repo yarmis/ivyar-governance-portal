@@ -64,6 +64,112 @@ export const CORE_TRANSLATIONS = {
         requestDemo: 'Request Demo'
       }
     },
+    hbsAutopilot: {
+      hero: {
+        badge: 'HBS AUTOPILOT ENGINE',
+        title: 'AI Decision Engine',
+        subtitle: 'Advanced scenario-based cognitive evaluation powered by AI. Make informed decisions with confidence scoring, explainable reasoning, and institutional-grade audit trails.',
+        aiEngineActive: 'AI Engine Active',
+        scenariosAvailable: 'Scenarios Available',
+        explainableAI: 'Explainable AI'
+      },
+      wizard: {
+        startOver: 'Start Over',
+        editInput: 'Edit Input',
+        history: 'History',
+        compare: 'Compare',
+        clearAllHistory: 'Clear All History'
+      },
+      steps: {
+        selectScenario: 'Select Scenario',
+        inputData: 'Input Data',
+        viewDecision: 'View Decision',
+        chooseScenario: 'Choose a scenario to evaluate',
+        provideInfo: 'Provide the necessary information for AI analysis',
+        reviewDecision: 'Review the AI decision and insights'
+      },
+      scenarios: {
+        title: 'Select a Decision Scenario',
+        subtitle: 'Choose the type of evaluation you want to perform',
+        fieldsRequired: 'fields required',
+        howItWorks: 'How It Works',
+        howItWorksText: 'Select a scenario above to begin. Our AI will guide you through the evaluation process, providing explainable decisions with confidence scores and detailed reasoning. All decisions are logged for institutional audit compliance.'
+      },
+      form: {
+        required: 'required',
+        runEngine: 'Run AI Decision Engine',
+        processing: 'Processing Decision...'
+      },
+      results: {
+        decisionResult: 'Decision Result',
+        evaluated: 'Evaluated',
+        approved: 'APPROVED',
+        reviewRequired: 'REVIEW REQUIRED',
+        rejected: 'REJECTED',
+        confidence: 'Confidence',
+        confidenceScore: 'Confidence Score',
+        highConfidence: 'High Confidence',
+        mediumConfidence: 'Medium Confidence',
+        lowConfidence: 'Low Confidence',
+        aiReasoning: 'AI Reasoning',
+        references: 'References & Citations',
+        inputSummary: 'Input Data Summary',
+        exportDecision: 'Export Decision',
+        viewRawJSON: 'View Raw JSON',
+        shareDecision: 'Share Decision'
+      },
+      comparison: {
+        title: 'Decision Comparison',
+        subtitle: 'Compare current decision with historical results',
+        compareWith: 'Compare with:',
+        currentDecision: 'Current Decision',
+        previousDecision: 'Previous Decision',
+        new: 'NEW',
+        status: 'Status',
+        explanation: 'Explanation',
+        insights: 'Comparison Insights',
+        sameStatus: 'Both decisions have the same status',
+        statusChanged: 'Status changed from',
+        to: 'to',
+        scoresIdentical: 'Confidence scores are identical',
+        confidenceImproved: 'Confidence improved by',
+        confidenceDecreased: 'Confidence decreased by',
+        points: 'points',
+        close: 'Close'
+      },
+      history: {
+        title: 'Decision History',
+        decisions: 'decisions',
+        decision: 'decision',
+        recorded: 'recorded',
+        searchPlaceholder: 'Search by scenario or status...',
+        noHistory: 'No decisions yet',
+        noHistoryText: 'Your decision history will appear here',
+        noMatching: 'No matching history',
+        tryDifferent: 'Try a different search term',
+        rerun: 'Rerun with same inputs',
+        details: 'Details',
+        hide: 'Hide',
+        delete: 'Delete',
+        deleteConfirm: 'Delete this decision from history?',
+        deleteAllConfirm: 'Delete all',
+        inputData: 'Input Data',
+        fullExplanation: 'Full Explanation'
+      },
+      loading: {
+        default: 'Loading...',
+        scenarios: 'Loading decision scenarios...',
+        analyzing: 'AI is analyzing your scenario...'
+      },
+      errors: {
+        somethingWrong: 'Something went wrong',
+        noScenarios: 'No scenarios available. Please contact support.'
+      },
+      empty: {
+        title: 'Select a scenario to begin',
+        subtitle: 'Choose a decision scenario from above to start the AI evaluation process'
+      }
+    },
     cta: {
       title: 'Ready to Modernize Governance Operations?',
       subtitle: 'Join leading institutions using IVYAR for secure, compliant, and ethical digital governance',
@@ -141,6 +247,112 @@ export const CORE_TRANSLATIONS = {
         requestDemo: 'Запит демонстрації'
       }
     },
+    hbsAutopilot: {
+      hero: {
+        badge: 'HBS ДВИГУН АВТОПІЛОТУ',
+        title: 'AI Двигун Рішень',
+        subtitle: 'Передова когнітивна оцінка на основі сценаріїв з підтримкою AI. Приймайте обґрунтовані рішення з оцінкою впевненості, поясненим обґрунтуванням та аудит-трейлом інституційного рівня.',
+        aiEngineActive: 'AI Двигун Активний',
+        scenariosAvailable: 'Сценаріїв Доступно',
+        explainableAI: 'Пояснюваний AI'
+      },
+      wizard: {
+        startOver: 'Почати Спочатку',
+        editInput: 'Редагувати Введення',
+        history: 'Історія',
+        compare: 'Порівняти',
+        clearAllHistory: 'Очистити Всю Історію'
+      },
+      steps: {
+        selectScenario: 'Вибрати Сценарій',
+        inputData: 'Ввести Дані',
+        viewDecision: 'Переглянути Рішення',
+        chooseScenario: 'Оберіть сценарій для оцінки',
+        provideInfo: 'Надайте необхідну інформацію для AI аналізу',
+        reviewDecision: 'Перегляньте AI рішення та висновки'
+      },
+      scenarios: {
+        title: 'Оберіть Сценарій Рішення',
+        subtitle: 'Виберіть тип оцінки, яку хочете виконати',
+        fieldsRequired: 'полів потрібно',
+        howItWorks: 'Як Це Працює',
+        howItWorksText: 'Оберіть сценарій вище, щоб почати. Наш AI проведе вас через процес оцінки, надаючи пояснювані рішення з оцінками впевненості та детальним обґрунтуванням. Всі рішення логуються для інституційного аудиту.'
+      },
+      form: {
+        required: "обов'язково",
+        runEngine: 'Запустити AI Двигун Рішень',
+        processing: 'Обробка Рішення...'
+      },
+      results: {
+        decisionResult: 'Результат Рішення',
+        evaluated: 'Оцінено',
+        approved: 'СХВАЛЕНО',
+        reviewRequired: 'ПОТРІБЕН ПЕРЕГЛЯД',
+        rejected: 'ВІДХИЛЕНО',
+        confidence: 'Впевненість',
+        confidenceScore: 'Оцінка Впевненості',
+        highConfidence: 'Висока Впевненість',
+        mediumConfidence: 'Середня Впевненість',
+        lowConfidence: 'Низька Впевненість',
+        aiReasoning: 'AI Обґрунтування',
+        references: 'Посилання та Цитати',
+        inputSummary: 'Зведення Вхідних Даних',
+        exportDecision: 'Експортувати Рішення',
+        viewRawJSON: 'Переглянути JSON',
+        shareDecision: 'Поділитися Рішенням'
+      },
+      comparison: {
+        title: 'Порівняння Рішень',
+        subtitle: 'Порівняйте поточне рішення з історичними результатами',
+        compareWith: 'Порівняти з:',
+        currentDecision: 'Поточне Рішення',
+        previousDecision: 'Попереднє Рішення',
+        new: 'НОВЕ',
+        status: 'Статус',
+        explanation: 'Пояснення',
+        insights: 'Висновки Порівняння',
+        sameStatus: 'Обидва рішення мають однаковий статус',
+        statusChanged: 'Статус змінився з',
+        to: 'на',
+        scoresIdentical: 'Оцінки впевненості ідентичні',
+        confidenceImproved: 'Впевненість покращилась на',
+        confidenceDecreased: 'Впевненість знизилась на',
+        points: 'балів',
+        close: 'Закрити'
+      },
+      history: {
+        title: 'Історія Рішень',
+        decisions: 'рішень',
+        decision: 'рішення',
+        recorded: 'записано',
+        searchPlaceholder: 'Пошук за сценарієм або статусом...',
+        noHistory: 'Рішень ще немає',
+        noHistoryText: 'Ваша історія рішень з\'явиться тут',
+        noMatching: 'Не знайдено співпадінь',
+        tryDifferent: 'Спробуйте інший пошуковий запит',
+        rerun: 'Запустити знову з тими ж даними',
+        details: 'Деталі',
+        hide: 'Приховати',
+        delete: 'Видалити',
+        deleteConfirm: 'Видалити це рішення з історії?',
+        deleteAllConfirm: 'Видалити всі',
+        inputData: 'Вхідні Дані',
+        fullExplanation: 'Повне Пояснення'
+      },
+      loading: {
+        default: 'Завантаження...',
+        scenarios: 'Завантаження сценаріїв рішень...',
+        analyzing: 'AI аналізує ваш сценарій...'
+      },
+      errors: {
+        somethingWrong: 'Щось пішло не так',
+        noScenarios: 'Сценарії недоступні. Будь ласка, зверніться до підтримки.'
+      },
+      empty: {
+        title: 'Оберіть сценарій для початку',
+        subtitle: 'Виберіть сценарій рішення вище, щоб почати процес AI оцінки'
+      }
+    },
     cta: {
       title: 'Готові модернізувати операції управління?',
       subtitle: 'Приєднуйтесь до провідних інституцій, які використовують IVYAR',
@@ -216,6 +428,112 @@ export const CORE_TRANSLATIONS = {
         title: '¿Listo para implementar gobernanza de IA?',
         subtitle: 'Programe una demostración para ver Autopilot AI en acción en sus flujos de trabajo de gobernanza.',
         requestDemo: 'Solicitar demostración'
+      }
+    },
+    hbsAutopilot: {
+      hero: {
+        badge: 'MOTOR HBS AUTOPILOT',
+        title: 'Motor de Decisiones IA',
+        subtitle: 'Evaluación cognitiva avanzada basada en escenarios impulsada por IA. Tome decisiones informadas con puntuación de confianza, razonamiento explicable y registros de auditoría de grado institucional.',
+        aiEngineActive: 'Motor IA Activo',
+        scenariosAvailable: 'Escenarios Disponibles',
+        explainableAI: 'IA Explicable'
+      },
+      wizard: {
+        startOver: 'Empezar de Nuevo',
+        editInput: 'Editar Entrada',
+        history: 'Historial',
+        compare: 'Comparar',
+        clearAllHistory: 'Borrar Todo el Historial'
+      },
+      steps: {
+        selectScenario: 'Seleccionar Escenario',
+        inputData: 'Ingresar Datos',
+        viewDecision: 'Ver Decisión',
+        chooseScenario: 'Elija un escenario para evaluar',
+        provideInfo: 'Proporcione la información necesaria para el análisis de IA',
+        reviewDecision: 'Revise la decisión de IA y los conocimientos'
+      },
+      scenarios: {
+        title: 'Seleccione un Escenario de Decisión',
+        subtitle: 'Elija el tipo de evaluación que desea realizar',
+        fieldsRequired: 'campos requeridos',
+        howItWorks: 'Cómo Funciona',
+        howItWorksText: 'Seleccione un escenario arriba para comenzar. Nuestra IA lo guiará a través del proceso de evaluación, proporcionando decisiones explicables con puntuaciones de confianza y razonamiento detallado. Todas las decisiones se registran para el cumplimiento de auditoría institucional.'
+      },
+      form: {
+        required: 'requerido',
+        runEngine: 'Ejecutar Motor de Decisiones IA',
+        processing: 'Procesando Decisión...'
+      },
+      results: {
+        decisionResult: 'Resultado de Decisión',
+        evaluated: 'Evaluado',
+        approved: 'APROBADO',
+        reviewRequired: 'REVISIÓN REQUERIDA',
+        rejected: 'RECHAZADO',
+        confidence: 'Confianza',
+        confidenceScore: 'Puntuación de Confianza',
+        highConfidence: 'Alta Confianza',
+        mediumConfidence: 'Confianza Media',
+        lowConfidence: 'Baja Confianza',
+        aiReasoning: 'Razonamiento IA',
+        references: 'Referencias y Citas',
+        inputSummary: 'Resumen de Datos de Entrada',
+        exportDecision: 'Exportar Decisión',
+        viewRawJSON: 'Ver JSON Bruto',
+        shareDecision: 'Compartir Decisión'
+      },
+      comparison: {
+        title: 'Comparación de Decisiones',
+        subtitle: 'Compare la decisión actual con resultados históricos',
+        compareWith: 'Comparar con:',
+        currentDecision: 'Decisión Actual',
+        previousDecision: 'Decisión Anterior',
+        new: 'NUEVA',
+        status: 'Estado',
+        explanation: 'Explicación',
+        insights: 'Perspectivas de Comparación',
+        sameStatus: 'Ambas decisiones tienen el mismo estado',
+        statusChanged: 'El estado cambió de',
+        to: 'a',
+        scoresIdentical: 'Las puntuaciones de confianza son idénticas',
+        confidenceImproved: 'La confianza mejoró en',
+        confidenceDecreased: 'La confianza disminuyó en',
+        points: 'puntos',
+        close: 'Cerrar'
+      },
+      history: {
+        title: 'Historial de Decisiones',
+        decisions: 'decisiones',
+        decision: 'decisión',
+        recorded: 'registradas',
+        searchPlaceholder: 'Buscar por escenario o estado...',
+        noHistory: 'Aún no hay decisiones',
+        noHistoryText: 'Su historial de decisiones aparecerá aquí',
+        noMatching: 'No hay historial coincidente',
+        tryDifferent: 'Pruebe con un término de búsqueda diferente',
+        rerun: 'Volver a ejecutar con las mismas entradas',
+        details: 'Detalles',
+        hide: 'Ocultar',
+        delete: 'Eliminar',
+        deleteConfirm: '¿Eliminar esta decisión del historial?',
+        deleteAllConfirm: 'Eliminar todas',
+        inputData: 'Datos de Entrada',
+        fullExplanation: 'Explicación Completa'
+      },
+      loading: {
+        default: 'Cargando...',
+        scenarios: 'Cargando escenarios de decisión...',
+        analyzing: 'IA está analizando su escenario...'
+      },
+      errors: {
+        somethingWrong: 'Algo salió mal',
+        noScenarios: 'No hay escenarios disponibles. Por favor contacte a soporte.'
+      },
+      empty: {
+        title: 'Seleccione un escenario para comenzar',
+        subtitle: 'Elija un escenario de decisión arriba para iniciar el proceso de evaluación de IA'
       }
     },
     cta: {
