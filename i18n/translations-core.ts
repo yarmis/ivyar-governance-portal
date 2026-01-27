@@ -1,3 +1,4 @@
+
 // IVYAR Governance Platform - Core Translations
 // Complete multilingual support: US (English), UA (Ukrainian), ES (Spanish)
 
@@ -231,7 +232,62 @@ export const CORE_TRANSLATIONS = {
       company: 'Company',
       copyright: '2024 IVYAR LLC. All rights reserved.',
       privacy: 'Privacy Policy',
-      terms: 'Terms of Service'
+      terms: 'Terms of Service',
+    },
+    publicFeedback: {
+      title: 'Public Feedback System',
+      backToHbs: 'Back to HBS Portal',
+      stats: {
+        totalSubmissions: 'Total Submissions',
+        avgResponseTime: 'Avg Response Time',
+        resolvedIssues: 'Resolved Issues',
+        activeCases: 'Active Cases'
+      },
+      tabs: {
+        overview: 'Overview',
+        submit: 'Submit Feedback',
+        analytics: 'Analytics',
+        youSaid: 'You Said, We Did'
+      },
+      overview: {
+        title: 'Feedback by Category',
+        submissions: 'submissions'
+      },
+      submit: {
+        title: 'Submit Your Feedback',
+        selectCategory: 'Select Category',
+        subject: 'Subject',
+        subjectPlaceholder: 'Brief description...',
+        message: 'Your Feedback',
+        messagePlaceholder: 'Share your feedback...',
+        email: 'Email (optional)',
+        emailPlaceholder: 'your@email.com',
+        submitButton: 'Submit Feedback',
+        thankYou: 'Thank You!',
+        submitted: 'Your feedback has been submitted successfully.',
+        reference: 'Reference'
+      },
+      analytics: {
+        title: 'Feedback Trends',
+        exportReport: 'Export Report'
+      },
+      youSaid: {
+        title: 'You Said, We Did — Recent Actions',
+        impact: 'Impact'
+      },
+      categories: {
+        healthcare: 'Healthcare',
+        education: 'Education',
+        infrastructure: 'Infrastructure',
+        safety: 'Public Safety',
+        environment: 'Environment',
+        other: 'Other Services'
+      },
+      status: {
+        completed: 'Completed',
+        inProgress: 'In Progress',
+        planned: 'Planned'
+      }
     }
   },
   ua: {
@@ -464,6 +520,60 @@ export const CORE_TRANSLATIONS = {
       copyright: '2024 IVYAR LLC. Всі права захищені.',
       privacy: 'Політика конфіденційності',
       terms: 'Умови використання'
+    },publicFeedback: {
+      title: 'Система Зворотного Зв\'язку',
+      backToHbs: 'Назад до HBS Порталу',
+      stats: {
+        totalSubmissions: 'Всього Звернень',
+        avgResponseTime: 'Середній Час Відповіді',
+        resolvedIssues: 'Вирішено Питань',
+        activeCases: 'Активних Справ'
+      },
+      tabs: {
+        overview: 'Огляд',
+        submit: 'Подати Звернення',
+        analytics: 'Аналітика',
+        youSaid: 'Ви Сказали, Ми Зробили'
+      },
+      overview: {
+        title: 'Звернення за Категоріями',
+        submissions: 'звернень'
+      },
+      submit: {
+        title: 'Подайте Ваше Звернення',
+        selectCategory: 'Оберіть Категорію',
+        subject: 'Тема',
+        subjectPlaceholder: 'Короткий опис...',
+        message: 'Ваше Звернення',
+        messagePlaceholder: 'Поділіться вашим зверненням...',
+        email: 'Email (необов\'язково)',
+        emailPlaceholder: 'ваш@email.com',
+        submitButton: 'Подати Звернення',
+        thankYou: 'Дякуємо!',
+        submitted: 'Ваше звернення успішно надіслано.',
+        reference: 'Номер'
+      },
+      analytics: {
+        title: 'Тренди Звернень',
+        exportReport: 'Експортувати Звіт'
+      },
+      youSaid: {
+        title: 'Ви Сказали, Ми Зробили — Останні Дії',
+        impact: 'Вплив'
+      },
+      categories: {
+        healthcare: 'Охорона Здоров\'я',
+        education: 'Освіта',
+        infrastructure: 'Інфраструктура',
+        safety: 'Громадська Безпека',
+        environment: 'Довкілля',
+        other: 'Інші Послуги'
+      },
+      status: {
+        completed: 'Завершено',
+        inProgress: 'В Процесі',
+        planned: 'Заплановано'
+      }
     }
   },
   es: {
@@ -696,6 +806,60 @@ export const CORE_TRANSLATIONS = {
       copyright: '2024 IVYAR LLC. Todos los derechos reservados.',
       privacy: 'Política de privacidad',
       terms: 'Términos de servicio'
+    }, publicFeedback: {
+      title: 'Sistema de Retroalimentación Pública',
+      backToHbs: 'Volver al Portal HBS',
+      stats: {
+        totalSubmissions: 'Total de Envíos',
+        avgResponseTime: 'Tiempo Promedio de Respuesta',
+        resolvedIssues: 'Problemas Resueltos',
+        activeCases: 'Casos Activos'
+      },
+      tabs: {
+        overview: 'Resumen',
+        submit: 'Enviar Comentarios',
+        analytics: 'Analítica',
+        youSaid: 'Dijiste, Hicimos'
+      },
+      overview: {
+        title: 'Comentarios por Categoría',
+        submissions: 'envíos'
+      },
+      submit: {
+        title: 'Envía tus Comentarios',
+        selectCategory: 'Seleccionar Categoría',
+        subject: 'Asunto',
+        subjectPlaceholder: 'Breve descripción...',
+        message: 'Tus Comentarios',
+        messagePlaceholder: 'Comparte tus comentarios...',
+        email: 'Email (opcional)',
+        emailPlaceholder: 'tu@email.com',
+        submitButton: 'Enviar Comentarios',
+        thankYou: '¡Gracias!',
+        submitted: 'Tus comentarios han sido enviados exitosamente.',
+        reference: 'Referencia'
+      },
+      analytics: {
+        title: 'Tendencias de Comentarios',
+        exportReport: 'Exportar Informe'
+      },
+      youSaid: {
+        title: 'Dijiste, Hicimos — Acciones Recientes',
+        impact: 'Impacto'
+      },
+      categories: {
+        healthcare: 'Salud',
+        education: 'Educación',
+        infrastructure: 'Infraestructura',
+        safety: 'Seguridad Pública',
+        environment: 'Medio Ambiente',
+        other: 'Otros Servicios'
+      },
+      status: {
+        completed: 'Completado',
+        inProgress: 'En Progreso',
+        planned: 'Planificado'
+      }
     }
   }
 };
