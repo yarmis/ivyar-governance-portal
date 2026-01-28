@@ -2,7 +2,7 @@
  * IVYAR Authentication - Simple JWT
  */
 
-const JWT_SECRET = process.env.JWT_SECRET || 'ivyar-dev-secret-2026';
+const JWT_SECRET = process.env.JWT_SECRET || (() => { throw new Error('JWT_SECRET is required'); })();
 
 export type UserRole = 'client' | 'attorney' | 'employer' | 'admin';
 export type UserCategory = 'Worker' | 'Legal' | 'Employer' | 'Institutional';
