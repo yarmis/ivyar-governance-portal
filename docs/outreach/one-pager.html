@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVYAR Governance Platform - One Pager</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0B0E11 0%, #1a1d24 100%);
+            color: #ffffff;
+            padding: 40px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(16, 185, 185, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(16, 185, 185, 0.3);
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #10B9B9 0%, #0EA3A3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+        .trust-bar {
+            font-size: 12px;
+            color: rgba(16, 185, 185, 0.8);
+            margin-top: 10px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        h2 {
+            font-size: 20px;
+            color: #10B9B9;
+            margin-bottom: 12px;
+            border-left: 4px solid #10B9B9;
+            padding-left: 12px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat {
+            background: rgba(16, 185, 185, 0.1);
+            border: 1px solid rgba(16, 185, 185, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #10B9B9;
+            display: block;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+        .feature-title {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .feature-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .use-case {
+            background: rgba(16, 185, 185, 0.05);
+            border: 1px solid rgba(16, 185, 185, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .use-case-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .use-case-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        .use-case-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tech-badge {
+            background: rgba(16, 185, 185, 0.15);
+            border: 1px solid rgba(16, 185, 185, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .cta {
+            background: linear-gradient(135deg, #10B9B9 0%, #0EA3A3 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 25px;
+        }
+        .cta-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #0B0E11;
+        }
+        .cta-text {
+            font-size: 13px;
+            color: rgba(11, 14, 17, 0.8);
+            margin-bottom: 12px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #0B0E11;
+            color: #10B9B9;
+        }
+        .btn-secondary {
+            background: rgba(11, 14, 17, 0.3);
+            color: #0B0E11;
+            border: 1px solid #0B0E11;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">IVYAR</div>
+            <div class="tagline">AI-Powered Governance Platform</div>
+            <div class="trust-bar">Trusted by World Bank • USAID • NATO DIANA</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value">9.6M</span>
+                <div class="stat-label">Users Ready</div>
+            </div>
+            <div class="stat">
+                <span class="stat-value">20+</span>
+                <div class="stat-label">AI Modules</div>
+            </div>
+            <div class="stat">
+                <span class="stat-value">3</span>
+                <div class="stat-label">Languages</div>
+            </div>
+            <div class="stat">
+                <span class="stat-value">99.97%</span>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+
+        <!-- Problem Statement -->
+        <div class="section">
+            <h2>The Problem</h2>
+            <p style="color: rgba(255,255,255,0.7); font-size: 13px;">
+                Development institutions face challenges with fund allocation transparency, 
+                corruption detection, and citizen engagement. Traditional governance systems 
+                lack AI-powered oversight and real-time accountability mechanisms.
+            </p>
+        </div>
+
+        <!-- Solution -->
+        <div class="section">
+            <h2>Our Solution</h2>
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">🤖</span>
+                    <div class="feature-title">AI Autopilot</div>
+                    <div class="feature-desc">Institutional decision engine with explainable AI</div>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🔍</span>
+                    <div class="feature-title">Anti-Corruption AI</div>
+                    <div class="feature-desc">Real-time detection and prevention systems</div>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">📊</span>
+                    <div class="feature-title">Public Feedback</div>
+                    <div class="feature-desc">Citizen engagement and transparency tools</div>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🔐</span>
+                    <div class="feature-title">NATO-Grade Security</div>
+                    <div class="feature-desc">Zero vulnerabilities, enterprise encryption</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases -->
+        <div class="section">
+            <h2>Use Cases for Donors</h2>
+            <div class="use-cases">
+                <div class="use-case">
+                    <div class="use-case-icon">🏛️</div>
+                    <div class="use-case-title">World Bank</div>
+                    <div class="use-case-desc">Transparent fund allocation & impact tracking</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">🗳️</div>
+                    <div class="use-case-title">USAID</div>
+                    <div class="use-case-desc">Democracy defense & governance tools</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">🛡️</div>
+                    <div class="use-case-title">NATO DIANA</div>
+                    <div class="use-case-desc">Defense innovation oversight</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology -->
+        <div class="section">
+            <h2>Enterprise-Grade Technology</h2>
+            <div class="tech-stack">
+                <span class="tech-badge">Next.js 16</span>
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">AI/ML Ready</span>
+                <span class="tech-badge">Blockchain</span>
+                <span class="tech-badge">PostgreSQL</span>
+                <span class="tech-badge">Vercel CDN</span>
+                <span class="tech-badge">NATO Security</span>
+                <span class="tech-badge">Multilingual</span>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+            <div class="cta-title">Ready to Transform Governance?</div>
+            <div class="cta-text">Schedule a demo to see IVYAR in action</div>
+            <div class="cta-buttons">
+                <a href="https://www.ivyar.org" class="btn btn-primary">Live Demo →</a>
+                <a href="mailto:info@ivyar.org" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>🇺🇸 Built in USA • 💙💛 Inspired by Ukraine • 🌍 Designed for the World</div>
+            <div style="margin-top: 5px;">© 2024-2026 IVYAR LLC • info@ivyar.org • www.ivyar.org</div>
+        </div>
+    </div>
+</body>
+</html>
