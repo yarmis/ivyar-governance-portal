@@ -33,7 +33,7 @@ export async function withAuth(
       return NextResponse.json({ error: 'No token' }, { status: 401 });
     }
     
-    const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+    const JWT_SECRET = process.env.JWT_SECRET || (() => { throw new Error('JWT_SECRET is required'); })();
     const decoded = verify(token, JWT_SECRET) as any;
     
     (request as AuthenticatedRequest).user = {
