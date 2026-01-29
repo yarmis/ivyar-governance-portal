@@ -1,8 +1,6 @@
-// middleware.ts (root level)
 import { NextRequest, NextResponse } from 'next/server';
 import { localeCodes, defaultLocale } from '@/i18n/config';
 
-// Pages that don't need locale prefix
 const PUBLIC_FILE = /\.(.*)$/;
 const EXCLUDED_PATHS = [
   '/api',
@@ -25,7 +23,6 @@ const EXCLUDED_PATHS = [
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for excluded paths and files
   if (
     PUBLIC_FILE.test(pathname) ||
     EXCLUDED_PATHS.some(path => pathname.startsWith(path))
@@ -33,18 +30,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check if pathname starts with a locale
   const pathnameHasLocale = localeCodes.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
   if (pathnameHasLocale) {
     return NextResponse.next();
   }
 
-  // Redirect root to default locale
   if (pathname === '/') {
-    // Try to detect locale from cookie or accept-language
     const cookieLocale = request.cookies.get('IVYAR_LOCALE')?.value;
     const acceptLanguage = request.headers.get('accept-language');
     
