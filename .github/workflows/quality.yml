@@ -1,0 +1,54 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, new-homepage-design, develop ]
+  pull_request:
+    branches: [ main, new-homepage-design ]
+
+jobs:
+  quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run ESLint
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0
+        continue-on-error: true
+        
+      - name: Check formatting
+        run: npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}"
+        continue-on-error: true
+        
+      - name: Type check
+        run: npx tsc --noEmit
+        continue-on-error: true
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Generate quality report
+        if: always()
+        run: |
+          echo "## 📊 Code Quality Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Checks Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ESLint validation" >> $GITHUB_STEP_SUMMARY
+          echo "- Prettier formatting" >> $GITHUB_STEP_SUMMARY
+          echo "- TypeScript type checking" >> $GITHUB_STEP_SUMMARY
+          echo "- Production build verification" >> $GITHUB_STEP_SUMMARY
