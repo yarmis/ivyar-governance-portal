@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.1",
-    "@tailwindcss/typography": "^0.5.19",
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "gray-matter": "^4.0.3",
@@ -38,6 +37,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260111.0",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/marked": "^5.0.2",
     "@types/node": "^20",
