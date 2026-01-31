@@ -1,40 +1,15 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Sans, IBM_Plex_Mono, Work_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import { Providers } from '@/components/Providers';
 
-// Institutional typography - avoiding generic Inter/Roboto
-const ibmPlexSans = IBM_Plex_Sans({
+const inter = Inter({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600'],
-  variable: '--font-ibm-plex',
-  display: 'swap',
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-ibm-mono',
-  display: 'swap',
-});
-
-const workSans = Work_Sans({
-  subsets: ['latin'],
-  weight: ['600'],
-  variable: '--font-work-sans',
-  display: 'swap',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
   title: 'IVYAR Governance Platform',
-  description: 'Institutional governance infrastructure trusted by leading development institutions',
-  keywords: ['governance', 'transparency', 'NATO', 'World Bank', 'USAID', 'digital infrastructure'],
-  authors: [{ name: 'IVYAR LLC' }],
-  openGraph: {
-    title: 'IVYAR Governance Platform',
-    description: 'Institutional governance infrastructure trusted by leading development institutions',
-    type: 'website',
-  },
+  description: 'AI-Powered Constitutional Oversight',
 };
 
 export default function RootLayout({
@@ -43,11 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scrollbar-dark">
-      <body className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} ${workSans.variable} font-sans antialiased`}>
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="uk" className={`${inter.variable} font-sans`}>
+      <body className="bg-gray-950 text-gray-100 antialiased min-h-screen">
+        <div className="bg-red-600 text-white p-10 text-4xl font-bold rounded-2xl m-10">
+          TAILWIND ТЕСТ — якщо бачиш великий червоний блок, Tailwind працює!
+        </div>
+        {children}
       </body>
     </html>
   );
