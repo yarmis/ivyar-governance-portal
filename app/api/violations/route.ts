@@ -1,9 +1,8 @@
-// app/api/violations/route.ts
-// Violations & Enforcement Module API
-
 import { NextRequest, NextResponse } from 'next/server';
+import { verify } from 'jsonwebtoken';
 
-// Types
+const JWT_SECRET = process.env.JWT_SECRET;
+
 type ViolationType = 'building_code' | 'zoning' | 'environmental' | 'safety' | 'permit' | 'documentation' | 'labor' | 'quality';
 type ViolationSeverity = 'minor' | 'moderate' | 'major' | 'critical';
 type ViolationStatus = 'reported' | 'under_investigation' | 'confirmed' | 'disputed' | 'remediation_required' | 'remediation_in_progress' | 'resolved' | 'escalated' | 'closed';
@@ -32,7 +31,54 @@ interface Violation {
   remediationStatus?: string;
 }
 
-// Mock Data
+function authenticateRequest(request: Request): { authenticated: boolean; user?: any; error?: string } {
+  try {
+    const authHeader = request.headers.get('authorization');
+    const cookieHeader = request.headers.get('cookie');
+    
+    let token: string | null = null;
+    
+    if (authHeader?.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else if (cookieHeader) {
+      const authMatch = cookieHeader.match(/auth-token=([^;]+)/);
+      const ivyarMatch = cookieHeader.match(/ivyar_auth=([^;]+)/);
+      token = authMatch?.[1] || ivyarMatch?.[1] || null;
+    }
+    
+    if (!token) {
+      return { authenticated: false, error: 'No authentication token' };
+    }
+    
+    if (!JWT_SECRET) {
+      return { authenticated: false, error: 'Server configuration error' };
+    }
+    
+    const decoded = verify(token, JWT_SECRET);
+    return { authenticated: true, user: decoded };
+  } catch (error) {
+    return { authenticated: false, error: 'Invalid token' };
+  }
+}
+
+function hasPermission(user: any, action: 'read' | 'write' | 'admin'): boolean {
+  const role = user?.role;
+  
+  if (action === 'read') {
+    return ['veteran', 'government_official', 'admin', 'emergency_admin', 'inspector'].includes(role);
+  }
+  
+  if (action === 'write') {
+    return ['government_official', 'admin', 'emergency_admin', 'inspector'].includes(role);
+  }
+  
+  if (action === 'admin') {
+    return ['admin', 'emergency_admin'].includes(role);
+  }
+  
+  return false;
+}
+
 const VIOLATIONS: Violation[] = [
   { id: 'v1', caseNumber: 'VIO-2025-0001', type: 'building_code', severity: 'major', status: 'remediation_required', title: 'Structural Wall Modification Without Permit', description: 'Unauthorized removal of load-bearing wall', projectName: 'Kyiv Business Center', location: '15 Khreshchatyk St', violatorName: 'Kyiv Development LLC', violatorId: 'vr-001', reportedDate: '2025-01-03', reportedBy: 'State Inspector', fineAmount: 850000, fineStatus: 'issued', aiRiskScore: 75, deadlineDate: '2025-02-15', escalated: false, remediationStatus: 'in_progress' },
   { id: 'v2', caseNumber: 'VIO-2025-0002', type: 'environmental', severity: 'critical', status: 'escalated', title: 'Illegal Waste Disposal', description: 'Hazardous construction waste dumped illegally', projectName: 'Industrial Facility', location: '25 Industrial St', violatorName: 'Industrial Holdings JSC', violatorId: 'vr-002', reportedDate: '2025-01-02', reportedBy: 'Environmental Agency', fineAmount: 2500000, fineStatus: 'contested', aiRiskScore: 92, escalated: true, escalationLevel: 'national' },
@@ -50,6 +96,16 @@ const VIOLATORS = [
 ];
 
 export async function GET(request: NextRequest) {
+  const auth = authenticateRequest(request);
+  
+  if (!auth.authenticated) {
+    return NextResponse.json({ success: false, error: 'Unauthorized', message: auth.error }, { status: 401 });
+  }
+  
+  if (!hasPermission(auth.user, 'read')) {
+    return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+  }
+  
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action') || 'dashboard';
 
@@ -152,14 +208,27 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const auth = authenticateRequest(request);
+  
+  if (!auth.authenticated) {
+    return NextResponse.json({ success: false, error: 'Unauthorized', message: auth.error }, { status: 401 });
+  }
+  
   try {
     const body = await request.json();
     const { action } = body;
 
     switch (action) {
       case 'report_violation':
+        if (!hasPermission(auth.user, 'write')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
         const newId = `v${Date.now()}`;
         const newCase = `VIO-${new Date().getFullYear()}-${String(VIOLATIONS.length + 1).padStart(4, '0')}`;
+        
+        console.log('[VIOLATION_REPORTED]', JSON.stringify({ id: newId, caseNumber: newCase, reportedBy: auth.user.email }));
+        
         return NextResponse.json({
           success: true,
           message: 'Violation reported successfully',
@@ -167,20 +236,34 @@ export async function POST(request: NextRequest) {
         });
 
       case 'update_status':
+        if (!hasPermission(auth.user, 'write')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
         return NextResponse.json({
           success: true,
           message: 'Violation status updated',
-          data: { violationId: body.violationId, newStatus: body.status, updatedAt: new Date().toISOString() },
+          data: { violationId: body.violationId, newStatus: body.status, updatedAt: new Date().toISOString(), updatedBy: auth.user.email },
         });
 
       case 'issue_fine':
+        if (!hasPermission(auth.user, 'admin')) {
+          return NextResponse.json({ success: false, error: 'Forbidden', message: 'Only admins can issue fines' }, { status: 403 });
+        }
+        
+        console.log('[FINE_ISSUED]', JSON.stringify({ violationId: body.violationId, amount: body.amount, issuedBy: auth.user.email }));
+        
         return NextResponse.json({
           success: true,
           message: 'Fine issued',
-          data: { violationId: body.violationId, amount: body.amount, status: 'issued', issuedAt: new Date().toISOString() },
+          data: { violationId: body.violationId, amount: body.amount, status: 'issued', issuedAt: new Date().toISOString(), issuedBy: auth.user.email },
         });
 
       case 'record_payment':
+        if (!hasPermission(auth.user, 'admin')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
         return NextResponse.json({
           success: true,
           message: 'Payment recorded',
@@ -188,13 +271,23 @@ export async function POST(request: NextRequest) {
         });
 
       case 'escalate':
+        if (!hasPermission(auth.user, 'admin')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
+        console.log('[CASE_ESCALATED]', JSON.stringify({ violationId: body.violationId, level: body.level, escalatedBy: auth.user.email }));
+        
         return NextResponse.json({
           success: true,
           message: 'Case escalated',
-          data: { violationId: body.violationId, level: body.level, escalatedAt: new Date().toISOString() },
+          data: { violationId: body.violationId, level: body.level, escalatedAt: new Date().toISOString(), escalatedBy: auth.user.email },
         });
 
       case 'submit_remediation':
+        if (!hasPermission(auth.user, 'write')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
         return NextResponse.json({
           success: true,
           message: 'Remediation plan submitted',
@@ -202,16 +295,23 @@ export async function POST(request: NextRequest) {
         });
 
       case 'close_case':
+        if (!hasPermission(auth.user, 'admin')) {
+          return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+        }
+        
+        console.log('[CASE_CLOSED]', JSON.stringify({ violationId: body.violationId, closedBy: auth.user.email }));
+        
         return NextResponse.json({
           success: true,
           message: 'Case closed',
-          data: { violationId: body.violationId, status: 'closed', closedAt: new Date().toISOString() },
+          data: { violationId: body.violationId, status: 'closed', closedAt: new Date().toISOString(), closedBy: auth.user.email },
         });
 
       default:
         return NextResponse.json({ success: false, error: 'Unknown action' }, { status: 400 });
     }
-  } catch {
+  } catch (error) {
+    console.error('[VIOLATIONS_ERROR]', error);
     return NextResponse.json({ success: false, error: 'Invalid request' }, { status: 400 });
   }
 }
